@@ -43,6 +43,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${personaInstance?.email}">
+				<li class="fieldcontain">
+					<span id="email-label" class="property-label"><g:message code="persona.email.label" default="Email" /></span>
+					
+						<span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${personaInstance}" field="email"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${personaInstance?.fechaNacimiento}">
 				<li class="fieldcontain">
 					<span id="fechaNacimiento-label" class="property-label"><g:message code="persona.fechaNacimiento.label" default="Fecha Nacimiento" /></span>
@@ -136,6 +145,17 @@
 					
 						<g:each in="${personaInstance.telefonos}" var="t">
 						<span class="property-value" aria-labelledby="telefonos-label"><g:link controller="telefono" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${personaInstance?.usuarios}">
+				<li class="fieldcontain">
+					<span id="usuarios-label" class="property-label"><g:message code="persona.usuarios.label" default="Usuarios" /></span>
+					
+						<g:each in="${personaInstance.usuarios}" var="u">
+						<span class="property-value" aria-labelledby="usuarios-label"><g:link controller="usuario" action="show" id="${u.id}">${u?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 				</li>

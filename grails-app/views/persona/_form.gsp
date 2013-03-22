@@ -27,6 +27,14 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'email', 'error')} ">
+	<label for="email">
+		<g:message code="persona.email.label" default="Email" />
+		
+	</label>
+	<g:textField name="email" value="${personaInstance?.email}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'fechaNacimiento', 'error')} required">
 	<label for="fechaNacimiento">
 		<g:message code="persona.fechaNacimiento.label" default="Fecha Nacimiento" />
@@ -129,6 +137,23 @@
 </g:each>
 <li class="add">
 <g:link controller="telefono" action="create" params="['persona.id': personaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'telefono.label', default: 'Telefono')])}</g:link>
+</li>
+</ul>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'usuarios', 'error')} ">
+	<label for="usuarios">
+		<g:message code="persona.usuarios.label" default="Usuarios" />
+		
+	</label>
+	
+<ul class="one-to-many">
+<g:each in="${personaInstance?.usuarios?}" var="u">
+    <li><g:link controller="usuario" action="show" id="${u.id}">${u?.encodeAsHTML()}</g:link></li>
+</g:each>
+<li class="add">
+<g:link controller="usuario" action="create" params="['persona.id': personaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'usuario.label', default: 'Usuario')])}</g:link>
 </li>
 </ul>
 
