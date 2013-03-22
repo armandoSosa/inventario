@@ -4,6 +4,7 @@ class Caracteristica {
 	
 	String caracteristica
 	
+	
     static constraints = {
     }
 	
