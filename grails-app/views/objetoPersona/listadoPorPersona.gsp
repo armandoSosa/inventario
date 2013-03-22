@@ -10,7 +10,7 @@
 		<g:if test="${objetosPersona}">
 			<h3>Número de empleado: ${persona.numeroEmpleado} </h2>
 			<h3>Nombre: ${persona} </h2>
-			
+			  
 			<table>
 		        <th>
 					No. Inventario
