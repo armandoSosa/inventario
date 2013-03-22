@@ -3,8 +3,7 @@ package com.redoaxaca
 class Caracteristica {
 	
 	String caracteristica
-	
-	
+
     static constraints = {
     }
 	
