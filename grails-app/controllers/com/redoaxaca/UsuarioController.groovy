@@ -6,5 +6,10 @@ class UsuarioController {
 	def index = {
 		redirect(action: list)
 	}
+	
+	def login = {
+		
+	}
+
 
 }
