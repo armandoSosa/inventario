@@ -12,6 +12,14 @@ class UsuarioController {
 		
 	}
 	
+	def menu= {
+		
+	}
+	
+	def menuCatalogo = {
+	
+	}
+	
 	def verificarLogin = {
 		try {
 			def supuestoUsuario = usuarioService.verificarLogin(params.usuario, params.contrasena)

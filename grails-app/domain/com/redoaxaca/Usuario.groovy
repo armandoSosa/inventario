@@ -16,5 +16,9 @@ class Usuario {
 		"${usuario}"
 	}
 	
+	def menu = {
+		
+	}
+	
 	
 }

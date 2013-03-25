@@ -96,6 +96,8 @@
 		</div>
 		<div id="page-body" role="main">
 			<h1>Bienvenido a Inventarios</h1>
+			
+			<a href="persona/tipoPersona">Personas</a>
 
 			
 			
