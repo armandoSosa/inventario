@@ -23,11 +23,65 @@
 			</g:if>
 			<ol class="property-list persona">
 			
+				<g:if test="${personaInstance?.numeroEmpleado}">
+				<li class="fieldcontain">
+					<span id="numeroEmpleado-label" class="property-label"><g:message code="persona.numeroEmpleado.label" default="Numero Empleado" /></span>
+					
+						<span class="property-value" aria-labelledby="numeroEmpleado-label"><g:fieldValue bean="${personaInstance}" field="numeroEmpleado"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${personaInstance?.nombre}">
+				<li class="fieldcontain">
+					<span id="nombre-label" class="property-label"><g:message code="persona.nombre.label" default="Nombre" /></span>
+					
+						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${personaInstance}" field="nombre"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${personaInstance?.paterno}">
+				<li class="fieldcontain">
+					<span id="paterno-label" class="property-label"><g:message code="persona.paterno.label" default="Paterno" /></span>
+					
+						<span class="property-value" aria-labelledby="paterno-label"><g:fieldValue bean="${personaInstance}" field="paterno"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${personaInstance?.curp}">
 				<li class="fieldcontain">
 					<span id="curp-label" class="property-label"><g:message code="persona.curp.label" default="Curp" /></span>
 					
 						<span class="property-value" aria-labelledby="curp-label"><g:fieldValue bean="${personaInstance}" field="curp"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${personaInstance?.rfc}">
+				<li class="fieldcontain">
+					<span id="rfc-label" class="property-label"><g:message code="persona.rfc.label" default="Rfc" /></span>
+					
+						<span class="property-value" aria-labelledby="rfc-label"><g:fieldValue bean="${personaInstance}" field="rfc"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${personaInstance?.fechaNacimiento}">
+				<li class="fieldcontain">
+					<span id="fechaNacimiento-label" class="property-label"><g:message code="persona.fechaNacimiento.label" default="Fecha Nacimiento" /></span>
+					
+						<span class="property-value" aria-labelledby="fechaNacimiento-label"><g:formatDate date="${personaInstance?.fechaNacimiento}" /></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${personaInstance?.email}">
+				<li class="fieldcontain">
+					<span id="email-label" class="property-label"><g:message code="persona.email.label" default="Email" /></span>
+					
+						<span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${personaInstance}" field="email"/></span>
 					
 				</li>
 				</g:if>
@@ -43,47 +97,11 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${personaInstance?.email}">
-				<li class="fieldcontain">
-					<span id="email-label" class="property-label"><g:message code="persona.email.label" default="Email" /></span>
-					
-						<span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${personaInstance}" field="email"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.fechaNacimiento}">
-				<li class="fieldcontain">
-					<span id="fechaNacimiento-label" class="property-label"><g:message code="persona.fechaNacimiento.label" default="Fecha Nacimiento" /></span>
-					
-						<span class="property-value" aria-labelledby="fechaNacimiento-label"><g:formatDate date="${personaInstance?.fechaNacimiento}" /></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${personaInstance?.materno}">
 				<li class="fieldcontain">
 					<span id="materno-label" class="property-label"><g:message code="persona.materno.label" default="Materno" /></span>
 					
 						<span class="property-value" aria-labelledby="materno-label"><g:fieldValue bean="${personaInstance}" field="materno"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.nombre}">
-				<li class="fieldcontain">
-					<span id="nombre-label" class="property-label"><g:message code="persona.nombre.label" default="Nombre" /></span>
-					
-						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${personaInstance}" field="nombre"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.numeroEmpleado}">
-				<li class="fieldcontain">
-					<span id="numeroEmpleado-label" class="property-label"><g:message code="persona.numeroEmpleado.label" default="Numero Empleado" /></span>
-					
-						<span class="property-value" aria-labelledby="numeroEmpleado-label"><g:fieldValue bean="${personaInstance}" field="numeroEmpleado"/></span>
 					
 				</li>
 				</g:if>
@@ -99,15 +117,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${personaInstance?.paterno}">
-				<li class="fieldcontain">
-					<span id="paterno-label" class="property-label"><g:message code="persona.paterno.label" default="Paterno" /></span>
-					
-						<span class="property-value" aria-labelledby="paterno-label"><g:fieldValue bean="${personaInstance}" field="paterno"/></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${personaInstance?.puestosPersona}">
 				<li class="fieldcontain">
 					<span id="puestosPersona-label" class="property-label"><g:message code="persona.puestosPersona.label" default="Puestos Persona" /></span>
@@ -115,15 +124,6 @@
 						<g:each in="${personaInstance.puestosPersona}" var="p">
 						<span class="property-value" aria-labelledby="puestosPersona-label"><g:link controller="puestoPersona" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
 						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.rfc}">
-				<li class="fieldcontain">
-					<span id="rfc-label" class="property-label"><g:message code="persona.rfc.label" default="Rfc" /></span>
-					
-						<span class="property-value" aria-labelledby="rfc-label"><g:fieldValue bean="${personaInstance}" field="rfc"/></span>
 					
 				</li>
 				</g:if>

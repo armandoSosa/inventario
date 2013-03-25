@@ -24,17 +24,17 @@
 				<thead>
 					<tr>
 					
-						<g:sortableColumn property="curp" title="${message(code: 'persona.curp.label', default: 'Curp')}" />
-					
-						<g:sortableColumn property="email" title="${message(code: 'persona.email.label', default: 'Email')}" />
-					
-						<g:sortableColumn property="fechaNacimiento" title="${message(code: 'persona.fechaNacimiento.label', default: 'Fecha Nacimiento')}" />
-					
-						<g:sortableColumn property="materno" title="${message(code: 'persona.materno.label', default: 'Materno')}" />
+						<g:sortableColumn property="numeroEmpleado" title="${message(code: 'persona.numeroEmpleado.label', default: 'Numero Empleado')}" />
 					
 						<g:sortableColumn property="nombre" title="${message(code: 'persona.nombre.label', default: 'Nombre')}" />
 					
-						<g:sortableColumn property="numeroEmpleado" title="${message(code: 'persona.numeroEmpleado.label', default: 'Numero Empleado')}" />
+						<g:sortableColumn property="paterno" title="${message(code: 'persona.paterno.label', default: 'Paterno')}" />
+					
+						<g:sortableColumn property="curp" title="${message(code: 'persona.curp.label', default: 'Curp')}" />
+					
+						<g:sortableColumn property="rfc" title="${message(code: 'persona.rfc.label', default: 'Rfc')}" />
+					
+						<g:sortableColumn property="fechaNacimiento" title="${message(code: 'persona.fechaNacimiento.label', default: 'Fecha Nacimiento')}" />
 					
 					</tr>
 				</thead>
@@ -42,17 +42,17 @@
 				<g:each in="${personaInstanceList}" status="i" var="personaInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${personaInstance.id}">${fieldValue(bean: personaInstance, field: "curp")}</g:link></td>
-					
-						<td>${fieldValue(bean: personaInstance, field: "email")}</td>
-					
-						<td><g:formatDate date="${personaInstance.fechaNacimiento}" /></td>
-					
-						<td>${fieldValue(bean: personaInstance, field: "materno")}</td>
+						<td><g:link action="show" id="${personaInstance.id}">${fieldValue(bean: personaInstance, field: "numeroEmpleado")}</g:link></td>
 					
 						<td>${fieldValue(bean: personaInstance, field: "nombre")}</td>
 					
-						<td>${fieldValue(bean: personaInstance, field: "numeroEmpleado")}</td>
+						<td>${fieldValue(bean: personaInstance, field: "paterno")}</td>
+					
+						<td>${fieldValue(bean: personaInstance, field: "curp")}</td>
+					
+						<td>${fieldValue(bean: personaInstance, field: "rfc")}</td>
+					
+						<td><g:formatDate date="${personaInstance.fechaNacimiento}" /></td>
 					
 					</tr>
 				</g:each>
