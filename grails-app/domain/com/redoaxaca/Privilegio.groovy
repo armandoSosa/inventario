@@ -4,7 +4,6 @@ class Privilegio {
 	
 	String tipo
 	
-	static hasMany = [tipoUsuarios: TipoUsuario]
 	
     static constraints = {
     }
