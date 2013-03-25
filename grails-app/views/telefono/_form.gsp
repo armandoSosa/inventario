@@ -2,6 +2,14 @@
 
 
 
+<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'fecha', 'error')} required">
+	<label for="fecha">
+		<g:message code="telefono.fecha.label" default="Fecha" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:datePicker name="fecha" precision="day"  value="${telefonoInstance?.fecha}"  />
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'persona', 'error')} required">
 	<label for="persona">
 		<g:message code="telefono.persona.label" default="Persona" />

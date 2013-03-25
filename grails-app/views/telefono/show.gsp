@@ -23,6 +23,15 @@
 			</g:if>
 			<ol class="property-list telefono">
 			
+				<g:if test="${telefonoInstance?.fecha}">
+				<li class="fieldcontain">
+					<span id="fecha-label" class="property-label"><g:message code="telefono.fecha.label" default="Fecha" /></span>
+					
+						<span class="property-value" aria-labelledby="fecha-label"><g:formatDate date="${telefonoInstance?.fecha}" /></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${telefonoInstance?.persona}">
 				<li class="fieldcontain">
 					<span id="persona-label" class="property-label"><g:message code="telefono.persona.label" default="Persona" /></span>
