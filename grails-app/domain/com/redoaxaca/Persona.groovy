@@ -14,6 +14,13 @@ class Persona {
 	static hasMany = [subordinado: Persona, objetosPersona: ObjetoPersona, puestosPersona: PuestoPersona, direcciones: Direccion, telefonos: Telefono, usuarios: Usuario]
     
 	static constraints = {
+		numeroEmpleado(blank: false)
+		nombre(blank: false)
+		paterno(blank: false)
+		curp(blank: false)
+		rfc(blank: false)
+		fechaNacimiento(blank: false)
+		email(blank: false)
     }
 	
 	String toString() {

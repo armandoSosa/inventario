@@ -10,4 +10,20 @@ class PersonaController {
 	def tipoPersona = {
 		
 	}
+	def listar = {
+			}
+	
+	def modificar = {
+		
+	}
+	
+	def eliminar = {
+		
+	}
+	
+	def insertar = {
+		
+	}
+
+
 }

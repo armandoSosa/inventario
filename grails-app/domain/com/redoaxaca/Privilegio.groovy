@@ -8,7 +8,7 @@ class Privilegio {
 	
     static constraints = {
     }
-	
+	  
 	String toString() {
 		"${tipo}"
 	}
