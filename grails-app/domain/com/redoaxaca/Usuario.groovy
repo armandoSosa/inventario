@@ -15,4 +15,6 @@ class Usuario {
 	String toString() {
 		"${usuario}"
 	}
+	
+	
 }
