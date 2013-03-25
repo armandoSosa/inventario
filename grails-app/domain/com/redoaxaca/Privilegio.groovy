@@ -4,7 +4,7 @@ class Privilegio {
 	
 	String tipo
 	
-	static hasMany = [tipoUsuarios: TipoUsuario]
+	static hasMany = [privilegioTipoUsuarios: PrivilegioTipoUsuario]
 	
     static constraints = {
     }
@@ -12,4 +12,5 @@ class Privilegio {
 	String toString() {
 		"${tipo}"
 	}
+
 }

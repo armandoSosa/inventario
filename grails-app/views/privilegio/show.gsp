@@ -23,22 +23,22 @@
 			</g:if>
 			<ol class="property-list privilegio">
 			
+				<g:if test="${privilegioInstance?.privilegioTipoUsuarios}">
+				<li class="fieldcontain">
+					<span id="privilegioTipoUsuarios-label" class="property-label"><g:message code="privilegio.privilegioTipoUsuarios.label" default="Privilegio Tipo Usuarios" /></span>
+					
+						<g:each in="${privilegioInstance.privilegioTipoUsuarios}" var="p">
+						<span class="property-value" aria-labelledby="privilegioTipoUsuarios-label"><g:link controller="privilegioTipoUsuario" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${privilegioInstance?.tipo}">
 				<li class="fieldcontain">
 					<span id="tipo-label" class="property-label"><g:message code="privilegio.tipo.label" default="Tipo" /></span>
 					
 						<span class="property-value" aria-labelledby="tipo-label"><g:fieldValue bean="${privilegioInstance}" field="tipo"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${privilegioInstance?.tipoUsuarios}">
-				<li class="fieldcontain">
-					<span id="tipoUsuarios-label" class="property-label"><g:message code="privilegio.tipoUsuarios.label" default="Tipo Usuarios" /></span>
-					
-						<g:each in="${privilegioInstance.tipoUsuarios}" var="t">
-						<span class="property-value" aria-labelledby="tipoUsuarios-label"><g:link controller="tipoUsuario" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></span>
-						</g:each>
 					
 				</li>
 				</g:if>

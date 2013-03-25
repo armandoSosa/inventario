@@ -23,6 +23,17 @@
 			</g:if>
 			<ol class="property-list tipoUsuario">
 			
+				<g:if test="${tipoUsuarioInstance?.privilegioTipoUsuarios}">
+				<li class="fieldcontain">
+					<span id="privilegioTipoUsuarios-label" class="property-label"><g:message code="tipoUsuario.privilegioTipoUsuarios.label" default="Privilegio Tipo Usuarios" /></span>
+					
+						<g:each in="${tipoUsuarioInstance.privilegioTipoUsuarios}" var="p">
+						<span class="property-value" aria-labelledby="privilegioTipoUsuarios-label"><g:link controller="privilegioTipoUsuario" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${tipoUsuarioInstance?.tipo}">
 				<li class="fieldcontain">
 					<span id="tipo-label" class="property-label"><g:message code="tipoUsuario.tipo.label" default="Tipo" /></span>
