@@ -11,8 +11,8 @@ class CaracteristicaService {
 	
 	
 	Caracteristica crearCaracteristica(String descripcion, String unidadString) {
-		//Buscamos la unidad que se agregará a la característica
-		def unidadObjeto = Unidad.findByUnidad(unidadString);
+		//Buscamos la unidad que se agregar�� a la caracter��stica
+		def unidadObjeto = Unidad.findByUnidad(unidadString)
 		
 		
 		def caracteristicaNueva = new Caracteristica(caracteristica: descripcion)
@@ -22,7 +22,7 @@ class CaracteristicaService {
 		if (unidadObjeto.save()) {
 			return caracteristicaNueva
 		} else {
-			throw new CaracteristicaException(message: "Característica vacía o inválida ", caracteristicaNueva: caracteristicaNueva)
+			throw new CaracteristicaException(message: "Caracter��stica vac��a o inv��lida ", caracteristicaNueva: caracteristicaNueva)
 		}
 	}
 }

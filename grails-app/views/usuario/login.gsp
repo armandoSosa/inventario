@@ -9,7 +9,7 @@
 	
 		<h1>Acceso</h1>
 		<formset>
-			<g:form action="verificarUsuario">
+			<g:form action="verificarLogin">
 				<legend>Iniciar sesión</legend>
 				<label for="usuario">Usuario: </label>
 				<g:textField name="usuario"/>
