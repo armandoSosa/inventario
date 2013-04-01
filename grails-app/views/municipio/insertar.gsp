@@ -5,6 +5,10 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'municipio.label', default: 'Municipio')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
+		<link rel="stylesheet" href="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.css')}" type="text/css">
+  <link rel="stylesheet" href="${resource(dir: 'css', file: 'style.css')}" type="text/css">
+  <script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.min.js')}"></script>
+  <script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.js?v=2.0.6')}"></script>
 	</head>
 	<body>
 		<a href="#create-municipio" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -35,5 +39,88 @@
 				</fieldset>
 			</g:form>
 		</div>
+		
+		
+		<!-- hidden inline form -->
+		<div id="inline">
+		
+			<div id="create-estado" class="content scaffold-create" role="main">
+				<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+				<g:if test="${flash.message}">
+				<div class="message" role="status">${flash.message}</div>
+				</g:if>
+				<g:hasErrors bean="${estadoInstance}">
+				<ul class="errors" role="alert">
+					<g:eachError bean="${estadoInstance}" var="error">
+					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+					</g:eachError>
+				</ul>
+				</g:hasErrors>
+				<g:form action="save_estado" >
+					<fieldset class="form">
+						<g:render template="../estado/forma"/>
+					</fieldset>
+					<fieldset class="buttons">
+						<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+					</fieldset>
+				</g:form>
+			</div>
+		</div>
+
+		<!-- basic fancybox setup -->
+		<script type="text/javascript">
+			function validateEmail(email) { 
+				var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return reg.test(email);
+			}
+		
+			$(document).ready(function() {
+				$(".modalbox").fancybox();
+				$("#contact").submit(function() { return false; });
+		
+				
+				$("#send").on("click", function(){
+					var emailval  = $("#email").val();
+					var msgval    = $("#msg").val();
+					var msglen    = msgval.length;
+					var mailvalid = validateEmail(emailval);
+					
+					if(mailvalid == false) {
+						$("#email").addClass("error");
+					}
+					else if(mailvalid == true){
+						$("#email").removeClass("error");
+					}
+					
+					if(msglen < 4) {
+						$("#msg").addClass("error");
+					}
+					else if(msglen >= 4){
+						$("#msg").removeClass("error");
+					}
+					
+					if(mailvalid == true && msglen >= 4) {
+						// if both validate we attempt to send the e-mail
+						// first we hide the submit btn so the user doesnt click twice
+						$("#send").replaceWith("<em>sending...</em>");
+						
+						$.ajax({
+							type: 'POST',
+							url: 'sendmessage.php',
+							data: $("#contact").serialize(),
+							success: function(data) {
+								if(data == "true") {
+									$("#contact").fadeOut("fast", function(){
+										$(this).before("<p><strong>Success! Your feedback has been sent, thanks :)</strong></p>");
+										setTimeout("$.fancybox.close()", 1000);
+									});
+								}
+							}
+						});
+					}
+				});
+			});
+		</script>
+
 	</body>
 </html>
