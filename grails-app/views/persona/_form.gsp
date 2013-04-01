@@ -66,81 +66,13 @@
 	<g:field type="email" name="email" value="${personaInstance?.email}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'foto', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'foto', 'error')} ">
 	<label for="foto">
 		<g:message code="persona.foto.label" default="Foto" />
-		<span class="required-indicator">*</span>
+		
 	</label>
 	<input type="file" id="foto" name="foto" />
 </div>
-
-
-<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'calle', 'error')} ">
-	<label for="calle">
-		<g:message code="direccion.calle.label" default="Calle" />
-		
-	</label>
-	<g:textField name="calle" value="${direccionInstance?.calle}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'colonia', 'error')} ">
-	<label for="colonia">
-		<g:message code="direccion.colonia.label" default="Colonia" />
-		
-	</label>
-	<g:textField name="colonia" value="${direccionInstance?.colonia}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'ciudad', 'error')} required">
-	<label for="ciudad">
-		<g:message code="municipio.ciudad.label" default="Ciudad" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="ciudad" name="ciudad.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required="" value="${municipioInstance?.ciudad?.id}" class="many-to-one"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">
-	<label for="municipio">
-		<g:message code="direccion.municipio.label" default="Municipio" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="municipio" name="municipio.id" from="${com.redoaxaca.Municipio.list()}" optionKey="id" required="" value="${direccionInstance?.municipio?.id}" class="many-to-one"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noExterior', 'error')} ">
-	<label for="noExterior">
-		<g:message code="direccion.noExterior.label" default="No Exterior" />
-		
-	</label>
-	<g:textField name="noExterior" value="${direccionInstance?.noExterior}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noInterior', 'error')} ">
-	<label for="noInterior">
-		<g:message code="direccion.noInterior.label" default="No Interior" />
-		
-	</label>
-	<g:textField name="noInterior" value="${direccionInstance?.noInterior}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'telefono', 'error')} ">
-	<label for="telefono">
-		<g:message code="telefono.telefono.label" default="Telefono" />
-		
-	</label>
-	<g:textField name="telefono" value="${telefonoInstance?.telefono}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'tipoTelefono', 'error')} required">
-	<label for="tipoTelefono">
-		<g:message code="telefono.tipoTelefono.label" default="Tipo Telefono" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="tipoTelefono" name="tipoTelefono.id" from="${com.redoaxaca.TipoTelefono.list()}" optionKey="id" required="" value="${telefonoInstance?.tipoTelefono?.id}" class="many-to-one"/>
-</div>
-
-
-
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'direcciones', 'error')} ">
 	<label for="direcciones">

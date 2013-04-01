@@ -54,11 +54,11 @@ class MunicipioController {
 	def save_estado() {
 		def estadoInstance = new Estado(params)
 		if (!estadoInstance.save(flush: true)) {
-			render(view: "create", model: [estadoInstance: estadoInstance])
+			flash.message = "No se puede agregar el Estado"
+			render(view: "insertar")
 			return
 		}
-
-		flash.message = message(code: 'default.created.message', args: [message(code: 'estado.label', default: 'Estado'), estadoInstance.id])
+		
 		redirect(action: "insertar", id: estadoInstance.id)
 	}
 

@@ -23,6 +23,15 @@
 			</g:if>
 			<ol class="property-list municipio">
 			
+				<g:if test="${municipioInstance?.nombre}">
+				<li class="fieldcontain">
+					<span id="nombre-label" class="property-label"><g:message code="municipio.nombre.label" default="Nombre" /></span>
+					
+						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${municipioInstance}" field="nombre"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${municipioInstance?.ciudad}">
 				<li class="fieldcontain">
 					<span id="ciudad-label" class="property-label"><g:message code="municipio.ciudad.label" default="Ciudad" /></span>
@@ -39,15 +48,6 @@
 						<g:each in="${municipioInstance.direcciones}" var="d">
 						<span class="property-value" aria-labelledby="direcciones-label"><g:link controller="direccion" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></span>
 						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${municipioInstance?.nombre}">
-				<li class="fieldcontain">
-					<span id="nombre-label" class="property-label"><g:message code="municipio.nombre.label" default="Nombre" /></span>
-					
-						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${municipioInstance}" field="nombre"/></span>
 					
 				</li>
 				</g:if>

@@ -23,6 +23,15 @@
 			</g:if>
 			<ol class="property-list estado">
 			
+				<g:if test="${estadoInstance?.nombre}">
+				<li class="fieldcontain">
+					<span id="nombre-label" class="property-label"><g:message code="estado.nombre.label" default="Nombre" /></span>
+					
+						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${estadoInstance}" field="nombre"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${estadoInstance?.municipios}">
 				<li class="fieldcontain">
 					<span id="municipios-label" class="property-label"><g:message code="estado.municipios.label" default="Municipios" /></span>
@@ -30,15 +39,6 @@
 						<g:each in="${estadoInstance.municipios}" var="m">
 						<span class="property-value" aria-labelledby="municipios-label"><g:link controller="municipio" action="show" id="${m.id}">${m?.encodeAsHTML()}</g:link></span>
 						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${estadoInstance?.nombre}">
-				<li class="fieldcontain">
-					<span id="nombre-label" class="property-label"><g:message code="estado.nombre.label" default="Nombre" /></span>
-					
-						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${estadoInstance}" field="nombre"/></span>
 					
 				</li>
 				</g:if>
