@@ -66,6 +66,23 @@
 	<g:field type="email" name="email" value="${personaInstance?.email}"/>
 </div>
 
+
+<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'telefono', 'error')} ">
+	<label for="telefono">
+		<g:message code="telefono.telefono.label" default="Telefono" />
+		
+	</label>
+	<g:textField name="telefono" value="${telefonoInstance?.telefono}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'tipoTelefono', 'error')} required">
+	<label for="tipoTelefono">
+		<g:message code="telefono.tipoTelefono.label" default="Tipo Telefono" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="tipoTelefono" name="tipoTelefono.id" from="${com.redoaxaca.TipoTelefono.list()}" optionKey="id" required="" value="${telefonoInstance?.tipoTelefono?.id}" class="many-to-one"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'foto', 'error')} required">
 	<label for="foto">
 		<g:message code="persona.foto.label" default="Foto" />
@@ -123,22 +140,6 @@
 		
 	</label>
 	<g:textField name="noInterior" value="${direccionInstance?.noInterior}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'telefono', 'error')} ">
-	<label for="telefono">
-		<g:message code="telefono.telefono.label" default="Telefono" />
-		
-	</label>
-	<g:textField name="telefono" value="${telefonoInstance?.telefono}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'tipoTelefono', 'error')} required">
-	<label for="tipoTelefono">
-		<g:message code="telefono.tipoTelefono.label" default="Tipo Telefono" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="tipoTelefono" name="tipoTelefono.id" from="${com.redoaxaca.TipoTelefono.list()}" optionKey="id" required="" value="${telefonoInstance?.tipoTelefono?.id}" class="many-to-one"/>
 </div>
 
 </fieldset>

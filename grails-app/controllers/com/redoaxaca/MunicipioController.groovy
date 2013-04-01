@@ -32,8 +32,8 @@ class MunicipioController {
 	
 	}
 	
-	def insertar = {
-	
+	def insertar(Long id) {
+		[idEstado : id]		
 	}
 
     def create() {
@@ -50,6 +50,17 @@ class MunicipioController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'municipio.label', default: 'Municipio'), municipioInstance.id])
         redirect(action: "show", id: municipioInstance.id)
     }
+	
+	def save_estado() {
+		def estadoInstance = new Estado(params)
+		if (!estadoInstance.save(flush: true)) {
+			render(view: "create", model: [estadoInstance: estadoInstance])
+			return
+		}
+
+		flash.message = message(code: 'default.created.message', args: [message(code: 'estado.label', default: 'Estado'), estadoInstance.id])
+		redirect(action: "insertar", id: estadoInstance.id)
+	}
 
     def show(Long id) {
         def municipioInstance = Municipio.get(id)
