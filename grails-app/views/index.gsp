@@ -25,6 +25,10 @@
 			<a href="persona/tipoPersona">Personas</a>
 			<br>
 			<a href="objeto/menu">Objetos</a>
+			<br>
+			<a href="departamento/menu">Departamentos</a>
+			<br>
+			<a href="reporte">Reportes</a>
 
 			
 			
