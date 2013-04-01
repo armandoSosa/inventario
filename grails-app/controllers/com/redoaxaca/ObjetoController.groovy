@@ -13,7 +13,12 @@ class ObjetoController {
 		[tipoList : Tipo.list()]
 	}
 	
-	def menu = {
+	def menu(Integer max) {
+		params.max = Math.min(max ?: 10, 100)
+		[objetoInstanceList: Objeto.list(params), objetoInstanceTotal: Objeto.count()]
+	}
+	
+	def muestra = {
 		
 	}
 	
