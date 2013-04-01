@@ -30,11 +30,11 @@
 					
 						<g:sortableColumn property="paterno" title="${message(code: 'persona.paterno.label', default: 'Paterno')}" />
 					
+						<g:sortableColumn property="materno" title="${message(code: 'persona.materno.label', default: 'Materno')}" />
+					
 						<g:sortableColumn property="curp" title="${message(code: 'persona.curp.label', default: 'Curp')}" />
 					
 						<g:sortableColumn property="rfc" title="${message(code: 'persona.rfc.label', default: 'Rfc')}" />
-					
-						<g:sortableColumn property="fechaNacimiento" title="${message(code: 'persona.fechaNacimiento.label', default: 'Fecha Nacimiento')}" />
 					
 					</tr>
 				</thead>
@@ -48,11 +48,11 @@
 					
 						<td>${fieldValue(bean: personaInstance, field: "paterno")}</td>
 					
+						<td>${fieldValue(bean: personaInstance, field: "materno")}</td>
+					
 						<td>${fieldValue(bean: personaInstance, field: "curp")}</td>
 					
 						<td>${fieldValue(bean: personaInstance, field: "rfc")}</td>
-					
-						<td><g:formatDate date="${personaInstance.fechaNacimiento}" /></td>
 					
 					</tr>
 				</g:each>

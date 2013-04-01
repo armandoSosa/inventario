@@ -50,6 +50,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${personaInstance?.materno}">
+				<li class="fieldcontain">
+					<span id="materno-label" class="property-label"><g:message code="persona.materno.label" default="Materno" /></span>
+					
+						<span class="property-value" aria-labelledby="materno-label"><g:fieldValue bean="${personaInstance}" field="materno"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${personaInstance?.curp}">
 				<li class="fieldcontain">
 					<span id="curp-label" class="property-label"><g:message code="persona.curp.label" default="Curp" /></span>
@@ -97,11 +106,9 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${personaInstance?.materno}">
+				<g:if test="${personaInstance?.foto}">
 				<li class="fieldcontain">
-					<span id="materno-label" class="property-label"><g:message code="persona.materno.label" default="Materno" /></span>
-					
-						<span class="property-value" aria-labelledby="materno-label"><g:fieldValue bean="${personaInstance}" field="materno"/></span>
+					<span id="foto-label" class="property-label"><g:message code="persona.foto.label" default="Foto" /></span>
 					
 				</li>
 				</g:if>

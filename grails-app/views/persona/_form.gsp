@@ -10,6 +10,14 @@
 	<g:textField name="numeroEmpleado" required="" value="${personaInstance?.numeroEmpleado}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'foto', 'error')} required">
+	<label for="foto">
+		<g:message code="persona.foto.label" default="Foto" />
+		<span class="required-indicator">*</span>
+	</label>
+	<input type="file" id="foto" name="foto" />
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'nombre', 'error')} required">
 	<label for="nombre">
 		<g:message code="persona.nombre.label" default="Nombre" />
@@ -24,6 +32,14 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="paterno" required="" value="${personaInstance?.paterno}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'materno', 'error')} required">
+	<label for="materno">
+		<g:message code="persona.materno.label" default="Materno" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:textField name="materno" required="" value="${personaInstance?.materno}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'curp', 'error')} required">
@@ -50,12 +66,12 @@
 	<g:datePicker name="fechaNacimiento" precision="day"  value="${personaInstance?.fechaNacimiento}"  />
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'email', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'email', 'error')} ">
 	<label for="email">
 		<g:message code="persona.email.label" default="Email" />
-		<span class="required-indicator">*</span>
+		
 	</label>
-	<g:textField name="email" required="" value="${personaInstance?.email}"/>
+	<g:field type="email" name="email" value="${personaInstance?.email}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'direcciones', 'error')} ">
@@ -75,13 +91,6 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'materno', 'error')} ">
-	<label for="materno">
-		<g:message code="persona.materno.label" default="Materno" />
-		
-	</label>
-	<g:textField name="materno" value="${personaInstance?.materno}"/>
-</div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'objetosPersona', 'error')} ">
 	<label for="objetosPersona">

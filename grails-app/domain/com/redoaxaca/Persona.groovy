@@ -1,6 +1,7 @@
 package com.redoaxaca
 
 class Persona {
+	byte[] foto
 	String numeroEmpleado
 	String nombre
 	String paterno
@@ -17,10 +18,12 @@ class Persona {
 		numeroEmpleado(blank: false)
 		nombre(blank: false)
 		paterno(blank: false)
+		materno(blank: false)
 		curp(blank: false)
 		rfc(blank: false)
 		fechaNacimiento(blank: false)
-		email(blank: false)
+		email(email:true)
+		foto(maxSize:1073741824)
     }
 	
 	String toString() {

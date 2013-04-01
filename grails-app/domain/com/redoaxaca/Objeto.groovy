@@ -15,7 +15,7 @@ class Objeto {
 	
 	
 	String toString() {
-		"Número inventario: ${noInventario}"
+		"Numero inventario: ${noInventario}"
 	}
 	
 }
