@@ -20,6 +20,21 @@ class MunicipioController {
 		params.max = Math.min(max ?: 10, 100)
 		[municipioInstanceList: Municipio.list(params), municipioInstanceTotal: Municipio.count()]
 	}
+	
+	def listar = {
+	}
+
+	def modificar = {
+	
+	}
+	
+	def eliminar = {
+	
+	}
+	
+	def insertar = {
+	
+	}
 
     def create() {
         [municipioInstance: new Municipio(params)]

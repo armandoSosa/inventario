@@ -20,6 +20,21 @@ class EstadoController {
 		[estadoInstanceList: Estado.list(params), estadoInstanceTotal: Estado.count()]
 	}
 
+	def listar = {
+			}
+	
+	def modificar = {
+		
+	}
+	
+	def eliminar = {
+		
+	}
+	
+	def insertar = {
+		
+	}
+
     def create() {
         [estadoInstance: new Estado(params)]
     }
@@ -104,4 +119,5 @@ class EstadoController {
             redirect(action: "show", id: id)
         }
     }
+
 }

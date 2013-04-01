@@ -20,6 +20,21 @@ class TipoTelefonoController {
 		params.max = Math.min(max ?: 10, 100)
 		[tipoTelefonoInstanceList: TipoTelefono.list(params), tipoTelefonoInstanceTotal: TipoTelefono.count()]
 	}
+	
+	def listar = {
+	}
+
+	def modificar = {
+	
+	}
+	
+	def eliminar = {
+	
+	}
+	
+	def insertar = {
+	
+	}
 
     def create() {
         [tipoTelefonoInstance: new TipoTelefono(params)]
