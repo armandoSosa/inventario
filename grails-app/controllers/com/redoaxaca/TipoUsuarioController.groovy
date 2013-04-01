@@ -16,6 +16,11 @@ class TipoUsuarioController {
         params.max = Math.min(max ?: 10, 100)
         [tipoUsuarioInstanceList: TipoUsuario.list(params), tipoUsuarioInstanceTotal: TipoUsuario.count()]
     }
+	
+	def menu(Integer max) {
+		params.max = Math.min(max ?: 10, 100)
+		[tipoUsuarioInstanceList: TipoUsuario.list(params), tipoUsuarioInstanceTotal: TipoUsuario.count()]
+	}
 
     def create() {
         [tipoUsuarioInstance: new TipoUsuario(params)]

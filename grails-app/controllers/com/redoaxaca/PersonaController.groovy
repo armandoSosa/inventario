@@ -38,7 +38,9 @@ class PersonaController {
     def index() {
         redirect(action: "list", params: params)
     }
-
+	def configuracion = {
+		
+	}
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         [personaInstanceList: Persona.list(params), personaInstanceTotal: Persona.count()]

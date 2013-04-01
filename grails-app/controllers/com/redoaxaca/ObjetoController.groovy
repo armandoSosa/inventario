@@ -13,6 +13,10 @@ class ObjetoController {
 		[tipoList : Tipo.list()]
 	}
 	
+	def menu = {
+		
+	}
+	
 	def resumen = {
 		def objetos = Objeto.all
 		println "-------------------nueva impresion----------------------"
@@ -51,7 +55,7 @@ class ObjetoController {
 
 		}
 		
-		//Buscamos el objeto que tenga más características
+		//Buscamos el objeto que tenga m��s caracter��sticas
 		def Objeto objetoMayor
 		if (objetos) {
 			System.out.println("hay "+objetos.size()+" objetos")
