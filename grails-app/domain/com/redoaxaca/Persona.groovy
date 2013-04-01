@@ -22,9 +22,13 @@ class Persona {
 		curp(blank: false)
 		rfc(blank: false)
 		fechaNacimiento(blank: false)
-		email(email:true)
-		foto(maxSize:1073741824)
+		email(email:true)		
+		foto(nullable: true, maxSize:1048576)
     }
+	/*
+	static mapping = {
+		foto column:"foto", sqlType: "blob"
+	}*/
 	
 	String toString() {
 		"${nombre} ${paterno} ${materno}"

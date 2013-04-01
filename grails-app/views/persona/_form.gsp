@@ -10,14 +10,6 @@
 	<g:textField name="numeroEmpleado" required="" value="${personaInstance?.numeroEmpleado}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'foto', 'error')} required">
-	<label for="foto">
-		<g:message code="persona.foto.label" default="Foto" />
-		<span class="required-indicator">*</span>
-	</label>
-	<input type="file" id="foto" name="foto" />
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'nombre', 'error')} required">
 	<label for="nombre">
 		<g:message code="persona.nombre.label" default="Nombre" />
@@ -74,6 +66,14 @@
 	<g:field type="email" name="email" value="${personaInstance?.email}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'foto', 'error')} required">
+	<label for="foto">
+		<g:message code="persona.foto.label" default="Foto" />
+		<span class="required-indicator">*</span>
+	</label>
+	<input type="file" id="foto" name="foto" />
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'direcciones', 'error')} ">
 	<label for="direcciones">
 		<g:message code="persona.direcciones.label" default="Direcciones" />
@@ -90,7 +90,6 @@
 </ul>
 
 </div>
-
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'objetosPersona', 'error')} ">
 	<label for="objetosPersona">
