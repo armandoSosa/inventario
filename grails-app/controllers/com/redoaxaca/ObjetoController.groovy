@@ -22,6 +22,15 @@ class ObjetoController {
 		
 	}
 	
+	def recibe = {
+		
+		System.out.println(params.msg);
+		System.out.println(params.email);
+		//flash.message = params.email
+
+		//redirect(action: 'list')
+	}
+	
 	def resumen = {
 		def objetos = Objeto.all
 		println "-------------------nueva impresion----------------------"
