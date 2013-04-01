@@ -6,8 +6,10 @@
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
-		<a href="../tipoUsuario/menu">Tipos de usuarios</a>
+		<a href="../tipoTelefono/menu">Tipos de teléfonos</a>
 		<br>
-		<a href="../privilegio/menu">Privilegios</a>
+		<a href="../municipio/menu">Municipios</a>
+		<br>
+		<a href="../estado/menu">Ciudades</a>
 	</body>
 </html>
