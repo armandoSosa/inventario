@@ -95,6 +95,14 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${personaInstance?.foto}">
+				<li class="fieldcontain">
+					<span id="foto-label" class="property-label"><g:message code="persona.foto.label" default="Foto" /></span>					
+					 <img class="avatar" src="${createLink(controller:'persona', action:'avatar_image', id:personaInstance.id)}" />
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${personaInstance?.direcciones}">
 				<li class="fieldcontain">
 					<span id="direcciones-label" class="property-label"><g:message code="persona.direcciones.label" default="Direcciones" /></span>
@@ -102,13 +110,6 @@
 						<g:each in="${personaInstance.direcciones}" var="d">
 						<span class="property-value" aria-labelledby="direcciones-label"><g:link controller="direccion" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></span>
 						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.foto}">
-				<li class="fieldcontain">
-					<span id="foto-label" class="property-label"><g:message code="persona.foto.label" default="Foto" /></span>
 					
 				</li>
 				</g:if>
