@@ -13,6 +13,10 @@ class ObjetoController {
 		[tipoList : Tipo.list()]
 	}
 	
+	def insertar2(Long id) {
+		[idTipo : id]
+	}
+	
 	def menu(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		[objetoInstanceList: Objeto.list(params), objetoInstanceTotal: Objeto.count()]
@@ -193,6 +197,16 @@ class ObjetoController {
 		}
 	}
 	
+	def save_tipo() {
+		def tipoInstance = new Tipo(params)
+		if (!tipoInstance.save(flush: true)) {
+			render(view: "create", model: [tipoInstance: tipoInstance])
+			return
+		}
+
+		flash.message = message(code: 'default.created.message', args: [message(code: 'tipo.label', default: 'Tipo'), tipoInstance.id])
+		redirect(action: "insertar2", id: tipoInstance.id)
+	}
 	
 }
 
