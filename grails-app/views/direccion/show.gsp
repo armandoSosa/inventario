@@ -41,6 +41,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${direccionInstance?.noExterior}">
+				<li class="fieldcontain">
+					<span id="noExterior-label" class="property-label"><g:message code="direccion.noExterior.label" default="No Exterior" /></span>
+					
+						<span class="property-value" aria-labelledby="noExterior-label"><g:fieldValue bean="${direccionInstance}" field="noExterior"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${direccionInstance?.fecha}">
 				<li class="fieldcontain">
 					<span id="fecha-label" class="property-label"><g:message code="direccion.fecha.label" default="Fecha" /></span>
@@ -55,15 +64,6 @@
 					<span id="municipio-label" class="property-label"><g:message code="direccion.municipio.label" default="Municipio" /></span>
 					
 						<span class="property-value" aria-labelledby="municipio-label"><g:link controller="municipio" action="show" id="${direccionInstance?.municipio?.id}">${direccionInstance?.municipio?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${direccionInstance?.noExterior}">
-				<li class="fieldcontain">
-					<span id="noExterior-label" class="property-label"><g:message code="direccion.noExterior.label" default="No Exterior" /></span>
-					
-						<span class="property-value" aria-labelledby="noExterior-label"><g:fieldValue bean="${direccionInstance}" field="noExterior"/></span>
 					
 				</li>
 				</g:if>

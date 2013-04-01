@@ -24,9 +24,9 @@
 				<thead>
 					<tr>
 					
-						<th><g:message code="municipio.ciudad.label" default="Ciudad" /></th>
-					
 						<g:sortableColumn property="nombre" title="${message(code: 'municipio.nombre.label', default: 'Nombre')}" />
+					
+						<th><g:message code="municipio.ciudad.label" default="Ciudad" /></th>
 					
 					</tr>
 				</thead>
@@ -34,9 +34,9 @@
 				<g:each in="${municipioInstanceList}" status="i" var="municipioInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${municipioInstance.id}">${fieldValue(bean: municipioInstance, field: "ciudad")}</g:link></td>
+						<td><g:link action="show" id="${municipioInstance.id}">${fieldValue(bean: municipioInstance, field: "nombre")}</g:link></td>
 					
-						<td>${fieldValue(bean: municipioInstance, field: "nombre")}</td>
+						<td>${fieldValue(bean: municipioInstance, field: "ciudad")}</td>
 					
 					</tr>
 				</g:each>

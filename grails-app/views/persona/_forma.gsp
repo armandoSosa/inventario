@@ -94,28 +94,31 @@
 
 <fieldset>
 <legend>Dirección</legend>
-<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'calle', 'error')} ">
+
+
+<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'calle', 'error')} required">
 	<label for="calle">
 		<g:message code="direccion.calle.label" default="Calle" />
-		
+		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="calle" value="${direccionInstance?.calle}"/>
+	<g:textField name="calle" required="" value="${direccionInstance?.calle}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'colonia', 'error')} ">
+<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'colonia', 'error')} required">
 	<label for="colonia">
 		<g:message code="direccion.colonia.label" default="Colonia" />
-		
+		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="colonia" value="${direccionInstance?.colonia}"/>
+	<g:textField name="colonia" required="" value="${direccionInstance?.colonia}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'ciudad', 'error')} required">
 	<label for="ciudad">
-		<g:message code="municipio.ciudad.label" default="Ciudad" />
+		<g:message code="municipio.ciudad.label" default="Estado" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:select id="ciudad" name="ciudad.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required="" value="${municipioInstance?.ciudad?.id}" class="many-to-one"/>
+	<a class="modalbox" href="#inline">Nuevo Estado</a>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">
@@ -124,14 +127,16 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:select id="municipio" name="municipio.id" from="${com.redoaxaca.Municipio.list()}" optionKey="id" required="" value="${direccionInstance?.municipio?.id}" class="many-to-one"/>
+	<a class="modalbox" href="#inline2">Nuevo Municipio</a>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noExterior', 'error')} ">
+
+<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noExterior', 'error')} required">
 	<label for="noExterior">
 		<g:message code="direccion.noExterior.label" default="No Exterior" />
-		
+		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="noExterior" value="${direccionInstance?.noExterior}"/>
+	<g:textField name="noExterior" required="" value="${direccionInstance?.noExterior}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noInterior', 'error')} ">

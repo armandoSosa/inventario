@@ -2,6 +2,14 @@
 
 
 
+<div class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'nombre', 'error')} required">
+	<label for="nombre">
+		<g:message code="municipio.nombre.label" default="Nombre" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:textField name="nombre" required="" value="${municipioInstance?.nombre}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'ciudad', 'error')} required">
 	<label for="ciudad">
 		<g:message code="municipio.ciudad.label" default="Ciudad" />
@@ -25,13 +33,5 @@
 </li>
 </ul>
 
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'nombre', 'error')} ">
-	<label for="nombre">
-		<g:message code="municipio.nombre.label" default="Nombre" />
-		
-	</label>
-	<g:textField name="nombre" value="${municipioInstance?.nombre}"/>
 </div>
 

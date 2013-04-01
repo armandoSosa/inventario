@@ -45,10 +45,7 @@
 		<div id="inline">
 		
 			<div id="create-estado" class="content scaffold-create" role="main">
-				<h1><g:message code="default.create.label" args="[entityName]" /></h1>
-				<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-				</g:if>
+				<h1>Nuevo Estado</h1>
 				<g:hasErrors bean="${estadoInstance}">
 				<ul class="errors" role="alert">
 					<g:eachError bean="${estadoInstance}" var="error">
@@ -69,19 +66,17 @@
 
 		<!-- basic fancybox setup -->
 		<script type="text/javascript">
-			function validateEmail(email) { 
-				var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-				return reg.test(email);
-			}
-		
 			$(document).ready(function() {
 				$(".modalbox").fancybox();
+<<<<<<< HEAD
 				$("#contact").submit(function() { return false; });
 		
 				
 				$("#send").on("click", function(){
 					
 				});
+=======
+>>>>>>> branch 'master3' of https://github.com/armandoSosa/inventario.git
 			});
 		</script>
 

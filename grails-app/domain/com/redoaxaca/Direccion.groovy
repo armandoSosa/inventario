@@ -10,6 +10,10 @@ class Direccion {
 	static belongsTo = [persona:Persona, municipio:Municipio]
 
     static constraints = {
+		calle(blank: false)
+		colonia(blank: false)	
+		noExterior(blank: false)
+		fecha(blank: false)
     }
 	
 	String toString() {

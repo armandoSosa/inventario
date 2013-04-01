@@ -7,6 +7,7 @@ class Municipio {
 	static belongsTo = [ciudad: Estado]
 
     static constraints = {
+		nombre(blank:false)
     }
 	
 	String toString() {

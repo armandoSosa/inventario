@@ -28,11 +28,11 @@
 					
 						<g:sortableColumn property="colonia" title="${message(code: 'direccion.colonia.label', default: 'Colonia')}" />
 					
+						<g:sortableColumn property="noExterior" title="${message(code: 'direccion.noExterior.label', default: 'No Exterior')}" />
+					
 						<g:sortableColumn property="fecha" title="${message(code: 'direccion.fecha.label', default: 'Fecha')}" />
 					
 						<th><g:message code="direccion.municipio.label" default="Municipio" /></th>
-					
-						<g:sortableColumn property="noExterior" title="${message(code: 'direccion.noExterior.label', default: 'No Exterior')}" />
 					
 						<g:sortableColumn property="noInterior" title="${message(code: 'direccion.noInterior.label', default: 'No Interior')}" />
 					
@@ -46,11 +46,11 @@
 					
 						<td>${fieldValue(bean: direccionInstance, field: "colonia")}</td>
 					
+						<td>${fieldValue(bean: direccionInstance, field: "noExterior")}</td>
+					
 						<td><g:formatDate date="${direccionInstance.fecha}" /></td>
 					
 						<td>${fieldValue(bean: direccionInstance, field: "municipio")}</td>
-					
-						<td>${fieldValue(bean: direccionInstance, field: "noExterior")}</td>
 					
 						<td>${fieldValue(bean: direccionInstance, field: "noInterior")}</td>
 					
