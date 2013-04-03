@@ -1,4 +1,5 @@
 <%@ page import="com.redoaxaca.Persona" %>
+<g:setProvider library="jquery"/>
 
 <fieldset>
 <legend>Información personal</legend>
@@ -80,7 +81,7 @@
 		<g:message code="telefono.tipoTelefono.label" default="Tipo Telefono" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="tipoTelefono" name="tipoTelefono.id" from="${com.redoaxaca.TipoTelefono.list()}" optionKey="id" required="" value="${telefonoInstance?.tipoTelefono?.id}" class="many-to-one"/>
+	<g:select id="tipoTelefono" name="tipoTelefono.id" from="${com.redoaxaca.TipoTelefono.list()}" noSelection="['':'Seleccione un tipo de telefono']" optionKey="id" required="" value="${telefonoInstance?.tipoTelefono?.id}" class="many-to-one"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'foto', 'error')} required">
@@ -112,22 +113,46 @@
 	<g:textField name="colonia" required="" value="${direccionInstance?.colonia}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'ciudad', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'ciudad', 'error')} required">	
 	<label for="ciudad">
 		<g:message code="municipio.ciudad.label" default="Estado" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="ciudad" name="ciudad.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required="" value="${municipioInstance?.ciudad?.id}" class="many-to-one"/>
-	<a class="modalbox" href="#inline">Nuevo Estado</a>
+	<g:if test="${!params.idEstado}">
+		<g:select id="estado" name="estado.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required=""
+              noSelection="['':'Seleccione un estado']"
+              onchange="${remoteFunction (
+                      controller: 'persona',
+                      action: 'getMunicipios',
+                      params: '\'id=\' + this.value',
+                      update: 'municipioDiv'
+              )}"
+              value="${municipioInstance?.ciudad?.id}" class="many-to-one"/>
+	</g:if>
+	<g:else>
+		<g:select id="estado" name="estado.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required=""
+              noSelection="['':'Seleccione un estado']"
+              onchange="${remoteFunction (
+                      controller: 'persona',
+                      action: 'getMunicipios',
+                      params: '\'id=\' + this.value',
+                      update: 'municipioDiv'
+              )}"
+              value="${params.idEstado}" class="many-to-one"/>
+	</g:else>
+	<a class="modalbox" href="#inline">Nuevo Estado</a>	
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">
+<div id="municipioDiv" class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">
 	<label for="municipio">
 		<g:message code="direccion.municipio.label" default="Municipio" />
 		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="municipio" name="municipio.id" from="${com.redoaxaca.Municipio.list()}" optionKey="id" required="" value="${direccionInstance?.municipio?.id}" class="many-to-one"/>
+	</label>	
+	
+	<g:select id="municipio" name="municipio.id" from="${municipiosList}" optionKey="id" required="" value="${direccionInstance?.municipio?.id}" class="many-to-one"/>
 	<a class="modalbox" href="#inline2">Nuevo Municipio</a>
+	
+	
 </div>
 
 

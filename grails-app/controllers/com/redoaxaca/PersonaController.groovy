@@ -15,7 +15,7 @@ class PersonaController {
 		
 	}
 	def listar = {
-			}
+	}
 	
 	def modificar = {
 		
@@ -25,8 +25,8 @@ class PersonaController {
 		
 	}
 	
-	def insertar = {
-		
+	def insertar(Long id) {
+		[idEstado : id, persona : true, personaInstance: new Persona(params), municipioInstance: new Municipio(params) ]
 	}
 	
 	def empleados(Integer max) {
@@ -60,6 +60,37 @@ class PersonaController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'persona.label', default: 'Persona'), personaInstance.id])
         redirect(action: "show", id: personaInstance.id)
     }
+	
+	def save_estado() {		
+		def estadoInstance = new Estado(params)		
+		if (!estadoInstance.save(flush: true)) {
+			flash.message = "No se puede agregar el Estado"
+			render(view: "insertar")
+			return
+		}
+		//render(view: "insertar", model: [idEstado:estadoInstance.id, idMunicipio: -1])
+		redirect(action:'insertar', params: [idEstado: estadoInstance.id, idMunicipio: -1])
+		//redirect(action: "insertar", id: estadoInstance.id)
+	}
+	
+	def save_municipio() {
+		def municipioInstance = new Municipio(params)
+		if (!municipioInstance.save(flush: true)) {
+			flash.message = "No se puede agregar el Municipio"
+			render(view: "insertar")
+			return
+		}
+		redirect(action: "insertar", params:[idEstado: params.idEstado, idMunicipio: municipioInstance.id])
+	}
+	
+	def getMunicipios = {
+		//Se obtiene el estado
+		def estadoInstance = Estado.get(params.id)
+		//Se obtiene la lista de municipio
+		def municipiosList = estadoInstance?.municipios
+		//Se hace el render del template '_selectMunicipios.gsp' con la lista de estados obtenida.
+		render(template: "selectMunicipios", model: [municipiosList:municipiosList])
+	}
 
     def show(Long id) {
         def personaInstance = Persona.get(id)
