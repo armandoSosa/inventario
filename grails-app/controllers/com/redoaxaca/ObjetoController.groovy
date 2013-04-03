@@ -13,6 +13,41 @@ class ObjetoController {
 		[tipoList : Tipo.list()]
 	}
 	
+	/*def insertar2(Long id) {
+		[idTipo : id]
+	}*/
+	
+	def insertar2(Long id) {
+		def criterio = Plantilla.createCriteria()
+		def plantillas
+		if (criterio) {
+			plantillas = criterio.listDistinct {
+				tipo {
+					eq 'id', id
+				}
+			}
+			System.out.println("Encontré "+plantillas.size())
+			
+		}		
+		return [idTipo : id]
+	}
+	
+	def getPlantillas(Long id) {
+		def criterio = Plantilla.createCriteria()
+		def plantillas
+		if (criterio) {
+			plantillas = criterio.listDistinct {
+				tipo {
+					eq 'id', Long.parseLong(params.paramsName)
+				}
+			}
+			System.out.println("Encontré "+plantillas.size())
+			
+		}
+		redirect(action: 'insertar2', params: [ plantillas: plantillas])
+	}
+	
+	
 	def menu(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		[objetoInstanceList: Objeto.list(params), objetoInstanceTotal: Objeto.count()]
@@ -193,6 +228,34 @@ class ObjetoController {
 		}
 	}
 	
+	def save_tipo() {
+		def tipoInstance = new Tipo(params)
+		if (!tipoInstance.save(flush: true)) {
+			flash.message = "No se puede agregar el Tipo"
+			render(view: "insertar2")
+			return
+		}
+
+		redirect(action: "insertar2", id: tipoInstance.id)
+	}
+	
+	def addPlantillasAjax = {
+		System.out.print("id: "+params.tipo)
+		def criterio = Plantilla.createCriteria()
+		def plantillas
+		if (criterio) {
+			plantillas = criterio.listDistinct {
+				tipo {
+					eq 'id', Long.parseLong(params.tipo)
+				}
+			}
+			System.out.println("Encontre "+plantillas.size())
+			
+		} else {
+			System.out.println("Problema")
+		}
+		render (template:'mostrarFormValores', model: [plantillas:plantillas])
+	}
 	
 }
 

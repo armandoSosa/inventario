@@ -123,4 +123,12 @@ class CaracteristicaController {
             redirect(action: "show", id: id)
         }
     }
+	
+	def addUnidadAjax = {
+		if (params.id.equals("1")) { //canceló
+			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1])
+		} else {
+			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1])
+		}
+	}
 }
