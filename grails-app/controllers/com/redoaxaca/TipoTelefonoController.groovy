@@ -50,6 +50,27 @@ class TipoTelefonoController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'tipoTelefono.label', default: 'TipoTelefono'), tipoTelefonoInstance.id])
         redirect(action: "show", id: tipoTelefonoInstance.id)
     }
+	
+	def save_tipotelefono() {
+		def tipoTelefonoInstance = new TipoTelefono(params)
+        if (!tipoTelefonoInstance.save(flush: true)) {
+            render(view: "insertar", model: [tipoTelefonoInstance: tipoTelefonoInstance])
+            return
+        }
+
+        flash.message = message(code: 'default.created.message', args: [message(code: 'tipoTelefono.label', default: 'TipoTelefono'), tipoTelefonoInstance.id])
+        redirect(action: "menu")
+	}
+	
+	def save_tipotelefono_persona(){
+		def tipoTelefonoInstance = new TipoTelefono(params)
+		if (!tipoTelefonoInstance.save(flush: true)) {
+			flash.message = "No se puede agregar el Tipo de Teléfono"
+			render(view: "insertar", controller: "persona", model: [tipoTelefonoInstance: tipoTelefonoInstance])
+			return
+		}		
+		redirect(action: "insertar", controller: "persona", params:[id: tipoTelefonoInstance.id ] )
+	}
 
     def show(Long id) {
         def tipoTelefonoInstance = TipoTelefono.get(id)

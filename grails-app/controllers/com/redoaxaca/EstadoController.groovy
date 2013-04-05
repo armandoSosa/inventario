@@ -49,6 +49,17 @@ class EstadoController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'estado.label', default: 'Estado'), estadoInstance.id])
         redirect(action: "show", id: estadoInstance.id)
     }
+	
+	def save_estado() {
+		def estadoInstance = new Estado(params)
+		if (!estadoInstance.save(flush: true)) {
+			render(view: "insertar", model: [estadoInstance: estadoInstance])
+			return
+		}
+
+		flash.message = message(code: 'default.created.message', args: [message(code: 'estado.label', default: 'Estado'), estadoInstance.id])
+		redirect(action: "menu")
+	}
 
     def show(Long id) {
         def estadoInstance = Estado.get(id)

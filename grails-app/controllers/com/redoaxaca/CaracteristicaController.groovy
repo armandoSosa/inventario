@@ -126,7 +126,7 @@ class CaracteristicaController {
 	
 	def addUnidadAjax = {
 		if (params.id.equals("1")) { //canceló
-			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1])
+			render (template:'forma', model: [agregarUnidad: params.id, municipio:params.idMunicipio])
 		} else {
 			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1])
 		}

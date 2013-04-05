@@ -82,6 +82,7 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:select id="tipoTelefono" name="tipoTelefono.id" from="${com.redoaxaca.TipoTelefono.list()}" noSelection="['':'Seleccione un tipo de telefono']" optionKey="id" required="" value="${telefonoInstance?.tipoTelefono?.id}" class="many-to-one"/>
+	<a class="modalbox" href="#inline3">Nuevo Tipo de Teléfono</a>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'foto', 'error')} required">
@@ -139,7 +140,7 @@
                       update: 'municipioDiv'
               )}"
               value="${params.idEstado}" class="many-to-one"/>
-	</g:else>
+	</g:else>		
 	<a class="modalbox" href="#inline">Nuevo Estado</a>	
 </div>
 
@@ -149,10 +150,8 @@
 		<span class="required-indicator">*</span>
 	</label>	
 	
-	<g:select id="municipio" name="municipio.id" from="${municipiosList}" optionKey="id" required="" value="${direccionInstance?.municipio?.id}" class="many-to-one"/>
-	<a class="modalbox" href="#inline2">Nuevo Municipio</a>
-	
-	
+	<g:select id="municipio" name="municipio.id" from="${municipiosList}" optionKey="id" required="" value="${direccionInstance?.municipio?.id}" class="many-to-one"/>	
+	<a class="modalbox" href="#inline2">Nuevo Municipio</a>	
 </div>
 
 

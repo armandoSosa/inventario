@@ -10,6 +10,6 @@
 		<br>
 		<a href="../municipio/menu">Municipios</a>
 		<br>
-		<a href="../estado/menu">Ciudades</a>
+		<a href="../estado/menu">Estados</a>
 	</body>
 </html>

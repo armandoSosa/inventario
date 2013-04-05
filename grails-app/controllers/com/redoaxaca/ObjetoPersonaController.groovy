@@ -7,7 +7,20 @@ class ObjetoPersonaController {
 		redirect(action: list)
 	}
 	
+	def listar = {
+	}
+
+	def modificar = {
 	
+	}
+	
+	def eliminar = {
+	
+	}
+	
+	def insertar = {
+	
+	}
 	
 	
 	def listadoPorPersona = {
@@ -28,5 +41,16 @@ class ObjetoPersonaController {
 		}
 		
 		return [ objetosPersona: objetosPersona, persona: persona]
+	}
+	
+	def save_objeto_persona(){
+		def objetoPersonaInstance = new ObjetoPersona(params)
+		objetoPersonaInstance.fechaInicio = new Date()
+		if (!objetoPersonaInstance.save(flush: true)) {
+			flash.message = "No se puede asignar el objeto a la persona"
+			render(view: "insertar", model: [objetoPersonaInstance: objetoPersonaInstance])
+			return
+		}
+		redirect(action: "show", id: objetoPersonaInstance.id)
 	}
 }

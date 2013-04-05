@@ -23,20 +23,20 @@
 			</g:if>
 			<ol class="property-list objetoPersona">
 			
-				<g:if test="${objetoPersonaInstance?.fechaFin}">
-				<li class="fieldcontain">
-					<span id="fechaFin-label" class="property-label"><g:message code="objetoPersona.fechaFin.label" default="Fecha Fin" /></span>
-					
-						<span class="property-value" aria-labelledby="fechaFin-label"><g:formatDate date="${objetoPersonaInstance?.fechaFin}" /></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${objetoPersonaInstance?.fechaInicio}">
 				<li class="fieldcontain">
 					<span id="fechaInicio-label" class="property-label"><g:message code="objetoPersona.fechaInicio.label" default="Fecha Inicio" /></span>
 					
 						<span class="property-value" aria-labelledby="fechaInicio-label"><g:formatDate date="${objetoPersonaInstance?.fechaInicio}" /></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${objetoPersonaInstance?.fechaFin}">
+				<li class="fieldcontain">
+					<span id="fechaFin-label" class="property-label"><g:message code="objetoPersona.fechaFin.label" default="Fecha Fin" /></span>
+					
+						<span class="property-value" aria-labelledby="fechaFin-label"><g:formatDate date="${objetoPersonaInstance?.fechaFin}" /></span>
 					
 				</li>
 				</g:if>

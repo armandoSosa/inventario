@@ -4,6 +4,7 @@ class PrivilegioTipoUsuario {
 	
 	static belongsTo = [privilegios: Privilegio, tipoUsuarios:TipoUsuario]
 
-    static constraints = {
+    static constraints = {	
+		
     }
 }

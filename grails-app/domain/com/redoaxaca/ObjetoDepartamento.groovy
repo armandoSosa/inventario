@@ -7,6 +7,9 @@ class ObjetoDepartamento {
 	static belongsTo = [objeto: Objeto, departamento: Departamento]
     
 	static constraints = {
+		fechaInicio(nullable:false)
+		fechaFin(nullable:true)
+		departamento(unique:['departamento','objeto'])
     }
 	
 	String toString() {

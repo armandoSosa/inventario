@@ -7,6 +7,7 @@ class Privilegio {
 	static hasMany = [privilegioTipoUsuarios: PrivilegioTipoUsuario]
 	
     static constraints = {
+		tipo(nullable: false, unique: true)
     }
 	  
 	String toString() {

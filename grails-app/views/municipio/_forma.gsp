@@ -1,11 +1,11 @@
 <%@ page import="com.redoaxaca.Municipio" %>
 
-<div class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'ciudad', 'error')} required">
+<div id="divEstado" class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'ciudad', 'error')} required">
 	<label for="ciudad">
 		<g:message code="municipio.ciudad.label" default="Estado" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:if test="${!persona}">
+	<g:if test="${!session.persona}">
 		<g:if test="${!idEstado}">
 			<g:select id="ciudad" name="ciudad.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required="" value="${municipioInstance?.ciudad?.id}" class="many-to-one"/>
 		</g:if>
@@ -14,13 +14,12 @@
 		</g:else>
 		<a class="modalbox" href="#inline">Nuevo Estado</a>
 	</g:if>
-	<g:else>
-		<g:if test="${!params.idEstado}">
-			<g:select id="ciudad" name="ciudad.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required="" value="${municipioInstance?.ciudad?.id}" class="many-to-one"/>			
-			<g:textField name="nombre" required="" value="${ municipioInstance?.ciudad?.id}"/>
+	<g:else>	
+		<g:if test="${session.estado}">
+			<g:select id="ciudad" name="ciudad.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required="" value="${session.estado}" class="many-to-one"/>						
 		</g:if>
 		<g:else>
-			<g:select id="ciudad" name="ciudad.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required="" value="${params.idEstado}" class="many-to-one"/>
+			<g:select id="ciudad" name="ciudad.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required="" value="1" class="many-to-one"/>
 		</g:else>
 	</g:else>
 </div>

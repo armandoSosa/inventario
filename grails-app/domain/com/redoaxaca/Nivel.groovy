@@ -6,6 +6,7 @@ class Nivel {
 	static hasMany= [puestos: Puesto]
 
     static constraints = {
+		nivel(nullable:false, unique:true)
     }
 	
 	String toString() {

@@ -33,6 +33,7 @@ class MunicipioController {
 	}
 	
 	def insertar(Long id) {
+		session["persona"] = false
 		[idEstado : id]		
 	}
 
@@ -50,6 +51,27 @@ class MunicipioController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'municipio.label', default: 'Municipio'), municipioInstance.id])
         redirect(action: "show", id: municipioInstance.id)
     }
+	
+	def save_municipio() {
+		def municipioInstance = new Municipio(params)
+		if (!municipioInstance.save(flush: true)) {
+			render(view: "insertar", model: [municipioInstance: municipioInstance])
+			return
+		}
+
+		flash.message = message(code: 'default.created.message', args: [message(code: 'municipio.label', default: 'Municipio'), municipioInstance.id])
+		redirect(action: "menu")
+	}
+	
+	def save_municipio_persona() {
+		def municipioInstance = new Municipio(params)
+		if (!municipioInstance.save(flush: true)) {
+			flash.message = "No se puede agregar el Municipio"
+			render(view: "insertar")
+			return
+		}
+		redirect(action: "insertar", controller: "persona", params:[idEstado: params.ciudad.id, idMunicipio: municipioInstance.id])
+	}
 	
 	def save_estado() {
 		def estadoInstance = new Estado(params)
@@ -131,4 +153,12 @@ class MunicipioController {
             redirect(action: "show", id: id)
         }
     }
+	
+	def municipioAjax = {
+		if (params.id.equals("1")) { //canceló
+			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1])
+		} else {
+			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1])
+		}
+	}
 }

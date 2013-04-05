@@ -15,7 +15,7 @@ class Persona {
 	static hasMany = [subordinado: Persona, objetosPersona: ObjetoPersona, puestosPersona: PuestoPersona, direcciones: Direccion, telefonos: Telefono, usuarios: Usuario]
     
 	static constraints = {
-		numeroEmpleado(blank: false)
+		numeroEmpleado(blank: false, unique: true)
 		nombre(blank: false)
 		paterno(blank: false)
 		materno(blank: false)
@@ -31,6 +31,6 @@ class Persona {
 	}*/
 	
 	String toString() {
-		"${nombre} ${paterno} ${materno}"
+		"${numeroEmpleado}"
 	}
 }

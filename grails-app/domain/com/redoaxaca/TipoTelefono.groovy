@@ -5,6 +5,7 @@ class TipoTelefono {
 	
 	static hasMany = [telefonos: Telefono]
     static constraints = {
+		tipo(nullable:false)
     }
 	
 	String toString() {

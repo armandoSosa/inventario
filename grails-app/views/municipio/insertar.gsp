@@ -15,7 +15,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="menu">Lista de Municipios</g:link></li>
 			</ul>
 		</div>
 		<div id="create-municipio" class="content scaffold-create" role="main">
@@ -30,7 +30,7 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form action="save" >
+			<g:form action="save_municipio" >
 				<fieldset class="form">
 					<g:render template="forma"/>
 				</fieldset>

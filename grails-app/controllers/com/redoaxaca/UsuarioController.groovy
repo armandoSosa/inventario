@@ -21,6 +21,21 @@ class UsuarioController {
 		
 	}
 	
+	def listar = {
+	}
+
+	def modificar = {
+	
+	}
+	
+	def eliminar = {
+	
+	}
+	
+	def insertar = {
+	
+	}
+	
 	def catalogo = {
 		
 
@@ -86,6 +101,18 @@ class UsuarioController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'usuario.label', default: 'Usuario'), usuarioInstance.id])
         redirect(action: "show", id: usuarioInstance.id)
     }
+	
+	def save_usuario(){
+		def usuarioInstance = new Usuario(params)
+		usuarioInstance.fechaInicio = new Date()
+		if (!usuarioInstance.save(flush: true)) {
+			render(view: "insertar", model: [usuarioInstance: usuarioInstance])
+			return
+		}
+
+		flash.message = message(code: 'default.created.message', args: [message(code: 'usuario.label', default: 'Usuario'), usuarioInstance.id])
+		redirect(action: "menu")
+	}
 
     def show(Long id) {
         def usuarioInstance = Usuario.get(id)

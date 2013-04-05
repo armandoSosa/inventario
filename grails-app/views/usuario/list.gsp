@@ -24,9 +24,11 @@
 				<thead>
 					<tr>
 					
-						<g:sortableColumn property="contrasena" title="${message(code: 'usuario.contrasena.label', default: 'Contrasena')}" />
+						<g:sortableColumn property="usuario" title="${message(code: 'usuario.usuario.label', default: 'Usuario')}" />
 					
 						<g:sortableColumn property="fechaFin" title="${message(code: 'usuario.fechaFin.label', default: 'Fecha Fin')}" />
+					
+						<g:sortableColumn property="contrasena" title="${message(code: 'usuario.contrasena.label', default: 'Contrasena')}" />
 					
 						<g:sortableColumn property="fechaInicio" title="${message(code: 'usuario.fechaInicio.label', default: 'Fecha Inicio')}" />
 					
@@ -34,25 +36,23 @@
 					
 						<th><g:message code="usuario.tipoUsuario.label" default="Tipo Usuario" /></th>
 					
-						<g:sortableColumn property="usuario" title="${message(code: 'usuario.usuario.label', default: 'Usuario')}" />
-					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${usuarioInstanceList}" status="i" var="usuarioInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${usuarioInstance.id}">${fieldValue(bean: usuarioInstance, field: "contrasena")}</g:link></td>
+						<td><g:link action="show" id="${usuarioInstance.id}">${fieldValue(bean: usuarioInstance, field: "usuario")}</g:link></td>
 					
 						<td><g:formatDate date="${usuarioInstance.fechaFin}" /></td>
+					
+						<td>${fieldValue(bean: usuarioInstance, field: "contrasena")}</td>
 					
 						<td><g:formatDate date="${usuarioInstance.fechaInicio}" /></td>
 					
 						<td>${fieldValue(bean: usuarioInstance, field: "persona")}</td>
 					
 						<td>${fieldValue(bean: usuarioInstance, field: "tipoUsuario")}</td>
-					
-						<td>${fieldValue(bean: usuarioInstance, field: "usuario")}</td>
 					
 					</tr>
 				</g:each>
