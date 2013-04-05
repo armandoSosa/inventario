@@ -8,6 +8,7 @@ class Puesto {
 	static hasMany = [puestosPersona: PuestoPersona]
     
 	static constraints = {
+		nombre(nullable:false, unique: true)
     }
 	
 	String toString() {

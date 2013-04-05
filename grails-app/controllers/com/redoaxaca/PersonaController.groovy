@@ -3,6 +3,7 @@ package com.redoaxaca
 import org.springframework.dao.DataIntegrityViolationException
 
 class PersonaController {
+	
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	def scaffold = true
@@ -26,7 +27,9 @@ class PersonaController {
 	}
 	
 	def insertar(Long id) {
-		[idEstado : id, persona : true, personaInstance: new Persona(params), municipioInstance: new Municipio(params) ]
+		session["estado"] = 0
+		session["persona"] = true
+		[idEstado : id, personaInstance: new Persona(params), municipioInstance: new Municipio(params), estadoInstance: new Estado(params) ]
 	}
 	
 	def empleados(Integer max) {
@@ -50,15 +53,32 @@ class PersonaController {
         [personaInstance: new Persona(params)]
     }
 
-    def save() {
+    def save_persona() {
         def personaInstance = new Persona(params)
+		def direccionInstance = new Direccion(params)
+		def telefonoInstance = new Telefono(params)
+		telefonoInstance.fecha = new Date()		
+		telefonoInstance.persona = personaInstance
+		direccionInstance.fecha = new Date()
+		direccionInstance.persona = personaInstance
+		 		
         if (!personaInstance.save(flush: true)) {
-            render(view: "create", model: [personaInstance: personaInstance])
+            render(view: "insertar", model: [personaInstance: personaInstance, direccionInstance: direccionInstance ])
             return
         }
+		
+		if(!direccionInstance.save(flush: true)){
+			render(view: "insertar", model: [personaInstance: personaInstance, direccionInstance: direccionInstance])
+			return 
+		}
+		
+		if (!telefonoInstance.save(flush: true)) {
+			render(view: "insertar", model: [personaInstance: personaInstance, direccionInstance: direccionInstance ])
+			return
+		}
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'persona.label', default: 'Persona'), personaInstance.id])
-        redirect(action: "show", id: personaInstance.id)
+        redirect(action: "empleados")
     }
 	
 	def save_estado() {		
@@ -73,23 +93,21 @@ class PersonaController {
 		//redirect(action: "insertar", id: estadoInstance.id)
 	}
 	
-	def save_municipio() {
-		def municipioInstance = new Municipio(params)
-		if (!municipioInstance.save(flush: true)) {
-			flash.message = "No se puede agregar el Municipio"
-			render(view: "insertar")
-			return
-		}
-		redirect(action: "insertar", params:[idEstado: params.idEstado, idMunicipio: municipioInstance.id])
-	}
-	
 	def getMunicipios = {
 		//Se obtiene el estado
 		def estadoInstance = Estado.get(params.id)
+		def personaInstance = new Persona(params)
+		def idEstado = estadoInstance?.id		
+		session["estado"] = estadoInstance?.id 		
 		//Se obtiene la lista de municipio
 		def municipiosList = estadoInstance?.municipios
 		//Se hace el render del template '_selectMunicipios.gsp' con la lista de estados obtenida.
-		render(template: "selectMunicipios", model: [municipiosList:municipiosList])
+		render(template: "selectMunicipios", model: [personaInstance: personaInstance, municipiosList:municipiosList, idEstado: 2])
+	}
+	
+	def guardarInstancia = {
+		def personaInstance = new Persona(params)
+		[personaInstance: personaInstance]
 	}
 
     def show(Long id) {
@@ -102,6 +120,17 @@ class PersonaController {
 
         [personaInstance: personaInstance]
     }
+	
+	def mostrar(Long id) {
+		def personaInstance = Persona.get(id)
+		if (!personaInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'persona.label', default: 'Persona'), id])
+			redirect(action: "menu")
+			return
+		}
+
+		[personaInstance: personaInstance]
+	}
 
     def edit(Long id) {
         def personaInstance = Persona.get(id)

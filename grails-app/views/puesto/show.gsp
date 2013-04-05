@@ -32,6 +32,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${puestoInstance?.nivel}">
+				<li class="fieldcontain">
+					<span id="nivel-label" class="property-label"><g:message code="puesto.nivel.label" default="Nivel" /></span>
+					
+						<span class="property-value" aria-labelledby="nivel-label"><g:link controller="nivel" action="show" id="${puestoInstance?.nivel?.id}">${puestoInstance?.nivel?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${puestoInstance?.nombre}">
 				<li class="fieldcontain">
 					<span id="nombre-label" class="property-label"><g:message code="puesto.nombre.label" default="Nombre" /></span>

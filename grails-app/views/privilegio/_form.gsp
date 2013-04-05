@@ -2,6 +2,14 @@
 
 
 
+<div class="fieldcontain ${hasErrors(bean: privilegioInstance, field: 'tipo', 'error')} ">
+	<label for="tipo">
+		<g:message code="privilegio.tipo.label" default="Tipo" />
+		
+	</label>
+	<g:textField name="tipo" value="${privilegioInstance?.tipo}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: privilegioInstance, field: 'privilegioTipoUsuarios', 'error')} ">
 	<label for="privilegioTipoUsuarios">
 		<g:message code="privilegio.privilegioTipoUsuarios.label" default="Privilegio Tipo Usuarios" />
@@ -17,13 +25,5 @@
 </li>
 </ul>
 
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: privilegioInstance, field: 'tipo', 'error')} ">
-	<label for="tipo">
-		<g:message code="privilegio.tipo.label" default="Tipo" />
-		
-	</label>
-	<g:textField name="tipo" value="${privilegioInstance?.tipo}"/>
 </div>
 

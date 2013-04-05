@@ -23,11 +23,11 @@
 			</g:if>
 			<ol class="property-list usuario">
 			
-				<g:if test="${usuarioInstance?.contrasena}">
+				<g:if test="${usuarioInstance?.usuario}">
 				<li class="fieldcontain">
-					<span id="contrasena-label" class="property-label"><g:message code="usuario.contrasena.label" default="Contrasena" /></span>
+					<span id="usuario-label" class="property-label"><g:message code="usuario.usuario.label" default="Usuario" /></span>
 					
-						<span class="property-value" aria-labelledby="contrasena-label"><g:fieldValue bean="${usuarioInstance}" field="contrasena"/></span>
+						<span class="property-value" aria-labelledby="usuario-label"><g:fieldValue bean="${usuarioInstance}" field="usuario"/></span>
 					
 				</li>
 				</g:if>
@@ -37,6 +37,15 @@
 					<span id="fechaFin-label" class="property-label"><g:message code="usuario.fechaFin.label" default="Fecha Fin" /></span>
 					
 						<span class="property-value" aria-labelledby="fechaFin-label"><g:formatDate date="${usuarioInstance?.fechaFin}" /></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${usuarioInstance?.contrasena}">
+				<li class="fieldcontain">
+					<span id="contrasena-label" class="property-label"><g:message code="usuario.contrasena.label" default="Contrasena" /></span>
+					
+						<span class="property-value" aria-labelledby="contrasena-label"><g:fieldValue bean="${usuarioInstance}" field="contrasena"/></span>
 					
 				</li>
 				</g:if>
@@ -64,15 +73,6 @@
 					<span id="tipoUsuario-label" class="property-label"><g:message code="usuario.tipoUsuario.label" default="Tipo Usuario" /></span>
 					
 						<span class="property-value" aria-labelledby="tipoUsuario-label"><g:link controller="tipoUsuario" action="show" id="${usuarioInstance?.tipoUsuario?.id}">${usuarioInstance?.tipoUsuario?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${usuarioInstance?.usuario}">
-				<li class="fieldcontain">
-					<span id="usuario-label" class="property-label"><g:message code="usuario.usuario.label" default="Usuario" /></span>
-					
-						<span class="property-value" aria-labelledby="usuario-label"><g:fieldValue bean="${usuarioInstance}" field="usuario"/></span>
 					
 				</li>
 				</g:if>

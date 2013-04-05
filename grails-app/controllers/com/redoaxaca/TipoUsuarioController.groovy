@@ -11,6 +11,25 @@ class TipoUsuarioController {
 	def index = {
 		redirect(action: list)
 	}
+	
+	def listar = {
+	}
+
+	def modificar = {
+	
+	}
+	
+	def mostrar = {
+		
+	}
+	
+	def eliminar = {
+	
+	}
+	
+	def insertar = {
+	
+	}
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -36,6 +55,38 @@ class TipoUsuarioController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'tipoUsuario.label', default: 'TipoUsuario'), tipoUsuarioInstance.id])
         redirect(action: "show", id: tipoUsuarioInstance.id)
     }
+	
+	def save_tipousuario() {
+		def tipoUsuarioInstance = new TipoUsuario(params)
+		if (!tipoUsuarioInstance.save(flush: true)) {
+			render(view: "insertar", model: [tipoUsuarioInstance: tipoUsuarioInstance])
+			return
+		}
+
+		flash.message = message(code: 'default.created.message', args: [message(code: 'tipoUsuario.label', default: 'TipoUsuario'), tipoUsuarioInstance.id])
+		redirect(action: "menu")
+	}
+	
+	def save_tipo_usuario() {
+		def tipoUsuarioInstance = new TipoUsuario(params)
+		if (!tipoUsuarioInstance.save(flush: true)) {
+			flash.message = "No se puede crear el tipo de Usuario"
+			render(view: "insertar", controller: "usuario", model: [tipoUsuarioInstance: tipoUsuarioInstance])
+			return
+		}
+		
+		redirect(action: "insertar", controller: "usuario")
+	}
+	
+	def save_tipo_usuario_privilegio(){
+		def tipoUsuarioInstance = new TipoUsuario(params)
+		if (!tipoUsuarioInstance.save(flush: true)) {
+			render(view: "insertar", controller: "privilegioTipoUsuario", model: [tipoUsuarioInstance: tipoUsuarioInstance])
+			return
+		}
+		
+		redirect(action: "insertar", controller: "privilegioTipoUsuario", id: tipoUsuarioInstance.id)
+	}
 
     def show(Long id) {
         def tipoUsuarioInstance = TipoUsuario.get(id)

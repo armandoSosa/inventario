@@ -6,7 +6,7 @@ class Estado {
 	static hasMany = [municipios: Municipio]
 
     static constraints = {
-		nombre(blank:false)
+		nombre(blank:false, unique:true)
     }
 	
 	String toString() {

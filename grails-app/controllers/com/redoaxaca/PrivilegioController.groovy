@@ -11,6 +11,21 @@ class PrivilegioController {
     def index() {
         redirect(action: "list", params: params)
     }
+	
+	def listar = {
+	}
+
+	def modificar = {
+	
+	}
+	
+	def eliminar = {
+	
+	}
+	
+	def insertar = {
+	
+	}
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -36,6 +51,26 @@ class PrivilegioController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'privilegio.label', default: 'Privilegio'), privilegioInstance.id])
         redirect(action: "show", id: privilegioInstance.id)
     }
+	
+	def save_privilegio() {
+		def privilegioInstance = new Privilegio(params)
+		if (!privilegioInstance.save(flush: true)) {
+			render(view: "insertar", model: [privilegioInstance: privilegioInstance])
+			return
+		}
+
+		flash.message = message(code: 'default.created.message', args: [message(code: 'privilegio.label', default: 'Privilegio'), privilegioInstance.id])
+		redirect(action: "menu")
+	}
+	
+	def save_privilegio_tipoUsuario(){
+		def privilegioInstance = new Privilegio(params)
+		if (!privilegioInstance.save(flush: true)) {
+			render(view: "insertar", controller: "privilegioTipoUsuario", model: [privilegioInstance: privilegioInstance])
+			return
+		}
+		redirect(action: "insertar", controller: "privilegioTipoUsuario", id: privilegioInstance.id)
+	}
 
     def show(Long id) {
         def privilegioInstance = Privilegio.get(id)

@@ -2,20 +2,20 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: objetoPersonaInstance, field: 'fechaFin', 'error')} required">
-	<label for="fechaFin">
-		<g:message code="objetoPersona.fechaFin.label" default="Fecha Fin" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:datePicker name="fechaFin" precision="day"  value="${objetoPersonaInstance?.fechaFin}"  />
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: objetoPersonaInstance, field: 'fechaInicio', 'error')} required">
 	<label for="fechaInicio">
 		<g:message code="objetoPersona.fechaInicio.label" default="Fecha Inicio" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:datePicker name="fechaInicio" precision="day"  value="${objetoPersonaInstance?.fechaInicio}"  />
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: objetoPersonaInstance, field: 'fechaFin', 'error')} ">
+	<label for="fechaFin">
+		<g:message code="objetoPersona.fechaFin.label" default="Fecha Fin" />
+		
+	</label>
+	<g:datePicker name="fechaFin" precision="day"  value="${objetoPersonaInstance?.fechaFin}" default="none" noSelection="['': '']" />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: objetoPersonaInstance, field: 'objeto', 'error')} required">

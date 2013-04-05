@@ -9,6 +9,21 @@ class DepartamentoController {
     def index() {
         redirect(action: "list", params: params)
     }
+	
+	def listar = {
+	}
+
+	def modificar = {
+	
+	}
+	
+	def eliminar = {
+	
+	}
+	
+	def insertar = {
+	
+	}
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -34,6 +49,28 @@ class DepartamentoController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'departamento.label', default: 'Departamento'), departamentoInstance.id])
         redirect(action: "show", id: departamentoInstance.id)
     }
+	
+	def save_departamento() {
+		def departamentoInstance = new Departamento(params)
+		if (!departamentoInstance.save(flush: true)) {
+			render(view: "insertar", model: [departamentoInstance: departamentoInstance])
+			return
+		}
+
+		flash.message = message(code: 'default.created.message', args: [message(code: 'departamento.label', default: 'Departamento'), departamentoInstance.id])
+		redirect(action: "menu")
+	}
+	
+	def save_departamento_puesto(){
+		def departamentoInstance = new Departamento(params)
+		if (!departamentoInstance.save(flush: true)) {
+			flash.message = "No se puede crear el departamento"
+			render(view: "insertar", controller: "puesto", model: [departamentoInstance: departamentoInstance])
+			return
+		}		
+		redirect(action: "insertar", controller: "puesto", model: [departamentoInstance: departamentoInstance])
+
+	}
 
     def show(Long id) {
         def departamentoInstance = Departamento.get(id)
