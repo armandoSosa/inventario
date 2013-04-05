@@ -1,16 +1,12 @@
 <%@ page import="com.redoaxaca.Objeto"%>
 
-	
 
-
-<div
-	class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'noInventario', 'error')} ">
-	<label for="noInventario"> <g:message
-			code="objeto.noInventario.label" default="No Inventario" />
-
+<div class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'noInventario', 'error')} ">
+	<label for="noInventario">
+		<g:message code="objeto.noInventario.label" default="No Inventario" />
+		
 	</label>
-	<g:textField name="noInventario"
-		value="${objetoInstance?.noInventario}" />
+	<g:textField name="noInventario" value="${objetoInstance?.noInventario}"/>
 </div>
 
 <div
@@ -18,21 +14,25 @@
 	<label for="tipo"> <g:message code="objeto.tipo.label"
 			default="Tipo" /> <span class="required-indicator">*</span>
 	</label>
-	
-		
 		
 	<g:if test="${!idTipo}">
+	
+	
+		
 		<g:select id="tipo" name="tipo.id" from="${com.redoaxaca.Tipo.list()}"
+			noSelection="['':'Seleccione un tipo de objeto']"
 			optionKey="id" required="" value="${objetoInstance?.tipo?.id}"
 			class="many-to-one"
 			onchange="${remoteFunction(
 					   action: 'addPlantillasAjax',
                        update: 'divplantilla1',
+					   onSuccess: 'divUnidad',
                        params: '\'tipo=\' + this.value')}"/>
 
 	</g:if>
 	<g:else>
 		<g:select id="tipo" name="tipo.id" from="${com.redoaxaca.Tipo.list()}"
+			noSelection="['':'Seleccione un tipo de objeto']"
 			optionKey="id" required="" value="${idTipo}"
 			class="many-to-one"
 			onchange="${remoteFunction(
@@ -47,6 +47,8 @@
 <g:render template="mostrarFormValores"/>
 
 
+
+
 <div
 	class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipoPropiedad', 'error')} required">
 	<label for="tipoPropiedad"> <g:message
@@ -58,6 +60,10 @@
 		required="" value="${objetoInstance?.tipoPropiedad?.id}"
 		class="many-to-one" />
 </div>
+
+
+
+
 
 
 

@@ -7,10 +7,11 @@ class CaracteristicaController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def caracteristicaService
+	def unidadService
 	def scaffold = true
     
 	def index = {
-		redirect(action: listar)
+		redirect(action: list)
 	}
 	
 	def listar(Integer max) {
@@ -125,10 +126,26 @@ class CaracteristicaController {
     }
 	
 	def addUnidadAjax = {
-		if (params.id.equals("1")) { //canceló
+		System.out.println("entro")
+		if (params.id.equals("1") || params.id.equals("2")) { //canceló o agregó nuevo
 			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1])
+		} else if (params.id.equals("3")){ //agregamos la unidad
+			System.out.println(params.id)
+			System.out.println(params.id +" "+params.unidadTexto)
+			
+			def nuevaUnidad
+			
+			try {
+				nuevaUnidad = unidadService.crearUnidad(params.unidadTexto)
+				
+			} catch (UnidadException pe) {
+				flash.message = pe.message
+			}
+			
+			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1, unidadId:nuevaUnidad.id])
 		} else {
-			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1])
+			
+			render (controller:'caracteristica', template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1, unidadId:nuevaUnidad.id])
 		}
 	}
 }

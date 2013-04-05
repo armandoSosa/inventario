@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="insertar2"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-objeto" class="content scaffold-list" role="main">
@@ -50,9 +50,18 @@
 				<g:paginate total="${objetoInstanceTotal}" />
 			</div>
 			
-			<a href="empleados">Empleados</a>
+			<dl>
+				<dt>Objetos</dt>
+				<dd><li><a href="listadoPorTipo">Por tipo de objeto</a></li></dd>
+			</dl>
+			
+			
+			
+			
 			<br>
 			<a href="../usuario/menu">Usuarios</a>
+			
+
 			
 			
 		</div>

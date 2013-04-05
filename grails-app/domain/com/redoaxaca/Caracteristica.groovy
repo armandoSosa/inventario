@@ -5,6 +5,7 @@ class Caracteristica {
 	String caracteristica
 
     static constraints = {
+		caracteristica(nullable: false)
     }
 	
 	static belongsTo = [unidad: Unidad]

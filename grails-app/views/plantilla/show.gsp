@@ -41,6 +41,17 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${plantillaInstance?.valores}">
+				<li class="fieldcontain">
+					<span id="valores-label" class="property-label"><g:message code="plantilla.valores.label" default="Valores" /></span>
+					
+						<g:each in="${plantillaInstance.valores}" var="v">
+						<span class="property-value" aria-labelledby="valores-label"><g:link controller="valor" action="show" id="${v.id}">${v?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">

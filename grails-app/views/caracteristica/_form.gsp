@@ -2,12 +2,12 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'caracteristica', 'error')} ">
+<div class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'caracteristica', 'error')} required">
 	<label for="caracteristica">
 		<g:message code="caracteristica.caracteristica.label" default="Caracteristica" />
-		
+		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="caracteristica" value="${caracteristicaInstance?.caracteristica}"/>
+	<g:textField name="caracteristica" required="" value="${caracteristicaInstance?.caracteristica}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'plantillas', 'error')} ">

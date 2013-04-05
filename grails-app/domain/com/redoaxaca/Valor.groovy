@@ -7,8 +7,6 @@ class Valor {
 
     static constraints = {
     }
-	
-	
 
 	static belongsTo = [objetos: Objeto, plantilla:Plantilla]
 	static hasMany = [objetos: Objeto]

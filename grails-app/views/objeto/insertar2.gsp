@@ -10,15 +10,54 @@
 		<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.min.js')}"></script>
 		<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.js?v=2.0.6')}"></script>
 		<g:javascript>
-		    var addCaracteristica = function(idTipo)
+			var cadenaValores='valor0=0';
+			var numeros="";
+		    var addCaracteristica = function()
 		    {
 		         ${ remoteFunction (controller:'caracteristica', action:'addUnidadAjax', id:'2', update:'divUnidad', params: '\'caracteristica1=\' + caracteristica.value')}
 		    };
 		    
-		    var selectCaracteristica = function(idTipo)
+		    var selectCaracteristica = function()
 		    {
 		         ${ remoteFunction (controller:'caracteristica', action:'addUnidadAjax', id:'1', update:'divUnidad', params: '\'caracteristica1=\' + caracteristica.value')}
 		    };
+		    
+		    var agregarUnidad = function()
+		    {
+		         ${ remoteFunction (controller:'caracteristica', action:'addUnidadAjax', id:'3', update:'divUnidad', params: '\'caracteristica1=\' + caracteristica.value+\'&unidadTexto=\' + unidadTexto.value')}
+		    };
+		    
+		    var submitCaracteristica = function()
+		    {	
+		    	${ remoteFunction (controller:'objeto', action:'save_caracteristica', id:'4', update:'divplantilla1', params: '\'caracteristica1=\' + caracteristica.value+\'&unidadTexto=\' + unidad.value+\'&tipo1=\' + tipo1.value')}
+		    	$(inline2).fadeOut("fast", function(){
+						$(this).before("Característica agregada correctamente");
+						setTimeout("$.fancybox.close()", 1000);
+						$("#inline2").html(html);
+					});
+		    };
+		    
+		    var submitObjeto = function()
+		    {	
+		    	cadenaValores=cadenaValores.replace("valor0=0", "valor0="+numeros)+"&noInventario="+$("#noInventario").val()+"&tipoPropiedad="+$("#tipoPropiedad").val();
+		    	${ remoteFunction (controller:'objeto', action:'save_objeto', id:'5', params: 'cadenaValores', onLoaded='start()')}
+		    };
+		    
+		    function generarCadenaValores(cadena){
+		    	//alert($("#"+cadena).val());
+		    	
+		    	if (cadenaValores.indexOf(cadena) == -1) {//si no esta, se agrega
+		    		cadenaValores+="&"+cadena+"="+$("#"+cadena).val();
+		    		numeros+=cadena+",";
+		    	}
+			}
+			
+			function reloadPage() {
+				location.href='listadoTipo';
+			}
+			function start(){
+			    timeout = setTimeout(reloadPage,1000);
+			}
 		</g:javascript>
 	</head>
 	<body>
@@ -26,7 +65,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="listadoPorTipo"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="create-objeto" class="content scaffold-create" role="main">
@@ -41,18 +80,19 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form action="save" >
+			<g:form action="save_objeto" >
 				<fieldset class="form">
 					<g:render template="forma"/>
 				</fieldset>
 				<fieldset class="buttons">
-					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+					<a name="create" class="save" href="javascript:void(0)" onclick="submitObjeto();return false;">CrearObj</a>
+					
 				</fieldset>
 			</g:form>
 		</div>
 		
 		
-		<!-- Agregar estilo de objeto -->
+		<!-- Agregar tipo de objeto -->
 		<div id="inline">
 			<div id="create-tipo" class="content scaffold-create" role="main">
 				<h1>Nuevo Tipo</h1>
@@ -78,31 +118,6 @@
 		</div>
 		
 		
-		
-		<!-- Agregar característica-->
-		<div id="inline2">
-			<div id="create-caracteristica" class="content scaffold-create" role="main">
-				<h1>Nueva Característica</h1>
-				<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-				</g:if>
-				<g:hasErrors bean="${caracteristicaInstance}">
-				<ul class="errors" role="alert">
-					<g:eachError bean="${caracteristicaInstance}" var="error">
-					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-					</g:eachError>
-				</ul>
-				</g:hasErrors>
-				<g:form action="save_caracteristica" >
-					<fieldset class="form">
-						<g:render template="../caracteristica/forma"/>
-					</fieldset>
-					<fieldset class="buttons">
-						<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-					</fieldset>
-				</g:form>
-			</div>
-		</div>
 
 		<!-- basic fancybox setup -->
 		<script type="text/javascript">
