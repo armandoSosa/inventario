@@ -53,7 +53,7 @@
 			}
 			
 			function reloadPage() {
-				location.href='listadoTipo';
+				location.href='listadoPorTipo';
 			}
 			function start(){
 			    timeout = setTimeout(reloadPage,1000);

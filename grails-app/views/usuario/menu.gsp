@@ -13,7 +13,7 @@
 				<li><g:link class="create" action="insertar"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
-		<div id="page-body" role="main">
+		<div id="lista" role="main">
 			<h1>Bienvenido a Inventarios</h1>
 			
 			

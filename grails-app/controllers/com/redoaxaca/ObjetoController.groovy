@@ -35,6 +35,23 @@ class ObjetoController {
 		return [idTipo : id]
 	}
 	
+	def insertar3(Long id) {
+		session['numCaracteristica']="0"
+		session['numUnidades']="0"
+		def criterio = Plantilla.createCriteria()
+		def plantillas
+		if (criterio) {
+			plantillas = criterio.listDistinct {
+				tipo {
+					eq 'id', id
+				}
+			}
+			System.out.println("Encontré "+plantillas.size())
+			
+		}
+		return [idTipo : id]
+	}
+	
 	def listadoPorTipo() {
 
 	}
@@ -246,6 +263,17 @@ class ObjetoController {
 		redirect(action: "insertar2", id: tipoInstance.id)
 	}
 	
+	def save_tipo2() {
+		def tipoInstance = new Tipo(params)
+		if (!tipoInstance.save(flush: true)) {
+			flash.message = "No se puede agregar el Tipo"
+			render(view: "insertar3")
+			return
+		}
+
+		redirect(action: "insertar3", id: tipoInstance.id)
+	}
+	
 	def addPlantillasAjax = {
 		
 		def criterio = Plantilla.createCriteria()
@@ -276,6 +304,39 @@ class ObjetoController {
 		session.setAttribute("idTipo", params.tipo)
 		
 		render (template:'mostrarFormValores', model: [plantillas:plantillas, mostrarCaracteristicas: mostrarCaracteristicas])
+	}
+	
+	def addPlantillasAjax2 = {
+		
+		def criterio = Plantilla.createCriteria()
+		def plantillas, mostrarCaracteristicas
+		
+		if (params.tipo==null) {
+			params.tipo=session["idTipo"]
+		}
+		
+		if (criterio) {
+			
+			if (params.tipo.equals("")) {
+				params.tipo="-1"
+				mostrarCaracteristicas=2
+			} else {
+				mostrarCaracteristicas=1
+			}
+			plantillas = criterio.listDistinct {
+				tipo {
+					eq 'id', Long.parseLong(params.tipo)
+				}
+			}
+			System.out.println("Encontre "+plantillas.size())
+			
+		} else {
+			mostrarCaracteristicas=2
+			System.out.println("Problema")
+		}
+		session.setAttribute("idTipo", params.tipo)
+		
+		render (template:'mostrarFormValores2', model: [plantillas:plantillas, mostrarCaracteristicas: mostrarCaracteristicas])
 	}
 	
 	def listadoTipoAjax = {
@@ -357,6 +418,36 @@ class ObjetoController {
 		redirect(action: "insertar2", id: caracteristicaInstance.id)*/
 	}
 	
+	def save_caracteristica2() {
+		System.out.println("entra: "+params)
+		session['numCaracteristica']=(Integer.parseInt(params.valor0)+1).toString()
+		session['numUnidades']=(Integer.parseInt(params.valor1)+1).toString()
+		
+		if (params.caracteristica1.equals("")) {
+		
+		} else {
+			try {
+				def nuevaCaracteristica = caracteristicaService.crearCaracteristica(params.caracteristica1, Integer.parseInt(params.unidadTexto))
+				System.out.println(nuevaCaracteristica!=null?nuevaCaracteristica.toString()+" ":"no está definida")
+				save_plantilla2(params.caracteristica1, Integer.parseInt(params.tipo1))
+			} catch (CaracteristicaException pe) {
+				//flash.message = pe.message
+				System.out.println(pe.message)
+			}
+		}
+	}
+	
+	def save_plantilla2(String caracteristica, int idTipo) {
+		try {
+			def nuevaPlantilla = plantillaService.crearPlantilla(caracteristica, idTipo)
+			plantillasAjax2()
+		} catch (PlantillaException pe) {
+			//flash.message = pe.message
+			System.out.println(pe.message)
+		}
+
+	}
+	
 	def save_plantilla(String caracteristica, int idTipo) {
 		try {
 			def nuevaPlantilla = plantillaService.crearPlantilla(caracteristica, idTipo)
@@ -398,6 +489,41 @@ class ObjetoController {
 		
 		
 		render (template:'forma', model: [plantillas:plantillas, mostrarCaracteristicas: mostrarCaracteristicas])
+	}
+	
+	
+	
+	def plantillasAjax2 = {
+		
+		def criterio = Plantilla.createCriteria()
+		def plantillas, mostrarCaracteristicas
+		
+		if (params.tipo==null) {
+			params.tipo=session["idTipo"]
+		}
+		if (criterio) {
+			
+			if (params.tipo.equals("")) {
+				params.tipo="-1"
+				mostrarCaracteristicas=2
+			} else {
+				mostrarCaracteristicas=1
+			}
+			plantillas = criterio.listDistinct {
+				tipo {
+					eq 'id', Long.parseLong(params.tipo)
+				}
+			}
+			System.out.println("Encontre "+plantillas.size())
+			
+		} else {
+			mostrarCaracteristicas=2
+			System.out.println("Problema")
+		}
+		session.setAttribute("idTipo", params.tipo)
+		
+		
+		render (controller: 'objeto', template:'mostrarFormValores2', model: [plantillas:plantillas, mostrarCaracteristicas: mostrarCaracteristicas])
 	}
 	
 	/*

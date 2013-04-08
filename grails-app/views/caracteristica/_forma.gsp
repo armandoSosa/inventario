@@ -43,6 +43,7 @@
 					</label>
 					<g:if test="${caracteristica}">
 						<g:textField id="caracteristica" name="caracteristica" required="" value="${caracteristica}"/>
+					
 					</g:if>
 					<g:else>
 						<g:textField id="caracteristica" name="caracteristica" required="" value="${caracteristicaInstance?.caracteristica}"/>
