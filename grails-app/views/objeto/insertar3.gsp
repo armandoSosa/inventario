@@ -11,6 +11,7 @@
 		<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.js?v=2.0.6')}"></script>
 		<g:javascript>
 			var caracteristicasAgregadas=0;
+			var tipoObjetoAgregados=0;
 			var unidadesAgregadas=0;
 			var cadenaCaracteristica="";
 			var cadenaValores='valor0=0';
@@ -49,6 +50,23 @@
 					});
 		    };
 		    
+		    var submitTipo = function()
+		    {
+		    	parametroTipoObjeto();
+		    	${ remoteFunction (controller:'objeto', action:'save_tipo2', id:'5', update:'divPrincipal', params: 'cadenaCaracteristica')}
+		    	tipoObjetoAgregados++;
+		    	$(inline).fadeOut("fast", function(){
+						$(this).before("Tipo de objeto agregado correctamente");
+						setTimeout("$.fancybox.close()", 1000);
+						$("#inline").html(html);
+					});
+				${remoteFunction(
+					   action: 'addPlantillasAjaxDescripcion',
+                       update: 'divplantilla1',
+					   onSuccess: 'divplantilla1',
+                       params: 'cadenaCaracteristica')}
+		    }
+		    
 		    var submitObjeto = function()
 		    {	
 		    	cadenaValores=cadenaValores.replace("valor0=0", "valor0="+numeros)+"&noInventario="+$("#noInventario").val()+"&tipoPropiedad="+$("#tipoPropiedad").val();
@@ -64,8 +82,17 @@
 		    	}
 			}
 			
+			function tipoSelect() {
+				alert($("#tipo"+tipoObjetoAgregados).val());
+				cadenaCaracteristica='valor2='+tipoObjetoAgregados+'&valor1='+unidadesAgregadas+'&valor0='+caracteristicasAgregadas+"&tipo="+$("#tipo"+tipoObjetoAgregados).val();
+			}
+			
 			function parametrosCaracteristicas(){
 		    	cadenaCaracteristica='valor1='+unidadesAgregadas+'&valor0='+caracteristicasAgregadas+"&caracteristica1="+$("#caracteristica"+caracteristicasAgregadas).val()+"&unidadTexto="+$("#unidad"+unidadesAgregadas).val()+"&tipo1="+$("#tipo1"+caracteristicasAgregadas).val();
+			}
+			
+			function parametroTipoObjeto(){
+		    	cadenaCaracteristica='valor2='+tipoObjetoAgregados+'&valor1='+unidadesAgregadas+'&valor0='+caracteristicasAgregadas+"&tipo1="+$("#tipoTexto"+tipoObjetoAgregados).val();
 			}
 
 			function guardarSoloCaracteristica() {
@@ -115,31 +142,6 @@
 			</g:form>
 		</div>
 		
-		
-		<!-- Agregar tipo de objeto -->
-		<div id="inline">
-			<div id="create-tipo" class="content scaffold-create" role="main">
-				<h1>Nuevo Tipo</h1>
-				<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-				</g:if>
-				<g:hasErrors bean="${tipoInstance}">
-				<ul class="errors" role="alert">
-					<g:eachError bean="${tipoInstance}" var="error">
-					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-					</g:eachError>
-				</ul>
-				</g:hasErrors>
-				<g:form action="save_tipo2" >
-					<fieldset class="form">
-						<g:render template="../tipo/forma2"/>
-					</fieldset>
-					<fieldset class="buttons">
-						<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-					</fieldset>
-				</g:form>
-			</div>
-		</div>
 		
 		
 

@@ -1,11 +1,13 @@
 package com.redoaxaca
 
+import java.lang.reflect.InvocationTargetException
 import org.springframework.dao.DataIntegrityViolationException
 
 class ObjetoController {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	def postService
+	def tipoService
 	def plantillaService
 	def valorService
 	def caracteristicaService
@@ -38,6 +40,9 @@ class ObjetoController {
 	def insertar3(Long id) {
 		session['numCaracteristica']="0"
 		session['numUnidades']="0"
+		session['numTipos']="0"
+		session['idTipo'] = 0
+		session['mostrarCaracteristicas']=0
 		def criterio = Plantilla.createCriteria()
 		def plantillas
 		if (criterio) {
@@ -263,15 +268,19 @@ class ObjetoController {
 		redirect(action: "insertar2", id: tipoInstance.id)
 	}
 	
-	def save_tipo2() {
-		def tipoInstance = new Tipo(params)
+	def save_tipo2()  {
+		System.out.println(params)
+		session['numTipos']=(Integer.parseInt(params.valor2)+1).toString()
+		def tipoInstance = new Tipo(descripcion: params.tipo1)
 		if (!tipoInstance.save(flush: true)) {
 			flash.message = "No se puede agregar el Tipo"
-			render(view: "insertar3")
+			render(view: "forma2")
 			return
 		}
-
-		redirect(action: "insertar3", id: tipoInstance.id)
+		tipoInstance = Tipo.findByDescripcion(params.tipo1)
+		session['idTipo'] = tipoInstance.id
+		System.out.println("paso")
+		render(controller:"objeto", template: "forma2")
 	}
 	
 	def addPlantillasAjax = {
@@ -307,7 +316,7 @@ class ObjetoController {
 	}
 	
 	def addPlantillasAjax2 = {
-		
+		System.out.println("addPlantillasAjax2 "+params)
 		def criterio = Plantilla.createCriteria()
 		def plantillas, mostrarCaracteristicas
 		
@@ -317,15 +326,15 @@ class ObjetoController {
 		
 		if (criterio) {
 			
-			if (params.tipo.equals("")) {
-				params.tipo="-1"
+			if (params.tipo1.equals("")) {
+				params.tipo1="-1"
 				mostrarCaracteristicas=2
 			} else {
 				mostrarCaracteristicas=1
 			}
 			plantillas = criterio.listDistinct {
 				tipo {
-					eq 'id', Long.parseLong(params.tipo)
+					eq 'id', Long.parseLong(params.tipo1)
 				}
 			}
 			System.out.println("Encontre "+plantillas.size())
@@ -334,8 +343,42 @@ class ObjetoController {
 			mostrarCaracteristicas=2
 			System.out.println("Problema")
 		}
-		session.setAttribute("idTipo", params.tipo)
+		session.setAttribute("idTipo", params.tipo1)
 		
+		render (template:'mostrarFormValores2', model: [plantillas:plantillas, mostrarCaracteristicas: mostrarCaracteristicas])
+	}
+	
+	def addPlantillasAjaxDescripcion = {
+		System.out.println("addPlantillasAjaxDescripcion "+params)
+		def criterio = Plantilla.createCriteria()
+		def plantillas, mostrarCaracteristicas
+		
+		if (params.tipo==null) {
+			params.tipo=session["idTipo"]
+		}
+		
+		if (criterio) {
+			
+			if (params.tipo1.equals("")) {
+				params.tipo1="-1"
+				mostrarCaracteristicas=2
+			} else {
+				mostrarCaracteristicas=1
+			}
+			plantillas = criterio.listDistinct {
+				tipo {
+					eq 'descripcion', params.tipo1
+				}
+			}
+			System.out.println("Encontre "+plantillas.size())
+			
+		} else {
+			mostrarCaracteristicas=2
+			System.out.println("Problema")
+		}
+		session.setAttribute("idTipo", (plantillas.size()>0?plantillas.get(0).tipo.id:params.tipo1))
+		session['mostrarCaracteristicas']=mostrarCaracteristicas
+		System.out.println("mostrarCaracteristicas "+session['mostrarCaracteristicas'])
 		render (template:'mostrarFormValores2', model: [plantillas:plantillas, mostrarCaracteristicas: mostrarCaracteristicas])
 	}
 	

@@ -7,5 +7,5 @@
 		<g:message code="tipo.descripcion.label" default="Descripción" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="descripcion" required="" value="${tipoInstance?.descripcion}"/>
+	<g:textField name="tipoTexto${session.numTipos}" required="" value=""/>
 </div>

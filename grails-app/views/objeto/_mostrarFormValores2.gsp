@@ -1,5 +1,9 @@
 <div id="divplantilla1" name="divplantilla1" class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipoPropiedad', 'error')} required">
-	<g:if test="${mostrarCaracteristicas && mostrarCaracteristicas==1}">
+	
+	
+	
+	
+	<g:if test="${(mostrarCaracteristicas && mostrarCaracteristicas==1) || session.mostrarCaracteristicas==1}">
 		<fieldset class="form">	
 			<legend>Agregar valores</legend>
 			<br>

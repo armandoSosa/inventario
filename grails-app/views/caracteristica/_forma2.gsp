@@ -2,7 +2,7 @@
 
 
 <div id="divUnidad${session.numUnidades}" class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'unidad', 'error')} required">
-
+	
 	<g:form controller="objeto" action="save_caracteristica" >
 			<fieldset class="form">
 				<div id="contenedorSelecTipo"
