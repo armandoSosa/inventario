@@ -33,13 +33,7 @@
 	<a class="modalbox" href="#inline">Nuevo Tipo</a>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'noInventario', 'error')} ">
-	<label for="noInventario">
-		<g:message code="objeto.noInventario.label" default="No Inventario" />
-		
-	</label>
-	<g:textField name="noInventario" value="${objetoInstance?.noInventario}"/>
-</div>
+
 
 
 <g:render template="mostrarFormValores2"/>
@@ -47,17 +41,7 @@
 
 
 
-<div
-	class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipoPropiedad', 'error')} required">
-	<label for="tipoPropiedad"> <g:message
-			code="objeto.tipoPropiedad.label" default="Tipo Propiedad" /> <span
-		class="required-indicator">*</span>
-	</label>
-	<g:select id="tipoPropiedad" name="tipoPropiedad.id"
-		from="${com.redoaxaca.TipoPropiedad.list()}" optionKey="id"
-		required="" value="${objetoInstance?.tipoPropiedad?.id}"
-		class="many-to-one" />
-</div>
+
 
 
 <!-- Agregar tipo de objeto -->

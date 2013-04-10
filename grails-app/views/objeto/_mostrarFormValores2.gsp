@@ -4,6 +4,29 @@
 	
 	
 	<g:if test="${(mostrarCaracteristicas && mostrarCaracteristicas==1) || session.mostrarCaracteristicas==1}">
+		<div class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'noInventario', 'error')} ">
+			<label for="noInventario">
+				<g:message code="objeto.noInventario.label" default="No Inventario" />
+				
+			</label>
+			<g:textField name="noInventario" value="${session.claveInventario}" disabled="true"/>
+		</div>
+		
+		
+		<div
+			class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipoPropiedad', 'error')} required">
+			<label for="tipoPropiedad"> <g:message
+					code="objeto.tipoPropiedad.label" default="Tipo Propiedad" /> <span
+				class="required-indicator">*</span>
+			</label>
+			<g:select id="tipoPropiedad" name="tipoPropiedad.id"
+				from="${com.redoaxaca.TipoPropiedad.list()}" optionKey="id"
+				required="" value="${session.tipoPropiedad}"
+				onChange="${session.tipoPropiedad=this.value }"
+				class="many-to-one" />
+		</div>
+		
+		
 		<fieldset class="form">	
 			<legend>Agregar valores</legend>
 			<br>
@@ -34,7 +57,14 @@
 			
 			
 		</fieldset>
+		
+		
+		
 	</g:if>
+	
+	
+	
+	
 	
 	
 	<!-- Agregar característica-->

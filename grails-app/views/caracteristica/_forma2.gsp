@@ -2,8 +2,6 @@
 
 
 <div id="divUnidad${session.numUnidades}" class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'unidad', 'error')} required">
-	
-	<g:form controller="objeto" action="save_caracteristica" >
 			<fieldset class="form">
 				<div id="contenedorSelecTipo"
 					class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipo', 'error')} required">
@@ -86,7 +84,6 @@
 				<a name="create" class="save" href="javascript:void(0)" onclick="submitCaracteristica();return false;">Crear</a>
 				<!--<g:submitButton name="create" class="save" value="Crear" />-->
 			</fieldset>
-	</g:form>
 	
 </div>
 

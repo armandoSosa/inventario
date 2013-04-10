@@ -40,14 +40,15 @@
 		    var submitCaracteristica = function()
 		    {	
 		    	parametrosCaracteristicas();
-		    	caracteristicasAgregadas++;
-		    	unidadesAgregadas++;
 		    	${ remoteFunction (controller:'objeto', action:'save_caracteristica2', id:'4', update:'divplantilla1', params: 'cadenaCaracteristica')}
 		    	$(inline2).fadeOut("fast", function(){
 						$(this).before("Característica agregada correctamente");
 						setTimeout("$.fancybox.close()", 1000);
 						$("#inline2").html(html);
 					});
+
+				caracteristicasAgregadas++;
+		    	unidadesAgregadas++;
 		    };
 		    
 		    var submitTipo = function()
