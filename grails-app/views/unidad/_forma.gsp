@@ -1,5 +1,6 @@
 <fieldset class="form">
 	<legend>Agregar unidad</legend>
+	
 	<div class="fieldcontain ${hasErrors(bean: unidadInstance, field: 'unidad', 'error')} ">
 		<label for="unidadTexto">
 			<g:message code="unidad.unidad.label" default="Unidad" />

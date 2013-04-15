@@ -6,9 +6,14 @@
 
 #inline { display: none; width: 600px; }
 #inline2 { display: none; width: 600px; }
+#inline20 { display: none; width: 600px; }
+#inline21 { display: none; width: 600px; }
+#inline22 { display: none; width: 600px; }
+#inline23 { display: none; width: 600px; }
 #inline3 { display: none; width: 600px; }
 #inline4 { display: none; width: 600px; }
 #inline5 { display: none; width: 600px; }
+.inline { display: none; width: 600px; }
 
 #send { 
 color: #dee5f0;

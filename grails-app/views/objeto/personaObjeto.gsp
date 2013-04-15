@@ -16,6 +16,23 @@
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'style.css')}" type="text/css">
 		<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.min.js')}"></script>
 		<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.js?v=2.0.6')}"></script>
+		<!-- basic fancybox setup -->
+		
+		<g:javascript>
+			var cerrar() = function() {
+			 	alert('hola');
+				
+			};
+		</g:javascript>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(".modalbox").fancybox();
+				$("#contact").submit(function() { return false; });
+				$("#send").on("click", function(){
+					
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<a href="#list-objeto" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -28,7 +45,8 @@
 		
 		
 		
-		<g:render template="listadoTipo"/>
+		<g:render template="buscarPersona"/>
+		
 		
 		
 		

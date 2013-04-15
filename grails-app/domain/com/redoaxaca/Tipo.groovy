@@ -4,6 +4,7 @@ class Tipo {
 
 
 	String descripcion
+	int noInventarioSeriado
 	static hasMany = [objetos: Objeto, plantilla : Plantilla]
 			
     static constraints = {

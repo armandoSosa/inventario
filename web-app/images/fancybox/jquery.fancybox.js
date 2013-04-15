@@ -24,7 +24,7 @@
 		isString	= function(str) {
 			return $.type(str) === "string";
 		},
-		isPercentage = function(str) {
+		isPercentage =function(str) {
 			return isString(str) && str.indexOf('%') > 0;
 		},
 		getValue = function(value, dim) {
@@ -100,7 +100,7 @@
 
 			// Properties for each animation type
 			// Opening fancyBox
-			openEffect: 'fade', // 'elastic', 'fade' or 'none'
+			openEffect: 'elastic', // 'elastic', 'fade' or 'none'
 			openSpeed: 300,
 			openEasing: 'swing',
 			openOpacity: true,

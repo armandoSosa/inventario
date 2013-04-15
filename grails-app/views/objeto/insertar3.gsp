@@ -10,32 +10,83 @@
 		<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.min.js')}"></script>
 		<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.js?v=2.0.6')}"></script>
 		<g:javascript>
+			var caracteristicasAgregadas=0;
+			var tipoObjetoAgregados=0;
+			var unidadesAgregadas=0;
+			var cadenaCaracteristica="";
 			var cadenaValores='valor0=0';
+			var divUnidadCadena="";
 			var numeros="";
-		    var addCaracteristica = function()
-		    {
-		         ${ remoteFunction (controller:'caracteristica', action:'addUnidadAjax', id:'2', update:'divUnidad', params: '\'caracteristica1=\' + caracteristica.value')}
+			
+		    var addCaracteristica = function() {
+		    	actualizarDiv();
+		    	guardarSoloCaracteristica();
+		    	//alert('divUnidad'+${session.numUnidades});
+		         ${ remoteFunction (controller:'caracteristica', action:'addUnidadAjax2', id:'2', update:'divUnidad', params: 'cadenaCaracteristica')}
+		    	unidadesAgregadas++;
 		    };
 		    
 		    var selectCaracteristica = function()
 		    {
-		         ${ remoteFunction (controller:'caracteristica', action:'addUnidadAjax', id:'1', update:'divUnidad', params: '\'caracteristica1=\' + caracteristica.value')}
+		    	actualizarDiv();
+		    	guardarSoloCaracteristica();
+		         ${ remoteFunction (controller:'caracteristica', action:'addUnidadAjax2', id:'1', update:'divUnidad', params: 'cadenaCaracteristica')}
+		    	unidadesAgregadas++;
 		    };
+		    
+		    function actualizarDiv(){
+		    	divUnidadCadena="divUnidad"+unidadesAgregadas;
+		    }
 		    
 		    var agregarUnidad = function()
 		    {
-		         ${ remoteFunction (controller:'caracteristica', action:'addUnidadAjax', id:'3', update:'divUnidad', params: '\'caracteristica1=\' + caracteristica.value+\'&unidadTexto=\' + unidadTexto.value')}
+		    	guardarCaracteristicaYUnidad();
+		    	unidadesAgregadas++;
+		         ${ remoteFunction (controller:'caracteristica', action:'addUnidadAjax2', id:'3', update:'divUnidad', params: 'cadenaCaracteristica')}
+		    	
 		    };
 		    
 		    var submitCaracteristica = function()
 		    {	
-		    	${ remoteFunction (controller:'objeto', action:'save_caracteristica', id:'4', update:'divplantilla1', params: '\'caracteristica1=\' + caracteristica.value+\'&unidadTexto=\' + unidad.value+\'&tipo1=\' + tipo1.value')}
-		    	$(inline2).fadeOut("fast", function(){
+		    	parametrosCaracteristicas();
+		    	
+		    	unidadesAgregadas++;
+		    	
+		    	${ remoteFunction (controller:'objeto', action:'save_caracteristica2', id:'4', update:'divplantilla1'+session.numUnidades, params: 'cadenaCaracteristica')}
+		    	
+		    	$("#inlinee"+caracteristicasAgregadas).fadeOut("fast", function(){
 						$(this).before("Característica agregada correctamente");
 						setTimeout("$.fancybox.close()", 1000);
-						$("#inline2").html(html);
+						
 					});
+					caracteristicasAgregadas++;
+				
+				
 		    };
+		    
+		    var submitTipo = function()
+		    {
+		    	parametroTipoObjeto();
+		    	tipoObjetoAgregados++;
+		    	unidadesAgregadas++;
+		    	${ remoteFunction (controller:'objeto', action:'save_tipo2', id:'5', update:'divPrincipal', params: 'cadenaCaracteristica')}
+		    	
+		    	
+		    	$(inline).fadeOut("fast", function(){
+						$(this).before("Tipo de objeto agregado correctamente");
+						setTimeout("$.fancybox.close()", 1000);
+						$("#inline").html(html);
+						
+					});
+				
+				
+				${remoteFunction(
+					   action: 'addPlantillasAjaxDescripcion',
+                       update: 'divplantilla1'+session.numUnidades,
+					   onSuccess: 'divplantilla1'+session.numUnidades,
+                       params: 'cadenaCaracteristica')}
+                       
+		    }
 		    
 		    var submitObjeto = function()
 		    {	
@@ -50,6 +101,27 @@
 		    		cadenaValores+="&"+cadena+"="+$("#"+cadena).val();
 		    		numeros+=cadena+",";
 		    	}
+			}
+			function tipoSelect() {
+				alert($("#tipo"+tipoObjetoAgregados).val());
+				cadenaCaracteristica='valor2='+unidadesAgregadas+'&valor1='+unidadesAgregadas+'&valor0='+caracteristicasAgregadas+"&tipo="+$("#tipo"+unidadesAgregadas).val();
+			}
+			
+			function parametrosCaracteristicas(){
+		    	cadenaCaracteristica='valor1='+unidadesAgregadas+'&valor0='+caracteristicasAgregadas+"&caracteristica1="+$("#caracteristica"+unidadesAgregadas).val()+"&unidadTexto="+$("#unidad"+unidadesAgregadas).val()+"&tipo1="+$("#tipo1"+unidadesAgregadas).val();
+			}
+			
+			function parametroTipoObjeto(){
+		    	cadenaCaracteristica='valor2='+unidadesAgregadas+'&valor1='+unidadesAgregadas+'&valor0='+caracteristicasAgregadas+"&tipo1="+$("#tipoTexto"+unidadesAgregadas).val();
+			}
+
+			function guardarSoloCaracteristica() {
+				//alert($("#caracteristica"+unidadesAgregadas).val());
+				cadenaCaracteristica='valor1='+unidadesAgregadas+'&valor0='+caracteristicasAgregadas+"&caracteristica1="+$("#caracteristica"+unidadesAgregadas).val()+'&divUnidad='+${session.numUnidades};
+			}
+			
+			function guardarCaracteristicaYUnidad() {
+				cadenaCaracteristica='valor1='+unidadesAgregadas+'&valor0='+caracteristicasAgregadas+"&caracteristica1="+$("#caracteristica"+unidadesAgregadas).val()+"&unidadTexto="+$("#unidadTexto"+unidadesAgregadas).val();
 			}
 			
 			function reloadPage() {
@@ -82,7 +154,7 @@
 			</g:hasErrors>
 			<g:form action="save_objeto" >
 				<fieldset class="form">
-					<g:render template="forma"/>
+					<g:render template="forma2"/>
 				</fieldset>
 				<fieldset class="buttons">
 					<a name="create" class="save" href="javascript:void(0)" onclick="submitObjeto();return false;">CrearObj</a>
@@ -91,31 +163,6 @@
 			</g:form>
 		</div>
 		
-		
-		<!-- Agregar tipo de objeto -->
-		<div id="inline">
-			<div id="create-tipo" class="content scaffold-create" role="main">
-				<h1>Nuevo Tipo</h1>
-				<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-				</g:if>
-				<g:hasErrors bean="${tipoInstance}">
-				<ul class="errors" role="alert">
-					<g:eachError bean="${tipoInstance}" var="error">
-					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-					</g:eachError>
-				</ul>
-				</g:hasErrors>
-				<g:form action="save_tipo" >
-					<fieldset class="form">
-						<g:render template="../tipo/forma"/>
-					</fieldset>
-					<fieldset class="buttons">
-						<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-					</fieldset>
-				</g:form>
-			</div>
-		</div>
 		
 		
 
