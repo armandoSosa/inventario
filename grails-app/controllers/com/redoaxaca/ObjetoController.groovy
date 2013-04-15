@@ -57,6 +57,26 @@ class ObjetoController {
 		return [idTipo : id]
 	}
 	
+	def insertar4(Long id) {
+		session['numCaracteristica']="0"
+		session['numUnidades']="0"
+		session['numTipos']="0"
+		session['idTipo'] = 0
+		session['mostrarCaracteristicas']=0
+		def criterio = Plantilla.createCriteria()
+		def plantillas
+		if (criterio) {
+			plantillas = criterio.listDistinct {
+				tipo {
+					eq 'id', id
+				}
+			}
+			System.out.println("Encontré "+plantillas.size())
+			
+		}
+		return [idTipo : id]
+	}
+	
 	def listadoPorTipo() {
 
 	}
@@ -271,7 +291,50 @@ class ObjetoController {
 	def save_tipo2()  {
 		System.out.println(params)
 		session['numTipos']=(Integer.parseInt(params.valor2)+1).toString()
-		def tipoInstance = new Tipo(descripcion: params.tipo1)
+		
+		//Buscamos si hay tipos en el que los tres primeros caracteres sean iguales para asignar el número especial de inventario
+		def criterio = Tipo.createCriteria()
+		
+
+		/*def tipos = criterio.listDistinct {
+			like "descripcion", params.tipo1.substring(0, 3)+"%"
+		}*/
+		def tipos = criterio.listDistinct {
+			ilike "descripcion", params.tipo1.substring(0, 3)+"%"
+		}
+		
+		System.out.println("tipos size "+(tipos.size()+1))
+		def tipoInstance = new Tipo(descripcion: params.tipo1, noInventarioSeriado: (tipos.size()+1))
+		System.out.println("El tamaño que se le agregó al tipo es de "+tipoInstance.noInventarioSeriado)
+		if (!tipoInstance.save(flush: true)) {
+			flash.message = "No se puede agregar el Tipo"
+			render(view: "forma2")
+			return
+		}
+		tipoInstance = Tipo.findByDescripcion(params.tipo1)
+		session['idTipo'] = tipoInstance.id
+		System.out.println("paso y tipo es: "+session['idTipo'])
+		render(controller:"objeto", template: "forma2")
+	}
+	
+	def save_tipo3()  {
+		System.out.println(params)
+		session['numTipos']=(Integer.parseInt(params.valor2)+1).toString()
+		
+		//Buscamos si hay tipos en el que los tres primeros caracteres sean iguales para asignar el número especial de inventario
+		def criterio = Tipo.createCriteria()
+		
+
+		/*def tipos = criterio.listDistinct {
+			like "descripcion", params.tipo1.substring(0, 3)+"%"
+		}*/
+		def tipos = criterio.listDistinct {
+			ilike "descripcion", params.tipo1.substring(0, 3)+"%"
+		}
+		
+		System.out.println("tipos size "+(tipos.size()+1))
+		def tipoInstance = new Tipo(descripcion: params.tipo1, noInventarioSeriado: (tipos.size()+1))
+		System.out.println("El tamaño que se le agregó al tipo es de "+tipoInstance.noInventarioSeriado)
 		if (!tipoInstance.save(flush: true)) {
 			flash.message = "No se puede agregar el Tipo"
 			render(view: "forma2")
@@ -325,6 +388,7 @@ class ObjetoController {
 		def criterioObjetos = Objeto.createCriteria()
 		def plantillas, objetos, mostrarCaracteristicas
 		def claveInventario=""
+		def tipoObj = Tipo.findById(Long.parseLong(params.tipo1))
 		System.out.println("recibo: "+params.tipo1)
 		
 		if (params.tipo1==null) {
@@ -373,6 +437,7 @@ class ObjetoController {
 					} else {
 						claveInventario=tipo.descripcion
 					}
+					
 					numObjetosPorTipo="1"
 				}
 				
@@ -386,8 +451,8 @@ class ObjetoController {
 					aux+="0"
 				}
 				numObjetosPorTipo=aux+numObjetosPorTipo
-				
-				claveInventario+=numObjetosPorTipo
+				claveInventario=claveInventario.toUpperCase()+"-"
+				claveInventario+=numObjetosPorTipo+"-"+tipoObj.noInventarioSeriado.toString()
 			}
 			session.setAttribute("claveInventario", claveInventario)
 			System.out.println("numInventario: "+claveInventario)			
@@ -400,6 +465,91 @@ class ObjetoController {
 
 		
 		render (template:'mostrarFormValores2', model: [plantillas:plantillas, mostrarCaracteristicas: mostrarCaracteristicas, claveInventario:claveInventario])
+	}
+	
+	def addPlantillasAjax3 = {
+		System.out.println("addPlantillasAjax2 "+params)
+		def criterio = Plantilla.createCriteria()
+		def criterioObjetos = Objeto.createCriteria()
+		def plantillas, objetos, mostrarCaracteristicas
+		def claveInventario=""
+		def tipoObj = Tipo.findById(Long.parseLong(params.tipo1))
+		System.out.println("recibo: "+params.tipo1)
+		
+		if (params.tipo1==null) {
+			params.tipo1="-1"
+		}
+		
+		if (criterio) {
+			
+			if (params.tipo1.equals("")) {
+				params.tipo1="-1"
+				mostrarCaracteristicas=2
+				session.setAttribute("mostrarCaracteristicas", 2)
+			} else {
+				mostrarCaracteristicas=1
+			}
+			plantillas = criterio.listDistinct {
+				tipo {
+					eq 'id', Long.parseLong(params.tipo1)
+				}
+			}
+			System.out.println("Encontre "+plantillas.size())
+			
+			//Definimos el número de inventario de acuerdo al tipo de objeto
+			objetos = criterioObjetos.listDistinct {
+				tipo {
+					eq 'id', Long.parseLong(params.tipo1)
+				}
+			}
+			def numObjetosPorTipo
+			if (objetos) {
+				def tipoDescripcion=objetos.get(0).tipo.descripcion
+				if (tipoDescripcion.length()>=3) {
+					claveInventario=tipoDescripcion.substring(0, 3)
+				} else {
+					claveInventario=tipoDescripcion
+				}
+				numObjetosPorTipo = (objetos.size()+1).toString() //agregamos más uno porque será el nuevo objeto que se agregue
+				
+			} else {
+				System.out.println("Objeto no definido, idTipo: "+params.tipo1)
+				//localizamos el tipo del que se trata el objeto
+				if (!params.tipo1.equals("-1")) {
+					def tipo = Tipo.findById(Long.parseLong(params.tipo1))
+					if (tipo.descripcion.length()>=3) {
+						claveInventario=tipo.descripcion.substring(0, 3)
+					} else {
+						claveInventario=tipo.descripcion
+					}
+					
+					numObjetosPorTipo="1"
+				}
+				
+				
+				
+			}
+			
+			if (!params.tipo1.equals("-1")) {
+				def aux=""
+				while (numObjetosPorTipo.length()+aux.length()<5) {
+					aux+="0"
+				}
+				numObjetosPorTipo=aux+numObjetosPorTipo
+				claveInventario=claveInventario.toUpperCase()+"-"
+				claveInventario+=numObjetosPorTipo+"-"+tipoObj.noInventarioSeriado.toString()
+			}
+			session.setAttribute("claveInventario", claveInventario)
+			System.out.println("numInventario: "+claveInventario)
+		} else {
+			mostrarCaracteristicas=2
+			session.setAttribute("mostrarCaracteristicas", 2)
+			System.out.println("Problema")
+		}
+		session.setAttribute("idTipo", params.tipo1)
+
+		
+		render (template:'mostrarFormValores3', model: [plantillas:plantillas, mostrarCaracteristicas: mostrarCaracteristicas, claveInventario:claveInventario])
 	}
 	
 	def addPlantillasAjaxDescripcion = {
@@ -452,6 +602,7 @@ class ObjetoController {
 				} else {
 					claveInventario=tipoDescripcion
 				}
+				
 				numObjetosPorTipo = (objetos.size()+1).toString() //agregamos más uno porque será el nuevo objeto que se agregue
 				
 				
@@ -479,8 +630,10 @@ class ObjetoController {
 				aux+="0"
 			}
 			numObjetosPorTipo=aux+numObjetosPorTipo
-				
-			claveInventario+=numObjetosPorTipo
+			claveInventario=claveInventario.toUpperCase()+"-"
+			
+			claveInventario+=numObjetosPorTipo+"-"+tipoObj.noInventarioSeriado.toString()
+			
 			session.setAttribute("claveInventario", claveInventario)
 			System.out.println("numInventario: "+claveInventario)
 			
@@ -523,6 +676,21 @@ class ObjetoController {
 		}
 		
 		render (template:'tablaPorTipo', model: [ objetos: objetos , objetoMayor:objetoMayor])
+		
+	}
+	
+	def buscarPersona = {
+		System.out.println("entro ajax "+params.valorABuscar)
+		def personas
+		if (!params.valorABuscar.equals("")){
+			def criterio = Persona.createCriteria()
+			personas = criterio.listDistinct {
+					ilike ('numeroEmpleado', "%"+params.valorABuscar+"%")
+					
+			}
+		}
+		
+		render (template:'resultadosBusquedaPersona', model: [ personas: personas])
 		
 	}
 	
@@ -668,8 +836,16 @@ class ObjetoController {
 			mostrarCaracteristicas=2
 			System.out.println("Problema")
 		}
+		
+		
+		
 		session.setAttribute("idTipo", params.tipo)
 		
+		try {
+			Thread.sleep(2000);
+		} catch(InterruptedException e) {
+		
+		}
 		
 		render (controller: 'objeto', template:'mostrarFormValores2', model: [plantillas:plantillas, mostrarCaracteristicas: mostrarCaracteristicas])
 	}
@@ -774,6 +950,17 @@ class ObjetoController {
 			return
 			
 		}
+	
+	def personaObjeto() {
+		session.setAttribute("persona", new Persona())
+	}
+	
+	def infoPersona(Long id) {
+		System.out.println("recibo de numero de empleado: "+id)
+		def persona = Persona.findByNumeroEmpleado(id.toString())
+		System.out.println("nombre: "+persona.nombre)
+		render(template:'infoPersonaEncontrada', model: [persona:persona])		
+	}
 	
 }
 

@@ -184,6 +184,7 @@ class CaracteristicaController {
 		session['numUnidades']=(Integer.parseInt(params.valor1)+1).toString()
 		if (params.id.equals("1") || params.id.equals("2")) {
 			//canceló o agregó nuevo
+			
 			render (controller:'caracteristica', template:'forma2', model: [agregarUnidad: params.id, caracteristica:params['caracteristica1']])
 		} else if (params.id.equals("3")){
 			
@@ -199,7 +200,7 @@ class CaracteristicaController {
 			} catch (UnidadException pe) {
 				flash.message = pe.message
 			}
-
+			
 			render (controller:'caracteristica', template:'forma2', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1, unidadId:nuevaUnidad.id])
 		}
 	}
