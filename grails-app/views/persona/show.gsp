@@ -102,6 +102,17 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${personaInstance?.telefonos}">
+				<li class="fieldcontain">
+					<span id="telefonos-label" class="property-label"><g:message code="persona.telefonos.label" default="Telefonos" /></span>
+					
+						<g:each in="${personaInstance.telefonos}" var="t">
+						<span class="property-value" aria-labelledby="telefonos-label"><g:link controller="telefono" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${personaInstance?.direcciones}">
 				<li class="fieldcontain">
 					<span id="direcciones-label" class="property-label"><g:message code="persona.direcciones.label" default="Direcciones" /></span>
@@ -141,17 +152,6 @@
 					
 						<g:each in="${personaInstance.subordinado}" var="s">
 						<span class="property-value" aria-labelledby="subordinado-label"><g:link controller="persona" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.telefonos}">
-				<li class="fieldcontain">
-					<span id="telefonos-label" class="property-label"><g:message code="persona.telefonos.label" default="Telefonos" /></span>
-					
-						<g:each in="${personaInstance.telefonos}" var="t">
-						<span class="property-value" aria-labelledby="telefonos-label"><g:link controller="telefono" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 				</li>

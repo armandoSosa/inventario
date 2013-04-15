@@ -74,6 +74,23 @@
 	<input type="file" id="foto" name="foto" />
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'telefonos', 'error')} required">
+	<label for="telefonos">
+		<g:message code="persona.telefonos.label" default="Telefonos" />
+		<span class="required-indicator">*</span>
+	</label>
+	
+<ul class="one-to-many">
+<g:each in="${personaInstance?.telefonos?}" var="t">
+    <li><g:link controller="telefono" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
+</g:each>
+<li class="add">
+<g:link controller="telefono" action="create" params="['persona.id': personaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'telefono.label', default: 'Telefono')])}</g:link>
+</li>
+</ul>
+
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'direcciones', 'error')} ">
 	<label for="direcciones">
 		<g:message code="persona.direcciones.label" default="Direcciones" />
@@ -131,23 +148,6 @@
 		
 	</label>
 	<g:select name="subordinado" from="${com.redoaxaca.Persona.list()}" multiple="multiple" optionKey="id" size="5" value="${personaInstance?.subordinado*.id}" class="many-to-many"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'telefonos', 'error')} ">
-	<label for="telefonos">
-		<g:message code="persona.telefonos.label" default="Telefonos" />
-		
-	</label>
-	
-<ul class="one-to-many">
-<g:each in="${personaInstance?.telefonos?}" var="t">
-    <li><g:link controller="telefono" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
-</g:each>
-<li class="add">
-<g:link controller="telefono" action="create" params="['persona.id': personaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'telefono.label', default: 'Telefono')])}</g:link>
-</li>
-</ul>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'usuarios', 'error')} ">

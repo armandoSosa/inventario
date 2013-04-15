@@ -10,8 +10,8 @@ class Persona {
 	String rfc
 	Date fechaNacimiento
 	String email
+	List telefonos = new ArrayList()
 	
-		
 	static hasMany = [subordinado: Persona, objetosPersona: ObjetoPersona, puestosPersona: PuestoPersona, direcciones: Direccion, telefonos: Telefono, usuarios: Usuario]
     
 	static constraints = {
@@ -24,13 +24,25 @@ class Persona {
 		fechaNacimiento(blank: false)
 		email(email:true)		
 		foto(nullable: true, maxSize:1048576)
+		telefonos(nullable:false)
     }
+		
 	/*
 	static mapping = {
 		foto column:"foto", sqlType: "blob"
 	}*/
 	
+	static mapping = {
+		telefonos cascade:"all-delete-orphan"
+	}
+ 
+	def getTelefonosList() {
+		return LazyList.decorate(
+			  telefonos,
+			  FactoryUtils.instantiateFactory(Telefono.class))
+	}
+	
 	String toString() {
-		"${numeroEmpleado}"
+		"${numeroEmpleado}: "+"${nombre} " + "${paterno} " + "${materno} " 
 	}
 }

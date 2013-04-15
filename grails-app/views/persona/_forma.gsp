@@ -1,5 +1,4 @@
 <%@ page import="com.redoaxaca.Persona" %>
-<g:setProvider library="jquery"/>
 
 <fieldset>
 <legend>Información personal</legend>
