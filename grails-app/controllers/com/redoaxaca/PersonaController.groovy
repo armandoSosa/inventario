@@ -1,5 +1,7 @@
 package com.redoaxaca
 
+import java.awt.print.Printable;
+
 import org.springframework.dao.DataIntegrityViolationException
 
 class PersonaController {
@@ -26,10 +28,26 @@ class PersonaController {
 		
 	}
 	
+	def insertar2(Long id){
+		session["estado"] = 0
+		session["persona"] = true
+		[idEstado : id, personaInstance: new Persona(params), municipioInstance: new Municipio(params), estadoInstance: new Estado(params), telefonoInstance: new Telefono(params) ]
+	}
+	
+	def renderImage = {
+		def user = Persona.findById(params.id)	    
+		if (user?.foto) {
+		response.setContentLength(user.foto.length)
+		response.outputStream.write(user.foto)
+		} else {
+		response.sendError(404)
+		}
+	}
+	
 	def insertar(Long id) {
 		session["estado"] = 0
 		session["persona"] = true
-		[idEstado : id, personaInstance: new Persona(params), municipioInstance: new Municipio(params), estadoInstance: new Estado(params) ]
+		[idEstado : id, personaInstance: new Persona(params), municipioInstance: new Municipio(params), estadoInstance: new Estado(params), telefonoInstance: new Telefono(params) ]
 	}
 	
 	def empleados(Integer max) {
@@ -55,27 +73,37 @@ class PersonaController {
 
     def save_persona() {
         def personaInstance = new Persona(params)
-		def direccionInstance = new Direccion(params)
-		def telefonoInstance = new Telefono(params)
-		telefonoInstance.fecha = new Date()		
-		telefonoInstance.persona = personaInstance
+		def direccionInstance = new Direccion(params)		
 		direccionInstance.fecha = new Date()
 		direccionInstance.persona = personaInstance
-		 		
+		
+		personaInstance.properties = params		
+				
+	   // find the phones that are marked for deletion
+	   def _toBeDeleted = personaInstance.telefonos.findAll {(it?.deleted || (it == null))}
+		
+	   // if there are phones to be deleted remove them all
+	   if (_toBeDeleted) {
+		   personaInstance.telefonos.removeAll(_toBeDeleted)
+	   }
+	   
+	   personaInstance.telefonos.eachWithIndex(){tel, i ->
+		   tel.fecha = new Date()		   
+		   tel.index = i		   
+	   }
+			  
         if (!personaInstance.save(flush: true)) {
-            render(view: "insertar", model: [personaInstance: personaInstance, direccionInstance: direccionInstance ])
+            render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance ])
             return
         }
 		
 		if(!direccionInstance.save(flush: true)){
-			render(view: "insertar", model: [personaInstance: personaInstance, direccionInstance: direccionInstance])
+			render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance])
 			return 
 		}
 		
-		if (!telefonoInstance.save(flush: true)) {
-			render(view: "insertar", model: [personaInstance: personaInstance, direccionInstance: direccionInstance ])
-			return
-		}
+		System.out.println(personaInstance.telefonos.size())
+		
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'persona.label', default: 'Persona'), personaInstance.id])
         redirect(action: "empleados")
@@ -85,11 +113,11 @@ class PersonaController {
 		def estadoInstance = new Estado(params)		
 		if (!estadoInstance.save(flush: true)) {
 			flash.message = "No se puede agregar el Estado"
-			render(view: "insertar")
+			render(view: "insertar2")
 			return
 		}
 		//render(view: "insertar", model: [idEstado:estadoInstance.id, idMunicipio: -1])
-		redirect(action:'insertar', params: [idEstado: estadoInstance.id, idMunicipio: -1])
+		redirect(action:'insertar2', params: [idEstado: estadoInstance.id, idMunicipio: -1])
 		//redirect(action: "insertar", id: estadoInstance.id)
 	}
 	

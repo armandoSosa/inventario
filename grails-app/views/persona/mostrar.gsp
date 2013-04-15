@@ -98,7 +98,7 @@
 				<g:if test="${personaInstance?.foto}">
 				<li class="fieldcontain">
 					<span id="foto-label" class="property-label"><g:message code="persona.foto.label" default="Foto" /></span>
-					
+					<img src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>"/>
 				</li>
 				</g:if>
 			

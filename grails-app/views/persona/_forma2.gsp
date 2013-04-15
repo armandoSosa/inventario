@@ -1,4 +1,5 @@
 <%@ page import="com.redoaxaca.Persona" %>
+<g:setProvider library="jquery"/>
 
 <fieldset>
 <legend>Información personal</legend>
@@ -66,22 +67,17 @@
 	<g:field type="email" name="email" value="${personaInstance?.email}"/>
 </div>
 
-
-<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'telefono', 'error')} ">
-	<label for="telefono">
-		<g:message code="telefono.telefono.label" default="Telefono" />
-		
-	</label>
-	<g:textField name="telefono" value="${telefonoInstance?.telefono}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'tipoTelefono', 'error')} required">
-	<label for="tipoTelefono">
-		<g:message code="telefono.tipoTelefono.label" default="Tipo Telefono" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="tipoTelefono" name="tipoTelefono.id" from="${com.redoaxaca.TipoTelefono.list()}" noSelection="['':'Seleccione un tipo de telefono']" optionKey="id" required="" value="${telefonoInstance?.tipoTelefono?.id}" class="many-to-one"/>
-	<a class="modalbox" href="#inline3">Nuevo Tipo de Teléfono</a>
+<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'telefono', 'error')} ">	
+	<table>
+		<tbody>			
+			<tr class="prop">
+				<td valign="top" class="name"><label for="books">Teléfono:</label></td>
+				<td valign="top" class="value ${hasErrors(bean:personaInstance,field:'persona','errors')}">
+				<g:render template="phones" model="['personaInstance':personaInstance]" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'foto', 'error')} required">

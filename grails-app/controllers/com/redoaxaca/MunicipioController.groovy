@@ -67,10 +67,10 @@ class MunicipioController {
 		def municipioInstance = new Municipio(params)
 		if (!municipioInstance.save(flush: true)) {
 			flash.message = "No se puede agregar el Municipio"
-			render(view: "insertar")
+			render(view: "insertar2")
 			return
 		}
-		redirect(action: "insertar", controller: "persona", params:[idEstado: params.ciudad.id, idMunicipio: municipioInstance.id])
+		redirect(action: "insertar2", controller: "persona", params:[idEstado: params.ciudad.id, idMunicipio: municipioInstance.id])
 	}
 	
 	def save_estado() {
