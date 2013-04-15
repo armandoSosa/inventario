@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main"/>
+		<meta name="layout" content="metro"/>
 		<title>Bienvenido a Inventarios</title>
-		
 	</head>
 	<body>
 		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -21,7 +20,6 @@
 		</div>
 		<div id="page-body" role="main">
 			<h1>Bienvenido a Inventarios</h1>
-			
 			<a href="persona/tipoPersona">Personas</a>
 			<br>
 			<a href="objeto/menu">Objetos</a>
@@ -29,9 +27,6 @@
 			<a href="departamento/menu">Departamentos</a>
 			<br>
 			<a href="reporte">Reportes</a>
-
-			
-			
 		</div>
 	</body>
 </html>
