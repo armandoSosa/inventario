@@ -11,6 +11,7 @@ class Persona {
 	Date fechaNacimiento
 	String email
 	List telefonos = new ArrayList()
+	List objetosPersona = new ArrayList()
 	
 	static hasMany = [subordinado: Persona, objetosPersona: ObjetoPersona, puestosPersona: PuestoPersona, direcciones: Direccion, telefonos: Telefono, usuarios: Usuario]
     
@@ -25,6 +26,7 @@ class Persona {
 		email(email:true)		
 		foto(nullable: true, maxSize:1048576)
 		telefonos(nullable:false)
+		objetosPersona(nullable:true)
     }
 		
 	/*
@@ -33,13 +35,19 @@ class Persona {
 	}*/
 	
 	static mapping = {
-		telefonos cascade:"all-delete-orphan"
+		telefonos cascade:"all-delete-orphan"		
 	}
  
 	def getTelefonosList() {
 		return LazyList.decorate(
 			  telefonos,
 			  FactoryUtils.instantiateFactory(Telefono.class))
+	}
+	
+	def getObjetosPersonaList() {
+		return LazyList.decorate(
+			  objetosPersona,
+			  FactoryUtils.instantiateFactory(ObjetosPersona.class))
 	}
 	
 	String toString() {
