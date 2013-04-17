@@ -19,7 +19,7 @@ class ObjetoPersonaController {
 	}
 	
 	def insertar = {
-	
+		[objetoPersonaInstance: new ObjetoPersona(params), personaInstance: new Persona(params)]
 	}
 	
 	
@@ -41,6 +41,33 @@ class ObjetoPersonaController {
 		}
 		
 		return [ objetosPersona: objetosPersona, persona: persona]
+	}
+	
+	def save_objetoPersona(){
+		def personaInstance = Persona.findById(params.persona.id)
+		
+		
+		personaInstance.properties = params
+		
+		// find the phones that are marked for deletion
+		def _toBeDeleted = personaInstance.telefonos.findAll {(it?.deleted || (it == null))}
+		 
+		// if there are phones to be deleted remove them all
+		if (_toBeDeleted) {
+			personaInstance.telefonos.removeAll(_toBeDeleted)
+		}
+		
+		personaInstance.objetosPersona.eachWithIndex(){objeto, i ->
+			objeto.fechaInicio = new Date()
+			objeto.index = i				
+		}
+			   
+		 if (!personaInstance.save(flush: true)) {
+			 render(view: "insertar", model: [personaInstance: personaInstance])
+			 return
+		 }
+		 
+		redirect(action: "list")
 	}
 	
 	def save_objeto_persona(){
