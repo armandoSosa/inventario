@@ -222,14 +222,14 @@
 				ul.pureCssMenu a:hover ul ul,ul.pureCssMenu a:hover a:hover ul ul{display:none}
 				ul.pureCssMenu span{
 					display:block;
-					background-image:url(./images/menuCss/arrow_sub5.gif);
+					background-image:url(/images/menuCss/arrow_sub5.gif);
 					background-position:right center;
 					background-repeat: no-repeat;
 				   padding-right:14px;}
-				ul.pureCssMenu ul span,ul.pureCssMenu a:hover table span{background-image:url(./images/menuCss/arrow_sub2.gif)}
-				ul.pureCssMenu ul li:hover > a span{	background-image:url(./images/menuCss/arrow_sub5.gif);}
-				ul.pureCssMenu table a:hover span,ul.pureCssMenu table a:hover a:hover span,ul.pureCssMenu table a:hover a:hover a:hover span{background-image:url(./images/menuCss/arrow_sub5.gif)}
-				ul.pureCssMenu table a:hover table span,ul.pureCssMenu table a:hover a:hover table span{background-image:url(./images/menuCss/arrow_sub2.gif)}
+				ul.pureCssMenu ul span,ul.pureCssMenu a:hover table span{background-image:url(/images/menuCss/arrow_sub2.gif)}
+				ul.pureCssMenu ul li:hover > a span{	background-image:url(/images/menuCss/arrow_sub5.gif);}
+				ul.pureCssMenu table a:hover span,ul.pureCssMenu table a:hover a:hover span,ul.pureCssMenu table a:hover a:hover a:hover span{background-image:url(/images/menuCss/arrow_sub5.gif)}
+				ul.pureCssMenu table a:hover table span,ul.pureCssMenu table a:hover a:hover table span{background-image:url(/images/menuCss/arrow_sub2.gif)}
 				</style>
 				<!-- End PureCSSMenu.com STYLE -->
 			</style>
@@ -237,8 +237,7 @@
 		<g:layoutHead/>
 		<r:layoutResources />
 	</head>
-	<body class="modern-ui">
-	
+	<body class="modern-ui">	
 		<div class="page">
 			 <div class="page-region">
              	<div class="page-region-content">
