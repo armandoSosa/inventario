@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
+		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'objeto.label', default: 'Objeto')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 		<link rel="stylesheet" href="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.css')}" type="text/css">
@@ -60,8 +60,6 @@
 						
 					});
 					caracteristicasAgregadas++;
-				
-				
 		    };
 		    
 		    var submitTipo = function()
@@ -140,8 +138,9 @@
 				<li><g:link class="list" action="listadoPorTipo"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
+		
 		<div id="create-objeto" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+			<h1 class="titulo">Crear Objeto</h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>

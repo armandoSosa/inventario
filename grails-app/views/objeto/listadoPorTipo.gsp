@@ -1,17 +1,10 @@
-
-
-
-
 <%@ page import="com.redoaxaca.Objeto" %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
+		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'objeto.label', default: 'Objeto')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'objeto.label', default: 'Objeto')}" />
-		<title><g:message code="default.create.label" args="[entityName]" /></title>
 		<link rel="stylesheet" href="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.css')}" type="text/css">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'style.css')}" type="text/css">
 		<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.min.js')}"></script>
@@ -24,13 +17,7 @@
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="insertar3"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
-		</div>
-		
-		
-		
+		</div>		
 		<g:render template="listadoTipo"/>
-		
-		
-		
 	</body>
 </html>

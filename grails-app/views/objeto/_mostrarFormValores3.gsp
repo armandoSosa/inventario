@@ -24,7 +24,8 @@
 		</div>
 		
 		
-		<fieldset class="form">	
+		<fieldset class="form">
+			
 			<legend>Agregar valores</legend>
 			<br>
 			<g:if test="${plantillas}">

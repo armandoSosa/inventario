@@ -1,37 +1,36 @@
 <!DOCTYPE html>
-<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"><!--<![endif]-->
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		
 		<title><g:layoutTitle default="Grails"/></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="${resource(dir: 'css/metro/public/css', file: 'site.css')}" type="text/css">
 		<link rel="stylesheet" href="${resource(dir: 'css/metro/public/css', file: 'modern.css')}" type="text/css">
 		<link rel="stylesheet" href="${resource(dir: 'css/metro/public/css', file: 'modern-responsive.css')}" type="text/css">
-		<g:javascript src="metro/dropdown.js" />
+		<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
+		
+		<g:javascript src="metro/dropdown.js"/>
+		<g:javascript src="metro/jquery-1.8.2.min.js"/>
+		<g:javascript src="metro/google-analytics.js"/>
+		<g:javascript src="metro/github.info.js"/>
+		
 		<g:javascript type="text/javascript">
-				    function getWindowsSize(){
-				        $("#sizeX").html('W: '+$(window).width());
-				        $("#sizeY").html('H: '+$(window).height());
-				    }
-				    $(function(){
-				        getWindowsSize();
-				        $(window).resize(function(){
-				            getWindowsSize()
-				        });
-				    })
+			 function getWindowsSize(){
+			        $("#sizeX").html('W: '+$(window).width());
+			        $("#sizeY").html('H: '+$(window).height());
+			    }
+			    $(function(){
+			        getWindowsSize();
+			        $(window).resize(function(){
+			            getWindowsSize()
+			        });
+			    })
 		</g:javascript>
-		<g:layoutHead/>
-		<r:layoutResources />
 		
 		<style type="text/css" media="screen">
 			#status {
 				background-color: #eee;
-				border: .2em solid #fff;
 				margin: 2em 2em 1em;
 				padding: 1em;
 				width: 12em;
@@ -39,9 +38,6 @@
 				-moz-box-shadow: 0px 0px 1.25em #ccc;
 				-webkit-box-shadow: 0px 0px 1.25em #ccc;
 				box-shadow: 0px 0px 1.25em #ccc;
-				-moz-border-radius: 0.6em;
-				-webkit-border-radius: 0.6em;
-				border-radius: 0.6em;
 			}
 
 			.ie6 #status {
@@ -103,90 +99,238 @@
 					margin-top: 0;
 				}
 			}
-		</style>
-	</head>
-	<body>
+			
+			
+			
+			<!-- Start PureCSSMenu.com STYLE -->
+			<style>
+				#pcm{display:none;}
+				ul.pureCssMenu ul{display:none}
+				ul.pureCssMenu li:hover>ul{display:block}
+				ul.pureCssMenu ul{position: absolute;left:-1px;top:98%;}
+				ul.pureCssMenu ul ul{position: absolute;left:98%;top:-2px;}
+				ul.pureCssMenu,ul.pureCssMenu ul {
+					margin:0px;
+					list-style:none;
+					padding:0px 3px 3px 0px;
+					background-color:#414141;
+					background-repeat:repeat;
+					border-color:#CECECE;
+				}
+				ul.pureCssMenu table {border-collapse:collapse}ul.pureCssMenu {
+					display:block;
+					zoom:1;
+					position:absolute;
+					z-index: 1000;
+					left: 100;
+					top: 200;
+				}
+				* HTML ul.pureCssMenu {position:absolute}
+				ul.pureCssMenu ul{
+					width:166.95000000000002px;
+				}
+				ul.pureCssMenu li{
+					display:block;
+					margin:3px 0px 0px 3px;
+					font-size:0px;
+				}
+				ul.pureCssMenu a:active, ul.pureCssMenu a:focus {
+				outline-style:none;
+				}
+				ul.pureCssMenu a, ul.pureCssMenu li.dis a:hover, ul.pureCssMenu li.sep a:hover {
+					display:block;
+					vertical-align:middle;
+					background-color:#414141;
+					border-width:1px;
+					border-color:#414141;
+					border-style:solid;
+					text-align:left;
+					text-decoration:none;
+					padding:4px;
+					_padding-left:0;
+					font-family: "Segoe UI Light", "Open Sans", sans-serif, sans;
+					color: #FFFFFF;
+					text-decoration:none;
+					cursor:pointer;
+				}
+				ul.pureCssMenu span{
+					overflow:hidden;
+				}
+				ul.pureCssMenu li {
+					float:left;
+				}
+				ul.pureCssMenu ul li {
+					float:none;
+				}
+				ul.pureCssMenu ul a {
+					text-align:left;
+					white-space:nowrap;
+				}
+				ul.pureCssMenu li.sep{
+					text-align:left;
+					padding:0px;
+					line-height:0;
+					height:100%;
+				}
+				ul.pureCssMenu li.sep span{
+					float:none;	padding-right:0;
+					width:3;
+					height:100%;
+					display:inline-block;
+					background-color:#CECECE;	background-image:none;}
+				ul.pureCssMenu ul li.sep span{
+					width:100%;
+					height:3;
+				}
+				ul.pureCssMenu li:hover{
+					position:relative;
+				}
+				ul.pureCssMenu li:hover>a{
+					background-color:#A3A3A3;
+					border-color:#FFFFFF;
+					border-style:solid;
+					font-family: "Segoe UI Light", "Open Sans", sans-serif, sans;
+					color: #FFFFFF;
+					text-decoration:none;
+				}
+				ul.pureCssMenu li a:hover{
+					position:relative;
+					background-color:#A3A3A3;
+					border-color:#FFFFFF;
+					border-style:solid;
+					font-family: "Segoe UI Light", "Open Sans", sans-serif, sans;
+					color: #FFFFFF;
+					text-decoration:none;
+				}
+				ul.pureCssMenu li.dis a {
+					color: #AAAAAA !important;
+				}
+				ul.pureCssMenu img {border: none;float:left;_float:none;margin-right:4px;width:24px;
+				height:24px;
+				}
+				ul.pureCssMenu ul img {width:16px;
+				height:16px;
+				}
+				ul.pureCssMenu img.over{display:none}
+				ul.pureCssMenu li.dis a:hover img.over{display:none !important}
+				ul.pureCssMenu li.dis a:hover img.def {display:inline !important}
+				ul.pureCssMenu li:hover > a img.def  {display:none}
+				ul.pureCssMenu li:hover > a img.over {display:inline}
+				ul.pureCssMenu a:hover img.over,ul.pureCssMenu a:hover ul img.def,ul.pureCssMenu a:hover a:hover ul img.def,ul.pureCssMenu a:hover a:hover a:hover ul img.def,ul.pureCssMenu a:hover a:hover img.over,ul.pureCssMenu a:hover a:hover a:hover img.over,ul.pureCssMenu a:hover a:hover a:hover a:hover img.over{display:inline}
+				ul.pureCssMenu a:hover img.def,ul.pureCssMenu a:hover ul img.over,ul.pureCssMenu a:hover a:hover ul img.over,ul.pureCssMenu a:hover a:hover a:hover ul img.over,ul.pureCssMenu a:hover a:hover img.def,ul.pureCssMenu a:hover a:hover a:hover img.def,ul.pureCssMenu a:hover a:hover a:hover a:hover img.def{display:none}
+				ul.pureCssMenu a:hover ul,ul.pureCssMenu a:hover a:hover ul,ul.pureCssMenu a:hover a:hover a:hover ul{display:block}
+				ul.pureCssMenu a:hover ul ul,ul.pureCssMenu a:hover a:hover ul ul{display:none}
+				ul.pureCssMenu span{
+					display:block;
+					background-image:url(./images/menuCss/arrow_sub5.gif);
+					background-position:right center;
+					background-repeat: no-repeat;
+				   padding-right:14px;}
+				ul.pureCssMenu ul span,ul.pureCssMenu a:hover table span{background-image:url(./images/menuCss/arrow_sub2.gif)}
+				ul.pureCssMenu ul li:hover > a span{	background-image:url(./images/menuCss/arrow_sub5.gif);}
+				ul.pureCssMenu table a:hover span,ul.pureCssMenu table a:hover a:hover span,ul.pureCssMenu table a:hover a:hover a:hover span{background-image:url(./images/menuCss/arrow_sub5.gif)}
+				ul.pureCssMenu table a:hover table span,ul.pureCssMenu table a:hover a:hover table span{background-image:url(./images/menuCss/arrow_sub2.gif)}
+				</style>
+				<!-- End PureCSSMenu.com STYLE -->
+			</style>
 		
+		<g:layoutHead/>
+		<r:layoutResources />
+	</head>
+	<body class="modern-ui">
+	
+		<div class="page">
+			 <div class="page-region">
+             	<div class="page-region-content">
+             	
+             	
+             	
+             		<div style="display: none; position: fixed; height: 100px; width: 100px; padding: 10px; z-index: 10000;" class="bottom-right bg-color-darken fg-color-white">
+					    Screen size:
+					    <div id="sizeX">0</div>
+					    <div id="sizeY">0</div>
+					</div>
 				
-				<div style="display: none; position: fixed; height: 100px; width: 100px; padding: 10px; z-index: 10000;" class="bottom-right bg-color-darken fg-color-white">
-				    Screen size:
-				    <div id="sizeX">0</div>
-				    <div id="sizeY">0</div>
-				</div>
-				
-				<div class="bg-color-red fg-color-white text-center">
-				    !!! Project is looking for a Sponsor !!!
-				</div>
-				
-				<div class="navigation-bar">
-				    <div class="navigation-bar-inner">
-				        <span class="menu-pull"></span>
-				
-				        <div class="brand">
-				            <a href="/"><span class="metro-ui-logo place-left"></span></a>
-				            <a href="/"><span class="name">Metro UI CSS <sup class="fg-color-yellow tertiary-info-secondary-text"> v 0.1.5</sup></span></a>
-				        </div>
-				
-				        <ul>
-				            <li><a href="/">Home</a></li>
-				
-				            <li data-role="dropdown" class="sub-menu">
-				                <a href="#">Scaffolding</a>
-				                <ul class="dropdown-menu">
-				                    <li><a href="global.php">Global styles</a></li>
-				                    <li><a href="layout.php">Layouts and templates</a></li>
-				                    <li><a href="grid.php">Grid system</a></li>
-				                    <li class="divider"></li>
-				                    <li><a href="responsive.php">Responsive design</a></li>
-				                </ul>
-				            </li>
-				
-				            <li data-role="dropdown" class="sub-menu">
-				                <a href="#">Base CSS</a>
-				                <ul class="dropdown-menu">
-				                    <li><a href="typography.php">Typography</a></li>
-				                    <li><a href="tables.php">Tables</a></li>
-				                    <li><a href="forms.php">Forms</a></li>
-				                    <li><a href="buttons.php">Buttons</a></li>
-				                    <li><a href="images.php">Images</a></li>
-				                    <li class="divider"></li>
-				                    <li><a href="icons.php">Icons by Metro Studio</a></li>
-				                </ul>
-				            </li>
-				
-				            <li data-role="dropdown" class="sub-menu">
-				                <a href="#">Components</a>
-				                <ul class="dropdown-menu">
-				                    <li><a href="tiles.php">Tiles</a></li>
-				                    <li><a href="menus.php">Menu and Navigation</a></li>
-				                    <li><a href="sidebar.php">Sidebar</a></li>
-				                    <li><a href="pagecontrol.php">Page control</a></li>
-				                    <li><a href="accordion.php">Accordion</a></li>
-				                    <li><a href="buttons-set.php">Buttons set</a></li>
-				                    <li><a href="rating.php">Rating</a></li>
-				                    <li><a href="progress.php">Progress bars</a></li>
-				                    <li class="divider"></li>
-				                    <li><a href="notices.php">Notices and Replies</a></li>
-				                    <li class="divider"></li>
-				                    <li><a href="cards.php">Bonus - Deck of Cards</a></li>
-				                </ul>
-				            </li>
-				
-				            <!--<li><a href="javascript.php">Javascript</a></li>-->
-				            <li><a href="https://github.com/olton/Metro-UI-CSS">Get source</a></li>
-				        </ul>
-				
-				    </div>
-				</div>
-				
-				
-				
-				
-		<div id="grailsLogo" role="banner"><a href="http://grails.org"><img src="${resource(dir: 'images', file: 'grails_logo.png')}" alt="Grails"/></a></div>
+					<div class="bg-color-red fg-color-white text-center">
+					    Inventarios
+					</div>
+						
+				<!-- Start PureCSSMenu.com MENU -->
+
+			 		
+					
+					<ul class="pureCssMenu pureCssMenum navigation-bar">
+						<div class="navigation-bar-inner">
+			 				<span class="menu-pull"></span>
+							<li ><a class="pureCssMenui" href="/inventarios3">Inicio</a></li>
+							<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Personas</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+								<ul class="pureCssMenum">
+									<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Empleados</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+										<ul class="pureCssMenum ">
+											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/persona/empleados">Ver Empleados</a></li>
+											<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Catálogos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+												<ul class="pureCssMenum ">
+													<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/tipoTelefono/menu">Tipos de Teléfonos</a></li>
+													<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/estado/menu">Estados</a></li>
+													<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/municipio/menu">Municipios</a></li>
+												</ul>
+										</ul>
+									<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Usuarios</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+										<ul class="pureCssMenum ">
+											<li class="pureCssMenui"><a class="pureCssMenui" href="#">Ver Usuarios</a></li>
+											<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Catálogos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+												<ul class="pureCssMenum ">
+													<li class="pureCssMenui"><a class="pureCssMenui" href="#">Tipos de Usuarios</a></li>
+													<li class="pureCssMenui"><a class="pureCssMenui" href="#">Privilegios</a></li>
+												</ul>
+										</ul>
+									
+								</ul>
+							<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+							<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Objetos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+								<ul class="pureCssMenum">
+									<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/insertar3">Nuevo</a></li>
+									<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Ver Objetos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+										<ul class="pureCssMenum ">
+											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/menu">Mostrar objetos</a></li>
+											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/listadoPorTipo">Filtrados por tipo</a></li>
+										</ul>
+								</ul>
+							<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+							<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Departamentos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+								<ul class="pureCssMenum">
+									<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/departamento/menu">Ver Departamentos</a></li>
+								</ul>
+							<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Reportes</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+								<ul class="pureCssMenum">
+									<li class="pureCssMenui"><a class="pureCssMenui" href="#">Template 1</a></li>
+									<li class="pureCssMenui"><a class="pureCssMenui" href="#">Template 2</a></li>
+									<li class="pureCssMenui"><a class="pureCssMenui" href="#">Template 3</a></li>
+									<li class="pureCssMenui"><a class="pureCssMenui" href="#">Template 4</a></li>
+									<li class="pureCssMenui"><a class="pureCssMenui" href="#">Template 5</a></li>
+									<li class="pureCssMenui"><a class="pureCssMenui" href="#">Template 6</a></li>
+								</ul>
+							
+							<li class="pureCssMenui"><a class="pureCssMenui" href="#">FAQ</a></li>
+							<li class="pureCssMenui"><a class="pureCssMenui" href="#">Contact Us</a></li>
+						</div>
+					</ul>
+					<br><br><br><br>
+
+             	</div>
+             </div>
+		</div>
+
 		<g:layoutBody/>
-		<div class="footer" role="contentinfo"></div>
-		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
-		<g:javascript library="application"/>
+		
 		<r:layoutResources />
 	</body>
+	<footer>
+		<div class="header-bar">
+			<div class="header-bar-inner bg-color-darken" style="padding: 10px 10px 5px;">
+				<p class="tertiary-text fg-color-white">2013, Inventarios <a class="fg-color-blueLight" href="mailto:sergey@pimenov.com.ua">Red Oaxaca de Todos</a></p>
+			</div>
+		</div>
+		<r:layoutResources />
+	</footer>
 </html>
