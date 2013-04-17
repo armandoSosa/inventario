@@ -23,7 +23,7 @@
 				class="many-to-one" />
 		</div>
 		
-		
+		<br><br><br>
 		<fieldset class="form">	
 			<legend>Agregar valores</legend>
 			<br>

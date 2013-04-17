@@ -5519,13 +5519,13 @@ fieldset legend {
   padding-right: 10px;
   font-family: 'Segoe UI Semilight', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
   font-weight: 300;
-  font-size: 11pt;
+  font-size: 18pt;
   letter-spacing: 0.02em;
   line-height: 20px;
-  color: #cfcfcf;
+  color: #222222;
   position: absolute;
   top: -25px;
-  left: -10px;
+  left: 30px;
 }
 input[type=button],
 input[type=reset],
