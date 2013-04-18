@@ -4,7 +4,6 @@
 
 
 <div id="divUnidad" name="divUnidad" class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'unidad', 'error')} required">
-			divUnidad${session.numUnidades}
 			<fieldset class="form">
 				<div id="contenedorSelecTipo${session.numUnidades}"
 					class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipo', 'error')} required">
@@ -45,7 +44,8 @@
 				<div class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'caracteristica', 'error')} ">
 					<g:if test="${agregarUnidad && agregarUnidad=='2'}">
 							<!--<g:render template="../unidad/forma"/>-->
-							<!-- <fieldset class="form"> -->
+							<br><br>
+							<fieldset class="form">
 								<legend>Agregar unidad</legend>
 								<div class="fieldcontain ${hasErrors(bean: unidadInstance, field: 'unidad', 'error')} ">
 									<label for="unidadTexto${session.numUnidades}">
@@ -61,7 +61,7 @@
 									</fieldset>
 									
 								</div>
-							<!-- </fieldset> -->
+							</fieldset>
 			
 					</g:if>
 					<g:else>

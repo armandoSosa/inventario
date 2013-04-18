@@ -67,10 +67,9 @@
 		<!-- Agregar característica-->
 
 		<div id="inlinee${session.numCaracteristica}" class="inline">
-			inlinee${session.numCaracteristica}
 			<div id="create-caracteristica${session.numCaracteristica}" class="content scaffold-create" role="main">
-				numCaracteristica ${session.numCaracteristica} numUnidades ${session.numUnidades}
-				<h1>Nueva Característican${session.numCaracteristica}</h1>
+
+				<h2>Nueva Característica</h2>
 				<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 				</g:if>

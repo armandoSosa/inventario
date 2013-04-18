@@ -20,46 +20,47 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<table>
-				<thead>
-					<tr>
-					
-						<g:sortableColumn property="noInventario" title="${message(code: 'objeto.noInventario.label', default: 'No Inventario')}" />
-					
-						<th><g:message code="objeto.tipo.label" default="Tipo" /></th>
-					
-						<th><g:message code="objeto.tipoPropiedad.label" default="Tipo Propiedad" /></th>
-					
-					</tr>
-				</thead>
-				<tbody>
-				<g:each in="${objetoInstanceList}" status="i" var="objetoInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${objetoInstance.id}">${fieldValue(bean: objetoInstance, field: "noInventario")}</g:link></td>
-					
-						<td>${fieldValue(bean: objetoInstance, field: "tipo")}</td>
-					
-						<td>${fieldValue(bean: objetoInstance, field: "tipoPropiedad")}</td>
-					
-					</tr>
-				</g:each>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<g:paginate total="${objetoInstanceTotal}" />
+			
+			
+			
+			
+			
+			<div id="tabla" name="formBuscar" class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'unidad', 'error')} required">
+						
+				<fieldset class="form">
+					<table>
+						<thead>
+							<tr>
+							
+								<g:sortableColumn property="noInventario" title="${message(code: 'objeto.noInventario.label', default: 'No Inventario')}" />
+							
+								<th><g:message code="objeto.tipo.label" default="Tipo" /></th>
+							
+								<th><g:message code="objeto.tipoPropiedad.label" default="Tipo Propiedad" /></th>
+							
+							</tr>
+						</thead>
+						<tbody>
+						<g:each in="${objetoInstanceList}" status="i" var="objetoInstance">
+							<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+							
+								<td><g:link action="show" id="${objetoInstance.id}">${fieldValue(bean: objetoInstance, field: "noInventario")}</g:link></td>
+							
+								<td>${fieldValue(bean: objetoInstance, field: "tipo")}</td>
+							
+								<td>${fieldValue(bean: objetoInstance, field: "tipoPropiedad")}</td>
+							
+							</tr>
+						</g:each>
+						</tbody>
+					</table>
+					<div class="pagination">
+						<g:paginate total="${objetoInstanceTotal}" />
+					</div>
+				</fieldset>
 			</div>
 			
-			<dl>
-				<dt>Objetos</dt>
-				<dd><li><a href="listadoPorTipo">Por tipo de objeto</a></li></dd>
-			</dl>
 			
-			
-			
-			
-			<br>
-			<a href="../usuario/menu">Usuarios</a>
 			
 
 			

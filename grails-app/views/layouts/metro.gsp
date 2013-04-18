@@ -7,8 +7,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="${resource(dir: 'css/metro/public/css', file: 'site.css')}" type="text/css">
 		<link rel="stylesheet" href="${resource(dir: 'css/metro/public/css', file: 'modern.css')}" type="text/css">
-		<link rel="stylesheet" href="${resource(dir: 'css/metro/public/css', file: 'modern-responsive.css')}" type="text/css">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
+		<link rel="stylesheet" href="${resource(dir: 'css/validacion', file: 'estilos.css')}" type="text/css">
 		
 		<g:javascript src="metro/dropdown.js"/>
 		<g:javascript src="metro/jquery-1.8.2.min.js"/>
@@ -65,11 +65,11 @@
 				margin: 2em 1em 1.25em 18em;
 			}
 
-			h2 {
+			/*h2 {
 				margin-top: 1em;
 				margin-bottom: 0.3em;
 				font-size: 1em;
-			}
+			}*/
 
 			p {
 				line-height: 1.5;
@@ -102,138 +102,143 @@
 			
 			
 			
-			<!-- Start PureCSSMenu.com STYLE -->
-			<style>
-				#pcm{display:none;}
-				ul.pureCssMenu ul{display:none}
-				ul.pureCssMenu li:hover>ul{display:block}
-				ul.pureCssMenu ul{position: absolute;left:-1px;top:98%;}
-				ul.pureCssMenu ul ul{position: absolute;left:98%;top:-2px;}
-				ul.pureCssMenu,ul.pureCssMenu ul {
-					margin:0px;
-					list-style:none;
-					padding:0px 3px 3px 0px;
-					background-color:#414141;
-					background-repeat:repeat;
-					border-color:#CECECE;
-				}
-				ul.pureCssMenu table {border-collapse:collapse}ul.pureCssMenu {
-					display:block;
-					zoom:1;
-					position:absolute;
-					z-index: 1000;
-					left: 100;
-					top: 200;
-				}
-				* HTML ul.pureCssMenu {position:absolute}
-				ul.pureCssMenu ul{
-					width:166.95000000000002px;
-				}
-				ul.pureCssMenu li{
-					display:block;
-					margin:3px 0px 0px 3px;
-					font-size:0px;
-				}
-				ul.pureCssMenu a:active, ul.pureCssMenu a:focus {
-				outline-style:none;
-				}
-				ul.pureCssMenu a, ul.pureCssMenu li.dis a:hover, ul.pureCssMenu li.sep a:hover {
-					display:block;
-					vertical-align:middle;
-					background-color:#414141;
-					border-width:1px;
-					border-color:#414141;
-					border-style:solid;
-					text-align:left;
-					text-decoration:none;
-					padding:4px;
-					_padding-left:0;
-					font-family: "Segoe UI Light", "Open Sans", sans-serif, sans;
-					color: #FFFFFF;
-					text-decoration:none;
-					cursor:pointer;
-				}
-				ul.pureCssMenu span{
-					overflow:hidden;
-				}
-				ul.pureCssMenu li {
-					float:left;
-				}
-				ul.pureCssMenu ul li {
-					float:none;
-				}
-				ul.pureCssMenu ul a {
-					text-align:left;
-					white-space:nowrap;
-				}
-				ul.pureCssMenu li.sep{
-					text-align:left;
-					padding:0px;
-					line-height:0;
-					height:100%;
-				}
-				ul.pureCssMenu li.sep span{
-					float:none;	padding-right:0;
-					width:3;
-					height:100%;
-					display:inline-block;
-					background-color:#CECECE;	background-image:none;}
-				ul.pureCssMenu ul li.sep span{
-					width:100%;
-					height:3;
-				}
-				ul.pureCssMenu li:hover{
-					position:relative;
-				}
-				ul.pureCssMenu li:hover>a{
-					background-color:#A3A3A3;
-					border-color:#FFFFFF;
-					border-style:solid;
-					font-family: "Segoe UI Light", "Open Sans", sans-serif, sans;
-					color: #FFFFFF;
-					text-decoration:none;
-				}
-				ul.pureCssMenu li a:hover{
-					position:relative;
-					background-color:#A3A3A3;
-					border-color:#FFFFFF;
-					border-style:solid;
-					font-family: "Segoe UI Light", "Open Sans", sans-serif, sans;
-					color: #FFFFFF;
-					text-decoration:none;
-				}
-				ul.pureCssMenu li.dis a {
-					color: #AAAAAA !important;
-				}
-				ul.pureCssMenu img {border: none;float:left;_float:none;margin-right:4px;width:24px;
-				height:24px;
-				}
-				ul.pureCssMenu ul img {width:16px;
-				height:16px;
-				}
-				ul.pureCssMenu img.over{display:none}
-				ul.pureCssMenu li.dis a:hover img.over{display:none !important}
-				ul.pureCssMenu li.dis a:hover img.def {display:inline !important}
-				ul.pureCssMenu li:hover > a img.def  {display:none}
-				ul.pureCssMenu li:hover > a img.over {display:inline}
-				ul.pureCssMenu a:hover img.over,ul.pureCssMenu a:hover ul img.def,ul.pureCssMenu a:hover a:hover ul img.def,ul.pureCssMenu a:hover a:hover a:hover ul img.def,ul.pureCssMenu a:hover a:hover img.over,ul.pureCssMenu a:hover a:hover a:hover img.over,ul.pureCssMenu a:hover a:hover a:hover a:hover img.over{display:inline}
-				ul.pureCssMenu a:hover img.def,ul.pureCssMenu a:hover ul img.over,ul.pureCssMenu a:hover a:hover ul img.over,ul.pureCssMenu a:hover a:hover a:hover ul img.over,ul.pureCssMenu a:hover a:hover img.def,ul.pureCssMenu a:hover a:hover a:hover img.def,ul.pureCssMenu a:hover a:hover a:hover a:hover img.def{display:none}
-				ul.pureCssMenu a:hover ul,ul.pureCssMenu a:hover a:hover ul,ul.pureCssMenu a:hover a:hover a:hover ul{display:block}
-				ul.pureCssMenu a:hover ul ul,ul.pureCssMenu a:hover a:hover ul ul{display:none}
-				ul.pureCssMenu span{
-					display:block;
-					background-image:url(/images/menuCss/arrow_sub5.gif);
-					background-position:right center;
-					background-repeat: no-repeat;
-				   padding-right:14px;}
-				ul.pureCssMenu ul span,ul.pureCssMenu a:hover table span{background-image:url(/images/menuCss/arrow_sub2.gif)}
-				ul.pureCssMenu ul li:hover > a span{	background-image:url(/images/menuCss/arrow_sub5.gif);}
-				ul.pureCssMenu table a:hover span,ul.pureCssMenu table a:hover a:hover span,ul.pureCssMenu table a:hover a:hover a:hover span{background-image:url(/images/menuCss/arrow_sub5.gif)}
-				ul.pureCssMenu table a:hover table span,ul.pureCssMenu table a:hover a:hover table span{background-image:url(/images/menuCss/arrow_sub2.gif)}
-				</style>
-				<!-- End PureCSSMenu.com STYLE -->
+			
 			</style>
 		
+		
+		
+			<style>
+			
+				<!-- Start PureCSSMenu.com STYLE -->
+				
+					#pcm{display:none;}
+					ul.pureCssMenu ul{display:none}
+					ul.pureCssMenu li:hover>ul{display:block}
+					ul.pureCssMenu ul{position: absolute;left:-1px;top:98%;}
+					ul.pureCssMenu ul ul{position: absolute;left:98%;top:-2px;}
+					ul.pureCssMenu,ul.pureCssMenu ul {
+						margin:0px;
+						list-style:none;
+						padding:0px 3px 3px 0px;
+						background-color:#414141;
+						background-repeat:repeat;
+						border-color:#CECECE;
+					}
+					ul.pureCssMenu table {border-collapse:collapse}ul.pureCssMenu {
+						display:block;
+						zoom:1;
+						position:absolute;
+						z-index: 1000;
+						left: 100;
+						top: 200;
+					}
+					* HTML ul.pureCssMenu {position:absolute}
+					ul.pureCssMenu ul{
+						width:166.95000000000002px;
+					}
+					ul.pureCssMenu li{
+						display:block;
+						margin:3px 0px 0px 3px;
+						font-size:0px;
+					}
+					ul.pureCssMenu a:active, ul.pureCssMenu a:focus {
+					outline-style:none;
+					}
+					ul.pureCssMenu a, ul.pureCssMenu li.dis a:hover, ul.pureCssMenu li.sep a:hover {
+						display:block;
+						vertical-align:middle;
+						background-color:#414141;
+						border-width:1px;
+						border-color:#414141;
+						border-style:solid;
+						text-align:left;
+						text-decoration:none;
+						padding:4px;
+						_padding-left:0;
+						font-family: "Segoe UI Light", "Open Sans", sans-serif, sans;
+						color: #FFFFFF;
+						text-decoration:none;
+						cursor:pointer;
+					}
+					ul.pureCssMenu span{
+						overflow:hidden;
+					}
+					ul.pureCssMenu li {
+						float:left;
+					}
+					ul.pureCssMenu ul li {
+						float:none;
+					}
+					ul.pureCssMenu ul a {
+						text-align:left;
+						white-space:nowrap;
+					}
+					ul.pureCssMenu li.sep{
+						text-align:left;
+						padding:0px;
+						line-height:0;
+						height:100%;
+					}
+					ul.pureCssMenu li.sep span{
+						float:none;	padding-right:0;
+						width:3;
+						height:100%;
+						display:inline-block;
+						background-color:#CECECE;	background-image:none;}
+					ul.pureCssMenu ul li.sep span{
+						width:100%;
+						height:3;
+					}
+					ul.pureCssMenu li:hover{
+						position:relative;
+					}
+					ul.pureCssMenu li:hover>a{
+						background-color:#A3A3A3;
+						border-color:#FFFFFF;
+						border-style:solid;
+						font-family: "Segoe UI Light", "Open Sans", sans-serif, sans;
+						color: #FFFFFF;
+						text-decoration:none;
+					}
+					ul.pureCssMenu li a:hover{
+						position:relative;
+						background-color:#A3A3A3;
+						border-color:#FFFFFF;
+						border-style:solid;
+						font-family: "Segoe UI Light", "Open Sans", sans-serif, sans;
+						color: #FFFFFF;
+						text-decoration:none;
+					}
+					ul.pureCssMenu li.dis a {
+						color: #AAAAAA !important;
+					}
+					ul.pureCssMenu img {border: none;float:left;_float:none;margin-right:4px;width:24px;
+					height:24px;
+					}
+					ul.pureCssMenu ul img {width:16px;
+					height:16px;
+					}
+					ul.pureCssMenu img.over{display:none}
+					ul.pureCssMenu li.dis a:hover img.over{display:none !important}
+					ul.pureCssMenu li.dis a:hover img.def {display:inline !important}
+					ul.pureCssMenu li:hover > a img.def  {display:none}
+					ul.pureCssMenu li:hover > a img.over {display:inline}
+					ul.pureCssMenu a:hover img.over,ul.pureCssMenu a:hover ul img.def,ul.pureCssMenu a:hover a:hover ul img.def,ul.pureCssMenu a:hover a:hover a:hover ul img.def,ul.pureCssMenu a:hover a:hover img.over,ul.pureCssMenu a:hover a:hover a:hover img.over,ul.pureCssMenu a:hover a:hover a:hover a:hover img.over{display:inline}
+					ul.pureCssMenu a:hover img.def,ul.pureCssMenu a:hover ul img.over,ul.pureCssMenu a:hover a:hover ul img.over,ul.pureCssMenu a:hover a:hover a:hover ul img.over,ul.pureCssMenu a:hover a:hover img.def,ul.pureCssMenu a:hover a:hover a:hover img.def,ul.pureCssMenu a:hover a:hover a:hover a:hover img.def{display:none}
+					ul.pureCssMenu a:hover ul,ul.pureCssMenu a:hover a:hover ul,ul.pureCssMenu a:hover a:hover a:hover ul{display:block}
+					ul.pureCssMenu a:hover ul ul,ul.pureCssMenu a:hover a:hover ul ul{display:none}
+					ul.pureCssMenu span{
+						display:block;
+						background-image:url(images/menuCss/arrow_sub5.gif);
+						background-position:right center;
+						background-repeat: no-repeat;
+					   padding-right:14px;}
+					ul.pureCssMenu ul span,ul.pureCssMenu a:hover table span{background-image:url(images/menuCss/arrow_sub2.gif)}
+					ul.pureCssMenu ul li:hover > a span{	background-image:url(images/menuCss/arrow_sub5.gif);}
+					ul.pureCssMenu table a:hover span,ul.pureCssMenu table a:hover a:hover span,ul.pureCssMenu table a:hover a:hover a:hover span{background-image:url(images/menuCss/arrow_sub5.gif)}
+					ul.pureCssMenu table a:hover table span,ul.pureCssMenu table a:hover a:hover table span{background-image:url(images/menuCss/arrow_sub2.gif)}
+					<!-- End PureCSSMenu.com STYLE -->
+			</style>
 		<g:layoutHead/>
 		<r:layoutResources />
 	</head>
@@ -267,6 +272,7 @@
 									<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Empleados</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
 										<ul class="pureCssMenum ">
 											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/persona/empleados">Ver Empleados</a></li>
+											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/buscarPer">Buscar Empleado</a></li>
 											<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Catálogos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
 												<ul class="pureCssMenum ">
 													<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/tipoTelefono/menu">Tipos de Teléfonos</a></li>
@@ -314,7 +320,7 @@
 							<li class="pureCssMenui"><a class="pureCssMenui" href="#">Contact Us</a></li>
 						</div>
 					</ul>
-					<br><br><br><br>
+					<br>
 
              	</div>
              </div>

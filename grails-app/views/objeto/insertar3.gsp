@@ -64,32 +64,52 @@
 		    
 		    var submitTipo = function()
 		    {
-		    	parametroTipoObjeto();
-		    	tipoObjetoAgregados++;
-		    	unidadesAgregadas++;
-		    	${ remoteFunction (controller:'objeto', action:'save_tipo2', id:'5', update:'divPrincipal', params: 'cadenaCaracteristica')}
+		    
+		    	$(".error").remove();		
+				if( $("#tipoTexto"+tipoObjetoAgregados).val() == "" ){
+					$("#tipoTexto"+tipoObjetoAgregados).focus().after("<span class='error'>Ingrese una descripción</span>");
+				} else if( $("#tipoTexto"+tipoObjetoAgregados).val().length<3 ){
+					$("#tipoTexto"+tipoObjetoAgregados).focus().after("<span class='error'>La descripción debe ser al menos 3 caracteres</span>");
+				} else {
+					parametroTipoObjeto();
+			    	tipoObjetoAgregados++;
+			    	unidadesAgregadas++;
+			    	${ remoteFunction (controller:'objeto', action:'save_tipo2', id:'5', update:'divPrincipal', params: 'cadenaCaracteristica')}
+			    	
+			    	
+			    	$(inline).fadeOut("fast", function(){
+							$(this).before("Tipo de objeto agregado correctamente");
+							setTimeout("$.fancybox.close()", 1000);
+							$("#inline").html(html);
+							
+						});
+					
+					
+					${remoteFunction(
+						   action: 'addPlantillasAjaxDescripcion',
+	                       update: 'divplantilla1'+session.numUnidades,
+						   onSuccess: 'divplantilla1'+session.numUnidades,
+	                       params: 'cadenaCaracteristica')}
+				}
+				quitarValidaciones();
+		
+		
 		    	
-		    	
-		    	$(inline).fadeOut("fast", function(){
-						$(this).before("Tipo de objeto agregado correctamente");
-						setTimeout("$.fancybox.close()", 1000);
-						$("#inline").html(html);
-						
-					});
-				
-				
-				${remoteFunction(
-					   action: 'addPlantillasAjaxDescripcion',
-                       update: 'divplantilla1'+session.numUnidades,
-					   onSuccess: 'divplantilla1'+session.numUnidades,
-                       params: 'cadenaCaracteristica')}
                        
 		    }
 		    
 		    var submitObjeto = function()
 		    {	
-		    	cadenaValores=cadenaValores.replace("valor0=0", "valor0="+numeros)+"&noInventario="+$("#noInventario").val()+"&tipoPropiedad="+$("#tipoPropiedad").val();
-		    	${ remoteFunction (controller:'objeto', action:'save_objeto', id:'5', params: 'cadenaValores', onLoaded='start()')}
+		    	$(".error").remove();		
+				if( $("#tipo"+tipoObjetoAgregados).val() == "" ){
+					$("#tipoLabel"+tipoObjetoAgregados).focus().after("<span class='error'>Debe seleccionar un tipo o crear uno nuevo</span>");
+				} else {
+					cadenaValores=cadenaValores.replace("valor0=0", "valor0="+numeros)+"&noInventario="+$("#noInventario").val()+"&tipoPropiedad="+$("#tipoPropiedad").val();
+		    		${ remoteFunction (controller:'objeto', action:'save_objeto', id:'5', params: 'cadenaValores', onLoaded='start()')}
+				}
+				quitarValidaciones();
+		    	
+		    	
 		    };
 		    
 		    function generarCadenaValores(cadena){
@@ -110,7 +130,7 @@
 			}
 			
 			function parametroTipoObjeto(){
-		    	cadenaCaracteristica='valor2='+unidadesAgregadas+'&valor1='+unidadesAgregadas+'&valor0='+caracteristicasAgregadas+"&tipo1="+$("#tipoTexto"+unidadesAgregadas).val();
+		    	cadenaCaracteristica='valor2='+unidadesAgregadas+'&valor1='+unidadesAgregadas+'&valor0='+caracteristicasAgregadas+"&tipo1="+$("#tipoTexto"+tipoObjetoAgregados).val();
 			}
 
 			function guardarSoloCaracteristica() {
@@ -127,6 +147,14 @@
 			}
 			function start(){
 			    timeout = setTimeout(reloadPage,1000);
+			}
+			
+			function quitarValidaciones() {
+				timeout = setTimeout(funcionQuitarValidaciones,3000);
+			}
+			
+			function funcionQuitarValidaciones() {
+				$(".error").remove();
 			}
 		</g:javascript>
 	</head>
