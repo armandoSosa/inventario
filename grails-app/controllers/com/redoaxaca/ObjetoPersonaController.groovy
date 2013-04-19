@@ -22,6 +22,17 @@ class ObjetoPersonaController {
 		[objetoPersonaInstance: new ObjetoPersona(params), personaInstance: new Persona(params)]
 	}
 	
+	def getObjetos(){
+		//Se obtiene el estado		
+			def personaInstance = Persona.get(params.id)
+		
+		
+		
+		def objetosList = Objeto.list()
+		//Se hace el render del template '_selectMunicipios.gsp' con la lista de estados obtenida.
+		render(template: "selectObjetos", model: [personaInstance: personaInstance, objetosList: objetosList])
+	}
+	
 	
 	def listadoPorPersona = {
 		//def objetos = objetos.findByDescripcion(params.id)
@@ -46,15 +57,14 @@ class ObjetoPersonaController {
 	def save_objetoPersona(){
 		def personaInstance = Persona.findById(params.persona.id)
 		
-		
 		personaInstance.properties = params
 		
 		// find the phones that are marked for deletion
-		def _toBeDeleted = personaInstance.telefonos.findAll {(it?.deleted || (it == null))}
+		def _toBeDeleted = personaInstance.objetosPersona.findAll {(it?.deleted || (it == null))}
 		 
 		// if there are phones to be deleted remove them all
 		if (_toBeDeleted) {
-			personaInstance.telefonos.removeAll(_toBeDeleted)
+			personaInstance.objetosPersona.removeAll(_toBeDeleted)
 		}
 		
 		personaInstance.objetosPersona.eachWithIndex(){objeto, i ->
@@ -62,7 +72,7 @@ class ObjetoPersonaController {
 			objeto.index = i				
 		}
 			   
-		 if (!personaInstance.save(flush: true)) {
+		 if (!personaInstance.hasErrors() && !personaInstance.save(flush: true)) {
 			 render(view: "insertar", model: [personaInstance: personaInstance])
 			 return
 		 }

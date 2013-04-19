@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
+		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'objetoPersona.label', default: 'ObjetoPersona')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 		<link rel="stylesheet" href="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.css')}" type="text/css">
@@ -19,7 +19,7 @@
 			</ul>
 		</div>
 		<div id="create-objetoPersona" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+			<h1>Asignación de Objetos</h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -31,7 +31,6 @@
 			</ul>
 			</g:hasErrors>
 			
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -53,6 +52,6 @@
 			</g:form>
 			
 		</div>
-		<g:render template='objeto' model="['telefono':null,'i':'_clone','hidden':true]"/>		
+		<g:render template='objeto' model="['telefono':null,'i':'_clone','hidden':true, 'objetosList':null]"/>		
 	</body>
 </html>

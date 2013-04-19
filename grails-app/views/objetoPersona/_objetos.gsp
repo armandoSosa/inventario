@@ -18,7 +18,7 @@
               .attr('value', 'true');      
       clone.find("select[id$=objeto]")
               .attr('id',htmlId + 'objeto')
-              .attr('name',htmlId + 'objeto.id');
+              .attr('name',htmlId + 'objeto.id');      		
  
       clone.attr('id', 'objeto'+childCount);
       $("#childList").append(clone);
@@ -49,8 +49,8 @@
 </script>
  
 <div id="childList">
-    <g:each var="objetosPersona" in="${personaInstance.objetosPersona}" status="i">                
-        <g:render template='objeto' model="['objeto':objetosPersona,'i':i,'hidden':false]"/>        
+    <g:each var="objetosPersona" in="${personaInstance.objetosPersona}" status="i">    	       	
+        <g:render template='objeto' model="['objeto':objetosPersona,'i':i,'hidden':false, 'objetosList':objetosList]"/>        
     </g:each>
 </div>
 <input type="button" value="Nuevo Objeto" onclick="agregarObjeto();" />

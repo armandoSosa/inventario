@@ -21,6 +21,8 @@
       clone.find("select[id$=tipoTelefono]")
               .attr('id',htmlId + 'tipoTelefono')
               .attr('name',htmlId + 'tipoTelefono.id');
+      
+      	
  
       clone.attr('id', 'telefono'+childCount);
       $("#childList").append(clone);
@@ -38,6 +40,7 @@
         //check if this is still not persisted
         var newValue = prnt.find("input[id$=new]").attr('value');
         //if it is new then i can safely remove from dom
+        delInput.attr('value','true');               
         if(newValue == 'true'){
             prnt.remove();
         }else{
@@ -47,7 +50,12 @@
             prnt.hide();
         }        
     });
- 
+
+
+    function eliminar( id ){
+    	document.getElementById('telefonos['+id+'].deleted').value = 'true';
+    	document.getElementById('telefono'+id).style.display="none";    	
+    }
 </script>
  
 <div id="childList">

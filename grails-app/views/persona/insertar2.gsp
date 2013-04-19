@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
+		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'persona.label', default: 'Persona')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 		<link rel="stylesheet" href="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.css')}" type="text/css">
@@ -51,13 +51,15 @@
 			</ul>
 			</g:hasErrors>
 			
-			<g:form action="save_persona"  enctype="multipart/form-data">
+			<g:form name="forma" action="save_persona"  enctype="multipart/form-data">
 				<fieldset class="form">
 					<g:render template="forma2"/>
 				</fieldset>
 				<fieldset class="buttons">
 					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-					<g:link action="save_persona" id="1">Insertar</g:link>
+					<g:link action="save_persona">Insertar</g:link>
+					<g:link href="javascript:viod(0)" onclick="javascript:document.forms['forma'].submit();'">enlace</g:link>
+					<g:actionSubmit value="Prueba" action="save_persona" />
 				</fieldset>
 			</g:form>
 		</div>			

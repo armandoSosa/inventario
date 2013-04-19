@@ -26,7 +26,7 @@ class Persona {
 		email(email:true)		
 		foto(nullable: true, maxSize:1048576)
 		telefonos(nullable:false)
-		objetosPersona(nullable:true)
+		objetosPersona(nullable:true)				
     }
 		
 	/*

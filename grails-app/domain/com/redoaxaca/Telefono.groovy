@@ -9,7 +9,7 @@ class Telefono {
 	
 	
 	static mapping = {
-		index column:"telefono_index"
+		index column:"telefono_index"			
 	}
  
 	static belongsTo = [persona: Persona, tipoTelefono: TipoTelefono]
