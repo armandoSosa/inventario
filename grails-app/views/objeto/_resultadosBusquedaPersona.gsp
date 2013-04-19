@@ -1,8 +1,5 @@
 <%@ page import="com.redoaxaca.Persona" %>
 
-
-
-
 <div id="tabla" name="formBuscar" class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'unidad', 'error')} required">
 			
 			<fieldset class="form">
@@ -43,8 +40,7 @@
 						        		<td>
 						        			<g:if test="${persona?.foto}">
 											<li class="fieldcontain">
-												<span id="foto-label" class="property-label"><g:message code="persona.foto.label" default="Foto" /></span>
-												<img src="<g:createLink controller='objeto' action='renderImage' id="${persona.id}"/>"/>
+												<img width= "50" height= "50" src="<g:createLink controller='objeto' action='renderImage' id="${persona.id}"/>"/>
 											</li>
 											</g:if>
 						        		</td>

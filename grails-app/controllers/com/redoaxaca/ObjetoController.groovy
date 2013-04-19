@@ -13,6 +13,7 @@ class ObjetoController {
 	def caracteristicaService
 	def scaffold = true
 	def objetoService
+	def burningImageService
 
 	def insertar = {
 		[tipoList : Tipo.list()]
@@ -1185,7 +1186,7 @@ class ObjetoController {
 		System.out.println("recibo de numero de empleado: "+id)
 		def persona = Persona.findByNumeroEmpleado(id.toString())
 		System.out.println("nombre: "+persona.nombre)
-		render(template:'infoPersonaEncontrada', model: [persona:persona])		
+		render(template:'infoPersonaEncontrada', model: [personaInstance:persona])		
 	}
 	
 	def renderImage = {
