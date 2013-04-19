@@ -1,5 +1,4 @@
 <div id="divplantilla1${session.numCaracteristica}" name="divplantilla1${session.numCaracteristica}" class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipoPropiedad', 'error')} required">
-	
 	<g:if test="${(mostrarCaracteristicas && mostrarCaracteristicas==1) || session.mostrarCaracteristicas==1}">
 		<div class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'noInventario', 'error')} ">
 			<label for="noInventario">
@@ -8,7 +7,6 @@
 			</label>
 			<g:textField name="noInventario" value="${session.claveInventario}" disabled="true"/>
 		</div>
-		
 		
 		<div
 			class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipoPropiedad', 'error')} required">

@@ -41,9 +41,13 @@
 						        			${persona.nombre} ${persona.paterno} ${persona.materno}
 						        		</td>
 						        		<td>
-						        			Foto
+						        			<g:if test="${persona?.foto}">
+											<li class="fieldcontain">
+												<span id="foto-label" class="property-label"><g:message code="persona.foto.label" default="Foto" /></span>
+												<img src="<g:createLink controller='objeto' action='renderImage' id="${persona.id}"/>"/>
+											</li>
+											</g:if>
 						        		</td>
-										
 						            </tr>
 						        </g:each>
 							
@@ -60,6 +64,4 @@
 					
 				</div>
 			</fieldset>
-			
-		
 </div>
