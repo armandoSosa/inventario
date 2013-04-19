@@ -16,7 +16,6 @@
 			onchange="${remoteFunction(
 					   action: 'addPlantillasAjax2',
                        update: 'divplantilla1'+session.numUnidades,
-					   onSuccess: 'divUnidad',
                        params: '\'tipo1=\' + this.value')}"/>
 
 	</g:if>
@@ -30,7 +29,7 @@
                        update: 'divplantilla1'+session.numUnidades,
                        params: '\'tipo1=\' + this.value')}"/>
 	</g:else>
-	<a class="modalbox" href="#inline">Nuevo Tipo</a>
+	<a id="tipoLabel${session.numTipos}" class="modalbox" href="#inline">Nuevo Tipo</a>
 </div>
 
 
@@ -47,7 +46,7 @@
 <!-- Agregar tipo de objeto -->
 		<div id="inline">
 			<div id="create-tipo" class="content scaffold-create" role="main">
-				<h1>Nuevo Tipo</h1>
+				<h2>Nuevo Tipo</h2>
 				<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 				</g:if>

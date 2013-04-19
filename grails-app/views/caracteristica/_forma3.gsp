@@ -3,16 +3,16 @@
 
 
 
-<div id="divUnidad" name="divUnidad" class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'unidad', 'error')} required">
+<div id="divUnidad${session.numUnidades}" name="divUnidad${session.numUnidades}" class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'unidad', 'error')} required">
 			divUnidad${session.numUnidades}
 			<fieldset class="form">
-				<div id="contenedorSelecTipo"
+				<div id="contenedorSelecTipo${session.mostrarFormValores}"
 					class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipo', 'error')} required">
-					<label for="tipo1"> <g:message code="objeto.tipo.label"
+					<label for="tipo1${session.mostrarFormValores}"> <g:message code="objeto.tipo.label"
 							default="Tipo de objeto" /> <span class="required-indicator">*</span>
 					</label>
 						<g:if test="${!session.idTipo}">
-							<g:select id="tipo1" name="tipo1" from="${com.redoaxaca.Tipo.list()}"
+							<g:select id="tipo1${session.mostrarFormValores}" name="tipo1${session.mostrarFormValores}" from="${com.redoaxaca.Tipo.list()}"
 								noSelection="['':'Seleccione un tipo de objeto']"
 								optionKey="id" required="" value="1"
 								class="many-to-one"
@@ -20,7 +20,7 @@
 					
 						</g:if>
 						<g:else>
-							<g:select id="tipo1" name="tipo1" from="${com.redoaxaca.Tipo.list()}"
+							<g:select id="tipo1${session.mostrarFormValores}" name="tipo1${session.mostrarFormValores}" from="${com.redoaxaca.Tipo.list()}"
 								noSelection="['':'Seleccione un tipo de objeto']"
 								optionKey="id" required="" value="${session.idTipo}"
 								class="many-to-one"
@@ -28,16 +28,16 @@
 						</g:else>	
 				</div>
 				
-				<div id="textFieldCaract" class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'caracteristica', 'error')} ">
-					<label for="caracteristica">
+				<div id="textFieldCaract${session.mostrarFormValores}" class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'caracteristica', 'error')} ">
+					<label for="caracteristica${session.mostrarFormValores}">
 						<g:message code="caracteristica.caracteristica.label" default="Caracteristica${session.numUnidades}" />
 						<span class="required-indicator">*</span>
 					</label>
 					<g:if test="${caracteristica}">
-						<g:textField id="caracteristica" name="caracteristica" required="" value="${caracteristica}"/>
+						<g:textField id="caracteristica${session.mostrarFormValores}" name="caracteristica" required="" value="${caracteristica}"/>
 					</g:if>
 					<g:else>
-						<g:textField id="caracteristica" name="caracteristica" required="" value="${caracteristicaInstance?.caracteristica}"/>
+						<g:textField id="caracteristica${session.mostrarFormValores}" name="caracteristica" required="" value="${caracteristicaInstance?.caracteristica}"/>
 					</g:else>
 					
 				</div>
@@ -52,7 +52,7 @@
 										<g:message code="unidad.unidad.label" default="Unidad" />
 										
 									</label>
-									<g:textField id="unidadTexto" name="unidadTexto" value="${unidadInstance?.unidad}"/>
+									<g:textField id="unidadTexto${session.numUnidades}" name="unidadTexto${session.numUnidades}" value="${unidadInstance?.unidad}"/>
 									<br>
 									<br>
 									<fieldset class="buttons">
@@ -65,18 +65,18 @@
 			
 					</g:if>
 					<g:else>
-						<label for="unidad">
+						<label for="unidad${session.numUnidades}">
 							<g:message code="caracteristica.unidad.label" default="Unidad" />
 							<span class="required-indicator">*</span>
 						</label>
 						<g:if test="${unidadId}"> <!-- Si se agrego una unidad, debemos seleccionarla automaticamente -->
-							<g:select id="unidad" name="unidad" from="${com.redoaxaca.Unidad.list()}" optionKey="id" required="" value="${unidadId}" class="many-to-one"/>
+							<g:select id="unidad${session.numUnidades}" name="unidad${session.numUnidades}" from="${com.redoaxaca.Unidad.list()}" optionKey="id" required="" value="${unidadId}" class="many-to-one"/>
 						</g:if>
 						<g:else>
-							<g:select id="unidad" name="unidad" from="${com.redoaxaca.Unidad.list()}" optionKey="id" required="" value="${caracteristicaInstance?.unidad?.id}" class="many-to-one"/>
+							<g:select id="unidad${session.numUnidades}" name="unidad${session.numUnidades}" from="${com.redoaxaca.Unidad.list()}" optionKey="id" required="" value="${caracteristicaInstance?.unidad?.id}" class="many-to-one"/>
 						</g:else>
 						
-				        <a id="nuevaUnidad" name="nuevaUnidad" href="javascript:void(0)" onclick="addCaracteristica();return false;">Nueva unidad</a>
+				        <a href="javascript:void(0)" onclick="addCaracteristica();return false;">Nueva unidad</a>
 					</g:else>
 				</div>	
 			</fieldset>

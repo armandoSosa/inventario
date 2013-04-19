@@ -5,6 +5,7 @@
 		<title>Bienvenido a Inventarios</title>
 	</head>
 	<body class="modern-ui">
+		<br><br>
 	    <div class="page-region">
                <div class="page-region-content">
                		<div id="status" role="complementary">

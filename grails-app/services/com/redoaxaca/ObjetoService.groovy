@@ -54,7 +54,7 @@ class ObjetoService {
 		}
 	}
 	
-	Objeto guardarObjeto(String noInventario, int idTipoPropiedad, int idTipoObj) {
+	Objeto guardarObjeto(String noInventario, long idTipoPropiedad, long idTipoObj) {
 		def b = new Objeto(noInventario:noInventario, tipoPropiedad:TipoPropiedad.findById(idTipoPropiedad), tipo: Tipo.findById(idTipoObj))
 		if (!b.save(flush: true)) {
 			b.errors.each {

@@ -15,7 +15,7 @@
 		<!-- buscar persona -->
 		<div id="inline" class="inline">
 			<div id="create-tipo" class="content scaffold-create" role="main">
-				<h1>Buscar persona</h1>
+				<h2>Buscar persona</h2>
 				<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 				</g:if>
@@ -26,6 +26,11 @@
 					</g:eachError>
 				</ul>
 				</g:hasErrors>
+				
+				<br>
+				<label for="valorABuscar"> <g:message code="objeto.tipo.label"
+						default="Número de empleado" /> <span class="required-indicator">*</span>
+				</label>
 				<g:textField name="valorABuscar" required="" value=""
 				    onkeyup="${remoteFunction(
 					   controller='objeto',
