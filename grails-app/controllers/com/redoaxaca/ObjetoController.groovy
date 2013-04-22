@@ -291,7 +291,7 @@ class ObjetoController {
 	}
 	
 	def save_tipo2()  {
-		System.out.println(params)
+		System.out.println(params+"es este")
 		session['numTipos']=(Integer.parseInt(params.valor2)+1).toString()
 		
 		//Buscamos si hay tipos en el que los tres primeros caracteres sean iguales para asignar el número especial de inventario

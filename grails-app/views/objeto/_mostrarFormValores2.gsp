@@ -47,7 +47,7 @@
 			</g:else>
 			<br>
 			<!--    <a class="modalbox" href="#inline2">Nueva caracteristica</a>   -->
-			<a  class="modalbox" href="#inlinee${session.numCaracteristica}" >Nueva caracteristica</a>
+			<!--<a  class="modalbox" href="#inlinee${session.numCaracteristica}" >Nueva caracteristica</a>-->
 
 			
 			
