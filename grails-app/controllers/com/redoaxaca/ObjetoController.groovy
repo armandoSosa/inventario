@@ -291,7 +291,7 @@ class ObjetoController {
 	}
 	
 	def save_tipo2()  {
-		System.out.println(params+"es este")
+		System.out.println(params)
 		session['numTipos']=(Integer.parseInt(params.valor2)+1).toString()
 		
 		//Buscamos si hay tipos en el que los tres primeros caracteres sean iguales para asignar el número especial de inventario
@@ -623,7 +623,6 @@ class ObjetoController {
 				System.out.println("Objeto no definido ")
 				//localizamos el tipo del que se trata el objeto
 				
-				System.out.println(params.tipo1+" "+tipoObj.id)
 				
 				if (tipoObj.descripcion.length()>=3) {
 					claveInventario=tipoObj.descripcion.substring(0, 3)
@@ -799,6 +798,20 @@ class ObjetoController {
 		}
 		
 		render (template:'resultadosBusquedaPersona', model: [ personas: personas])
+		
+	}
+	
+	def buscarTipoObjeto = {
+		def tipos
+		if (!params.valorABuscar.equals("")){
+			def criterio = Tipo.createCriteria()
+			tipos = criterio.listDistinct {
+					ilike ('descripcion', "%"+params.valorABuscar+"%")
+					
+			}
+		}
+		
+		render (template:'resultadosBusquedaTipoObjeto', model: [ tipos: tipos])
 		
 	}
 	
@@ -1132,6 +1145,8 @@ class ObjetoController {
 			
 	}
 	
+	
+	
 	def save_objeto2 = {
 		
 			System.out.println(params)
@@ -1178,8 +1193,53 @@ class ObjetoController {
 			
 	}
 	
+	def save_objeto3 = {
+		
+			System.out.println(params)
+			
+			Objeto newObjeto= objetoService.guardarObjeto(params.noInventario, Long.parseLong(params.tipoPropiedad), params.tipoObjeto)
+			if (params.valor0.length()>0) {
+				params.valor0 = params.valor0.substring(0, params.valor0.length()-1)
+				String[] parametros = params.valor0.split("-")
+				System.out.println("parametros size: "+parametros.size()+" " )
+				for (int i=0; i<parametros.size(); i++) {
+					System.out.println(parametros[i]+" "+params[parametros[i]])
+				}
+				//creamos el objeto
+				
+				
+				
+				
+				//almacenamos valores
+				ArrayList<Valor> nuevosValores= new ArrayList()
+				for (int i=0; i<parametros.size(); i++) {
+					try {
+						def newValor = valorService.guardarValor(params[parametros[i]], Integer.parseInt(parametros[i].replace("valor","")),newObjeto)
+						System.out.println("se agrego valor"+parametros[i].replace("valor","")+": "+params[parametros[i]])
+						nuevosValores.add(newValor)
+						flash.message = "Valor: '${newValor.valor}' agregado"
+					} catch (ObjetoException pe) {
+						render {
+							div(class:"errors", pe.message)
+						}
+					}
+				}
+			}
+			
+			System.out.println("se agrego correctamente")
+			
+			//Agregamos los valores al objeto
+			//Objeto newObjeto2= objetoService.asignarValores(nuevosValores, newObjeto)
+			return
+			
+	}
+	
 	def buscarPer() {
 		session.setAttribute("persona", new Persona())
+	}
+	
+	def insertar5() {
+		session.setAttribute("tipoObjeto", new Tipo())
 	}
 	
 	def infoPersona(Long id) {
@@ -1187,6 +1247,46 @@ class ObjetoController {
 		def persona = Persona.findByNumeroEmpleado(id.toString())
 		System.out.println("nombre: "+persona.nombre)
 		render(template:'infoPersonaEncontrada', model: [personaInstance:persona])		
+	}
+	
+	def mostrarFormCarac(Long id) {
+		System.out.println("recibo el id del tipo: "+id)
+		
+		def criterio = Plantilla.createCriteria()
+		def criterioObjetos = Objeto.createCriteria()
+		def plantillas, objetos, mostrarCaracteristicas
+		def claveInventario=""
+		
+		def tipoObj = Tipo.findById(id)
+		
+		plantillas = criterio.listDistinct {
+			tipo {
+				eq 'id', id
+			}
+		}
+			
+		//Definimos el número de inventario de acuerdo al tipo de objeto
+		objetos = criterioObjetos.listDistinct {
+			tipo {
+				eq 'id', id
+			}
+		}
+		def numObjetosPorTipo
+		if (objetos) {
+			numObjetosPorTipo = (objetos.size()+1).toString() //agregamos más uno porque será el nuevo objeto que se agregue
+		} else {
+			numObjetosPorTipo="1"
+		}
+			
+		def aux=""
+		while (numObjetosPorTipo.length()+aux.length()<5) {
+			aux+="0"
+		}
+		numObjetosPorTipo=aux+numObjetosPorTipo
+		claveInventario=tipoObj.claveInventario+"-"
+		claveInventario+=numObjetosPorTipo+"-"+tipoObj.noInventarioSeriado.toString()
+		System.out.println(claveInventario)
+		render(template:'mostrarFormCaracteristicas', model: [tipoInstance:tipoObj, plantillas:plantillas, claveInventario:claveInventario])
 	}
 	
 	def renderImage = {
@@ -1197,6 +1297,10 @@ class ObjetoController {
 		} else {
 			response.sendError(404)
 		}
+	}
+	
+	def clic() {
+		System.out.println("dio clic")
 	}
 	
 }

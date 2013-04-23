@@ -32,6 +32,24 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${tipoInstance?.claveInventario}">
+				<li class="fieldcontain">
+					<span id="claveInventario-label" class="property-label"><g:message code="tipo.claveInventario.label" default="Clave Inventario" /></span>
+					
+						<span class="property-value" aria-labelledby="claveInventario-label"><g:fieldValue bean="${tipoInstance}" field="claveInventario"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${tipoInstance?.noInventarioSeriado}">
+				<li class="fieldcontain">
+					<span id="noInventarioSeriado-label" class="property-label"><g:message code="tipo.noInventarioSeriado.label" default="No Inventario Seriado" /></span>
+					
+						<span class="property-value" aria-labelledby="noInventarioSeriado-label"><g:fieldValue bean="${tipoInstance}" field="noInventarioSeriado"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${tipoInstance?.objetos}">
 				<li class="fieldcontain">
 					<span id="objetos-label" class="property-label"><g:message code="tipo.objetos.label" default="Objetos" /></span>

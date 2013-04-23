@@ -26,6 +26,10 @@
 					
 						<g:sortableColumn property="descripcion" title="${message(code: 'tipo.descripcion.label', default: 'Descripcion')}" />
 					
+						<g:sortableColumn property="claveInventario" title="${message(code: 'tipo.claveInventario.label', default: 'Clave Inventario')}" />
+					
+						<g:sortableColumn property="noInventarioSeriado" title="${message(code: 'tipo.noInventarioSeriado.label', default: 'No Inventario Seriado')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -33,6 +37,10 @@
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
 						<td><g:link action="show" id="${tipoInstance.id}">${fieldValue(bean: tipoInstance, field: "descripcion")}</g:link></td>
+					
+						<td>${fieldValue(bean: tipoInstance, field: "claveInventario")}</td>
+					
+						<td>${fieldValue(bean: tipoInstance, field: "noInventarioSeriado")}</td>
 					
 					</tr>
 				</g:each>

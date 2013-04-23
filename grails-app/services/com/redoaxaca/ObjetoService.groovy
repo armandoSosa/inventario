@@ -67,6 +67,21 @@ class ObjetoService {
 		
 	}
 	
+	Objeto guardarObjeto(String noInventario, long idTipoPropiedad, String tipoObjeto) {
+		def b = new Objeto(noInventario:noInventario, tipoPropiedad:TipoPropiedad.findById(idTipoPropiedad), tipo: Tipo.findByDescripcion(tipoObjeto))
+		if (!b.save(flush: true)) {
+			b.errors.each {
+				println it
+			}
+		} else {
+			System.out.println("se agrego el objeto")
+			return b
+		}
+		
+	}
+	
+	
+	
 	Objeto asignarValores(ArrayList<Valor> valores, Objeto objeto) {
 		for (Valor v: valores) {
 			objeto.addToValores(v)

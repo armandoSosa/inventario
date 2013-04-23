@@ -13,11 +13,14 @@
 									<th>
 										No. Inventario
 									</th>
-									<g:each var="valor" in="${objetoMayor.valores}">
-										<th>
-											${valor.plantilla.caracteristica}
-										</th>
-							        </g:each>
+									<g:if test="${objetoMayor?.valores}">
+										<g:each var="valor" in="${objetoMayor.valores}">
+											<th>
+												${valor.plantilla.caracteristica}
+											</th>
+								        </g:each>
+									</g:if>
+									
 								</tr>
 							</thead>
 							<tbody>
@@ -27,15 +30,18 @@
 						        			<g:link action="show" id="${objetoInstance.noInventario}">${objetoInstance.noInventario}</g:link>
 						        		
 						        		</td>
-										<g:each var="valorMayor" in="${objetoMayor.valores}">
-											<td>	
-												<g:each var="valor" in="${objetoInstance.valores}">	
-													<g:if test="${valorMayor.plantilla.caracteristica.caracteristica == valor.plantilla.caracteristica.caracteristica}">
-														${valor} ${valor.plantilla.caracteristica.unidad}
-					   								</g:if>
-												</g:each>
-											</td>        
-							            </g:each>
+						        		<g:if test="${objetoMayor?.valores}">
+						        			<g:each var="valorMayor" in="${objetoMayor.valores}">
+												<td>	
+													<g:each var="valor" in="${objetoInstance.valores}">	
+														<g:if test="${valorMayor.plantilla.caracteristica.caracteristica == valor.plantilla.caracteristica.caracteristica}">
+															${valor} ${valor.plantilla.caracteristica.unidad}
+						   								</g:if>
+													</g:each>
+												</td>        
+								            </g:each>
+										</g:if>
+										
 						            </tr>
 						        </g:each>
 							
