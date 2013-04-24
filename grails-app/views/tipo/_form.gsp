@@ -10,6 +10,22 @@
 	<g:textField name="descripcion" required="" value="${tipoInstance?.descripcion}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: tipoInstance, field: 'claveInventario', 'error')} ">
+	<label for="claveInventario">
+		<g:message code="tipo.claveInventario.label" default="Clave Inventario" />
+		
+	</label>
+	<g:textField name="claveInventario" value="${tipoInstance?.claveInventario}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: tipoInstance, field: 'noInventarioSeriado', 'error')} required">
+	<label for="noInventarioSeriado">
+		<g:message code="tipo.noInventarioSeriado.label" default="No Inventario Seriado" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:field name="noInventarioSeriado" type="number" value="${tipoInstance.noInventarioSeriado}" required=""/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: tipoInstance, field: 'objetos', 'error')} ">
 	<label for="objetos">
 		<g:message code="tipo.objetos.label" default="Objetos" />
