@@ -6,6 +6,55 @@
 		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'persona.label', default: 'Persona')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
+		
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+  <style>
+    
+  </style>
+  <script>
+  $(function() {
+    // run the currently selected effect
+    function runEffect() {
+      // get effect type from
+      var selectedEffect = "blind";
+ 
+      // most effect types need no options passed by default
+      var options = {};
+      // some effects have required parameters
+      if ( selectedEffect === "scale" ) {
+        options = { percent: 100 };
+      } else if ( selectedEffect === "size" ) {
+        options = { to: { width: 280, height: 185 } };
+      }
+ 
+      // run the effect
+      $( "#effect" ).show( selectedEffect, options, 500, callback );
+    };
+ 
+    //callback function to bring a hidden box back
+    function callback() {
+      /*setTimeout(function() {
+        $( "#effect:visible" ).removeAttr( "style" ).fadeOut();
+      }, 1000 );*/
+    };
+ 
+    // set effect from select menu value
+    $( "#button" ).click(function() {
+      runEffect();
+      return false;
+    });
+ 
+    $( "#effect" ).hide();
+  });
+  </script>
+		<script>
+  $(function() {
+    $( "#tabs" ).tabs()
+    .addClass('ui-tabs-vertical ui-helper-clearfix');
+  });
+  </script>
 	</head>
 	<body>
 		<a href="#show-persona" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -21,153 +70,140 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<ol class="property-list persona">
+			<div class="property-list persona">
+				
+				
+			<div class="page-region">
+				
+				  		<br>
+				  		
+						<h2 style="text-align: right;"class="">${personaInstance?.nombre} ${personaInstance?.paterno} ${personaInstance?.materno} </h2>
+						<br>
 			
-				<g:if test="${personaInstance?.numeroEmpleado}">
-				<li class="fieldcontain">
-					<span id="numeroEmpleado-label" class="property-label"><g:message code="persona.numeroEmpleado.label" default="Numero Empleado" /></span>
+				<div id="tabs">
+				  <ul>
+				  <g:if test="${personaInstance?.foto}">
+	               		<div id="imagenPerfil">
+							<img class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" width="200" height="300"/>
+						</div>
+						
+					</g:if>					
+				    <li><a href="#tabs-1">Información del Empleado</a></li>
+				    <li><a href="#tabs-2">Contacto</a></li>
+				    <li><a href="#tabs-3">Pertenecias</a></li>
+				  </ul>
+				  <div id="tabs-1">				  		
+				  		<h2>Información del Empleado</h2>
+				  		<br>
+				    	<g:if test="${personaInstance?.numeroEmpleado}">							
+								<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Número de empleado:</font> <g:fieldValue bean="${personaInstance}" field="numeroEmpleado"/></h3>																								
+						</g:if>
+						<br>
+						<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Nombre:</font> ${personaInstance?.nombre} ${personaInstance?.paterno} ${personaInstance?.materno} </h3>
+						<br>
+						
+						<g:if test="${personaInstance?.curp}">				
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Curp:</font> ${personaInstance?.curp} </h3>										
+						</g:if>
+						<br>
+						<g:if test="${personaInstance?.rfc}">
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">RFC:</font> ${personaInstance?.rfc} </h3>									
+						</g:if>
+						<br>
+						
+						<g:if test="${personaInstance?.fechaNacimiento}">
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Fecha Nacimiento:</font> ${personaInstance?.fechaNacimiento} </h3>									
+						</g:if>
+						<br>
+						
+						<br>
+						<g:if test="${personaInstance?.puestosPersona}">
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Puestos Persona:</font> <br>
+								<g:each in="${personaInstance.puestosPersona}" var="p">
+									${p?.encodeAsHTML()}
+								</g:each>	
+							</h3>
+						</g:if>
+							<br>
+							
+							<g:if test="${personaInstance?.subordinado}">
+								<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Subordinados:</font> <br>
+									<g:each in="${personaInstance.subordinado}" var="s">
+										${s?.encodeAsHTML()}
+									</g:each>	
+								</h3>				
+							</g:if>
+						<br>		
+							
+						<g:if test="${personaInstance?.usuarios}">
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Usuario:</font> <br>
+								<g:each in="${personaInstance.usuarios}" var="u">
+									${u?.encodeAsHTML()}
+								</g:each>	
+							</h3>
+						</g:if>			
+				  </div>
+				  <div id="tabs-2">
+				  		<h2>Contacto</h2>
+				  		<br>
+				  		<g:if test="${personaInstance?.direcciones}">
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Dirección:</font></h3> 
+								<g:each in="${personaInstance.direcciones}" var="d">
+									<h3 class="empleado">Calle: ${d?.calle}</h3>
+									<h3 class="empleado">Colonia: ${d?.colonia }</h3>
+									<h3 class="empleado">Número Exterior: ${d?.noExterior }</h3>
+									<h3 class="empleado">Número Interior: ${d?.noInterior }</h3>
+								</g:each>
+									
+						</g:if>
+				    	<br>
+						<g:if test="${personaInstance?.email}">
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Email:</font> ${personaInstance?.email} </h3>				
+						</g:if>
+						<br>
+						<g:if test="${personaInstance?.telefonos}">
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Telefonos:</font> <br>
+								<g:each in="${personaInstance.telefonos}" var="t">
+									${t?.tipoTelefono }: ${t?.encodeAsHTML()}  <br>
+								</g:each>							 
+							 </h3>				
+						</g:if>	
+				  </div>
+				  <div id="tabs-3">
+				    <h2>Pertenencias</h2>
+				  		<br>
+				  		<g:if test="${personaInstance?.objetosPersona}">
+				  			<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Pertenencias:</font> 
+				  			</h3><br>
+				  				<table>		
+				  					<tbody>	
+				  						<tr><td>Tipo de objeto</td><td>Tipo de propiedad</td></tr>		  										  					
+					  						<g:each in="${personaInstance.objetosPersona}" var="o">
+					  						<tr>
+												<td>${o?.objeto?.tipo}</td><td>${o?.objeto?.tipoPropiedad } </td>
+											</tr>
+											</g:each>						  					
+				  					</tbody>
+				  				</table>
+				  											 
+							 							
+						</g:if>
+						<g:else>
+							<h3 class="empleado">Este usuario no tiene pertenencias.</h3>	
+						</g:else>
+				  </div>
+				</div>
 					
-						<span class="property-value" aria-labelledby="numeroEmpleado-label"><g:fieldValue bean="${personaInstance}" field="numeroEmpleado"/></span>
-					
-				</li>
-				</g:if>
 			
-				<g:if test="${personaInstance?.nombre}">
-				<li class="fieldcontain">
-					<span id="nombre-label" class="property-label"><g:message code="persona.nombre.label" default="Nombre" /></span>
-					
-						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${personaInstance}" field="nombre"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.paterno}">
-				<li class="fieldcontain">
-					<span id="paterno-label" class="property-label"><g:message code="persona.paterno.label" default="Paterno" /></span>
-					
-						<span class="property-value" aria-labelledby="paterno-label"><g:fieldValue bean="${personaInstance}" field="paterno"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.materno}">
-				<li class="fieldcontain">
-					<span id="materno-label" class="property-label"><g:message code="persona.materno.label" default="Materno" /></span>
-					
-						<span class="property-value" aria-labelledby="materno-label"><g:fieldValue bean="${personaInstance}" field="materno"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.curp}">
-				<li class="fieldcontain">
-					<span id="curp-label" class="property-label"><g:message code="persona.curp.label" default="Curp" /></span>
-					
-						<span class="property-value" aria-labelledby="curp-label"><g:fieldValue bean="${personaInstance}" field="curp"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.rfc}">
-				<li class="fieldcontain">
-					<span id="rfc-label" class="property-label"><g:message code="persona.rfc.label" default="Rfc" /></span>
-					
-						<span class="property-value" aria-labelledby="rfc-label"><g:fieldValue bean="${personaInstance}" field="rfc"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.fechaNacimiento}">
-				<li class="fieldcontain">
-					<span id="fechaNacimiento-label" class="property-label"><g:message code="persona.fechaNacimiento.label" default="Fecha Nacimiento" /></span>
-					
-						<span class="property-value" aria-labelledby="fechaNacimiento-label"><g:formatDate date="${personaInstance?.fechaNacimiento}" /></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.email}">
-				<li class="fieldcontain">
-					<span id="email-label" class="property-label"><g:message code="persona.email.label" default="Email" /></span>
-					
-						<span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${personaInstance}" field="email"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.foto}">
-				<li class="fieldcontain">
-					<span id="foto-label" class="property-label"><g:message code="persona.foto.label" default="Foto" /></span>
-					<img src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>"/>
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.direcciones}">
-				<li class="fieldcontain">
-					<span id="direcciones-label" class="property-label"><g:message code="persona.direcciones.label" default="Direcciones" /></span>
-					
-						<g:each in="${personaInstance.direcciones}" var="d">
-						<span class="property-value" aria-labelledby="direcciones-label"><g:link controller="direccion" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.objetosPersona}">
-				<li class="fieldcontain">
-					<span id="objetosPersona-label" class="property-label"><g:message code="persona.objetosPersona.label" default="Objetos Persona" /></span>
-					
-						<g:each in="${personaInstance.objetosPersona}" var="o">
-						<span class="property-value" aria-labelledby="objetosPersona-label"><g:link controller="objetoPersona" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.puestosPersona}">
-				<li class="fieldcontain">
-					<span id="puestosPersona-label" class="property-label"><g:message code="persona.puestosPersona.label" default="Puestos Persona" /></span>
-					
-						<g:each in="${personaInstance.puestosPersona}" var="p">
-						<span class="property-value" aria-labelledby="puestosPersona-label"><g:link controller="puestoPersona" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.subordinado}">
-				<li class="fieldcontain">
-					<span id="subordinado-label" class="property-label"><g:message code="persona.subordinado.label" default="Subordinado" /></span>
-					
-						<g:each in="${personaInstance.subordinado}" var="s">
-						<span class="property-value" aria-labelledby="subordinado-label"><g:link controller="persona" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.telefonos}">
-				<li class="fieldcontain">
-					<span id="telefonos-label" class="property-label"><g:message code="persona.telefonos.label" default="Telefonos" /></span>
-					
-						<g:each in="${personaInstance.telefonos}" var="t">
-						<span class="property-value" aria-labelledby="telefonos-label"><g:link controller="telefono" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></span>
-						</g:each>					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.usuarios}">
-				<li class="fieldcontain">
-					<span id="usuarios-label" class="property-label"><g:message code="persona.usuarios.label" default="Usuarios" /></span>
-					
-						<g:each in="${personaInstance.usuarios}" var="u">
-						<span class="property-value" aria-labelledby="usuarios-label"><g:link controller="usuario" action="show" id="${u.id}">${u?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-			</ol>
+               
+               </div>
+        	</div>			
+		</div>			
+
+<a href="#" id="button" class="ui-state-default ui-corner-all">Run Effect</a>
+
+
+
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${personaInstance?.id}" />
