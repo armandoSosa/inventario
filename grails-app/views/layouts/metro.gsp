@@ -29,6 +29,27 @@
 		</g:javascript>
 		
 		<style type="text/css" media="screen">
+		
+			.imagenPerfil{
+				margin-left: 17px;
+				margin-top: 15px;
+				margin-bottom: 15px;
+			}
+			
+			.empleado{
+				margin-left: 20px;
+				font-size: 1.1em;  				
+			}
+			
+			.atributoEmpleado{
+				font-weight:500;
+				color: black;
+			}
+			
+			.informacionEmpleado{
+				
+				border-bottom: 1px solid gray;
+			}
 			#status {
 				background-color: #eee;
 				margin: 2em 2em 1em;
@@ -38,6 +59,13 @@
 				-moz-box-shadow: 0px 0px 1.25em #ccc;
 				-webkit-box-shadow: 0px 0px 1.25em #ccc;
 				box-shadow: 0px 0px 1.25em #ccc;
+			}
+			
+			#imagenPerfil {								
+				float: left;
+				-moz-box-shadow: 0px 0px 0em #ccc;
+				-webkit-box-shadow: 0px 0px 0em #ccc;
+				box-shadow: 0px 0px 0em #ccc;
 			}
 
 			.ie6 #status {
@@ -100,7 +128,59 @@
 				}
 			}
 			
-			
+			.ui-tabs.ui-tabs-vertical {
+			    padding: 0;
+			    width: 100%;
+			}
+			.ui-tabs.ui-tabs-vertical .ui-widget-header {
+			    border: none;
+			}
+			.ui-tabs.ui-tabs-vertical .ui-tabs-nav {
+				
+			    float: left;
+			    width: 15em;
+			    background: white;
+			    border-radius: 4px 0 0 4px;
+			    border-right: 1px solid gray;
+			}
+			.ui-tabs.ui-tabs-vertical .ui-tabs-nav li {
+			    clear: left;
+			    width: 100%;
+			    margin: 0.2em 0;
+			    border: 1px solid gray;
+			    border-width: 1px 0 1px 1px;
+			    border-radius: 4px 0 0 4px;
+			    overflow: hidden;
+			    position: relative;
+			    right: -2px;
+			    z-index: 2;
+			}
+			.ui-tabs.ui-tabs-vertical .ui-tabs-nav li a {
+			    display: block;
+			    width: 100%;
+			    padding: 0.6em 1em;
+			}
+			.ui-tabs.ui-tabs-vertical .ui-tabs-nav li a:hover {
+			    cursor: pointer;
+			}
+			.ui-tabs.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+			    margin-bottom: 0.2em;
+			    padding-bottom: 0;
+			    border-right: 1px solid white;
+			}
+			.ui-tabs.ui-tabs-vertical .ui-tabs-nav li:last-child {
+			    margin-bottom: 10px;
+			}
+			.ui-tabs.ui-tabs-vertical .ui-tabs-panel {				
+			    float: left;
+			    width: 70%;
+			    border-left: 1px solid gray;
+			    border-radius: 0;
+			    position: relative;
+			    left: -1px;
+			}
+
+						
 			</style>
 		
 		
