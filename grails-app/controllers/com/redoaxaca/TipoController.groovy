@@ -12,6 +12,10 @@ class TipoController {
 		
 	}
 	
+	def insertar2 = {
+	
+	}
+	
 	def insertarTipo = {
 		try {
 			def newTipo = tipoService.crearTipo(params.descripcion)
@@ -117,4 +121,10 @@ class TipoController {
             redirect(action: "show", id: id)
         }
     }
+	
+	def verificarExistencia() {
+		System.out.println("uno "+params.tipoTexto)
+		def tipoProbable = Tipo.findByDescripcion(params.tipoTexto)
+		render(controller:"tipo", template: "formAgregarTipo", model: [tipoProbable: tipoProbable])
+	}
 }
