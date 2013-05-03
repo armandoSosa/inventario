@@ -9,6 +9,24 @@
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'style.css')}" type="text/css">
 		<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.min.js')}"></script>
 		<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.js?v=2.0.6')}"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(".modalbox").fancybox();
+				
+			});
+			 var submitTipo = function() {
+			    
+			    	$(".error").remove();		
+					if( $("#tipoTexto").val() == "" ){
+						$("#tipoTexto").focus().after("<span class='error'>Ingrese una descripción</span>");
+					} else if( $("#tipoTexto").val().length<3 ){
+						$("#tipoTexto").focus().after("<span class='error'>La descripción debe ser de al menos 3 caracteres</span>");
+					} else {
+						//verificamos si ya existe ese tipo de objeto
+						${ remoteFunction (controller:'tipo', action:'resultadoExistencia', id:'5', params: '\'tipoTexto=\' + \$(\'#tipoTexto\').val()', update:'divExistencia')}
+					}
+			 }
+		</script>
 	</head>
 	<body>
 		<a href="#create-tipo" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>

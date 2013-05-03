@@ -352,12 +352,7 @@
 											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objetoPersona/insertar">Asignación de objetos</a></li>
 											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/persona/empleados">Ver Empleados</a></li>
 											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/buscarPer">Buscar Empleado</a></li>
-											<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Catálogos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
-												<ul class="pureCssMenum ">
-													<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/tipoTelefono/menu">Tipos de Teléfonos</a></li>
-													<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/estado/menu">Estados</a></li>
-													<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/municipio/menu">Municipios</a></li>
-												</ul>
+											
 										</ul>
 									<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Usuarios</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
 										<ul class="pureCssMenum ">
@@ -371,7 +366,7 @@
 									
 								</ul>
 							<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
-							<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Objetos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+							<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Inventarios</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
 								<ul class="pureCssMenum">
 									<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/insertar3">Nuevo</a></li>
 									<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Ver Objetos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
@@ -379,7 +374,20 @@
 											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/menu">Mostrar objetos</a></li>
 											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/listadoPorTipo">Filtrados por tipo</a></li>
 										</ul>
+									<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Tipos de objeto</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+										<ul class="pureCssMenum ">
+											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/tipo/insertar2">Nuevo</a></li>
+											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/persona/empleados">Ver Empleados</a></li>
+											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/buscarPer">Buscar Empleado</a></li>
+											<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Catálogos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+												<ul class="pureCssMenum ">
+													<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/tipoTelefono/menu">Tipos de Teléfonos</a></li>
+													<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/estado/menu">Estados</a></li>
+													<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/municipio/menu">Municipios</a></li>
+												</ul>
+										</ul>
 								</ul>
+							
 							<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
 							<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Departamentos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
 								<ul class="pureCssMenum">
