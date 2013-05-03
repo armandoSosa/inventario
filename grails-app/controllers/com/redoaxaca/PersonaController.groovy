@@ -5,7 +5,6 @@ import java.awt.print.Printable;
 import org.springframework.dao.DataIntegrityViolationException
 
 class PersonaController {
-	
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	def scaffold = true
