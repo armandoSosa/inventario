@@ -27,7 +27,7 @@
 						<div class="span8">
                             <div class="hero-unit">
                                 <!--<img src="images/windows-8-metro.jpg" class="place-right" style="width: 210px;"/>-->
-                                <div style="">
+                                 <div style="">
                                     <h1 class="fg-color-blueLight">Metro UI CSS</h1>
 
                                     <h2>Create site in Windows 8 style now!</h2>

@@ -31,11 +31,11 @@ class PersonaController {
 	def insertar2(Long id){
 		session["estado"] = 0
 		session["persona"] = true
-		[idEstado : id, personaInstance: new Persona(params), municipioInstance: new Municipio(params), estadoInstance: new Estado(params), telefonoInstance: new Telefono(params) ]
+		[idEstado : id, personaInstance: new Persona(params), municipioInstance: new Municipio(params), estadoInstance: new Estado(params), telefonoInstance: new Telefono(params), fotoInstance: new Foto(params) ]
 	}
 	
 	def renderImage = {
-		def user = Persona.findById(params.id)	    
+		def user = Foto.findById(params.id)	    
 		if (user?.foto) {
 		response.setContentLength(user.foto.length)
 		response.outputStream.write(user.foto)
@@ -76,9 +76,16 @@ class PersonaController {
 		def direccionInstance = new Direccion(params)		
 		direccionInstance.fecha = new Date()
 		direccionInstance.persona = personaInstance
-		
+			
 		personaInstance.properties = params		
-				
+		String rfc = params.rfc
+		String anio = rfc.substring(4, 6)
+		String mes = rfc.substring(6, 8)
+		String dia = rfc.substring(8, 10)
+		Date fecha = new Date(Integer.parseInt(anio), Integer.parseInt(mes)-1, Integer.parseInt(dia))
+		
+		personaInstance.fechaNacimiento = fecha
+		
 	   // find the phones that are marked for deletion
 	   def _toBeDeleted = personaInstance.telefonos.findAll {(it?.deleted || (it == null))}
 		

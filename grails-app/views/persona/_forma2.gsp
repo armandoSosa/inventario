@@ -1,8 +1,7 @@
 <%@ page import="com.redoaxaca.Persona" %>
 <g:setProvider library="jquery"/>
 
-<fieldset>
-<legend>Información personal</legend>
+
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'numeroEmpleado', 'error')} required">
 	<label for="numeroEmpleado">
 		<g:message code="persona.numeroEmpleado.label" default="Numero Empleado" />
@@ -13,7 +12,7 @@
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'nombre', 'error')} required">
 	<label for="nombre">
-		<g:message code="persona.nombre.label" default="Nombre" />
+		<g:message code="persona.nombre.label" default="Nombre(s)" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="nombre" required="" value="${personaInstance?.nombre}"/>
@@ -21,7 +20,7 @@
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'paterno', 'error')} required">
 	<label for="paterno">
-		<g:message code="persona.paterno.label" default="Paterno" />
+		<g:message code="persona.paterno.label" default="Apellido Paterno" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="paterno" required="" value="${personaInstance?.paterno}"/>
@@ -29,7 +28,7 @@
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'materno', 'error')} required">
 	<label for="materno">
-		<g:message code="persona.materno.label" default="Materno" />
+		<g:message code="persona.materno.label" default="Apellido Materno" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="materno" required="" value="${personaInstance?.materno}"/>
@@ -37,7 +36,7 @@
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'curp', 'error')} required">
 	<label for="curp">
-		<g:message code="persona.curp.label" default="Curp" />
+		<g:message code="persona.curp.label" default="CURP" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="curp" required="" value="${personaInstance?.curp}"/>
@@ -45,19 +44,13 @@
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'rfc', 'error')} required">
 	<label for="rfc">
-		<g:message code="persona.rfc.label" default="Rfc" />
+		<g:message code="persona.rfc.label" default="RFC" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="rfc" required="" value="${personaInstance?.rfc}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'fechaNacimiento', 'error')} required">
-	<label for="fechaNacimiento">
-		<g:message code="persona.fechaNacimiento.label" default="Fecha Nacimiento" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:datePicker name="fechaNacimiento" precision="day"  value="${personaInstance?.fechaNacimiento}"  />
-</div>
+
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'email', 'error')} ">
 	<label for="email">
@@ -67,7 +60,7 @@
 	<g:field type="email" name="email" value="${personaInstance?.email}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'telefono', 'error')} ">	
+<div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'telefono', 'error')} ">
 	<table>
 		<tbody>			
 			<tr class="prop">
@@ -80,15 +73,7 @@
 	</table>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'foto', 'error')} required">
-	<label for="foto">
-		<g:message code="persona.foto.label" default="Foto" />
-		<span class="required-indicator">*</span>
-	</label>
-	<input type="file" id="foto" name="foto" />
-</div>
-</fieldset>
-
+<br><br>
 <fieldset>
 <legend>Dirección</legend>
 
@@ -146,7 +131,7 @@
 	</label>	
 	
 	<g:select id="municipio" name="municipio.id" from="${municipiosList}" optionKey="id" required="" value="${direccionInstance?.municipio?.id}" class="many-to-one"/>	
-	<a class="modalbox" href="#inline2">Nuevo Municipio</a>	
+	<a id="nuevoMunicipio" class="modalbox" href="#inline2">Nuevo Municipio</a>	
 </div>
 
 

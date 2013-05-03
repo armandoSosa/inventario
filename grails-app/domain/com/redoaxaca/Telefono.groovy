@@ -15,6 +15,7 @@ class Telefono {
 	static belongsTo = [persona: Persona, tipoTelefono: TipoTelefono]
 
     static constraints = {
+		tipoTelefono(nullable:true)
     }
 	
 	String toString() {

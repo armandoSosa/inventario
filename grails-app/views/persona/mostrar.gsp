@@ -3,6 +3,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	
+		<link rel="stylesheet" href="${resource(dir:'css',file:'jquery.Jcrop.css')}" />
+		<g:javascript plugin="jquery" />
+		<g:javascript src="jcrop/jquery.min.js" />
+		<g:javascript src="jcrop/jquery.Jcrop.min.js" />
+		
 		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'persona.label', default: 'Persona')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
@@ -10,46 +16,8 @@
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
-  <style>
-    
-  </style>
-  <script>
-  $(function() {
-    // run the currently selected effect
-    function runEffect() {
-      // get effect type from
-      var selectedEffect = "blind";
- 
-      // most effect types need no options passed by default
-      var options = {};
-      // some effects have required parameters
-      if ( selectedEffect === "scale" ) {
-        options = { percent: 100 };
-      } else if ( selectedEffect === "size" ) {
-        options = { to: { width: 280, height: 185 } };
-      }
- 
-      // run the effect
-      $( "#effect" ).show( selectedEffect, options, 500, callback );
-    };
- 
-    //callback function to bring a hidden box back
-    function callback() {
-      /*setTimeout(function() {
-        $( "#effect:visible" ).removeAttr( "style" ).fadeOut();
-      }, 1000 );*/
-    };
- 
-    // set effect from select menu value
-    $( "#button" ).click(function() {
-      runEffect();
-      return false;
-    });
- 
-    $( "#effect" ).hide();
-  });
-  </script>
-		<script>
+  
+<script>
   $(function() {
     $( "#tabs" ).tabs()
     .addClass('ui-tabs-vertical ui-helper-clearfix');
@@ -84,7 +52,7 @@
 				  <ul>
 				  <g:if test="${personaInstance?.foto}">
 	               		<div id="imagenPerfil">
-							<img class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" width="200" height="300"/>
+							<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" width="200" height="300"/>
 						</div>
 						
 					</g:if>					
@@ -114,13 +82,17 @@
 						<g:if test="${personaInstance?.fechaNacimiento}">
 							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Fecha Nacimiento:</font> ${personaInstance?.fechaNacimiento} </h3>									
 						</g:if>
-						<br>
-						
-						<br>
+						<br>					
 						<g:if test="${personaInstance?.puestosPersona}">
-							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Puestos Persona:</font> <br>
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Puesto:</font> <br>
 								<g:each in="${personaInstance.puestosPersona}" var="p">
-									${p?.encodeAsHTML()}
+									${p?.puesto?.nombre}
+								</g:each>	
+							</h3>
+							<br>
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Departamento:</font> <br>
+								<g:each in="${personaInstance.puestosPersona}" var="p">
+									${p?.puesto?.departamento?.nombre}
 								</g:each>	
 							</h3>
 						</g:if>
@@ -200,9 +172,6 @@
         	</div>			
 		</div>			
 
-<a href="#" id="button" class="ui-state-default ui-corner-all">Run Effect</a>
-
-
 
 			<g:form>
 				<fieldset class="buttons">
@@ -211,6 +180,6 @@
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>
-		</div>
+		
 	</body>
 </html>

@@ -40,7 +40,7 @@
         //check if this is still not persisted
         var newValue = prnt.find("input[id$=new]").attr('value');
         //if it is new then i can safely remove from dom
-        delInput.attr('value','true');               
+                      
         if(newValue == 'true'){
             prnt.remove();
         }else{
@@ -48,7 +48,7 @@
             delInput.attr('value','true');
             //hide the div
             prnt.hide();
-        }        
+        }     
     });
 
 
