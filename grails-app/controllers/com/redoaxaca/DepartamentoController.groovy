@@ -212,7 +212,7 @@ class DepartamentoController {
 			if (!depto.save(flush: true)) {
 				System.out.println("se guardaron los departamentos");
 			} else {
-				System.out.println("ERROR "+depto.getNombre());
+				System.out.println(" "+depto.getNombre());
 			}
 		} else  {
 			System.out.println("depto no definido");
