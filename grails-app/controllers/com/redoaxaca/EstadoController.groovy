@@ -130,5 +130,18 @@ class EstadoController {
             redirect(action: "show", id: id)
         }
     }
-
+	
+	def buscarEstado = {
+		def tipos
+		if (!params.valor.equals("")){
+			def criterio = Tipo.createCriteria()
+			tipos = criterio.listDistinct {
+					ilike ('nombre', "%"+params.valor+"%")
+					
+			}
+		}
+		
+		render (template:'tablaCiudades', model: [ tipos: tipos])
+		
+	}
 }
