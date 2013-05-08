@@ -368,7 +368,7 @@
 							<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
 							<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Inventarios</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
 								<ul class="pureCssMenum">
-									<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/insertar3">Nuevo</a></li>
+									<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/insertar5">Nuevo</a></li>
 									<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Ver Objetos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
 										<ul class="pureCssMenum ">
 											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/menu">Mostrar objetos</a></li>

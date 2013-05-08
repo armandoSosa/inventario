@@ -42,10 +42,7 @@ class DepartamentoController {
 		[departamentoInstanceList: Departamento.list(params), departamentoInstanceTotal: Departamento.count()]
 	}
 	
-	def menu2(Integer max) {
-		//params.max = Math.min(max ?: 10, 100)
-		//[departamentoInstanceList: Departamento.list(params), departamentoInstanceTotal: Departamento.count()]
-		//[[{v : '1',	f : 'Mike'}, '', '' ],[{v : '2', f : 'Jim'}, '1', '' ], [ {v : '3',f : 'Alice'}, '1', '' ], [ {v : '4', f : 'Bob'}, '2', '' ], [ {v : '5', f : 'Carol'}, '4', 'hola' ] ]
+	def menu2() {
 		def departamentos = Departamento.list();
 		
 		JSONArray arrayRaiz=new JSONArray();
@@ -65,17 +62,20 @@ class DepartamentoController {
 			}
 		}
 		//buscamos el departamento raiz
-		Departamento raiz = departamentos.get(0);
-		JSONArray arrayObj=new JSONArray();
-		JSONObject jsonDepartamento = new JSONObject();
-		jsonDepartamento.put('v', raiz.id.toString());
-		jsonDepartamento.put('f', raiz.nombre);
-		System.out.println(raiz.nombre);
+		if (departamentos.size()>0) {
+			Departamento raiz = departamentos.get(0);
+			JSONArray arrayObj=new JSONArray();
+			JSONObject jsonDepartamento = new JSONObject();
+			jsonDepartamento.put('v', raiz.id.toString());
+			jsonDepartamento.put('f', raiz.nombre);
+			System.out.println(raiz.nombre);
+			
+			arrayObj.put(jsonDepartamento);
+			arrayObj.put('');
+			arrayObj.put('');
+			arrayRaiz.put(arrayObj);
+		}
 		
-		arrayObj.put(jsonDepartamento);
-		arrayObj.put('');
-		arrayObj.put('');
-		arrayRaiz.put(arrayObj);
 		
 		System.out.println(arrayRaiz.toString());
 		[datos: arrayRaiz.toString()]

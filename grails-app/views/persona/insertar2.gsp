@@ -26,7 +26,7 @@
 	</script>-->
 	<script>
 		function llamarInLine(){
-			$("#formFoto").submit();						
+			//$("#formFoto").submit();						
 			$("#nuevaImagen").click();
 		}
 
@@ -236,10 +236,10 @@
 				<br><br>
 				<g:form action="save_tipotelefono_persona" controller="tipoTelefono">
 				<fieldset class="form">							
-					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="33"/>"/>
+					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="1" />" width="400" height="400"/>
 					<div id="preview-pane">
-					    <div class="preview-container">
-					      <img src="<g:createLink controller='persona' action='renderImage' id="33"/>" class="jcrop-preview" alt="Preview" />
+					    <div class="preview-container" >
+					      <img src="<g:createLink controller='persona' action='renderImage' id="1"/>" class="jcrop-preview" alt="Preview" />
 					    </div>
 					  </div>	
 					<br><br><br><br>

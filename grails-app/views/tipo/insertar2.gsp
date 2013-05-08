@@ -17,23 +17,23 @@
 <script type="text/javascript"
 	src="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.js?v=2.0.6')}"></script>
 <script type="text/javascript">
-			$(document).ready(function() {
-				$(".modalbox").fancybox();
-				
-			});
-			 var submitTipo = function() {
-			    
-			    	$(".error").remove();		
-					if( $("#tipoTexto").val() == "" ){
-						$("#tipoTexto").focus().after("<span class='error'>Ingrese una descripción</span>");
-					} else if( $("#tipoTexto").val().length<3 ){
-						$("#tipoTexto").focus().after("<span class='error'>La descripción debe ser de al menos 3 caracteres</span>");
-					} else {
-						//verificamos si ya existe ese tipo de objeto
-						${ remoteFunction (controller:'tipo', action:'resultadoExistencia', id:'5', params: '\'tipoTexto=\' + \$(\'#tipoTexto\').val()', update:'divExistencia')}
-					}
-			 }
-		</script>
+	function validarEnvio() {
+		//alert($('#descripcion').val());
+		
+		alert(abecedario($('#descripcion').val()));
+	}
+
+	function abecedario(dato) {
+		var todosLetras=true;
+		for(var i=0; i<dato.length; i++) {
+			if (dato.charCodeAt(i)<97 || dato.charCodeAt(i)>122) {
+				todosLetras=false;
+			}
+		}
+		return todosLetras;
+	}
+	
+</script>
 </head>
 <body>
 	<a href="#create-tipo" class="skip" tabindex="-1"><g:message
@@ -49,31 +49,15 @@
 	</div>
 	<div id="create-tipo" class="content scaffold-create" role="main">
 		<h1>Crear Tipo de Objeto</h1>
-		<g:form action="save">
+		<g:form id="formTipo" action="save_tipo">
 			<fieldset class="form">
-				<div id="create-tipo" class="content scaffold-create" role="main">
-					<h2>Agregar tipo</h2>
-					<br>
-					<h3>Ingrese el nombre del tipo de objeto</h3>
-					<g:if test="${flash.message}">
-						<div class="message" role="status">
-							${flash.message}
-						</div>
-					</g:if>
-
-					<br> <label for="tipoTexto"> <g:message
-							code="objeto.tipo.label" default="Tipo de objeto" /> <span
-						class="required-indicator">*</span>
-					</label>
-					<g:textField id="tipoTexto" name="tipoTexto" required="" value="" />
-					<br> <br> <br>
-					
-				</div>
+				<g:render template="form4" />
 			</fieldset>
 			<fieldset class="buttons">
-						<a name="create" class="save" href="javascript:void(0)"
-							onclick="submitTipo();return false;">Crear</a>
-					</fieldset>
+				<a name="create" class="save" onClick="validarEnvio()">Crear</a>
+				<g:submitButton name="create" class="save"
+					value="Crear" />
+			</fieldset>
 		</g:form>
 	</div>
 </body>

@@ -47,7 +47,7 @@
 	background: -moz-linear-gradient(top, #cfe6ef 0%, #edfcff 100%);
 	background: -webkit-linear-gradient(top, #cfe6ef 0%,#edfcff 100%);
 }
-.error{
+.validacion{
 	background-color: #6D6D6D;
 	padding: 6px 12px;
 	border-radius: 4px;
@@ -57,7 +57,7 @@
 	position: absolute;
 	font-size:12px;
 }
-.error:before{
+.validacion:before{
 	content: '';
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;

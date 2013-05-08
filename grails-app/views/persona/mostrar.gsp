@@ -50,12 +50,12 @@
 			
 				<div id="tabs">
 				  <ul>
-				  <g:if test="${personaInstance?.foto}">
+				  
 	               		<div id="imagenPerfil">
-							<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" width="200" height="300"/>
+							<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="1"/>" width="200" height="300"/>
 						</div>
 						
-					</g:if>					
+								
 				    <li><a href="#tabs-1">Información del Empleado</a></li>
 				    <li><a href="#tabs-2">Contacto</a></li>
 				    <li><a href="#tabs-3">Pertenecias</a></li>
