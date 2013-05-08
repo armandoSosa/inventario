@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html>
 	<head>		
+	
+	 <script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
+			<script src="${resource(dir: 'js', file: 'jquery.maskedinput.min.js')}" type="text/javascript"></script>
 		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'persona.label', default: 'Persona')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
@@ -14,10 +17,9 @@
 		
 		<g:javascript src="jcrop/jquery.Jcrop.min.js" />
 		  
-		  <!--  
-		  <script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
-			<script src="${resource(dir: 'js', file: 'jquery.maskedinput.min.js')}" type="text/javascript"></script>
-			
+		  
+		 
+			<!--  
 		<script type="text/javascript">
 		    $(function() {
 		        $.mask.definitions['~'] = "[+-]";        
@@ -26,11 +28,30 @@
 	</script>-->
 	<script>
 		function llamarInLine(){
-			$("#formFoto").submit();						
+			//$("#formFoto").submit();						
 			$("#nuevaImagen").click();
 		}
 
-		
+		function validar(e, tipo) {
+		    tecla = (document.all) ? e.keyCode : e.which;
+		    if (tecla==8) return true;
+		    if(tipo==1){
+		    	patron =/\w/;
+			}else if(tipo==2){
+				patron =/\d/;
+			}
+			else if(tipo==3){
+				patron =/[A-Za-zñÑ\s]/;
+			}
+		    te = String.fromCharCode(tecla);		    
+		    return patron.test(te);
+		} 
+	/*
+		$(function() {
+	        $.mask.definitions['~'] = "[+-]";        
+	        $("#rfc").mask("aaaa999999***", { placeholder: " " });		
+	        $("#curp").mask("aaaa999999********", { placeholder: " " });
+	    });*/
 	</script>	
 	<script type="text/javascript">
 		jQuery(function($){
@@ -193,7 +214,7 @@
 		
 		
 		<!-- hidden inline form -->
-		<div id="inline">		
+		<div id="inline4">		
 			<div id="create-estado" class="content scaffold-create" role="main">
 				<h1>Nuevo Estado</h1>
 				<g:hasErrors bean="${estadoInstance}">
@@ -226,6 +247,37 @@
 					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />					
 				</fieldset>
 			</g:form>
+			</div>
+		</div>
+		
+		<!-- buscar tipo -->
+		<div id="inline">
+			<div id="create-tipo" class="content scaffold-create" role="main">
+				<h2>Buscar tipo</h2>
+				<br>
+				<h3>Ingrese una descripción del tipo de objeto a buscar</h3>
+				<g:if test="${flash.message}">
+				<div class="message" role="status">${flash.message}</div>
+				</g:if>
+				<g:hasErrors bean="${tipoInstance}">
+				<ul class="errors" role="alert">
+					<g:eachError bean="${tipoInstance}" var="error">
+					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+					</g:eachError>
+				</ul>
+				</g:hasErrors>
+				
+				<br>
+				<label for="valorABuscar"> <g:message code="objeto.tipo.label"
+						default="Tipo de objeto" /> <span class="required-indicator">*</span>
+				</label>
+				<g:textField name="valorABuscar" required="" value=""
+				    onkeyup="${remoteFunction(
+					   controller='estado',
+					   action: 'buscarEstado',
+                       update: 'estados',
+                       params: '\'estado=\' + this.value')}"/> 
+				<div id="estados"></div>
 			</div>
 		</div>
 		

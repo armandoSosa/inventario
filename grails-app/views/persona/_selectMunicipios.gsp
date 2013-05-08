@@ -1,4 +1,4 @@
-<div id="municipioDiv" class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">	
+<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">	
 	<label for="municipio">
 		<g:message code="direccion.municipio.label" default="Municipio" />
 		<span class="required-indicator">*</span>
@@ -10,7 +10,6 @@
     <g:else>
         No hay municipios registrados para este Estado        
     </g:else>    
-    <a class="modalbox" href="#inline2">Nuevo Municipio</a>
     
     <!-- hidden inline form -->
 		<div id="inline2">		

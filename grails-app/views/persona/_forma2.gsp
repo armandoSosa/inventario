@@ -7,7 +7,7 @@
 		<g:message code="persona.numeroEmpleado.label" default="Numero Empleado" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="numeroEmpleado" required="" value="${personaInstance?.numeroEmpleado}"/>
+	<g:textField name="numeroEmpleado" required="" value="${personaInstance?.numeroEmpleado}" onkeypress="return validar(event, 2)"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'nombre', 'error')} required">
@@ -15,7 +15,7 @@
 		<g:message code="persona.nombre.label" default="Nombre(s)" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="nombre" required="" value="${personaInstance?.nombre}"/>
+	<g:textField name="nombre" required="" value="${personaInstance?.nombre}" style="text-transform:uppercase;"  onkeypress="return validar(event,3)"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'paterno', 'error')} required">
@@ -23,15 +23,15 @@
 		<g:message code="persona.paterno.label" default="Apellido Paterno" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="paterno" required="" value="${personaInstance?.paterno}"/>
+	<g:textField name="paterno" required="" value="${personaInstance?.paterno}" style="text-transform:uppercase;" onkeypress="return validar(event,3)"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'materno', 'error')} required">
 	<label for="materno">
 		<g:message code="persona.materno.label" default="Apellido Materno" />
 		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="materno" required="" value="${personaInstance?.materno}"/>
+	</label> 
+	<g:textField name="materno" required="" value="${personaInstance?.materno}" style="text-transform:uppercase;" onkeypress="return validar(event,3)"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'curp', 'error')} required">
@@ -39,7 +39,7 @@
 		<g:message code="persona.curp.label" default="CURP" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="curp" required="" value="${personaInstance?.curp}"/>
+	<g:textField id="curp" name="curp" required="" value="${personaInstance?.curp}" style="text-transform:uppercase;" onkeypress="return validar(event,1)" maxlength="18"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'rfc', 'error')} required">
@@ -47,7 +47,7 @@
 		<g:message code="persona.rfc.label" default="RFC" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="rfc" required="" value="${personaInstance?.rfc}"/>
+	<g:textField id="rfc" name="rfc" required="" value="${personaInstance?.rfc}" style="text-transform:uppercase;" onkeypress="return validar(event,1)" maxlength="13"/>
 </div>
 
 
@@ -57,7 +57,7 @@
 		<g:message code="persona.email.label" default="Email" />
 		
 	</label>
-	<g:field type="email" name="email" value="${personaInstance?.email}"/>
+	<g:field type="email" name="email" value="${personaInstance?.email}" />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'telefono', 'error')} ">
@@ -83,7 +83,7 @@
 		<g:message code="direccion.calle.label" default="Calle" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="calle" required="" value="${direccionInstance?.calle}"/>
+	<g:textField name="calle" required="" value="${direccionInstance?.calle}" style="text-transform:uppercase;" onkeypress="return validar(event,3)"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'colonia', 'error')} required">
@@ -91,7 +91,7 @@
 		<g:message code="direccion.colonia.label" default="Colonia" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="colonia" required="" value="${direccionInstance?.colonia}"/>
+	<g:textField name="colonia" required="" value="${direccionInstance?.colonia}" style="text-transform:uppercase;" onkeypress="return validar(event,3)"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'ciudad', 'error')} required">	
@@ -108,7 +108,7 @@
                       params: '\'id=\' + this.value',
                       update: 'municipioDiv'
               )}"
-              value="${municipioInstance?.ciudad?.id}" class="many-to-one"/>
+              value="${municipioInstance?.ciudad?.id}" class="many-to-one" disabled="true"/>
 	</g:if>
 	<g:else>
 		<g:select id="estado" name="estado.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required=""
@@ -119,9 +119,9 @@
                       params: '\'id=\' + this.value',
                       update: 'municipioDiv'
               )}"
-              value="${params.idEstado}" class="many-to-one"/>
-	</g:else>		
-	<a class="modalbox" href="#inline">Nuevo Estado</a>	
+              value="${params.idEstado}" class="many-to-one" disabled="true"/>
+	</g:else>	
+	<a class="modalbox" href="#inline">Buscar</a>		
 </div>
 
 <div id="municipioDiv" class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">
@@ -130,8 +130,7 @@
 		<span class="required-indicator">*</span>
 	</label>	
 	
-	<g:select id="municipio" name="municipio.id" from="${municipiosList}" optionKey="id" required="" value="${direccionInstance?.municipio?.id}" class="many-to-one"/>	
-	<a id="nuevoMunicipio" class="modalbox" href="#inline2">Nuevo Municipio</a>	
+	<g:select id="municipio" name="municipio.id" from="${municipiosList}" optionKey="id" required="" value="${direccionInstance?.municipio?.id}" class="many-to-one"/>		
 </div>
 
 
