@@ -37,10 +37,9 @@
 		    if (tecla==8) return true;
 		    if(tipo==1){
 		    	patron =/\w/;
-			}else if(tipo==2){
+			} else if(tipo==2){
 				patron =/\d/;
-			}
-			else if(tipo==3){
+			} else if(tipo==3){
 				patron =/[A-Za-zñÑ\s]/;
 			}
 		    te = String.fromCharCode(tecla);		    
@@ -287,10 +286,10 @@
 				<br><br>
 				<g:form action="save_tipotelefono_persona" controller="tipoTelefono">
 				<fieldset class="form">							
-					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="33"/>"/>
+					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="1" />" width="400" height="400"/>
 					<div id="preview-pane">
-					    <div class="preview-container">
-					      <img src="<g:createLink controller='persona' action='renderImage' id="33"/>" class="jcrop-preview" alt="Preview" />
+					    <div class="preview-container" >
+					      <img src="<g:createLink controller='persona' action='renderImage' id="1"/>" class="jcrop-preview" alt="Preview" />
 					    </div>
 					  </div>	
 					<br><br><br><br>

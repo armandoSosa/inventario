@@ -10,12 +10,17 @@
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
 		<link rel="stylesheet" href="${resource(dir: 'css/validacion', file: 'estilos.css')}" type="text/css">
 		
-		<g:javascript src="metro/dropdown.js"/>
-		<g:javascript src="metro/jquery-1.8.2.min.js"/>
-		<g:javascript src="metro/google-analytics.js"/>
-		<g:javascript src="metro/github.info.js"/>
+		
+		
+		
+		
+		
+		
 		
 		<g:javascript type="text/javascript">
+		
+			
+			
 			 function getWindowsSize(){
 			        $("#sizeX").html('W: '+$(window).width());
 			        $("#sizeY").html('H: '+$(window).height());
@@ -27,6 +32,8 @@
 			        });
 			    })
 		</g:javascript>
+		
+		
 		
 		<style type="text/css" media="screen">
 		
@@ -368,7 +375,7 @@
 							<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
 							<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Inventarios</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
 								<ul class="pureCssMenum">
-									<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/insertar3">Nuevo</a></li>
+									<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/insertar5">Nuevo</a></li>
 									<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Ver Objetos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
 										<ul class="pureCssMenum ">
 											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/menu">Mostrar objetos</a></li>

@@ -99,4 +99,15 @@ class PlantillaController {
             redirect(action: "show", id: id)
         }
     }
+	
+	def insertar2(Long id) {
+		def tipoInstance = Tipo.get(id)
+        if (!tipoInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
+            redirect(action: "list")
+            return
+        }
+
+        [tipoInstance: tipoInstance]
+	}
 }

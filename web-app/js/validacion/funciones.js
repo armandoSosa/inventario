@@ -29,3 +29,18 @@ $(document).ready(function () {
 		}		
 	});
 });
+
+function validar(e, tipo) {
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla==8) return true;
+    if(tipo==1){
+    	patron =/\w/; //letras y numeros
+	}else if(tipo==2){
+		patron =/\d/; //numeros; D, no acepta números
+	}
+	else if(tipo==3){
+		patron =/[A-Za-zñÑ\s]/; //acepta todas las letras y espacios
+	}
+    te = String.fromCharCode(tecla);		    
+    return patron.test(te);
+} 
