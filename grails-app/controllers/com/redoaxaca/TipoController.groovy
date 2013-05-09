@@ -49,14 +49,15 @@ class TipoController {
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'tipo.label', default: 'Tipo'), tipoInstance.id])
-        redirect(action: "show", id: tipoInstance.id)
+        redirect (action: "show", id: tipoInstance.id)
     }
 	
 	def save_tipo() {
 		def tipoInstance = new Tipo(params)
 		System.out.println(params);
 		//buscamos la clave de inventario
-		
+		tipoInstance.noInventarioSeriado=0;
+		tipoInstance.claveInventario='';
 		
 		if (!tipoInstance.save(flush: true)) {
 			render(view: "insertar2", model: [tipoInstance: tipoInstance])
@@ -64,7 +65,7 @@ class TipoController {
 		}
 		
 		flash.message = message(code: 'default.created.message', args: [message(code: 'tipo.label', default: 'Tipo'), tipoInstance.id])
-		redirect(action: "show", id: tipoInstance.id)
+		redirect(controller:"plantilla", action: "insertar2", id: tipoInstance.id)
 	}
 
     def show(Long id) {

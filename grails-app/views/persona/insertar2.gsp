@@ -37,10 +37,9 @@
 		    if (tecla==8) return true;
 		    if(tipo==1){
 		    	patron =/\w/;
-			}else if(tipo==2){
+			} else if(tipo==2){
 				patron =/\d/;
-			}
-			else if(tipo==3){
+			} else if(tipo==3){
 				patron =/[A-Za-zñÑ\s]/;
 			}
 		    te = String.fromCharCode(tecla);		    

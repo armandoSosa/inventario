@@ -16,22 +16,57 @@
 	src="${resource(dir: 'images', file: 'fancybox/jquery.min.js')}"></script>
 <script type="text/javascript"
 	src="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.js?v=2.0.6')}"></script>
-<script type="text/javascript">
-	function validarEnvio() {
-		//alert($('#descripcion').val());
+	<script type="text/javascript"
+	src="${resource(dir: 'js', file: 'validacion/funciones.js')}"></script>
+	
+	
+	<!-- Elementos para validacion pop up animado -->
+	<link rel="stylesheet" type="text/css" href="${resource(dir: 'js/tooltipster-master/css', file: 'tooltipster.css')}"/>
+		<script type="text/javascript" src="${resource(dir: 'js', file: 'tooltipster-master/js/jquery.tooltipster.js')}"></script>
+
+		<script>
+			$(document).ready(function() {
+				
+				$('.tooltip').tooltipster({
+				    animation: 'grow',
+				    trigger: 'custom',
+				    position: 'right'
+				});
+			});
+			
+			function mostrarAlerta(elemento, mostrar, mensaje) {
+				if (mostrar) {
+					$('#'+elemento).tooltipster('update', mensaje);
+					$('#descripcion').tooltipster('show');
+				} else {
+					$('#'+elemento).tooltipster('hide');
+				}
+			}
+		</script>
 		
-		alert(abecedario($('#descripcion').val()));
+		<!--Termina: Elementos para validacion pop up animado -->
+	
+	
+	
+		
+		
+	
+	
+<script type="text/javascript">
+	function validarTecleo(e, tipo) {
+		var pasa = validar(e, tipo);
+		mostrarAlerta('descripcion', !pasa, 'Solo se aceptan letras y números');
+		return pasa;
 	}
 
-	function abecedario(dato) {
-		var todosLetras=true;
-		for(var i=0; i<dato.length; i++) {
-			if (dato.charCodeAt(i)<97 || dato.charCodeAt(i)>122) {
-				todosLetras=false;
-			}
+	function validarEnvio(e, tipo) {
+		if ($('#descripcion').val().length<3){
+			mostrarAlerta('descripcion', true, 'La descripción debe ser de al menos 3 caracteres');
+		} else {
+			$('#formTipo').submit();
 		}
-		return todosLetras;
 	}
+	
 	
 </script>
 </head>
@@ -49,14 +84,13 @@
 	</div>
 	<div id="create-tipo" class="content scaffold-create" role="main">
 		<h1>Crear Tipo de Objeto</h1>
-		<g:form id="formTipo" action="save_tipo">
+		<g:form id="formTipo" name="formTipo" action="save_tipo">
 			<fieldset class="form">
 				<g:render template="form4" />
 			</fieldset>
 			<fieldset class="buttons">
-				<a name="create" class="save" onClick="validarEnvio()">Crear</a>
-				<g:submitButton name="create" class="save"
-					value="Crear" />
+				<a  class="save" onClick="validarEnvio()">Crear</a>
+				
 			</fieldset>
 		</g:form>
 	</div>
