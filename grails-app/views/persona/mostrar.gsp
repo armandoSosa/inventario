@@ -13,8 +13,8 @@
 		<g:set var="entityName" value="${message(code: 'persona.label', default: 'Persona')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 		
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+  <script src="${resource(dir:'js/tabs',file:'jquery-1.9.1.js')}"></script>
+  <script src="${resource(dir:'js/tabs',file:'jquery-ui.js')}"></script>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
   
 <script>
@@ -121,10 +121,14 @@
 				  		<g:if test="${personaInstance?.direcciones}">
 							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Dirección:</font></h3> 
 								<g:each in="${personaInstance.direcciones}" var="d">
+									<h3 class="empleado">Estado: ${d?.municipio?.estado?.nombre}</h3>
+									<h3 class="empleado">Municipio: ${d?.municipio?.nombre}</h3>
 									<h3 class="empleado">Calle: ${d?.calle}</h3>
 									<h3 class="empleado">Colonia: ${d?.colonia }</h3>
 									<h3 class="empleado">Número Exterior: ${d?.noExterior }</h3>
-									<h3 class="empleado">Número Interior: ${d?.noInterior }</h3>
+									<g:if test="${d?.noInterior}">
+										<h3 class="empleado">Número Interior: ${d?.noInterior }</h3>
+									</g:if>
 								</g:each>
 									
 						</g:if>

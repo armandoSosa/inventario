@@ -13,6 +13,10 @@ class PersonaController {
 		redirect(action: list)
 	}
 	
+	def index2 = {
+		
+	}
+	
 	def tipoPersona = {
 		
 	}

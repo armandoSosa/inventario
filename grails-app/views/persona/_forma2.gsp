@@ -94,9 +94,10 @@
 	<g:textField name="colonia" required="" value="${direccionInstance?.colonia}" style="text-transform:uppercase;" onkeypress="return validar(event,3)"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'ciudad', 'error')} required">	
-	<label for="ciudad">
-		<g:message code="municipio.ciudad.label" default="Estado" />
+<div id="procedencia">
+<div class="fieldcontain ${hasErrors(bean: municipioInstance, field: 'estado', 'error')} required">	
+	<label for="estado">
+		<g:message code="municipio.estado.label" default="Estado" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:if test="${!params.idEstado}">
@@ -108,7 +109,7 @@
                       params: '\'id=\' + this.value',
                       update: 'municipioDiv'
               )}"
-              value="${municipioInstance?.ciudad?.id}" class="many-to-one" disabled="true"/>
+              value="${municipioInstance?.estado?.id}" class="many-to-one" disabled="true"/>
 	</g:if>
 	<g:else>
 		<g:select id="estado" name="estado.id" from="${com.redoaxaca.Estado.list()}" optionKey="id" required=""
@@ -132,7 +133,7 @@
 	
 	<g:select id="municipio" name="municipio.id" from="${municipiosList}" optionKey="id" required="" value="${direccionInstance?.municipio?.id}" class="many-to-one"/>		
 </div>
-
+</div>
 
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noExterior', 'error')} required">
 	<label for="noExterior">

@@ -4,7 +4,7 @@ class Municipio {
 	String nombre
 	
 	static hasMany = [direcciones: Direccion]
-	static belongsTo = [ciudad: Estado]
+	static belongsTo = [estado: Estado]
 
     static constraints = {
 		nombre(blank:false)

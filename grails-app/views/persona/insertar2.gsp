@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>		
-	
+
 	 <script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
 			<script src="${resource(dir: 'js', file: 'jquery.maskedinput.min.js')}" type="text/javascript"></script>
 		<meta name="layout" content="metro">
@@ -17,7 +17,7 @@
 		
 		<g:javascript src="jcrop/jquery.Jcrop.min.js" />
 		  
-		  
+		 <link rel="stylesheet" href="${resource(dir: 'js', file: 'chosen/chosen.css')}" type="text/css"> 
 		 
 			<!--  
 		<script type="text/javascript">
@@ -251,11 +251,11 @@
 		</div>
 		
 		<!-- buscar tipo -->
-		<div id="inline">
+		<div id="inline" class="inline">
 			<div id="create-tipo" class="content scaffold-create" role="main">
-				<h2>Buscar tipo</h2>
+				<h2>Buscar Estado</h2>
 				<br>
-				<h3>Ingrese una descripción del tipo de objeto a buscar</h3>
+				<h3>Ingrese el nombre del Estado a buscar</h3>
 				<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 				</g:if>
@@ -268,12 +268,11 @@
 				</g:hasErrors>
 				
 				<br>
-				<label for="valorABuscar"> <g:message code="objeto.tipo.label"
-						default="Tipo de objeto" /> <span class="required-indicator">*</span>
+				<label for="valorABuscar"> Estado: <span class="required-indicator">*</span>
 				</label>
 				<g:textField name="valorABuscar" required="" value=""
 				    onkeyup="${remoteFunction(
-					   controller='estado',
+					   controller: 'estado',
 					   action: 'buscarEstado',
                        update: 'estados',
                        params: '\'estado=\' + this.value')}"/> 
@@ -303,15 +302,25 @@
 			</div>
 		</div>
 		
+		
+		
 		<a id="nuevaImagen" class="modalbox" href="#inline100" style="display:none;"></a>
-		<!-- basic fancybox setup -->
+		
+		<!-- Render the phone template (_phone.gsp) hidden so we can clone it -->
+    <g:render template='phone' model="['phone':null,'i':'_clone','hidden':true]"/>
+    <!-- Render the phone template (_phone.gsp) hidden so we can clone it -->
+    
+
+    
+    
+  <!-- basic fancybox setup -->
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$(".modalbox").fancybox();
 			});
 		</script>
-		<!-- Render the phone template (_phone.gsp) hidden so we can clone it -->
-    <g:render template='phone' model="['phone':null,'i':'_clone','hidden':true]"/>
-    <!-- Render the phone template (_phone.gsp) hidden so we can clone it -->
+		
+		
+  
 	</body>
 </html>

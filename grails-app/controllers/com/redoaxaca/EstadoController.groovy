@@ -133,15 +133,26 @@ class EstadoController {
 	
 	def buscarEstado = {
 		def tipos
-		if (!params.valor.equals("")){
-			def criterio = Tipo.createCriteria()
+		if (!params.estado.equals("")){
+			def criterio = Estado.createCriteria()
 			tipos = criterio.listDistinct {
-					ilike ('nombre', "%"+params.valor+"%")
+					ilike ('nombre', "%"+params.estado+"%")
 					
 			}
 		}
 		
-		render (template:'tablaCiudades', model: [ tipos: tipos])
+		render (template:'tablaEstados', model: [ tipos: tipos])
 		
+	}
+	
+	def mostrarMunicipios(Long id){
+		def estadoInstance = Estado.get(id)
+		
+		def idEstado = estadoInstance?.id
+		session["estado"] = estadoInstance?.id
+		//Se obtiene la lista de municipio
+		def municipiosList = estadoInstance?.municipios
+		//Se hace el render del template '_selectMunicipios.gsp' con la lista de estados obtenida.
+		render(template: "municipios", model: [municipiosList:municipiosList, estadoInstance: estadoInstance])
 	}
 }
