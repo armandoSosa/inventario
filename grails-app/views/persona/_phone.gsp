@@ -4,7 +4,7 @@
     <g:hiddenField name='telefonos[${i}].id' value='${telefono?.id}'/>
     <g:hiddenField name='telefonos[${i}].deleted' value='false'/>
     <g:hiddenField name='telefonos[${i}].new' value='false'/> 	
-    <g:textField name='telefonos[${i}].telefono' value='${telefono?.telefono}' onkeypress="return validar(event, 2)" maxlength="10"/>
+    <g:textField name='telefonos[${i}].telefono' value='${telefono?.telefono}' onkeypress="return validarTecleo(event, 2, this.id)" class="tooltip" maxlength="10"/>
     <g:select id ="telefonos[${i}].tipoTelefono" name="telefonos[${i}].tipoTelefono.id" from="${com.redoaxaca.TipoTelefono.list()}" noSelection="['':'Seleccione un tipo de telefono']" optionKey="id" required="" value=""/>
     <span  class="del-telefono" id ="telefonos[${i}].span" >
         <input type="button" value="Quitar"/>

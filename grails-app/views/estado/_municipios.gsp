@@ -6,7 +6,7 @@
 			<g:message code="municipio.ciudad.label" default="Estado" />
 			<span class="required-indicator">*</span>
 		</label>
-		<g:textField name="estado" required="" value="${estadoInstance?.nombre}" style="text-transform:uppercase;" disabled="true"/>
+		<g:textField name="estado" required="" value="${estadoInstance?.nombre}" style="text-transform:uppercase;" disabled="true" class="tooltip"/>
 		
 		<a class="modalbox" href="#inline">Buscar</a>		
 	</div>
@@ -22,7 +22,7 @@
                                             
     </g:if>
     <g:else>
-        No hay municipios registrados para este Estado        
+        No hay municipios registrados para este Estado
     </g:else>     
     </div>   
 </div>

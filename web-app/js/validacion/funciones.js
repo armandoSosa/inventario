@@ -44,3 +44,33 @@ function validar(e, tipo) {
     te = String.fromCharCode(tecla);		    
     return patron.test(te);
 } 
+
+function validarInput(e, tipo) {
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla==8) return true;
+    if(tipo==1){
+    	patron =/\w/; //letras y numeros
+    	mensaje = "Solo se aceptan letras y numeros";
+	}else if(tipo==2){
+		patron =/\d/; //numeros; D, no acepta números
+		mensaje = "Solo se aceptan numeros";
+	}else if(tipo==3){
+		patron =/[A-Za-zñÑ\s]/; //acepta todas las letras y espacios
+		mensaje = "Solo se aceptan letras y espacios";
+	}else if(tipo==4){
+		patron =/[0-9A-Za-zñÑ\s]/; //acepta todas las letras y espacios
+		mensaje = "Solo se aceptan letras y numeros";
+	}else if(tipo==5){
+		patron =/[A-Za-z]/; //acepta todas las letras
+		mensaje = "El caracter debe ser una letra";
+	}else if(tipo==6){
+		patron =/\d/; //numeros; D, no acepta números
+		mensaje = "El caracter debe ser un numero";
+	}
+    te = String.fromCharCode(tecla);
+    if(!patron.test(te)){
+    	return mensaje;
+    }else{
+    	return true;
+    }    
+} 

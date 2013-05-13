@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html>
 	<head>		
+	
+	
 
 	 <script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
 			<script src="${resource(dir: 'js', file: 'jquery.maskedinput.min.js')}" type="text/javascript"></script>
@@ -143,6 +145,165 @@
 		
 		</style>
 			  		
+		<!-- Elementos para validacion pop up animado -->
+	<link rel="stylesheet" type="text/css" href="${resource(dir: 'js/tooltipster-master/css', file: 'tooltipster.css')}"/>
+		<script type="text/javascript" src="${resource(dir: 'js', file: 'tooltipster-master/js/jquery.tooltipster.js')}"></script>
+		<script type="text/javascript" src="${resource(dir: 'js/validacion', file: 'funciones.js')}"></script>
+		<script>
+			$(document).ready(function() {
+				
+				$('.tooltip').tooltipster({
+				    animation: 'grow',
+				    trigger: 'custom',
+				    position: 'right'
+				});
+			});
+			
+			function mostrarAlerta(elemento, mostrar, mensaje) {
+				if (mostrar) {					
+					$('#'+elemento).tooltipster('update', mensaje);
+					$('#'+elemento).tooltipster('show');
+				} else {					
+					$('#'+elemento).tooltipster('hide');
+				}
+			}
+
+			function mostrarValidacion(elemento, mensaje) {
+				if (mensaje!=true) {									
+					$('#'+elemento).tooltipster('update', mensaje);
+					$('#'+elemento).tooltipster('show');
+				} else {								
+					$('#'+elemento).tooltipster('hide');
+				}
+			}
+		</script>
+		
+		<!--Termina: Elementos para validacion pop up animado -->
+		
+		<script type="text/javascript">
+	function validarTecleo(e, tipo, id) {
+		var pasa = validarInput(e, tipo)		
+		mostrarValidacion(id, validarInput(e, tipo));
+		if(pasa!=true){
+			pasa=false;
+		}
+		return pasa;
+	}
+
+	function validarString(e, id, longitudMaxima, valor) {
+		var tipo=1;
+		if(valor.length<4){
+			tipo = 5;
+		}else if(valor.length>=4 && valor.length<10){
+			tipo = 6;
+		}			
+		var pasa = validarInput(e, tipo);	
+		mostrarValidacion(id, validarInput(e, tipo));
+		if(pasa!=true){
+			pasa=false;
+		}
+		/*
+		if(valor.length>=longitudMaxima-1){
+			mostrarValidacion(id, "completo: ");			
+		}*/
+		
+		return pasa;
+	}
+
+	function validarFocus(tipo, input, valor){
+		if(tipo==1){
+			if(!validarCURP(valor)){
+				mostrarValidacion(input, "La CURP no es valida");
+			}
+		}
+		else if(tipo==2){
+			if(!validarRFC(valor)){
+				mostrarValidacion(input, "El RFC no es valido");
+			}
+		}
+	}
+
+	function validarRFC(rfc){
+		var longitudRFC = 13, rfcValido = false;
+		if(rfc.length==longitudRFC){			
+			var letras = rfc.substring(0, 4);
+			var numeros = rfc.substring(4, 10);			 
+			if(letras.match(/^[a-zA-Z]+$/) && numeros.match(/^(?:\+|-)?\d+$/)){
+				rfcValido = true;
+			}												
+		}
+		return rfcValido;
+	}
+
+	function validarCURP(curp){
+		var longitudCURP = 18, curpValida = false;
+		if(curp.length==longitudCURP){
+			var letras = curp.substring(0, 4);
+			var numeros = curp.substring(4, 10);			 
+			if(letras.match(/^[a-zA-Z]+$/) && numeros.match(/^(?:\+|-)?\d+$/)){
+				curpValida = true;
+			}			
+		}
+		return curpValida;
+	}
+
+	function validarEnvio() {
+		var container, inputs, index, fin, municipioSelecionado, rfcValido, curpValida;
+		fin = false;
+		municipioSelecionado = false;
+		rfcValido = false;
+		curpValida = false;
+		// Get the container element
+		container = document.getElementById('formPersona');
+
+		// Find its child `input` elements
+		inputs = container.getElementsByTagName('input');
+		selects = container.getElementsByTagName('select');
+		
+		for (index = 0; index < inputs.length; ++index) {
+		    if(inputs[index].id!="" && inputs[index].id!="noInterior" && inputs[index].value == ""){		    	
+			    if(!fin){			    				    	
+			    	mostrarValidacion(inputs[index].id, "Debe completar este campo");			    	
+			    	fin = true;			    			    	
+				}
+							
+		    }
+		    if(inputs[index].id=="curp" && !fin){
+				curpValida = validarCURP(inputs[index].value);
+				if(!curpValida){
+					mostrarValidacion(inputs[index].id, "La CURP no es valida");
+					fin = true;
+				}											
+			}
+		    if(inputs[index].id=="rfc" && !fin){
+				rfcValido = validarRFC(inputs[index].value);
+				if(!rfcValido){
+					mostrarValidacion(inputs[index].id, "El RFC no es valido");
+					fin = true;				
+				}											
+			}			
+		}		
+		for (index = 0; index < selects.length; ++index) {
+			if(selects[index].id=="municipio"){
+				municipioSelecionado = true;
+			}
+		}
+
+		
+				
+		if (!fin && curpValida && rfcValido){
+			if(!municipioSelecionado){
+				alert("Este estado no tiene municipios registrados, seleccione otro estado o ingrese municipios para este estado");				
+			}else{
+				alert("Enviado");
+			}
+			//$('#formPersona').submit();			
+		}
+
+	}
+	
+	
+</script>
 	</head>
 	<body>
 		<a href="#create-persona" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -198,11 +359,12 @@
 				<g:submitButton style="display:none;" name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
 			</g:form>
 			</fieldset>
-			<g:form name="forma" action="save_persona"  enctype="multipart/form-data">
+			<g:form name="formPersona" action="save_persona"  enctype="multipart/form-data">
 				<fieldset class="form">
 					<g:render template="forma2"/>
 				</fieldset>
 				<fieldset class="buttons">
+					<a  class="save" onClick="validarEnvio()">Crear</a>
 					<g:submitButton name="create" class="save" value="Insertar" />					
 				</fieldset>
 			</g:form>
@@ -294,7 +456,7 @@
 					  </div>	
 					<br><br><br><br>
 				</fieldset>
-				<fieldset class="buttons">
+				<fieldset class="buttons">					
 					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />					
 				</fieldset>
 			</g:form>
