@@ -20,6 +20,10 @@
 	src="${resource(dir: 'js', file: 'validacion/funciones.js')}"></script>
 	
 	
+	
+
+	
+	
 	<!-- Elementos para validacion pop up animado -->
 	<link rel="stylesheet" type="text/css" href="${resource(dir: 'js/tooltipster-master/css', file: 'tooltipster.css')}"/>
 		<script type="text/javascript" src="${resource(dir: 'js', file: 'tooltipster-master/js/jquery.tooltipster.js')}"></script>

@@ -36,6 +36,12 @@ class TipoController {
         params.max = Math.min(max ?: 10, 100)
         [tipoInstanceList: Tipo.list(params), tipoInstanceTotal: Tipo.count()]
     }
+	
+	def menu(Integer max) {
+		params.max = Math.min(max ?: 10, 100)
+		[tipoInstanceList: Tipo.list(params), tipoInstanceTotal: Tipo.count()]
+	}
+	
 
     def create() {
         [tipoInstance: new Tipo(params)]
@@ -78,6 +84,16 @@ class TipoController {
 
         [tipoInstance: tipoInstance]
     }
+	def mostrar(Long id) {
+		def tipoInstance = Tipo.get(id)
+		if (!tipoInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
+			redirect(action: "list")
+			return
+		}
+
+		[tipoInstance: tipoInstance]
+	}
 
     def edit(Long id) {
         def tipoInstance = Tipo.get(id)
