@@ -7,7 +7,7 @@
 		<g:message code="persona.numeroEmpleado.label" default="Numero Empleado" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="numeroEmpleado" required="" value="${personaInstance?.numeroEmpleado}" onkeypress="return validarTecleo(event, 2, this.id)" class="tooltip"/>
+	<g:textField name="numeroEmpleado" required="" value="${personaInstance?.numeroEmpleado}" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'nombre', 'error')} required">
@@ -15,7 +15,7 @@
 		<g:message code="persona.nombre.label" default="Nombre(s)" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="nombre" required="" value="${personaInstance?.nombre}" style="text-transform:uppercase;"  onkeypress="return validarTecleo(event, 3, this.id)" class="tooltip"/>
+	<g:textField name="nombre" required="" value="${personaInstance?.nombre}" style="text-transform:uppercase;"  onkeypress="return validarTecleo(event, 3, this.id)" onblur="validarFocus(3, this.id, this.value);" class="tooltip"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'paterno', 'error')} required">
@@ -23,7 +23,7 @@
 		<g:message code="persona.paterno.label" default="Apellido Paterno" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="paterno" required="" value="${personaInstance?.paterno}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 3, this.id)" class="tooltip"/>
+	<g:textField name="paterno" required="" value="${personaInstance?.paterno}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 3, this.id)" onblur="validarFocus(3, this.id, this.value);"class="tooltip"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'materno', 'error')} required">
@@ -31,7 +31,7 @@
 		<g:message code="persona.materno.label" default="Apellido Materno" />
 		<span class="required-indicator">*</span>
 	</label> 
-	<g:textField name="materno" required="" value="${personaInstance?.materno}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 3, this.id)" class="tooltip"/>
+	<g:textField name="materno" required="" value="${personaInstance?.materno}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 3, this.id)" onblur="validarFocus(3, this.id, this.value);" class="tooltip"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'curp', 'error')} required">
@@ -57,7 +57,7 @@
 		<g:message code="persona.email.label" default="Email" />
 		
 	</label>
-	<g:field type="email" name="email" value="${personaInstance?.email}" />
+	<g:field type="email" name="email" value="${personaInstance?.email}" onblur="validarFocus(5, this.id, this.value);" class="tooltip"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'telefono', 'error')} ">

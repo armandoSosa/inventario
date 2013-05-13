@@ -176,6 +176,10 @@
 					$('#'+elemento).tooltipster('hide');
 				}
 			}
+
+			function ocultarValidacion(elemento) {										
+				$('#'+elemento).tooltipster('hide');				
+			}
 		</script>
 		
 		<!--Termina: Elementos para validacion pop up animado -->
@@ -221,14 +225,61 @@
 				mostrarValidacion(input, "El RFC no es valido");
 			}
 		}
+		else if(tipo==3){
+			if(!validarLetrasConEspacio(valor)){
+				document.getElementById(input).value = "";
+			}
+		}else if(tipo==4){
+			if(!validarNumeros(valor)){
+				document.getElementById(input).value = "";
+			}
+		}else if(tipo==5){
+			if(!validarCorreo(valor)){
+				mostrarValidacion(input, "El Email no es valido");
+			}else{
+				ocultarValidacion(input);
+				}
+		}
+	}
+
+	function validarLetrasConEspacio(letras){
+		var sonSoloLetras = false;
+		if(letras.match(/^[a-zA-Z\s]+$/)){
+			sonSoloLetras = true;
+		}
+		return sonSoloLetras;
+	}
+
+	function validarLetras(letras){
+		var sonSoloLetras = false;
+		if(letras.match(/^[a-zA-Z]+$/)){
+			sonSoloLetras = true;
+		}
+		return sonSoloLetras;
+	}
+
+	function validarNumeros(numeros){
+		var sonSoloNumeros = false;
+		if(numeros.match(/^(?:\+|-)?\d+$/)){
+			sonSoloNumeros = true;
+		}
+		return sonSoloNumeros;
+	}
+
+	function validarCorreo(correo){
+		var esCorreo = false;
+		if(correo.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/)){
+			esCorreo = true;
+		}
+		return esCorreo;
 	}
 
 	function validarRFC(rfc){
 		var longitudRFC = 13, rfcValido = false;
 		if(rfc.length==longitudRFC){			
 			var letras = rfc.substring(0, 4);
-			var numeros = rfc.substring(4, 10);			 
-			if(letras.match(/^[a-zA-Z]+$/) && numeros.match(/^(?:\+|-)?\d+$/)){
+			var numeros = rfc.substring(4, 10);				
+			if(validarLetras(letras) && validarNumeros(numeros)){
 				rfcValido = true;
 			}												
 		}
@@ -240,7 +291,7 @@
 		if(curp.length==longitudCURP){
 			var letras = curp.substring(0, 4);
 			var numeros = curp.substring(4, 10);			 
-			if(letras.match(/^[a-zA-Z]+$/) && numeros.match(/^(?:\+|-)?\d+$/)){
+			if(validarLetras(letras) && validarNumeros(numeros)){
 				curpValida = true;
 			}			
 		}
@@ -261,8 +312,9 @@
 		selects = container.getElementsByTagName('select');
 		
 		for (index = 0; index < inputs.length; ++index) {
-		    if(inputs[index].id!="" && inputs[index].id!="noInterior" && inputs[index].value == ""){		    	
-			    if(!fin){			    				    	
+		    if(inputs[index].id!="" && inputs[index].type!="hidden" && inputs[index].id!="noInterior" && inputs[index].value == ""){		    	
+			    if(!fin){
+				    alert(inputs[index].id+"." + inputs[index].value);			    				    	
 			    	mostrarValidacion(inputs[index].id, "Debe completar este campo");			    	
 			    	fin = true;			    			    	
 				}
@@ -281,6 +333,12 @@
 					mostrarValidacion(inputs[index].id, "El RFC no es valido");
 					fin = true;				
 				}											
+			}
+		    if(!fin && inputs[index].id=="email"){
+			    if(!validarCorreo(inputs[index].value)){
+			    	mostrarValidacion(inputs[index].id, "El Email no es valido");
+			    	fin = true;
+				}				
 			}			
 		}		
 		for (index = 0; index < selects.length; ++index) {
@@ -288,16 +346,16 @@
 				municipioSelecionado = true;
 			}
 		}
-
+		
 		
 				
 		if (!fin && curpValida && rfcValido){
 			if(!municipioSelecionado){
 				alert("Este estado no tiene municipios registrados, seleccione otro estado o ingrese municipios para este estado");				
 			}else{
-				alert("Enviado");
-			}
-			//$('#formPersona').submit();			
+				//$('#formPersona').submit();
+				alert("enviado");
+			}						
 		}
 
 	}
