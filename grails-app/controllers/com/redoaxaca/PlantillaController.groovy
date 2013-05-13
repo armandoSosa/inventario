@@ -5,11 +5,13 @@ import org.springframework.dao.DataIntegrityViolationException
 class PlantillaController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+	def plantillaService
 
     def index() {
         redirect(action: "list", params: params)
     }
 
+	
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         [plantillaInstanceList: Plantilla.list(params), plantillaInstanceTotal: Plantilla.count()]
@@ -107,7 +109,52 @@ class PlantillaController {
             redirect(action: "list")
             return
         }
+		def criterio = Plantilla.createCriteria()
+		
+		def plantillas = criterio.listDistinct {
+			tipo {
+				eq 'id', id
+			}
+		}
 
-        [tipoInstance: tipoInstance]
+		def criterio2 = Caracteristica.createCriteria();
+		def caracteristicasNoAgregadas = criterio2.listDistinct {
+			not {'in'("id", plantillas.caracteristica.id)}
+		}
+
+        [tipoInstance: tipoInstance, caracteristicas: caracteristicasNoAgregadas, plantillas:plantillas]
+	}
+	
+	def save_plantilla() {
+		System.out.println(params)
+
+		//por cada id de caracter��stica, agregamos una plantilla
+		
+		def criterio = Plantilla.createCriteria()
+		def plantillas = criterio.listDistinct {
+			tipo {
+				eq ('id', Long.parseLong(params.idTipo))
+			}
+		}
+		for (String idString in params.caracteristicas) {
+			//Buscamos las caracter��sticas que ya est��n en las plantillas para que no se agreguen
+				boolean esta=false
+				for (Plantilla p in plantillas) {
+					if (p.id.toString().equals(idString)) {
+						esta=true
+					}
+				}
+				if (!esta) {
+					try {
+						def nuevaPlantilla = plantillaService.crearPlantilla(Long.parseLong(idString), Long.parseLong(params.idTipo))
+					} catch (PlantillaException pe) {
+						//flash.message = pe.message
+						System.out.println(pe.message)
+					}
+				}
+				
+		}
+		redirect(controller:"tipo", action: "show", id: Long.parseLong(params.idTipo))
+		
 	}
 }

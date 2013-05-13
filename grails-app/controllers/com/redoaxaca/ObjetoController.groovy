@@ -14,6 +14,7 @@ class ObjetoController {
 	def scaffold = true
 	def objetoService
 	def burningImageService
+	
 
 	def insertar = {
 		[tipoList : Tipo.list()]
@@ -32,7 +33,7 @@ class ObjetoController {
 					eq 'id', id
 				}
 			}
-			System.out.println("Encontré "+plantillas.size())
+			System.out.println("Encontr�� "+plantillas.size())
 			
 		}		
 		return [idTipo : id]
@@ -52,7 +53,7 @@ class ObjetoController {
 					eq 'id', id
 				}
 			}
-			System.out.println("Encontré "+plantillas.size())
+			System.out.println("Encontr�� "+plantillas.size())
 			
 		}
 		return [idTipo : id]
@@ -73,7 +74,7 @@ class ObjetoController {
 					eq 'id', id
 				}
 			}
-			System.out.println("Encontré "+plantillas.size())
+			System.out.println("Encontr�� "+plantillas.size())
 			
 		}
 		return [idTipo : id]
@@ -92,7 +93,7 @@ class ObjetoController {
 					eq 'id', Long.parseLong(params.paramsName)
 				}
 			}
-			System.out.println("Encontré "+plantillas.size())
+			System.out.println("Encontr�� "+plantillas.size())
 			
 		}
 		redirect(action: 'insertar2', params: [ plantillas: plantillas])
@@ -155,7 +156,7 @@ class ObjetoController {
 
 		}
 		
-		//Buscamos el objeto que tenga m��s caracter��sticas
+		//Buscamos el objeto que tenga m������s caracter������sticas
 		def Objeto objetoMayor
 		if (objetos) {
 			System.out.println("hay "+objetos.size()+" objetos")
@@ -294,7 +295,7 @@ class ObjetoController {
 		System.out.println(params)
 		session['numTipos']=(Integer.parseInt(params.valor2)+1).toString()
 		
-		//Buscamos si hay tipos en el que los tres primeros caracteres sean iguales para asignar el número especial de inventario
+		//Buscamos si hay tipos en el que los tres primeros caracteres sean iguales para asignar el n��mero especial de inventario
 		def criterio = Tipo.createCriteria()
 		
 
@@ -307,7 +308,7 @@ class ObjetoController {
 		
 		System.out.println("tipos size "+(tipos.size()+1))
 		def tipoInstance = new Tipo(descripcion: params.tipo1, noInventarioSeriado: (tipos.size()+1))
-		System.out.println("El tamaño que se le agregó al tipo es de "+tipoInstance.noInventarioSeriado)
+		System.out.println("El tama��o que se le agreg�� al tipo es de "+tipoInstance.noInventarioSeriado)
 		if (!tipoInstance.save(flush: true)) {
 			flash.message = "No se puede agregar el Tipo"
 			render(view: "forma2")
@@ -324,7 +325,7 @@ class ObjetoController {
 		session['numTipos']=(Integer.parseInt(params.valor2)+1).toString()
 		session['mostrarFormValores']=(Integer.parseInt(params.mostrarFormValores)+1).toString()
 		
-		//Buscamos si hay tipos en el que los tres primeros caracteres sean iguales para asignar el número especial de inventario
+		//Buscamos si hay tipos en el que los tres primeros caracteres sean iguales para asignar el n��mero especial de inventario
 		def criterio = Tipo.createCriteria()
 		
 
@@ -337,7 +338,7 @@ class ObjetoController {
 		
 		System.out.println("tipos size "+(tipos.size()+1))
 		def tipoInstance = new Tipo(descripcion: params.tipo1, noInventarioSeriado: (tipos.size()+1))
-		System.out.println("El tamaño que se le agregó al tipo es de "+tipoInstance.noInventarioSeriado)
+		System.out.println("El tama��o que se le agreg�� al tipo es de "+tipoInstance.noInventarioSeriado)
 		if (!tipoInstance.save(flush: true)) {
 			flash.message = "No se puede agregar el Tipo"
 			render(view: "forma2")
@@ -415,7 +416,7 @@ class ObjetoController {
 			}
 			System.out.println("Encontre "+plantillas.size())
 			
-			//Definimos el número de inventario de acuerdo al tipo de objeto
+			//Definimos el n��mero de inventario de acuerdo al tipo de objeto
 			objetos = criterioObjetos.listDistinct {
 				tipo {
 					eq 'id', Long.parseLong(params.tipo1)
@@ -429,7 +430,7 @@ class ObjetoController {
 				} else {
 					claveInventario=tipoDescripcion
 				}
-				numObjetosPorTipo = (objetos.size()+1).toString() //agregamos más uno porque será el nuevo objeto que se agregue
+				numObjetosPorTipo = (objetos.size()+1).toString() //agregamos m��s uno porque ser�� el nuevo objeto que se agregue
 				
 			} else {
 				System.out.println("Objeto no definido, idTipo: "+params.tipo1)
@@ -504,7 +505,7 @@ class ObjetoController {
 			}
 			System.out.println("Encontre "+plantillas.size())
 			
-			//Definimos el número de inventario de acuerdo al tipo de objeto
+			//Definimos el n��mero de inventario de acuerdo al tipo de objeto
 			objetos = criterioObjetos.listDistinct {
 				tipo {
 					eq 'id', Long.parseLong(params.tipo1)
@@ -518,7 +519,7 @@ class ObjetoController {
 				} else {
 					claveInventario=tipoDescripcion
 				}
-				numObjetosPorTipo = (objetos.size()+1).toString() //agregamos más uno porque será el nuevo objeto que se agregue
+				numObjetosPorTipo = (objetos.size()+1).toString() //agregamos m��s uno porque ser�� el nuevo objeto que se agregue
 				
 			} else {
 				System.out.println("Objeto no definido, idTipo: "+params.tipo1)
@@ -598,7 +599,7 @@ class ObjetoController {
 			System.out.println("Encontre "+plantillas.size())
 			
 			
-			//Definimos el número de inventario de acuerdo al tipo de objeto
+			//Definimos el n��mero de inventario de acuerdo al tipo de objeto
 			objetos = criterioObjetos.listDistinct {
 				tipo {
 					eq 'descripcion', params.tipo1
@@ -613,7 +614,7 @@ class ObjetoController {
 					claveInventario=tipoDescripcion
 				}
 				
-				numObjetosPorTipo = (objetos.size()+1).toString() //agregamos más uno porque será el nuevo objeto que se agregue
+				numObjetosPorTipo = (objetos.size()+1).toString() //agregamos m��s uno porque ser�� el nuevo objeto que se agregue
 				
 				
 				
@@ -695,7 +696,7 @@ class ObjetoController {
 			System.out.println("Encontre "+plantillas.size())
 			
 			
-			//Definimos el número de inventario de acuerdo al tipo de objeto
+			//Definimos el n��mero de inventario de acuerdo al tipo de objeto
 			objetos = criterioObjetos.listDistinct {
 				tipo {
 					eq 'descripcion', params.tipo1
@@ -710,7 +711,7 @@ class ObjetoController {
 					claveInventario=tipoDescripcion
 				}
 				
-				numObjetosPorTipo = (objetos.size()+1).toString() //agregamos más uno porque será el nuevo objeto que se agregue
+				numObjetosPorTipo = (objetos.size()+1).toString() //agregamos m��s uno porque ser�� el nuevo objeto que se agregue
 				
 				
 				
@@ -767,7 +768,7 @@ class ObjetoController {
 		}
 		
 		
-		//Buscamos el objeto que tenga m��s caracter��sticas
+		//Buscamos el objeto que tenga m������s caracter������sticas
 		def Objeto objetoMayor
 		if (!params.tipo.equals("") && objetos) {
 			System.out.println("hay "+objetos.size()+" objetos")
@@ -824,7 +825,7 @@ class ObjetoController {
 		} else {
 			try {
 				def nuevaCaracteristica = caracteristicaService.crearCaracteristica(params.caracteristica1, Integer.parseInt(params.unidadTexto))
-				System.out.println(nuevaCaracteristica!=null?nuevaCaracteristica.toString()+" ":"no está definida")
+				System.out.println(nuevaCaracteristica!=null?nuevaCaracteristica.toString()+" ":"no est�� definida")
 				save_plantilla(params.caracteristica1, Integer.parseInt(params.tipo1))
 			} catch (CaracteristicaException pe) {
 				flash.message = pe.message
@@ -865,7 +866,7 @@ class ObjetoController {
 		} else {
 			try {
 				def nuevaCaracteristica = caracteristicaService.crearCaracteristica(params.caracteristica1, Integer.parseInt(params.unidadTexto))
-				System.out.println(nuevaCaracteristica!=null?nuevaCaracteristica.toString()+" ":"no está definida")
+				System.out.println(nuevaCaracteristica!=null?nuevaCaracteristica.toString()+" ":"no est�� definida")
 				save_plantilla2(params.caracteristica1, Integer.parseInt(params.tipo1))
 			} catch (CaracteristicaException pe) {
 				//flash.message = pe.message
@@ -885,7 +886,7 @@ class ObjetoController {
 		} else {
 			try {
 				def nuevaCaracteristica = caracteristicaService.crearCaracteristica(params.caracteristica1, Integer.parseInt(params.unidadTexto))
-				System.out.println(nuevaCaracteristica!=null?nuevaCaracteristica.toString()+" ":"no está definida")
+				System.out.println(nuevaCaracteristica!=null?nuevaCaracteristica.toString()+" ":"no est�� definida")
 				save_plantilla3(params.caracteristica1, Integer.parseInt(params.tipo1))
 			} catch (CaracteristicaException pe) {
 				//flash.message = pe.message
@@ -1265,7 +1266,7 @@ class ObjetoController {
 			}
 		}
 			
-		//Definimos el número de inventario de acuerdo al tipo de objeto
+		//Definimos el n��mero de inventario de acuerdo al tipo de objeto
 		objetos = criterioObjetos.listDistinct {
 			tipo {
 				eq 'id', id
@@ -1273,7 +1274,7 @@ class ObjetoController {
 		}
 		def numObjetosPorTipo
 		if (objetos) {
-			numObjetosPorTipo = (objetos.size()+1).toString() //agregamos más uno porque será el nuevo objeto que se agregue
+			numObjetosPorTipo = (objetos.size()+1).toString() //agregamos m��s uno porque ser�� el nuevo objeto que se agregue
 		} else {
 			numObjetosPorTipo="1"
 		}

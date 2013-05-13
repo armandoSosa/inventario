@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
+		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'caracteristica.label', default: 'Caracteristica')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>

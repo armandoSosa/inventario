@@ -7,17 +7,13 @@
 	value="${message(code: 'tipo.label', default: 'Tipo')}" />
 <title><g:message code="default.create.label"
 		args="[entityName]" /></title>
-<link rel="stylesheet"
-	href="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.css')}"
-	type="text/css">
-<link rel="stylesheet" href="${resource(dir: 'css', file: 'style.css')}"
-	type="text/css">
-<script type="text/javascript"
-	src="${resource(dir: 'images', file: 'fancybox/jquery.min.js')}"></script>
-<script type="text/javascript"
-	src="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.js?v=2.0.6')}"></script>
-	<script type="text/javascript"
-	src="${resource(dir: 'js', file: 'validacion/funciones.js')}"></script>
+<link rel="stylesheet" href="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.css')}" type="text/css">
+<link rel="stylesheet" href="${resource(dir: 'css', file: 'style.css')}" type="text/css">
+<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.min.js')}"></script>
+<script type="text/javascript" src="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.js?v=2.0.6')}"></script>
+	<script type="text/javascript"	src="${resource(dir: 'js', file: 'jquery-1.6.4.min.js')}"></script>
+	
+	
 	
 	
 	<!-- Elementos para validacion pop up animado -->
@@ -69,6 +65,29 @@
 	
 	
 </script>
+<!-- Empieza multiselect -->
+	<link rel="stylesheet" href="${resource(dir: 'css', file: 'multiSelectArrastrar/common.css')}" type="text/css" />
+	<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/themes/ui-lightness/jquery-ui.css" />
+	<link type="text/css" href="${resource(dir: 'css', file: 'multiSelectArrastrar/ui.multiselect.css')}" rel="stylesheet" />
+	
+	<script type="text/javascript" src="${resource(dir: 'js', file: 'multiSelectArrastrar/jquery.min.js')}"></script>
+	<script type="text/javascript" src="${resource(dir: 'js', file: 'multiSelectArrastrar/jquery-ui.min.js')}"></script>
+	
+	
+	<script type="text/javascript" src="${resource(dir: 'js', file: 'multiSelectArrastrar/plugins/localisation/jquery.localisation-min.js')}"></script>
+		<script type="text/javascript" src="${resource(dir: 'js', file: 'multiSelectArrastrar/plugins/scrollTo/jquery.scrollTo-min.js')}"></script>
+		<script type="text/javascript" src="${resource(dir: 'js', file: 'multiSelectArrastrar/ui.multiselect.js')}"></script>
+		<script type="text/javascript">
+			$(function(){
+				$.localise('ui-multiselect', {/*language: 'en',*/ path: 'js/locale/'});
+				$(".multiselect").multiselect();
+				$('#switcher').themeswitcher();
+			});
+	</script>
+	
+	<!-- Termina multiSelect -->
+
+
 </head>
 <body>
 	<a href="#create-tipo" class="skip" tabindex="-1"><g:message
@@ -84,15 +103,18 @@
 	</div>
 	<div id="create-tipo" class="content scaffold-create" role="main">
 		<h1>Definición de objeto</h1>
-		<g:form id="formTipo" name="formTipo" action="save_tipo">
+		<g:form id="formTipo" name="formTipo" action="save_plantilla">
 			<fieldset class="form">
 				<g:render template="form2" />
 			</fieldset>
 			<fieldset class="buttons">
-				<a  class="save" onClick="validarEnvio()">Crear</a>
-				
+				<input class="save" type="submit" value="Crear"/>
 			</fieldset>
 		</g:form>
 	</div>
+	
+	
+	
+	
 </body>
 </html>

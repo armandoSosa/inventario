@@ -20,7 +20,6 @@
 											</th>
 								        </g:each>
 									</g:if>
-									
 								</tr>
 							</thead>
 							<tbody>
