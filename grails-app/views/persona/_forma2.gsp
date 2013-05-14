@@ -1,13 +1,20 @@
 <%@ page import="com.redoaxaca.Persona" %>
 <g:setProvider library="jquery"/>
 
-
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'numeroEmpleado', 'error')} required">
 	<label for="numeroEmpleado">
 		<g:message code="persona.numeroEmpleado.label" default="Numero Empleado" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="numeroEmpleado" required="" value="${personaInstance?.numeroEmpleado}" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: puestoPersonaInstance, field: 'puesto', 'error')} required">
+	<label for="puesto">
+		<g:message code="puestoPersona.puesto.label" default="Puesto" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="puesto" name="puesto.id" from="${com.redoaxaca.Puesto.list()}" optionKey="id" required="" value="${puestoPersonaInstance?.puesto?.id}" class="many-to-one"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'nombre', 'error')} required">
@@ -101,7 +108,7 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="estado" required="" value="${estadoInstance?.nombre}" style="text-transform:uppercase;" disabled="true" class="tooltip"/>	
-	<a class="modalbox" href="#inline">Buscar</a>		
+	<a class="modalbox" href="#inline" onclick="ocultarValidaciones()">Buscar</a>		
 </div>
 
 <div id="municipioDiv" class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">	
@@ -112,7 +119,7 @@
 		<g:message code="direccion.noExterior.label" default="No Exterior" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="noExterior" required="" value="${direccionInstance?.noExterior}"/>
+	<g:textField name="noExterior" required="" value="${direccionInstance?.noExterior}" class="tooltip"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noInterior', 'error')} ">

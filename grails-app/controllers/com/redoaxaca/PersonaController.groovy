@@ -9,12 +9,13 @@ class PersonaController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	def scaffold = true
 	
-	def index = {
-		redirect(action: list)
+	def inicio (Integer max) {
+		params.max = Math.min(max ?: 10, 100)
+		[personaInstanceList: Persona.list(params), personaInstanceTotal: Persona.count()]
 	}
 	
 	def index2 = {
-		
+		redirect(action: list)
 	}
 	
 	def tipoPersona = {
@@ -50,7 +51,7 @@ class PersonaController {
 	def insertar(Long id) {
 		session["estado"] = 0
 		session["persona"] = true
-		[idEstado : id, personaInstance: new Persona(params), municipioInstance: new Municipio(params), estadoInstance: new Estado(params), telefonoInstance: new Telefono(params) ]
+		[idEstado : id, personaInstance: new Persona(params), municipioInstance: new Municipio(params), estadoInstance: new Estado(params), telefonoInstance: new Telefono(params), puestoInstance: new PuestoPersona(params) ]
 	}
 	
 	def empleados(Integer max) {
@@ -76,11 +77,22 @@ class PersonaController {
 
     def save_persona() {
         def personaInstance = new Persona(params)
-		def direccionInstance = new Direccion(params)		
+		def direccionInstance = new Direccion(params)
+		def puestoPersonaInstance = new PuestoPersona(params)		
+		
+		personaInstance.properties = params
+		
+		personaInstance.setNombre(personaInstance.getNombre().toUpperCase())
+		personaInstance.setMaterno(personaInstance.getMaterno().toUpperCase())
+		personaInstance.setPaterno(personaInstance.getPaterno().toUpperCase())
+		direccionInstance.setCalle(direccionInstance.getCalle().toUpperCase())
+		direccionInstance.setColonia(direccionInstance.getColonia().toUpperCase())		
+		
 		direccionInstance.fecha = new Date()
 		direccionInstance.persona = personaInstance
-			
-		personaInstance.properties = params		
+		puestoPersonaInstance.persona = personaInstance
+		puestoPersonaInstance.fechaInicio = new Date()
+				
 		String rfc = params.rfc
 		String anio = rfc.substring(4, 6)
 		String mes = rfc.substring(6, 8)
@@ -88,6 +100,8 @@ class PersonaController {
 		Date fecha = new Date(Integer.parseInt(anio), Integer.parseInt(mes)-1, Integer.parseInt(dia))
 		
 		personaInstance.fechaNacimiento = fecha
+		
+		
 		
 	   // find the phones that are marked for deletion
 	   def _toBeDeleted = personaInstance.telefonos.findAll {(it?.deleted || (it == null))}
@@ -103,17 +117,19 @@ class PersonaController {
 	   }
 			  
         if (!personaInstance.save(flush: true)) {
-            render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance ])
+            render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance, puestoPersonaInstance: puestoPersonaInstance ])
             return
         }
 		
 		if(!direccionInstance.save(flush: true)){
-			render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance])
+			render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance, puestoPersonaInstance: puestoPersonaInstance])
 			return 
 		}
 		
-		System.out.println(personaInstance.telefonos.size())
-		
+		if(!puestoPersonaInstance.save(flush: true)){
+			render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance, puestoPersonaInstance: puestoPersonaInstance])
+			return
+		}
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'persona.label', default: 'Persona'), personaInstance.id])
         redirect(action: "empleados")

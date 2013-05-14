@@ -20,7 +20,7 @@
 		<g:javascript src="jcrop/jquery.Jcrop.min.js" />
 		  
 		 <link rel="stylesheet" href="${resource(dir: 'js', file: 'chosen/chosen.css')}" type="text/css"> 
-		 
+		 <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.scrollTo.js')}"></script>
 			<!--  
 		<script type="text/javascript">
 		    $(function() {
@@ -180,6 +180,14 @@
 			function ocultarValidacion(elemento) {										
 				$('#'+elemento).tooltipster('hide');				
 			}
+
+			function ocultarValidaciones(){
+				inputs = document.getElementsByTagName('input');
+				
+				for (index = 0; index < inputs.length; ++index) {
+					ocultarValidacion(inputs[index].id);
+				}				
+			}
 		</script>
 		
 		<!--Termina: Elementos para validacion pop up animado -->
@@ -214,89 +222,7 @@
 		return pasa;
 	}
 
-	function validarFocus(tipo, input, valor){
-		if(tipo==1){
-			if(!validarCURP(valor)){
-				mostrarValidacion(input, "La CURP no es valida");
-			}
-		}
-		else if(tipo==2){
-			if(!validarRFC(valor)){
-				mostrarValidacion(input, "El RFC no es valido");
-			}
-		}
-		else if(tipo==3){
-			if(!validarLetrasConEspacio(valor)){
-				document.getElementById(input).value = "";
-			}
-		}else if(tipo==4){
-			if(!validarNumeros(valor)){
-				document.getElementById(input).value = "";
-			}
-		}else if(tipo==5){
-			if(!validarCorreo(valor)){
-				mostrarValidacion(input, "El Email no es valido");
-			}else{
-				ocultarValidacion(input);
-				}
-		}
-	}
-
-	function validarLetrasConEspacio(letras){
-		var sonSoloLetras = false;
-		if(letras.match(/^[a-zA-Z\s]+$/)){
-			sonSoloLetras = true;
-		}
-		return sonSoloLetras;
-	}
-
-	function validarLetras(letras){
-		var sonSoloLetras = false;
-		if(letras.match(/^[a-zA-Z]+$/)){
-			sonSoloLetras = true;
-		}
-		return sonSoloLetras;
-	}
-
-	function validarNumeros(numeros){
-		var sonSoloNumeros = false;
-		if(numeros.match(/^(?:\+|-)?\d+$/)){
-			sonSoloNumeros = true;
-		}
-		return sonSoloNumeros;
-	}
-
-	function validarCorreo(correo){
-		var esCorreo = false;
-		if(correo.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/)){
-			esCorreo = true;
-		}
-		return esCorreo;
-	}
-
-	function validarRFC(rfc){
-		var longitudRFC = 13, rfcValido = false;
-		if(rfc.length==longitudRFC){			
-			var letras = rfc.substring(0, 4);
-			var numeros = rfc.substring(4, 10);				
-			if(validarLetras(letras) && validarNumeros(numeros)){
-				rfcValido = true;
-			}												
-		}
-		return rfcValido;
-	}
-
-	function validarCURP(curp){
-		var longitudCURP = 18, curpValida = false;
-		if(curp.length==longitudCURP){
-			var letras = curp.substring(0, 4);
-			var numeros = curp.substring(4, 10);			 
-			if(validarLetras(letras) && validarNumeros(numeros)){
-				curpValida = true;
-			}			
-		}
-		return curpValida;
-	}
+	
 
 	function validarEnvio() {
 		var container, inputs, index, fin, municipioSelecionado, rfcValido, curpValida;
@@ -315,10 +241,10 @@
 		    if(inputs[index].id!="" && inputs[index].type!="hidden" && inputs[index].id!="noInterior" && inputs[index].value == ""){		    	
 			    if(!fin){
 				    alert(inputs[index].id+"." + inputs[index].value);			    				    	
-			    	mostrarValidacion(inputs[index].id, "Debe completar este campo");			    	
+			    	mostrarValidacion(inputs[index].id, "Debe completar este campo");	
+			    	$.scrollTo('#'+inputs[index].id,800);		    		    
 			    	fin = true;			    			    	
-				}
-							
+				}			    		
 		    }
 		    if(inputs[index].id=="curp" && !fin){
 				curpValida = validarCURP(inputs[index].value);
@@ -345,16 +271,14 @@
 			if(selects[index].id=="municipio"){
 				municipioSelecionado = true;
 			}
-		}
-		
-		
+		}		
 				
 		if (!fin && curpValida && rfcValido){
 			if(!municipioSelecionado){
 				alert("Este estado no tiene municipios registrados, seleccione otro estado o ingrese municipios para este estado");				
 			}else{
-				//$('#formPersona').submit();
-				alert("enviado");
+				$('#formPersona').submit();
+				//alert("enviado");
 			}						
 		}
 
@@ -403,9 +327,18 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			
-			<br><br>
-			<fieldset>
+			<g:if test="${flash.message}">
+			<div class="message" role="status">${flash.message}</div>
+			</g:if>
+			<g:hasErrors bean="${puestoPersonaInstance}">
+			<ul class="errors" role="alert">
+				<g:eachError bean="${puestoPersonaInstance}" var="error">
+				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+				</g:eachError>
+			</ul>
+			</g:hasErrors>
+			<br><br>			
+			<fieldset>			
 			<legend>Información personal</legend>
 			<g:form name="formFoto"  action="save_foto" controller="foto" enctype="multipart/form-data">				
 				<div class="fieldcontain ${hasErrors(bean: fotoInstance, field: 'foto', 'error')} required">
@@ -430,7 +363,6 @@
 			
 			
 		</div>			
-		
 		
 		<!-- hidden inline form -->
 		<div id="inline4">		

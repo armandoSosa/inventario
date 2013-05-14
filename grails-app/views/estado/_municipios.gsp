@@ -8,7 +8,7 @@
 		</label>
 		<g:textField name="estado" required="" value="${estadoInstance?.nombre}" style="text-transform:uppercase;" disabled="true" class="tooltip"/>
 		
-		<a class="modalbox" href="#inline">Buscar</a>		
+		<a class="modalbox" href="#inline" onclick="ocultarValidaciones()">Buscar</a>		
 	</div>
 	
 	<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">
