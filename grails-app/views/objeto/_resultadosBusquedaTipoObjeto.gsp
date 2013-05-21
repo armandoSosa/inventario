@@ -39,7 +39,18 @@
 						</table>
 					</g:if>
 					<g:else>
-						No hay ningún dato
+						<table>
+							<thead>
+								<tr>
+									<th>
+										Clave de inventario
+									</th>
+									<th>
+										Descripción
+									</th>
+								</tr>
+							</thead>
+						</table>
 					</g:else>
 					
 				</div>

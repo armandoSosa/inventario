@@ -52,7 +52,7 @@
 	<g:if test="${claveInventario}">
 		<br><br><br>
 		<fieldset class="form">	
-			<legend>Agregar valores</legend>
+			<!--  <legend>Agregar valores</legend> -->
 			<br>
 			<br>
 		
