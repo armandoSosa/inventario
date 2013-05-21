@@ -80,7 +80,8 @@
 						<br>
 						
 						<g:if test="${personaInstance?.fechaNacimiento}">
-							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Fecha Nacimiento:</font> ${personaInstance?.fechaNacimiento} </h3>									
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Fecha Nacimiento:</font> <g:formatDate type="date" style="LONG" date="${personaInstance?.fechaNacimiento}"/> </h3>
+																
 						</g:if>
 						<br>					
 						<g:if test="${personaInstance?.puestosPersona}">

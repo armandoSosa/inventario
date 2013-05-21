@@ -57,6 +57,15 @@
 				
 				border-bottom: 1px solid gray;
 			}
+			
+			.tabla{
+				font-size: 0.1em;  
+			}
+			
+			.datosTabla{
+				font-size: 0.9em;  
+			}
+			
 			#status {
 				background-color: #eee;
 				margin: 2em 2em 1em;

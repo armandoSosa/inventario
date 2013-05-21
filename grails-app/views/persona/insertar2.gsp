@@ -20,7 +20,7 @@
 		<g:javascript src="jcrop/jquery.Jcrop.min.js" />
 		  
 		 <link rel="stylesheet" href="${resource(dir: 'js', file: 'chosen/chosen.css')}" type="text/css"> 
-		 
+		 <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.scrollTo.js')}"></script>
 			<!--  
 		<script type="text/javascript">
 		    $(function() {
@@ -176,6 +176,18 @@
 					$('#'+elemento).tooltipster('hide');
 				}
 			}
+
+			function ocultarValidacion(elemento) {										
+				$('#'+elemento).tooltipster('hide');				
+			}
+
+			function ocultarValidaciones(){
+				inputs = document.getElementsByTagName('input');
+				
+				for (index = 0; index < inputs.length; ++index) {
+					ocultarValidacion(inputs[index].id);
+				}				
+			}
 		</script>
 		
 		<!--Termina: Elementos para validacion pop up animado -->
@@ -210,42 +222,7 @@
 		return pasa;
 	}
 
-	function validarFocus(tipo, input, valor){
-		if(tipo==1){
-			if(!validarCURP(valor)){
-				mostrarValidacion(input, "La CURP no es valida");
-			}
-		}
-		else if(tipo==2){
-			if(!validarRFC(valor)){
-				mostrarValidacion(input, "El RFC no es valido");
-			}
-		}
-	}
-
-	function validarRFC(rfc){
-		var longitudRFC = 13, rfcValido = false;
-		if(rfc.length==longitudRFC){			
-			var letras = rfc.substring(0, 4);
-			var numeros = rfc.substring(4, 10);			 
-			if(letras.match(/^[a-zA-Z]+$/) && numeros.match(/^(?:\+|-)?\d+$/)){
-				rfcValido = true;
-			}												
-		}
-		return rfcValido;
-	}
-
-	function validarCURP(curp){
-		var longitudCURP = 18, curpValida = false;
-		if(curp.length==longitudCURP){
-			var letras = curp.substring(0, 4);
-			var numeros = curp.substring(4, 10);			 
-			if(letras.match(/^[a-zA-Z]+$/) && numeros.match(/^(?:\+|-)?\d+$/)){
-				curpValida = true;
-			}			
-		}
-		return curpValida;
-	}
+	
 
 	function validarEnvio() {
 		var container, inputs, index, fin, municipioSelecionado, rfcValido, curpValida;
@@ -261,12 +238,13 @@
 		selects = container.getElementsByTagName('select');
 		
 		for (index = 0; index < inputs.length; ++index) {
-		    if(inputs[index].id!="" && inputs[index].id!="noInterior" && inputs[index].value == ""){		    	
-			    if(!fin){			    				    	
-			    	mostrarValidacion(inputs[index].id, "Debe completar este campo");			    	
+		    if(inputs[index].id!="" && inputs[index].type!="hidden" && inputs[index].id!="noInterior" && inputs[index].value == ""){		    	
+			    if(!fin){
+				    alert(inputs[index].id+"." + inputs[index].value);			    				    	
+			    	mostrarValidacion(inputs[index].id, "Debe completar este campo");	
+			    	$.scrollTo('#'+inputs[index].id,800);		    		    
 			    	fin = true;			    			    	
-				}
-							
+				}			    		
 		    }
 		    if(inputs[index].id=="curp" && !fin){
 				curpValida = validarCURP(inputs[index].value);
@@ -281,23 +259,27 @@
 					mostrarValidacion(inputs[index].id, "El RFC no es valido");
 					fin = true;				
 				}											
+			}
+		    if(!fin && inputs[index].id=="email"){
+			    if(!validarCorreo(inputs[index].value)){
+			    	mostrarValidacion(inputs[index].id, "El Email no es valido");
+			    	fin = true;
+				}				
 			}			
 		}		
 		for (index = 0; index < selects.length; ++index) {
 			if(selects[index].id=="municipio"){
 				municipioSelecionado = true;
 			}
-		}
-
-		
+		}		
 				
 		if (!fin && curpValida && rfcValido){
 			if(!municipioSelecionado){
 				alert("Este estado no tiene municipios registrados, seleccione otro estado o ingrese municipios para este estado");				
 			}else{
-				alert("Enviado");
-			}
-			//$('#formPersona').submit();			
+				$('#formPersona').submit();
+				//alert("enviado");
+			}						
 		}
 
 	}
@@ -345,9 +327,18 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			
-			<br><br>
-			<fieldset>
+			<g:if test="${flash.message}">
+			<div class="message" role="status">${flash.message}</div>
+			</g:if>
+			<g:hasErrors bean="${puestoPersonaInstance}">
+			<ul class="errors" role="alert">
+				<g:eachError bean="${puestoPersonaInstance}" var="error">
+				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+				</g:eachError>
+			</ul>
+			</g:hasErrors>
+			<br><br>			
+			<fieldset>			
 			<legend>Información personal</legend>
 			<g:form name="formFoto"  action="save_foto" controller="foto" enctype="multipart/form-data">				
 				<div class="fieldcontain ${hasErrors(bean: fotoInstance, field: 'foto', 'error')} required">
@@ -372,7 +363,6 @@
 			
 			
 		</div>			
-		
 		
 		<!-- hidden inline form -->
 		<div id="inline4">		

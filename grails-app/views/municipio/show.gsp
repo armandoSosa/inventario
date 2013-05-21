@@ -32,11 +32,11 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${municipioInstance?.ciudad}">
+				<g:if test="${municipioInstance?.estado}">
 				<li class="fieldcontain">
-					<span id="ciudad-label" class="property-label"><g:message code="municipio.ciudad.label" default="Ciudad" /></span>
+					<span id="estado-label" class="property-label"><g:message code="municipio.estado.label" default="estado" /></span>
 					
-						<span class="property-value" aria-labelledby="ciudad-label"><g:link controller="estado" action="show" id="${municipioInstance?.ciudad?.id}">${municipioInstance?.ciudad?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="estado-label"><g:link controller="estado" action="show" id="${municipioInstance?.estado?.id}">${municipioInstance?.estado?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>

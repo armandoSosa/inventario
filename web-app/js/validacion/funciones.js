@@ -74,3 +74,88 @@ function validarInput(e, tipo) {
     	return true;
     }    
 } 
+
+function validarLetrasConEspacio(letras){
+	var sonSoloLetras = false;
+	if(letras.match(/^[a-zA-Z\s]+$/)){
+		sonSoloLetras = true;
+	}
+	return sonSoloLetras;
+}
+
+function validarLetras(letras){
+	var sonSoloLetras = false;
+	if(letras.match(/^[a-zA-Z]+$/)){
+		sonSoloLetras = true;
+	}
+	return sonSoloLetras;
+}
+
+function validarNumeros(numeros){
+	var sonSoloNumeros = false;
+	if(numeros.match(/^(?:\+|-)?\d+$/)){
+		sonSoloNumeros = true;
+	}
+	return sonSoloNumeros;
+}
+
+function validarCorreo(correo){
+	var esCorreo = false;
+	if(correo.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/)){
+		esCorreo = true;
+	}
+	return esCorreo;
+}
+
+function validarFocus(tipo, input, valor){
+	if(tipo==1){
+		if(!validarCURP(valor)){
+			mostrarValidacion(input, "La CURP no es valida");
+		}
+	}
+	else if(tipo==2){
+		if(!validarRFC(valor)){
+			mostrarValidacion(input, "El RFC no es valido");
+		}
+	}
+	else if(tipo==3){
+		if(!validarLetrasConEspacio(valor)){
+			document.getElementById(input).value = "";
+		}
+	}else if(tipo==4){
+		if(!validarNumeros(valor)){
+			document.getElementById(input).value = "";
+		}
+	}else if(tipo==5){
+		if(!validarCorreo(valor)){
+			mostrarValidacion(input, "El Email no es valido");
+		}else{
+			ocultarValidacion(input);
+			}
+	}
+}
+
+
+function validarRFC(rfc){
+	var longitudRFC = 13, rfcValido = false;
+	if(rfc.length==longitudRFC){			
+		var letras = rfc.substring(0, 4);
+		var numeros = rfc.substring(4, 10);				
+		if(validarLetras(letras) && validarNumeros(numeros)){
+			rfcValido = true;
+		}												
+	}
+	return rfcValido;
+}
+
+function validarCURP(curp){
+	var longitudCURP = 18, curpValida = false;
+	if(curp.length==longitudCURP){
+		var letras = curp.substring(0, 4);
+		var numeros = curp.substring(4, 10);			 
+		if(validarLetras(letras) && validarNumeros(numeros)){
+			curpValida = true;
+		}			
+	}
+	return curpValida;
+}
