@@ -11,7 +11,6 @@ class PlantillaController {
         redirect(action: "list", params: params)
     }
 
-	
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         [plantillaInstanceList: Plantilla.list(params), plantillaInstanceTotal: Plantilla.count()]
@@ -127,9 +126,7 @@ class PlantillaController {
 	
 	def save_plantilla() {
 		System.out.println(params)
-
 		//por cada id de caracter��stica, agregamos una plantilla
-		
 		def criterio = Plantilla.createCriteria()
 		def plantillas = criterio.listDistinct {
 			tipo {
@@ -152,9 +149,7 @@ class PlantillaController {
 						System.out.println(pe.message)
 					}
 				}
-				
 		}
-		redirect(controller:"tipo", action: "show", id: Long.parseLong(params.idTipo))
-		
+		redirect(controller:"tipo", action: "mostrar", id: Long.parseLong(params.idTipo))
 	}
 }

@@ -402,6 +402,12 @@
 													<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/municipio/menu">Municipios</a></li>
 												</ul>
 										</ul>
+									<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Definición de objetos</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
+										<ul class="pureCssMenum ">
+											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/tipo/menu">Tipos de objeto</a></li>
+											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/caracteristica/menu">Características</a></li>
+											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/unidad/menu">Unidades</a></li>
+										</ul>
 								</ul>
 							
 							<!--[if lte IE 6]></td></tr></table></a><![endif]--></li>

@@ -12,8 +12,8 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="menu"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="insertar2"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="show-tipo" class="content scaffold-show" role="main">
@@ -62,15 +62,30 @@
 				</g:if>
 			
 				<g:if test="${tipoInstance?.plantilla}">
-				<li class="fieldcontain">
-					<span id="plantilla-label" class="property-label"><g:message code="tipo.plantilla.label" default="Plantilla" /></span>
-					
-						<g:each in="${tipoInstance.plantilla}" var="p">
-						<span class="property-value" aria-labelledby="plantilla-label"><g:link controller="plantilla" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
+					<li class="fieldcontain">
+						<span id="plantilla-label" class="property-label"><g:message code="tipo.plantilla.label" default="Características" /></span>
+						
+							<g:each in="${tipoInstance.plantilla}" var="p">
+							<span class="property-value" aria-labelledby="plantilla-label"><g:link controller="plantilla" action="show" id="${p.id}">${p.caracteristica}</g:link></span>
+							</g:each>
+						
+					</li>
+					<g:if test="${tipoInstance?.id}">
+						<li class="fieldcontain">
+								<span class="property-value" aria-labelledby="descripcion-label"><g:link controller="plantilla" action="insertar2" id="${tipoInstance?.id}">Modificar características</g:link></span>
+						</li>
+					</g:if>
 				</g:if>
+				<g:else>
+					<g:if test="${tipoInstance?.id}">
+						<li class="fieldcontain">
+								<span class="property-value" aria-labelledby="descripcion-label"><g:link controller="plantilla" action="insertar2" id="${tipoInstance?.id}">Agregar características</g:link></span>
+						</li>
+					</g:if>
+					
+				</g:else>
+				
+				
 			
 			</ol>
 			<g:form>

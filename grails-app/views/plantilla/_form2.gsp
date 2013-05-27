@@ -1,7 +1,7 @@
 <%@ page import="com.redoaxaca.Plantilla" %>
 
 
-<div class="fieldcontain ${hasErrors(bean: plantillaInstance, field: 'tipo', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: plantillaInstance, field: 'tipo', 'error')} required centrado">
 	<label for="tipo">
 		<g:message code="plantilla.tipo.label" default="Tipo" />
 		<span class="required-indicator">*</span>
@@ -16,7 +16,7 @@
 <br>
 
 
-<div id="content">
+<div id="content" class="centrado">
       <select id="countries" class="multiselect" multiple="multiple" name="caracteristicas">
       		<g:if test="${caracteristicas}">
 				<g:each var="caracteristica" in="${caracteristicas}">
@@ -28,11 +28,12 @@
 			<!-- Agregamos las características que ya tiene asignadas el tipo de objeto -->
 			 <g:if test="${plantillas}">
 				<g:each var="plantilla" in="${plantillas}">
-					<option value="${plantilla.id}"  selected="selected">
+					<option value="${plantilla.id}"  selected="selected" disabled>
 						${plantilla.caracteristica}
 					</option>
 				</g:each>
 			</g:if>
       </select>
+        
 </div>
 
