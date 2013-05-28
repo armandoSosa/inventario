@@ -28,8 +28,23 @@
 		        $("#telefonos").mask("(999) 999-9999");		
 		    });
 	</script>-->
+	
+	<g:if test="${params.idFoto}">	
+		<script language="javascript">
+		window.onload = function() {
+			llamarInLine2();
+		}
+		</script>															
+	</g:if>
+	
+
 	<script>
 		function llamarInLine(){
+			$("#formFoto").submit();						
+			//$("#nuevaImagen").click();
+		}
+
+		function llamarInLine2(){
 			//$("#formFoto").submit();						
 			$("#nuevaImagen").click();
 		}
@@ -239,8 +254,7 @@
 		
 		for (index = 0; index < inputs.length; ++index) {
 		    if(inputs[index].id!="" && inputs[index].type!="hidden" && inputs[index].id!="noInterior" && inputs[index].value == ""){		    	
-			    if(!fin){
-				    alert(inputs[index].id+"." + inputs[index].value);			    				    	
+			    if(!fin){				    			    				    
 			    	mostrarValidacion(inputs[index].id, "Debe completar este campo");	
 			    	$.scrollTo('#'+inputs[index].id,800);		    		    
 			    	fin = true;			    			    	
@@ -437,11 +451,11 @@
 				<h2>Imagen de Empleado</h2>
 				<br><br>
 				<g:form action="save_tipotelefono_persona" controller="tipoTelefono">
-				<fieldset class="form">							
-					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="1" />" width="400" height="400"/>
+				<fieldset class="form">											
+					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.idFoto}" />" width="400" height="400"/>
 					<div id="preview-pane">
 					    <div class="preview-container" >
-					      <img src="<g:createLink controller='persona' action='renderImage' id="1"/>" class="jcrop-preview" alt="Preview" />
+					      <img src="<g:createLink controller='persona' action='renderImage' id="${params.idFoto}"/>" class="jcrop-preview" alt="Preview" />
 					    </div>
 					  </div>	
 					<br><br><br><br>
@@ -464,12 +478,15 @@
 
     
     
+    
   <!-- basic fancybox setup -->
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$(".modalbox").fancybox();
 			});
 		</script>
+		
+		
 		
 		
   

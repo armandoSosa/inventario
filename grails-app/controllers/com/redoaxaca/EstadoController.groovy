@@ -151,7 +151,8 @@ class EstadoController {
 		def idEstado = estadoInstance?.id
 		session["estado"] = estadoInstance?.id
 		//Se obtiene la lista de municipio
-		def municipiosList = estadoInstance?.municipios
+		def municipiosList = estadoInstance?.municipios		
+		
 		//Se hace el render del template '_selectMunicipios.gsp' con la lista de estados obtenida.
 		render(template: "municipios", model: [municipiosList:municipiosList, estadoInstance: estadoInstance])
 	}

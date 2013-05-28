@@ -37,7 +37,7 @@ class FotoController {
 			render(view: "create", model: [fotoInstance: fotoInstance])
 			return
 		}
-		render(view: "insertar2", controller: "persona", model: [fotoInstance: fotoInstance])		
+		redirect(action: "insertar2", controller: "persona", model:[idFoto: fotoInstance.id ])		
 	}
 
     def show(Long id) {

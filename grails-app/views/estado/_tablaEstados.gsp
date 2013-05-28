@@ -42,7 +42,17 @@
 						</table>
 					</g:if>
 					<g:else>
-						No hay ningún dato
+						<table>						
+							<thead>
+								<tr>
+									<th>
+										Estado
+									</th>									
+								</tr>
+							</thead>
+							<tbody>						
+							</tbody>							
+						</table>
 					</g:else>
 					
 				</div>
