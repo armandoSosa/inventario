@@ -67,21 +67,29 @@
 		if ($('#descripcion').val().length<3){
 			mostrarAlerta('descripcion', true, 'La descripción debe ser de al menos 3 caracteres');
 		} else {
-			$('#formTipo').submit();
+			//debemos verificar que el tipo no exista
+			var cadenaValores="tipoTexto="+$("#descripcion").val();
+			${remoteFunction (controller:'tipo', action:'verificarSiExiste', params: 'cadenaValores', update: 'verificarSiExiste')}
+			
+			//$('#formTipo').submit();
 		}
 	}
+
+	
 	
 	
 </script>
 </head>
 <body>
+	<g:render template="verificarExistencia" />
+	
 	<a href="#create-tipo" class="skip" tabindex="-1"><g:message
 			code="default.link.skip.label" default="Skip to content&hellip;" /></a>
 	<div class="nav" role="navigation">
 		<ul>
 			<li><a class="home" href="${createLink(uri: '/')}"><g:message
 						code="default.home.label" /></a></li>
-			<li><g:link class="list" action="list">
+			<li><g:link class="list" action="menu">
 					<g:message code="default.list.label" args="[entityName]" />
 				</g:link></li>
 		</ul>

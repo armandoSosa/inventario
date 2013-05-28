@@ -317,7 +317,7 @@ class ObjetoController {
 		tipoInstance = Tipo.findByDescripcion(params.tipo1)
 		session['idTipo'] = tipoInstance.id
 		System.out.println("paso y tipo es: "+session['idTipo'])
-		render(controller:"objeto", template: "forma2")
+		
 	}
 	
 	def save_tipo3()  {
