@@ -264,6 +264,7 @@
 				curpValida = validarCURP(inputs[index].value);
 				if(!curpValida){
 					mostrarValidacion(inputs[index].id, "La CURP no es valida");
+					$.scrollTo('#'+inputs[index].id,800);
 					fin = true;
 				}											
 			}
@@ -271,12 +272,14 @@
 				rfcValido = validarRFC(inputs[index].value);
 				if(!rfcValido){
 					mostrarValidacion(inputs[index].id, "El RFC no es valido");
+					$.scrollTo('#'+inputs[index].id,800);
 					fin = true;				
 				}											
 			}
 		    if(!fin && inputs[index].id=="email"){
 			    if(!validarCorreo(inputs[index].value)){
 			    	mostrarValidacion(inputs[index].id, "El Email no es valido");
+			    	$.scrollTo('#'+inputs[index].id,800);
 			    	fin = true;
 				}				
 			}			

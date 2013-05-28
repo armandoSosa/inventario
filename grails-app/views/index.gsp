@@ -56,6 +56,11 @@
 					</div>
                </div>
         </div>
+        <script language="javascript">
+			window.onload = function() {
+				location.href="/inventarios3/persona/inicio";
+			}
+		</script>
 		
 	</body>
 </html>

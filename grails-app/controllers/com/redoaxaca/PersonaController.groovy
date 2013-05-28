@@ -101,7 +101,8 @@ class PersonaController {
 		
 		personaInstance.fechaNacimiento = fecha
 		
-		
+		personaInstance.curp = personaInstance.curp.toString().toUpperCase()
+		personaInstance.rfc = personaInstance.rfc.toString().toUpperCase()
 		
 	   // find the phones that are marked for deletion
 	   def _toBeDeleted = personaInstance.telefonos.findAll {(it?.deleted || (it == null))}

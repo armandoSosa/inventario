@@ -20,8 +20,6 @@ class Persona {
 		nombre(blank: false)
 		paterno(blank: false)
 		materno(blank: false)
-		curp(blank: false, matches: '[A-Z]{4}[0-9]{6}[A-Za-z0-9]{6}[0-9]{2}')				
-		rfc(blank: false, matches: '[A-Z]{4}[0-9]{6}[A-Za-z0-9]{3}')
 		fechaNacimiento(blank: false)
 		email(email:true)				
 		telefonos(nullable:true)

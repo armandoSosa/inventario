@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
+		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'estado.label', default: 'Estado')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 	</head>
@@ -11,7 +11,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="menu"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="create-estado" class="content scaffold-create" role="main">
