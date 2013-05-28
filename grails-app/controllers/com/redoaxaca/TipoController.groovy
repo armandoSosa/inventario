@@ -59,7 +59,7 @@ class TipoController {
     }
 	
 	def save_tipo() {
-		def tipoInstance = new Tipo(params)
+		def tipoInstance = new Tipo(descripcion:params.descripcion.toUpperCase())
 		System.out.println(params);
 		//buscamos la clave de inventario
 		tipoInstance.noInventarioSeriado=0;
@@ -72,6 +72,20 @@ class TipoController {
 		
 		flash.message = message(code: 'default.created.message', args: [message(code: 'tipo.label', default: 'Tipo'), tipoInstance.id])
 		redirect(controller:"plantilla", action: "insertar2", id: tipoInstance.id)
+	}
+	
+	def verificarSiExiste() {
+		def tipoProbable = Tipo.findByDescripcion(params.tipoTexto.toUpperCase())
+		if (tipoProbable) {
+			System.out.println("Existe");
+			render(controller: "tipo", template: "verificarExistencia", model: [existe: 1])
+			return
+		} else {
+			System.out.println("NO Existe");
+			render(controller: "tipo", template: "verificarExistencia", model: [existe: 2])
+			return
+		}
+		
 	}
 
     def show(Long id) {

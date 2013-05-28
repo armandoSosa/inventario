@@ -25,7 +25,7 @@ class CaracteristicaController {
 	def insertarCaracteristica = {
 		try {
 			def nuevaCaracteristica = caracteristicaService.crearCaracteristica(params.caracteristica, params.unidad)
-			flash.message = "Caracter��stica agregada: ${nuevaCaracteristica.caracteristica}"
+			flash.message = "Caracter������stica agregada: ${nuevaCaracteristica.caracteristica}"
 		} catch (CaracteristicaException pe) {
 			flash.message = pe.message
 		}
@@ -37,8 +37,17 @@ class CaracteristicaController {
 		params.max = Math.min(max ?: 10, 100)
 		[caracteristicaInstanceList: Caracteristica.list(params), caracteristicaInstanceTotal: Caracteristica.count()]
 	}
+	
+	def menu(Integer max) {
+		params.max = Math.min(max ?: 10, 100)
+		[caracteristicaInstanceList: Caracteristica.list(params), caracteristicaInstanceTotal: Caracteristica.count()]
+	}
 
 	def create() {
+		[caracteristicaInstance: new Caracteristica(params)]
+	}
+	
+	def insertar2() {
 		[caracteristicaInstance: new Caracteristica(params)]
 	}
 
@@ -55,6 +64,20 @@ class CaracteristicaController {
 		])
 		redirect(action: "show", id: caracteristicaInstance.id)
 	}
+	def save_caracteristica() {
+		def caracteristicaInstance = new Caracteristica(params)
+		System.out.println(params)
+		if (!caracteristicaInstance.save(flush: true)) {
+			render(view: "insertar2", model: [caracteristicaInstance: caracteristicaInstance])
+			return
+		}
+
+		flash.message = message(code: 'default.created.message', args: [
+			message(code: 'caracteristica.label', default: 'Caracteristica'),
+			caracteristicaInstance.id
+		])
+		redirect(action: "mostrar", id: caracteristicaInstance.id)
+	}
 
 	def show(Long id) {
 		def caracteristicaInstance = Caracteristica.get(id)
@@ -64,6 +87,19 @@ class CaracteristicaController {
 				id
 			])
 			redirect(action: "list")
+			return
+		}
+
+		[caracteristicaInstance: caracteristicaInstance]
+	}
+	def mostrar(Long id) {
+		def caracteristicaInstance = Caracteristica.get(id)
+		if (!caracteristicaInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'caracteristica.label', default: 'Caracteristica'),
+				id
+			])
+			redirect(action: "menu")
 			return
 		}
 
@@ -151,7 +187,7 @@ class CaracteristicaController {
 	def addUnidadAjax = {
 		System.out.println("entro")
 		if (params.id.equals("1") || params.id.equals("2")) {
-			//canceló o agregó nuevo
+			//cancel�� o agreg�� nuevo
 			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1])
 		} else if (params.id.equals("3")){
 			//agregamos la unidad
@@ -169,7 +205,7 @@ class CaracteristicaController {
 
 			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1, unidadId:nuevaUnidad.id])
 
-			if (params.id.equals("1")) { //canceló
+			if (params.id.equals("1")) { //cancel��
 				render (template:'forma', model: [agregarUnidad: params.id, municipio:params.idMunicipio])
 
 			} else {
@@ -183,7 +219,7 @@ class CaracteristicaController {
 		System.out.println("recibeUnidadAjax2: "+params)
 		session['numUnidades']=(Integer.parseInt(params.valor1)+1).toString()
 		if (params.id.equals("1") || params.id.equals("2")) {
-			//canceló o agregó nuevo
+			//cancel�� o agreg�� nuevo
 			
 			render (controller:'caracteristica', template:'forma2', model: [agregarUnidad: params.id, caracteristica:params['caracteristica1']])
 		} else if (params.id.equals("3")){
@@ -210,7 +246,7 @@ class CaracteristicaController {
 		System.out.println("recibeUnidadAjax2: "+params)
 		session['numUnidades']=(Integer.parseInt(params.valor1)+1).toString()
 		if (params.id.equals("1") || params.id.equals("2")) {
-			//canceló o agregó nuevo
+			//cancel�� o agreg�� nuevo
 			
 			render (controller:'caracteristica', template:'forma2', model: [agregarUnidad: params.id, caracteristica:params['caracteristica1']])
 		} else if (params.id.equals("3")){
@@ -231,4 +267,7 @@ class CaracteristicaController {
 			render (controller:'caracteristica', template:'forma2', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1, unidadId:nuevaUnidad.id])
 		}
 	}
+	
+	
+	
 }

@@ -11,7 +11,7 @@ class PlantillaService {
 	
 	
 	Plantilla crearPlantilla(String pCaracteristica, String pTipo) {
-		//Buscamos el objeto caracter��stica que se agregar�� a la plantilla
+		//Buscamos el objeto caracter������stica que se agregar������ a la plantilla
 		def caracteristicaObjeto = Caracteristica.findByCaracteristica(pCaracteristica);
 		def tipoObjeto = Tipo.findByDescripcion(pTipo)
 		
@@ -25,12 +25,12 @@ class PlantillaService {
 		if (plantillaNueva.save()) {
 			return plantillaNueva
 		} else {
-			throw new PlantillaException(message: "Plantilla vac��a o inv��lida ", plantillaNueva: plantillaNueva)
+			throw new PlantillaException(message: "Plantilla vac������a o inv������lida ", plantillaNueva: plantillaNueva)
 		}
 	}
 	
 	Plantilla crearPlantilla(String pCaracteristica, int pTipo) {
-		//Buscamos el objeto caracter��stica que se agregar�� a la plantilla
+		//Buscamos el objeto caracter������stica que se agregar������ a la plantilla
 		def caracteristicaObjeto = Caracteristica.findByCaracteristica(pCaracteristica);
 		def tipoObjeto = Tipo.findById(pTipo)
 
@@ -40,11 +40,66 @@ class PlantillaService {
 		
 		plantillaNueva.setCaracteristica(caracteristicaObjeto)
 		plantillaNueva.setTipo(tipoObjeto)
+		
 		//Guardamos el objeto
 		if (plantillaNueva.save()) {
 			return plantillaNueva
 		} else {
-			throw new PlantillaException(message: "Plantilla vac��a o inv��lida ", plantillaNueva: plantillaNueva)
+			throw new PlantillaException(message: "Plantilla vac������a o inv������lida ", plantillaNueva: plantillaNueva)
 		}
 	}
+	
+	Plantilla crearPlantilla(Long pCaracteristica, Long pTipo) {
+		//Buscamos el objeto caracter������stica que se agregar������ a la plantilla
+		def caracteristicaObjeto = Caracteristica.findById(pCaracteristica);
+		def tipoObjeto = Tipo.findById(pTipo)
+
+		def plantillaNueva = new Plantilla()
+		plantillaNueva.setCaracteristica(caracteristicaObjeto)
+		plantillaNueva.setTipo(tipoObjeto)
+		
+		//Guardamos el objeto
+		if (plantillaNueva.save()) {
+			return plantillaNueva
+		} else {
+			throw new PlantillaException(message: "Plantilla vac������a o inv������lida ", plantillaNueva: plantillaNueva)
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
