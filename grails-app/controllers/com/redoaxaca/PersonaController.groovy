@@ -117,7 +117,7 @@ class PersonaController {
 		   tel.index = i		   
 	   }
 			  
-        if (!personaInstance.save(flush: true)) {
+        if (!personaInstance.save(flush: true)) {			
             render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance, puestoPersonaInstance: puestoPersonaInstance ])
             return
         }

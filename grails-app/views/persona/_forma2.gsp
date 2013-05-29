@@ -3,7 +3,7 @@
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'numeroEmpleado', 'error')} required">
 	<label for="numeroEmpleado">
-		<g:message code="persona.numeroEmpleado.label" default="Numero Empleado" />
+		<g:message code="persona.numeroEmpleado.label" default="Número Empleado" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="numeroEmpleado" required="" value="${personaInstance?.numeroEmpleado}" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/>

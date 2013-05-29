@@ -2,9 +2,6 @@
 <!DOCTYPE html>
 <html>
 	<head>		
-	
-	
-
 	 <script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
 			<script src="${resource(dir: 'js', file: 'jquery.maskedinput.min.js')}" type="text/javascript"></script>
 		<meta name="layout" content="metro">
@@ -314,19 +311,15 @@
 		</div>
 		<div id="create-persona" class="content scaffold-create" role="main">
 			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
+			
 			<g:hasErrors bean="${personaInstance}">
 			<ul class="errors" role="alert">
 				<g:eachError bean="${personaInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>>El número de empleado ya existe, seleccione otro número</li>
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
+			
 			<g:hasErrors bean="${direccionInstance}">
 			<ul class="errors" role="alert">
 				<g:eachError bean="${direccionInstance}" var="error">
@@ -334,9 +327,7 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
+			
 			<g:hasErrors bean="${telefonoInstance}">
 			<ul class="errors" role="alert">
 				<g:eachError bean="${telefonoInstance}" var="error">
@@ -344,9 +335,7 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
+			
 			<g:hasErrors bean="${puestoPersonaInstance}">
 			<ul class="errors" role="alert">
 				<g:eachError bean="${puestoPersonaInstance}" var="error">
