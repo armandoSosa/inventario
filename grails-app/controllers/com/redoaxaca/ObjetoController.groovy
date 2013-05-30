@@ -1285,7 +1285,8 @@ class ObjetoController {
 		}
 		numObjetosPorTipo=aux+numObjetosPorTipo
 		claveInventario=tipoObj.claveInventario+"-"
-		claveInventario+=numObjetosPorTipo+"-"+tipoObj.noInventarioSeriado.toString()
+		//claveInventario+=numObjetosPorTipo+"-"+tipoObj.noInventarioSeriado.toString()
+		claveInventario+=numObjetosPorTipo
 		System.out.println(claveInventario)
 		render(template:'mostrarFormCaracteristicas', model: [tipoInstance:tipoObj, plantillas:plantillas, claveInventario:claveInventario])
 	}

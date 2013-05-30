@@ -61,9 +61,17 @@ class TipoController {
 	def save_tipo() {
 		def tipoInstance = new Tipo(descripcion:params.descripcion.toUpperCase())
 		System.out.println(params);
-		//buscamos la clave de inventario
+		String tipoString = params.descripcion.toUpperCase()
+		
+		//definimos la clave de inventario
+		String claveProbable = tipoString.substring(0, 3);
+		while(Tipo.findByClaveInventario(claveProbable)!=null) {
+			claveProbable=tipoString.charAt(0)
+			claveProbable+=tipoString.charAt((int) Math.random()*(tipoString.length()-1) + 1)
+			claveProbable+=tipoString.charAt((int) Math.random()*(tipoString.length()-1) + 1)
+		}
 		tipoInstance.noInventarioSeriado=0;
-		tipoInstance.claveInventario='';
+		tipoInstance.claveInventario=claveProbable;
 		
 		if (!tipoInstance.save(flush: true)) {
 			render(view: "insertar2", model: [tipoInstance: tipoInstance])
