@@ -1,9 +1,119 @@
 package com.redoaxaca
 
+import org.springframework.dao.DataIntegrityViolationException
+
 class ObjetoPersonaController {
+
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+
+    def index() {
+        redirect(action: "list", params: params)
+    }
+
+    def list(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
+        [objetoPersonaInstanceList: ObjetoPersona.list(params), objetoPersonaInstanceTotal: ObjetoPersona.count()]
+    }
+
+    def create() {
+        [objetoPersonaInstance: new ObjetoPersona(params)]
+    }
+
+    def save() {
+        def objetoPersonaInstance = new ObjetoPersona(params)
+        if (!objetoPersonaInstance.save(flush: true)) {
+            render(view: "create", model: [objetoPersonaInstance: objetoPersonaInstance])
+            return
+        }
+
+        flash.message = message(code: 'default.created.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), objetoPersonaInstance.id])
+        redirect(action: "show", id: objetoPersonaInstance.id)
+    }
+
+    def show(Long id) {
+        def objetoPersonaInstance = ObjetoPersona.get(id)
+        if (!objetoPersonaInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), id])
+            redirect(action: "list")
+            return
+        }
+
+        [objetoPersonaInstance: objetoPersonaInstance]
+    }
+	
+	def mostrar(Long id) {
+		def objetoPersonaInstance = ObjetoPersona.get(id)
+		if (!objetoPersonaInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), id])
+			redirect(action: "list")
+			return
+		}
+
+		[objetoPersonaInstance: objetoPersonaInstance]
+	}
+
+    def edit(Long id) {
+        def objetoPersonaInstance = ObjetoPersona.get(id)
+        if (!objetoPersonaInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), id])
+            redirect(action: "list")
+            return
+        }
+
+        [objetoPersonaInstance: objetoPersonaInstance]
+    }
+
+    def update(Long id, Long version) {
+        def objetoPersonaInstance = ObjetoPersona.get(id)
+        if (!objetoPersonaInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), id])
+            redirect(action: "list")
+            return
+        }
+
+        if (version != null) {
+            if (objetoPersonaInstance.version > version) {
+                objetoPersonaInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                          [message(code: 'objetoPersona.label', default: 'ObjetoPersona')] as Object[],
+                          "Another user has updated this ObjetoPersona while you were editing")
+                render(view: "edit", model: [objetoPersonaInstance: objetoPersonaInstance])
+                return
+            }
+        }
+
+        objetoPersonaInstance.properties = params
+
+        if (!objetoPersonaInstance.save(flush: true)) {
+            render(view: "edit", model: [objetoPersonaInstance: objetoPersonaInstance])
+            return
+        }
+
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), objetoPersonaInstance.id])
+        redirect(action: "show", id: objetoPersonaInstance.id)
+    }
+
+    def delete(Long id) {
+        def objetoPersonaInstance = ObjetoPersona.get(id)
+        if (!objetoPersonaInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), id])
+            redirect(action: "list")
+            return
+        }
+
+        try {
+            objetoPersonaInstance.delete(flush: true)
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), id])
+            redirect(action: "list")
+        }
+        catch (DataIntegrityViolationException e) {
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), id])
+            redirect(action: "show", id: id)
+        }
+    }
+	
 	def scaffold = true
 	def postService
-    def index = {
+	def index = {
 		redirect(action: list)
 	}
 	
@@ -40,8 +150,9 @@ class ObjetoPersonaController {
 	}
 	
 	def getObjetos(){
-		//Se obtiene el estado		
-		def personaInstance = Persona.get(params.id)		
+
+		//Se obtiene el estado
+		def personaInstance = Persona.get(params.id)
 		
 		def objetosList = Objeto.list()
 		//Se hace el render del template '_selectMunicipios.gsp' con la lista de estados obtenida.
@@ -60,7 +171,7 @@ class ObjetoPersonaController {
 				eq 'numeroEmpleado', params.id
 			}
 		}
-		//Buscamos la información de la persona
+		//Buscamos la informaci��n de la persona
 		criterio = Persona.createCriteria()
 		def persona = criterio.list {
 			eq 'numeroEmpleado', params.id
@@ -107,3 +218,6 @@ class ObjetoPersonaController {
 		redirect(action: "show", id: objetoPersonaInstance.id)
 	}
 }
+
+
+

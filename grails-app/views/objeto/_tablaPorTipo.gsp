@@ -26,7 +26,7 @@
 								<g:each var="objetoInstance" in="${objetos}">
 						        	<tr>
 						        		<td>
-						        			<g:link action="show" id="${objetoInstance.noInventario}">${objetoInstance.noInventario}</g:link>
+						        			<g:link action="mostrar" id="${objetoInstance.id}">${objetoInstance.noInventario}</g:link>
 						        		
 						        		</td>
 						        		<g:if test="${objetoMayor?.valores}">
