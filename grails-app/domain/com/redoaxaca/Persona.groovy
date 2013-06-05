@@ -25,6 +25,8 @@ class Persona {
 		telefonos(nullable:true)
 		objetosPersona(nullable:true)	
 		foto(nullable:true)
+		curp(unique:true)
+		rfc(unique:true)
     }
 		
 	/*

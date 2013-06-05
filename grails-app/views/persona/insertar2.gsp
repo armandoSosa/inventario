@@ -237,7 +237,7 @@
 	
 
 	function validarEnvio() {
-		var container, inputs, index, fin, municipioSelecionado, rfcValido, curpValida;
+		var container, inputs, index, fin, municipioSelecionado, rfcValido, curpValida, rfc, curp;
 		fin = false;
 		municipioSelecionado = false;
 		rfcValido = false;
@@ -259,6 +259,8 @@
 		    }
 		    if(inputs[index].id=="curp" && !fin){
 				curpValida = validarCURP(inputs[index].value);
+				curp = inputs[index].value;
+				curp = curp.substring(0, 10);
 				if(!curpValida){
 					mostrarValidacion(inputs[index].id, "La CURP no es valida");
 					$.scrollTo('#'+inputs[index].id,800);
@@ -267,6 +269,8 @@
 			}
 		    if(inputs[index].id=="rfc" && !fin){
 				rfcValido = validarRFC(inputs[index].value);
+				rfc = inputs[index].value;
+				rfc = rfc.substring(0, 10);
 				if(!rfcValido){
 					mostrarValidacion(inputs[index].id, "El RFC no es valido");
 					$.scrollTo('#'+inputs[index].id,800);
@@ -280,7 +284,14 @@
 			    	fin = true;
 				}				
 			}			
+		}
+
+		if(rfc != curp){
+			mostrarValidacion("curp", "El RFC o la CURP no son válidos");
+	    	$.scrollTo('#'+"curp",800);
+	    	fin = true;
 		}		
+		
 		for (index = 0; index < selects.length; ++index) {
 			if(selects[index].id=="municipio"){
 				municipioSelecionado = true;
@@ -315,7 +326,17 @@
 			<g:hasErrors bean="${personaInstance}">
 			<ul class="errors" role="alert">
 				<g:eachError bean="${personaInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>>El número de empleado ya existe, seleccione otro número</li>
+				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>>
+				<g:if test="${error.field == 'curp'}">
+					Esta CURP ya está siendo ocupada por otra persona
+				</g:if>
+				<g:if test="${error.field == 'rfc'}">
+					Este RFC ya está siendo ocupado por otra persona
+				</g:if>
+				<g:if test="${error.field == 'numeroEmpleado'}">
+					El número de empleado ya existe, seleccione otro número
+				</g:if>			
+				</li>
 				</g:eachError>
 			</ul>
 			</g:hasErrors>

@@ -3,8 +3,15 @@
 	<head>
 		<meta name="layout" content="metro"/>
 		<title>Bienvenido a Inventarios</title>
+		<g:setProvider library="jquery"/>
+		<script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
+			
+		<g:javascript src="jcrop/jquery.Jcrop.min.js" />
+		  
+		 <link rel="stylesheet" href="${resource(dir: 'js', file: 'chosen/chosen.css')}" type="text/css"> 
+		 <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.scrollTo.js')}"></script>
 	</head>
-	<body class="modern-ui">
+	<body class="modern-ui">	
 		<br><br>
 	    <div class="page-region">
                <div class="page-region-content">
@@ -29,7 +36,12 @@
                                 <!--<img src="images/windows-8-metro.jpg" class="place-right" style="width: 210px;"/>-->
                                  <div style="">
                                     <h2>Lista de Empleados</h2><br>
-
+									
+									<div class="nav" role="navigation">
+										<ul>											
+											<li><g:link class="create" action="insertar2">Nuevo Empleado</g:link></li>
+										</ul>
+									</div>
                                     <div id="list-persona" class="content scaffold-list" role="main">
 										
 										<g:if test="${flash.message}">
@@ -73,8 +85,18 @@
 										</table>
 										<div class="pagination">
 											<g:paginate total="${personaInstanceTotal}" />
-										</div>										
+										</div>																	
 									</div>
+									<br>
+									<div>
+											<label for="valorABuscar"> Buscar:</label>
+											<g:textField name="valorABuscar" required="" value=""
+											    onkeyup="${remoteFunction(
+												   controller: 'persona',
+												   action: 'buscarPersona',
+							                       update: 'list-persona',
+							                       params: '\'persona=\' + this.value')}"/>
+										</div>		
                                 </div>
                             </div>
                         </div>                        
