@@ -56,7 +56,7 @@ class UnidadController {
     }
 	
 	def save_unidad() {
-		def unidadInstance = new Unidad(params)
+		def unidadInstance = new Unidad(unidad:params.unidad.toUpperCase())
 		if (!unidadInstance.save(flush: true)) {
 			render(view: "insertar2", model: [unidadInstance: unidadInstance])
 			return
@@ -98,6 +98,17 @@ class UnidadController {
 
         [unidadInstance: unidadInstance]
     }
+	
+	def editar(Long id) {
+		def unidadInstance = Unidad.get(id)
+		if (!unidadInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'unidad.label', default: 'Unidad'), id])
+			redirect(action: "menu")
+			return
+		}
+
+		[unidadInstance: unidadInstance]
+	}
 
     def update(Long id, Long version) {
         def unidadInstance = Unidad.get(id)
@@ -112,7 +123,7 @@ class UnidadController {
                 unidadInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                           [message(code: 'unidad.label', default: 'Unidad')] as Object[],
                           "Another user has updated this Unidad while you were editing")
-                render(view: "edit", model: [unidadInstance: unidadInstance])
+                render(view: "editar", model: [unidadInstance: unidadInstance])
                 return
             }
         }
@@ -120,12 +131,12 @@ class UnidadController {
         unidadInstance.properties = params
 
         if (!unidadInstance.save(flush: true)) {
-            render(view: "edit", model: [unidadInstance: unidadInstance])
+            render(view: "editar", model: [unidadInstance: unidadInstance])
             return
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'unidad.label', default: 'Unidad'), unidadInstance.id])
-        redirect(action: "show", id: unidadInstance.id)
+        redirect(action: "mostrar", id: unidadInstance.id)
     }
 
     def delete(Long id) {

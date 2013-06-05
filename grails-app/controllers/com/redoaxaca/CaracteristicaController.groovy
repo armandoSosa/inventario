@@ -25,7 +25,7 @@ class CaracteristicaController {
 	def insertarCaracteristica = {
 		try {
 			def nuevaCaracteristica = caracteristicaService.crearCaracteristica(params.caracteristica, params.unidad)
-			flash.message = "Caracter������stica agregada: ${nuevaCaracteristica.caracteristica}"
+			flash.message = "Caracter������������������stica agregada: ${nuevaCaracteristica.caracteristica}"
 		} catch (CaracteristicaException pe) {
 			flash.message = pe.message
 		}
@@ -66,7 +66,7 @@ class CaracteristicaController {
 	}
 	def save_caracteristica() {
 		def caracteristicaInstance = new Caracteristica(params)
-		System.out.println(params)
+		caracteristicaInstance.setCaracteristica(params.caracteristica.toUpperCase())
 		if (!caracteristicaInstance.save(flush: true)) {
 			render(view: "insertar2", model: [caracteristicaInstance: caracteristicaInstance])
 			return
@@ -107,6 +107,20 @@ class CaracteristicaController {
 	}
 
 	def edit(Long id) {
+		def caracteristicaInstance = Caracteristica.get(id)
+		if (!caracteristicaInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'caracteristica.label', default: 'Caracteristica'),
+				id
+			])
+			redirect(action: "list")
+			return
+		}
+
+		[caracteristicaInstance: caracteristicaInstance]
+	}
+	
+	def editar(Long id) {
 		def caracteristicaInstance = Caracteristica.get(id)
 		if (!caracteristicaInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [
@@ -187,7 +201,7 @@ class CaracteristicaController {
 	def addUnidadAjax = {
 		System.out.println("entro")
 		if (params.id.equals("1") || params.id.equals("2")) {
-			//cancel�� o agreg�� nuevo
+			//cancel������ o agreg������ nuevo
 			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1])
 		} else if (params.id.equals("3")){
 			//agregamos la unidad
@@ -205,7 +219,7 @@ class CaracteristicaController {
 
 			render (template:'forma', model: [agregarUnidad: params.id, caracteristica:params.caracteristica1, unidadId:nuevaUnidad.id])
 
-			if (params.id.equals("1")) { //cancel��
+			if (params.id.equals("1")) { //cancel������
 				render (template:'forma', model: [agregarUnidad: params.id, municipio:params.idMunicipio])
 
 			} else {
@@ -219,7 +233,7 @@ class CaracteristicaController {
 		System.out.println("recibeUnidadAjax2: "+params)
 		session['numUnidades']=(Integer.parseInt(params.valor1)+1).toString()
 		if (params.id.equals("1") || params.id.equals("2")) {
-			//cancel�� o agreg�� nuevo
+			//cancel������ o agreg������ nuevo
 			
 			render (controller:'caracteristica', template:'forma2', model: [agregarUnidad: params.id, caracteristica:params['caracteristica1']])
 		} else if (params.id.equals("3")){
@@ -246,7 +260,7 @@ class CaracteristicaController {
 		System.out.println("recibeUnidadAjax2: "+params)
 		session['numUnidades']=(Integer.parseInt(params.valor1)+1).toString()
 		if (params.id.equals("1") || params.id.equals("2")) {
-			//cancel�� o agreg�� nuevo
+			//cancel������ o agreg������ nuevo
 			
 			render (controller:'caracteristica', template:'forma2', model: [agregarUnidad: params.id, caracteristica:params['caracteristica1']])
 		} else if (params.id.equals("3")){
