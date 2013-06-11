@@ -36,26 +36,7 @@
 		data.addColumn('string', 'Manager');
 		data.addColumn('string', 'ToolTip');
 		data
-				.addRows([
-						[
-								{
-									v : '1',
-									f : 'Mike'
-								}, '', 'The President' ],
-						[
-								{
-									v : '2',
-									f : 'Jim'
-								}, '1', 'VP' ], [ {
-							v : '3',
-							f : 'Alice'
-						}, '1', '' ], [ {
-							v : '4',
-							f : 'Bob'
-						}, '2', 'Bob Sponge' ], [ {
-							v : '5',
-							f : 'Carol'
-						}, '4', 'hola' ] ]);
+		.addRows(${datos});
 		chart = new google.visualization.OrgChart(document
 				.getElementById('chart_div'));
 		google.visualization.events.addListener(chart, 'select', selectHandler);

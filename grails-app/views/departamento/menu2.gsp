@@ -48,7 +48,7 @@
 		$(".error").remove();
 		$(".google-visualization-orgchart-nodesel")
 				.focus()
-				.after("<span class='error'><a class='modalbox' href='#inline' style='text-color:white;' >Agregar</a><br><a class='modalbox' href='#inline3' onclick='editarForm()'>Editar</a><br><a class='modalbox' href='#inline2' onClick='verificarHijos();'>Eliminar</a></span>");
+				
 	}
 
 

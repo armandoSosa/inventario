@@ -23,18 +23,8 @@
 			</g:if>
 			<ol class="property-list unidad">
 			
-			<!-- 
-				<g:if test="${unidadInstance?.caracteristicas}">
-				<li class="fieldcontain">
-					<span id="caracteristicas-label" class="property-label"><g:message code="unidad.caracteristicas.label" default="Caracteristicas" /></span>
-					
-						<g:each in="${unidadInstance.caracteristicas}" var="c">
-						<span class="property-value" aria-labelledby="caracteristicas-label"><g:link controller="caracteristica" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			 -->
+				
+			
 				<g:if test="${unidadInstance?.unidad}">
 				<li class="fieldcontain">
 					<span id="unidad-label" class="property-label"><g:message code="unidad.unidad.label" default="Unidad" /></span>
@@ -43,12 +33,22 @@
 					
 				</li>
 				</g:if>
+				
+				<g:if test="${unidadInstance?.caracteristicas}">
+				<li class="fieldcontain">
+					<span id="caracteristicas-label" class="property-label"><g:message code="unidad.caracteristicas.label" default="Caracteristicas que la ocupan" /></span>
+					
+						<g:each in="${unidadInstance.caracteristicas}" var="c">
+						<span class="property-value" aria-labelledby="caracteristicas-label"><g:link controller="caracteristica" action="mostrar" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
+						</g:each>
+				</li>
+				</g:if>
 			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${unidadInstance?.id}" />
-					<g:link class="edit" action="editar" id="${unidadInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:link class="edit" action="edit" id="${unidadInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>
