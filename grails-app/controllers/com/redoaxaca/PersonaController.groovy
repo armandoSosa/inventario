@@ -117,7 +117,8 @@ class PersonaController {
 		   tel.index = i		   
 	   }
 			  
-        if (!personaInstance.save(flush: true)) {			
+        if (!personaInstance.save(flush: true)) {
+			flash.error = "No se pudo insertar"
             render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance, puestoPersonaInstance: puestoPersonaInstance ])
             return
         }
@@ -245,4 +246,24 @@ class PersonaController {
             redirect(action: "show", id: id)
         }
     }
+	
+	def buscarPersona (Integer max) {
+		def personas, personas2, personas3
+		def personaInstanceList
+		def personaInstanceTotal
+		params.max = Math.min(max ?: 10, 100)
+		if (!params.persona.equals("")){
+			personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+params.persona+"%", "%"+params.persona+"%", "%"+params.persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+			
+			personaInstanceList = personas
+			personaInstanceTotal = personas.count
+		}else{						
+			personaInstanceList = Persona.list(params)
+			personaInstanceTotal = Persona.count()
+		}
+		
+		
+		render (template:'tablaPersonas', model: [ personaInstanceList: personaInstanceList, personaInstanceTotal: personaInstanceTotal])
+		
+	}
 }

@@ -132,11 +132,27 @@ class ObjetoPersonaController {
 		[objetoPersonaInstance: new ObjetoPersona(params), personaInstance: new Persona(params)]
 	}
 	
+	def insertar2 = {
+		def objetosList = Objeto.list()
+		
+		
+		objetosList = Objeto.findAll("\
+			from \
+			ObjetoPersona as op\
+			where op.fechaInicio = op.fechaFin") 
+
+		def criterio = Objeto.createCriteria();
+		def objetos = criterio.listDistinct {
+			not {'in'("id", objetosList.objeto.id)}
+		}
+				
+		[objetoPersonaInstance: new ObjetoPersona(params), personaInstance: new Persona(params), objetosList: objetos]
+	}
+	
 	def getObjetos(){
+
 		//Se obtiene el estado
-			def personaInstance = Persona.get(params.id)
-		
-		
+		def personaInstance = Persona.get(params.id)
 		
 		def objetosList = Objeto.list()
 		//Se hace el render del template '_selectMunicipios.gsp' con la lista de estados obtenida.
@@ -179,7 +195,8 @@ class ObjetoPersonaController {
 		
 		personaInstance.objetosPersona.eachWithIndex(){objeto, i ->
 			objeto.fechaInicio = new Date()
-			objeto.index = i
+			objeto.fechaFin = objeto.fechaInicio
+			objeto.index = i				
 		}
 			   
 		 if (!personaInstance.hasErrors() && !personaInstance.save(flush: true)) {

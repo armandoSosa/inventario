@@ -93,6 +93,22 @@
 	<g:textField name="calle" required="" value="${direccionInstance?.calle}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 4, this.id)" class="tooltip"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noExterior', 'error')} required">
+	<label for="noExterior">
+		<g:message code="direccion.noExterior.label" default="No Exterior" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:textField name="noExterior" required="" value="${direccionInstance?.noExterior}" class="tooltip"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noInterior', 'error')} ">
+	<label for="noInterior">
+		<g:message code="direccion.noInterior.label" default="No Interior" />
+		
+	</label>
+	<g:textField name="noInterior" value="${direccionInstance?.noInterior}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'colonia', 'error')} required">
 	<label for="colonia">
 		<g:message code="direccion.colonia.label" default="Colonia" />
@@ -114,21 +130,7 @@
 <div id="municipioDiv" class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">	
 </div>
 </div>
-<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noExterior', 'error')} required">
-	<label for="noExterior">
-		<g:message code="direccion.noExterior.label" default="No Exterior" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="noExterior" required="" value="${direccionInstance?.noExterior}" class="tooltip"/>
-</div>
 
-<div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noInterior', 'error')} ">
-	<label for="noInterior">
-		<g:message code="direccion.noInterior.label" default="No Interior" />
-		
-	</label>
-	<g:textField name="noInterior" value="${direccionInstance?.noInterior}"/>
-</div>
 
 </fieldset>
 
