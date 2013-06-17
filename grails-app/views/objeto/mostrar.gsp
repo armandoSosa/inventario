@@ -98,8 +98,9 @@
 						</g:each>
 					</g:if>
 					<g:else>
-						<span class="property-value" aria-labelledby="valores-label"><g:link controller="objetoPersona" action="insertar2" id="${objetoInstance.id}">Agregar persona</g:link></span>
+						<span class="property-value" aria-labelledby="valores-label">Ninguno</span>
 					</g:else>
+					<span class="property-value" aria-labelledby="valores-label"><g:link controller="objetoPersona" action="insertar2" id="${objetoInstance.id}">Agregar persona</g:link></span>
 					
 				</li>
 				

@@ -55,7 +55,7 @@
 					<span id="objetos-label" class="property-label"><g:message code="tipo.objetos.label" default="Objetos" /></span>
 					
 						<g:each in="${tipoInstance.objetos}" var="o">
-						<span class="property-value" aria-labelledby="objetos-label"><g:link controller="objeto" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="objetos-label"><g:link controller="objeto" action="mostrar" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 				</li>
@@ -66,7 +66,7 @@
 						<span id="plantilla-label" class="property-label"><g:message code="tipo.plantilla.label" default="Características" /></span>
 						
 							<g:each in="${tipoInstance.plantilla}" var="p">
-							<span class="property-value" aria-labelledby="plantilla-label"><g:link controller="plantilla" action="show" id="${p.id}">${p.caracteristica}</g:link></span>
+							<span class="property-value" aria-labelledby="plantilla-label"><g:link controller="caracteristica" action="mostrar" id="${p.caracteristica?.id}">${p.caracteristica}; Unidad: ${p.caracteristica?.unidad?.unidad}</g:link></span>
 							</g:each>
 						
 					</li>

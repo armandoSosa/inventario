@@ -1,6 +1,6 @@
 <html>
 <head>
-
+<meta name="layout" content="metro">
 <g:set var="entityName"
 	value="${message(code: 'objeto.label', default: 'Objeto')}" />
 <title>Ver departamentos</title>
@@ -48,7 +48,7 @@
 		$(".error").remove();
 		$(".google-visualization-orgchart-nodesel")
 				.focus()
-				.after("<span class='error'><a class='modalbox' href='#inline' style='text-color:white;' >Agregar</a><br><a class='modalbox' href='#inline3' onclick='editarForm()'>Editar</a><br><a class='modalbox' href='#inline2' onClick='verificarHijos();'>Eliminar</a></span>");
+				
 	}
 
 
@@ -61,6 +61,15 @@
 </head>
 
 <body>
+	<div class="nav" role="navigation">
+		<ul>
+			<li><a class="home" href="${createLink(uri: '/')}"><g:message
+						code="default.home.label" /></a></li>
+			<li><g:link class="create" action="insertar2">
+					<g:message code="Editar departamentos" />
+				</g:link></li>
+		</ul>
+	</div>
 	<a id="tipoLabel" class="modalbox" href="#inline">Nuevo Tipo</a>
 	<div id='chart_div'></div>
 

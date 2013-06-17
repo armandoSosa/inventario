@@ -34,10 +34,10 @@
 			
 				<g:if test="${caracteristicaInstance?.plantillas}">
 				<li class="fieldcontain">
-					<span id="plantillas-label" class="property-label"><g:message code="caracteristica.plantillas.label" default="Plantillas" /></span>
+					<span id="plantillas-label" class="property-label"><g:message code="caracteristica.plantillas.label" default="Tipos de Objeto que la utilizan" /></span>
 					
 						<g:each in="${caracteristicaInstance.plantillas}" var="p">
-						<span class="property-value" aria-labelledby="plantillas-label"><g:link controller="plantilla" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="plantillas-label"><g:link controller="tipo" action="mostrar" id="${p.tipo?.id}">${p?.tipo?.descripcion}</g:link></span>
 						</g:each>
 					
 				</li>
@@ -47,7 +47,7 @@
 				<li class="fieldcontain">
 					<span id="unidad-label" class="property-label"><g:message code="caracteristica.unidad.label" default="Unidad" /></span>
 					
-						<span class="property-value" aria-labelledby="unidad-label"><g:link controller="unidad" action="show" id="${caracteristicaInstance?.unidad?.id}">${caracteristicaInstance?.unidad?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="unidad-label"><g:link controller="unidad" action="mostrar" id="${caracteristicaInstance?.unidad?.id}">${caracteristicaInstance?.unidad?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>
