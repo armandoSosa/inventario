@@ -261,12 +261,15 @@ class DepartamentoController {
 				System.out.println("NO sigue")
 				//Buscamos al padre y lo borramos de sus hijos
 				Departamento padre = buscarPadre(d)
-				padre.removeFromDepartamentos(d)
+				if (padre) {
+					padre.removeFromDepartamentos(d)
+				}
+				
 				try {
 					d.delete(flush: true)
 					System.out.println("Se borro")
 					flash.message = message(code: 'default.deleted.message', args: [message(code: 'departamento.label', default: 'Departamento'), d.id])
-					redirect(action: "menu")
+					redirect(action: "menu2")
 				}
 				catch (DataIntegrityViolationException e) {
 					System.out.println("No se borro")

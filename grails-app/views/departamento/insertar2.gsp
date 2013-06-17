@@ -1,6 +1,6 @@
 <html>
 <head>
-
+<meta name="layout" content="metro">
 <g:set var="entityName"
 	value="${message(code: 'objeto.label', default: 'Objeto')}" />
 <title><g:message code="default.create.label"
@@ -146,6 +146,13 @@
 </head>
 
 <body>
+
+	<div class="nav" role="navigation">
+			<ul>
+				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+				<li><g:link class="list" action="menu2"><g:message code="Ver departamentos" /></g:link></li>
+			</ul>
+		</div>
 	<a id="tipoLabel" class="modalbox" href="#inline">Nuevo Tipo</a>
 	<div id='chart_div'></div>
 	<div id="inline" class=".inline">
@@ -170,9 +177,7 @@
 		<div id="create-tipo2" class="content scaffold-create" role="main">
 			<h2>Eliminar</h2>
 			<g:form action="save_tipo2">
-				<div id="formEliminar">
-					
-				</div>
+				<div id="formEliminar"></div>
 			</g:form>
 		</div>
 	</div>
@@ -180,9 +185,7 @@
 		<div id="create-tipo2" class="content scaffold-create" role="main">
 			<h2>Editar</h2>
 			<g:form action="save_tipo2">
-				<div id="formEditar">
-					
-				</div>
+				<div id="formEditar"></div>
 			</g:form>
 		</div>
 	</div>

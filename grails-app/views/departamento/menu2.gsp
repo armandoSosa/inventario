@@ -1,6 +1,6 @@
 <html>
 <head>
-
+<meta name="layout" content="metro">
 <g:set var="entityName"
 	value="${message(code: 'objeto.label', default: 'Objeto')}" />
 <title>Ver departamentos</title>
@@ -61,6 +61,15 @@
 </head>
 
 <body>
+	<div class="nav" role="navigation">
+		<ul>
+			<li><a class="home" href="${createLink(uri: '/')}"><g:message
+						code="default.home.label" /></a></li>
+			<li><g:link class="create" action="insertar2">
+					<g:message code="Editar departamentos" />
+				</g:link></li>
+		</ul>
+	</div>
 	<a id="tipoLabel" class="modalbox" href="#inline">Nuevo Tipo</a>
 	<div id='chart_div'></div>
 
