@@ -180,6 +180,30 @@ class ObjetoPersonaController {
 		return [ objetosPersona: objetosPersona, persona: persona]
 	}
 	
+	def guardarObjetoPersona(){
+		System.out.println(params.caracteristicas)	
+		for (String idString in params.caracteristicas) {
+						
+					try {
+						def objetoPersonaInstance = new ObjetoPersona(params)
+						objetoPersonaInstance.objeto = Objeto.findByNoInventario(idString)
+						objetoPersonaInstance.fechaInicio = new Date()
+						objetoPersonaInstance.fechaFin = objetoPersonaInstance.fechaInicio
+						objetoPersonaInstance.persona = Persona.findById(params.persona.id)												
+						
+						if (!objetoPersonaInstance.save(flush: true)) {
+							render(view: "mostrar", model: [objetoPersonaInstance: objetoPersonaInstance])
+							return
+						}
+						
+					} catch (PlantillaException pe) {
+						//flash.message = pe.message
+						System.out.println(pe.message)
+					}				
+		}
+		redirect(action: "list")
+	}
+	
 	def save_objetoPersona(){
 		def personaInstance = Persona.findById(params.persona.id)
 		
