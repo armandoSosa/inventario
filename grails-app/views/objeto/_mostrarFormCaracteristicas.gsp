@@ -3,7 +3,7 @@
 	<div class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipo', 'error')} required">
 	
 		<fieldset class="form">	
-			<div id="textFieldFormBuscar" class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'caracteristica', 'error')} ">
+			<div id="textFieldFormBuscar" class="fieldcontain">
 						<label for="tipo"> <g:message code="persona.label"
 								default="Tipo de objeto" /> <span class="required-indicator">*</span>
 						</label>
@@ -58,11 +58,11 @@
 		
 			<g:if test="${plantillas}">
 				<g:each var="plantilla" in="${plantillas}">
-					<label for="${session.numCaracteristica}valor${plantilla.id}">
-						<g:message code="objeto.noInventario.label" value="${plantilla.caracteristica.caracteristica}" default="${plantilla.caracteristica.caracteristica}" />
+					<label for="valor${plantilla.id}">
+						${plantilla.caracteristicaUnidad.caracteristica}
 					</label>
 					<g:textField id="valor${plantilla.id}" name="valor${plantilla.id}" value="${objetoInstance?.valor}" onChange="generarCadenaValores('valor${plantilla.id}')" />
-					${plantilla.caracteristica.unidad}	
+					${plantilla.caracteristicaUnidad.unidad}	
 					<br>
 					<br>
 				</g:each>
