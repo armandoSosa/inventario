@@ -3,9 +3,9 @@
 	<div id="content" class="centrado">
       <select id="countries" class="multiselect" multiple="multiple" name="caracteristicas">
       		<g:if test="${objetosList}">
-				<g:each var="caracteristica" in="${objetosList}">
-					<option value="${caracteristica.id}">
-						${caracteristica}
+				<g:each var="objeto" in="${objetosList}">
+					<option value="${objeto.id}">
+						${objeto.tipo.descripcion}
 					</option>
 				</g:each>
 			</g:if>
