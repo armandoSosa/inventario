@@ -12,8 +12,8 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="menu"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="insertar2"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="show-tipo" class="content scaffold-show" role="main">
@@ -55,43 +55,30 @@
 					<span id="objetos-label" class="property-label"><g:message code="tipo.objetos.label" default="Objetos" /></span>
 					
 						<g:each in="${tipoInstance.objetos}" var="o">
-						<span class="property-value" aria-labelledby="objetos-label"><g:link controller="objeto" action="mostrar" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="objetos-label"><g:link controller="objeto" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 				</li>
 				</g:if>
 			
 				<g:if test="${tipoInstance?.plantilla}">
-					<li class="fieldcontain">
-						<span id="plantilla-label" class="property-label"><g:message code="tipo.plantilla.label" default="Características" /></span>
-						
-							<g:each in="${tipoInstance.plantilla}" var="p">
-							<span class="property-value" aria-labelledby="plantilla-label"><g:link controller="caracteristica" action="mostrar" id="${p.caracteristica?.id}">${p.caracteristica}; Unidad: ${p.caracteristica?.unidad?.unidad}</g:link></span>
-							</g:each>
-						
-					</li>
-					<g:if test="${tipoInstance?.id}">
-						<li class="fieldcontain">
-								<span class="property-value" aria-labelledby="descripcion-label"><g:link controller="plantilla" action="insertar2" id="${tipoInstance?.id}">Modificar características</g:link></span>
-						</li>
-					</g:if>
-				</g:if>
-				<g:else>
-					<g:if test="${tipoInstance?.id}">
-						<li class="fieldcontain">
-								<span class="property-value" aria-labelledby="descripcion-label"><g:link controller="plantilla" action="insertar2" id="${tipoInstance?.id}">Agregar características</g:link></span>
-						</li>
-					</g:if>
+				<li class="fieldcontain">
+					<span id="plantilla-label" class="property-label"><g:message code="tipo.plantilla.label" default="Plantilla" /></span>
 					
-				</g:else>
-				
-				
+						<g:each in="${tipoInstance.plantilla}" var="p">
+						<span class="property-value" aria-labelledby="plantilla-label"><g:link controller="plantilla" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+				<br><br>
+				<a href="/inventarios3/plantilla/insertar2/${tipoInstance?.id}">Agregar características</a>
 			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${tipoInstance?.id}" />
-					<g:link class="edit" controller="plantilla" action="insertar2" id="${tipoInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:link class="edit" action="edit" id="${tipoInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>

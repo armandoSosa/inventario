@@ -2,36 +2,28 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'caracteristica', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'caracteristica', 'error')} ">
 	<label for="caracteristica">
 		<g:message code="caracteristica.caracteristica.label" default="Caracteristica" />
-		<span class="required-indicator">*</span>
+		
 	</label>
-	<g:textField name="caracteristica" required="" value="${caracteristicaInstance?.caracteristica}"/>
+	<g:textField name="caracteristica" value="${caracteristicaInstance?.caracteristica}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'plantillas', 'error')} ">
-	<label for="plantillas">
-		<g:message code="caracteristica.plantillas.label" default="Plantillas" />
+<div class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'caracteristicaUnidades', 'error')} ">
+	<label for="caracteristicaUnidades">
+		<g:message code="caracteristica.caracteristicaUnidades.label" default="Caracteristica Unidades" />
 		
 	</label>
 	
 <ul class="one-to-many">
-<g:each in="${caracteristicaInstance?.plantillas?}" var="p">
-    <li><g:link controller="plantilla" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
+<g:each in="${caracteristicaInstance?.caracteristicaUnidades?}" var="c">
+    <li><g:link controller="caracteristicaUnidad" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
 </g:each>
 <li class="add">
-<g:link controller="plantilla" action="create" params="['caracteristica.id': caracteristicaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'plantilla.label', default: 'Plantilla')])}</g:link>
+<g:link controller="caracteristicaUnidad" action="create" params="['caracteristica.id': caracteristicaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'caracteristicaUnidad.label', default: 'CaracteristicaUnidad')])}</g:link>
 </li>
 </ul>
 
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'unidad', 'error')} required">
-	<label for="unidad">
-		<g:message code="caracteristica.unidad.label" default="Unidad" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="unidad" name="unidad.id" from="${com.redoaxaca.Unidad.list()}" optionKey="id" required="" value="${caracteristicaInstance?.unidad?.id}" class="many-to-one"/>
 </div>
 

@@ -8,7 +8,7 @@ class Unidad {
     static constraints = {
     }
 	
-	static hasMany = [caracteristicas : Caracteristica, caracteristicaUnidad: CaracteristicaUnidad]
+	static hasMany = [caracteristicaUnidades: CaracteristicaUnidad]
 	
 	String toString() {
 		"${unidad}"

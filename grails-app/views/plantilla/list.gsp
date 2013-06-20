@@ -24,7 +24,7 @@
 				<thead>
 					<tr>
 					
-						<th><g:message code="plantilla.caracteristica.label" default="Caracteristica" /></th>
+						<th><g:message code="plantilla.caracteristicaUnidad.label" default="Caracteristica Unidad" /></th>
 					
 						<th><g:message code="plantilla.tipo.label" default="Tipo" /></th>
 					
@@ -34,7 +34,7 @@
 				<g:each in="${plantillaInstanceList}" status="i" var="plantillaInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${plantillaInstance.id}">${fieldValue(bean: plantillaInstance, field: "caracteristica")}</g:link></td>
+						<td><g:link action="show" id="${plantillaInstance.id}">${fieldValue(bean: plantillaInstance, field: "caracteristicaUnidad")}</g:link></td>
 					
 						<td>${fieldValue(bean: plantillaInstance, field: "tipo")}</td>
 					

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="metro">
+		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'caracteristica.label', default: 'Caracteristica')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
@@ -32,22 +32,13 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${caracteristicaInstance?.plantillas}">
+				<g:if test="${caracteristicaInstance?.caracteristicaUnidades}">
 				<li class="fieldcontain">
-					<span id="plantillas-label" class="property-label"><g:message code="caracteristica.plantillas.label" default="Plantillas" /></span>
+					<span id="caracteristicaUnidades-label" class="property-label"><g:message code="caracteristica.caracteristicaUnidades.label" default="Caracteristica Unidades" /></span>
 					
-						<g:each in="${caracteristicaInstance.plantillas}" var="p">
-						<span class="property-value" aria-labelledby="plantillas-label"><g:link controller="plantilla" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
+						<g:each in="${caracteristicaInstance.caracteristicaUnidades}" var="c">
+						<span class="property-value" aria-labelledby="caracteristicaUnidades-label"><g:link controller="caracteristicaUnidad" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
 						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${caracteristicaInstance?.unidad}">
-				<li class="fieldcontain">
-					<span id="unidad-label" class="property-label"><g:message code="caracteristica.unidad.label" default="Unidad" /></span>
-					
-						<span class="property-value" aria-labelledby="unidad-label"><g:link controller="unidad" action="show" id="${caracteristicaInstance?.unidad?.id}">${caracteristicaInstance?.unidad?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>
@@ -56,7 +47,7 @@
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${caracteristicaInstance?.id}" />
-					<g:link class="edit" action="editar" id="${caracteristicaInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:link class="edit" action="edit" id="${caracteristicaInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>
