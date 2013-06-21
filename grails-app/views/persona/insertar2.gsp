@@ -3,7 +3,7 @@
 <html>
 	<head>		
 	 <script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
-			<script src="${resource(dir: 'js', file: 'jquery.maskedinput.min.js')}" type="text/javascript"></script>
+	<script src="${resource(dir: 'js', file: 'jquery.maskedinput.min.js')}" type="text/javascript"></script>
 		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'persona.label', default: 'Persona')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
@@ -18,15 +18,15 @@
 		  
 		 <link rel="stylesheet" href="${resource(dir: 'js', file: 'chosen/chosen.css')}" type="text/css"> 
 		 <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.scrollTo.js')}"></script>
-			<!--  
+		<!--	  
 		<script type="text/javascript">
 		    $(function() {
-		        $.mask.definitions['~'] = "[+-]";        
-		        $("#telefonos").mask("(999) 999-9999");		
+		    	$.mask.definitions['~'] = "[+-]";        
+		        $("#num1").mask("(999) 999-9999");		
 		    });
 	</script>-->
 	
-	<g:if test="${params.idFoto}">	
+	<g:if test="${params.id}">	
 		<script language="javascript">
 		window.onload = function() {
 			llamarInLine2();
@@ -59,12 +59,14 @@
 		    te = String.fromCharCode(tecla);		    
 		    return patron.test(te);
 		} 
-	/*
-		$(function() {
+	
+		/*$(function() {
 	        $.mask.definitions['~'] = "[+-]";        
-	        $("#rfc").mask("aaaa999999***", { placeholder: " " });		
+	        $("#num0").mask("aaaa999999***", { placeholder: " " });		
 	        $("#curp").mask("aaaa999999********", { placeholder: " " });
 	    });*/
+	    $.mask.definitions['~'] = "[+-]";
+	    $("#prueba").mask("(999) 999-9999");
 	</script>	
 	<script type="text/javascript">
 		jQuery(function($){
@@ -306,11 +308,83 @@
 				//alert("enviado");
 			}						
 		}
-
-	}
-	
-	
+	}	
 </script>
+
+
+<script type="text/javascript">
+<!--
+num=0;
+
+var datos = "${com.redoaxaca.TipoTelefono.list()}";
+var fin = datos.length - 1;
+datos = datos.substring(1,fin);
+var myarray = datos.split(",");
+
+var nombre="fil";
+
+function crear(obj) {
+  num++;
+  document.formPersona.cantidad.value = num;
+  var fi = document.getElementById('fiel'); // 1
+  var contenedor = document.createElement('div'); // 2
+  fi.appendChild(contenedor);
+  
+  contenedor.id = 'div'+num;
+
+  var ele = document.createElement('input'); 
+  ele.type = 'text'; // 6
+  ele.id = 'num'+num.toString();
+  ele.name='num'+num.toString();
+  ele.value="campo"+num.toString();
+  ele.onkeypress="return validarTecleo(event, 2, this.id)";
+  ele.class="tooltip";
+  ele.maxlength="10"; 
+  
+  contenedor.appendChild(ele); // 7
+  
+  var espacio = document.createTextNode("\u00a0");
+  var espacio2 = document.createTextNode("\u00a0");
+  contenedor.appendChild(espacio);
+  contenedor.appendChild(espacio2);
+  
+    var ele2 = document.createElement('select');
+	ele2.type = 'select';
+	ele2.name = 'tipo'+num; // 8
+	ele2.id='tipo'+num;
+
+	for (i=0; i<myarray.length; i++) {
+		opt = document.createElement('option');
+		opt.value = myarray[i];
+		opt.innerHTML = myarray[i];
+		ele2.appendChild(opt);
+	}	
+	
+	contenedor.appendChild(ele2);
+  
+  espacio3 = document.createTextNode("\u00a0");
+  espacio4 = document.createTextNode("\u00a0");
+  contenedor.appendChild(espacio3);
+  contenedor.appendChild(espacio4);
+  
+	
+  var ele3 = document.createElement('input'); // 5
+  ele3.type = 'button'; // 6
+  ele3.value = 'Quitar'; // 8
+  ele3.name = 'div'+num; // 8
+  ele3.onclick = function () {borrar(this.name)} // 9
+  
+  contenedor.appendChild(ele3); // 7
+
+}
+
+function borrar(obj) {
+  fi = document.getElementById('fiel'); // 1 
+  fi.removeChild(document.getElementById(obj)); // 10
+}
+
+--> 
+</script>	
 	</head>
 	<body>
 		<a href="#create-persona" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -372,7 +446,7 @@
 					<label for="foto">
 						<g:message code="foto.foto.label" default="Foto" />						
 					</label>
-					<input type="file" id="foto" name="foto" onchange="llamarInLine();"/>
+					<input type="file" id="foto" name="foto" value="${params.id}" onchange="llamarInLine();"/>
 				</div>
 				<g:submitButton style="display:none;" name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
 			</g:form>
@@ -429,6 +503,7 @@
 		</div>
 		
 		<!-- buscar tipo -->
+		
 		<div id="inline" class="inline">
 			<div id="create-tipo" class="content scaffold-create" role="main">
 				<h2>Buscar Estado</h2>
@@ -458,17 +533,28 @@
 			</div>
 		</div>
 		
+		<g:if test="${params.id}">
 		<!-- hidden inline form -->
 		<div id="inline100">		
 			<div id="create-imagen" class="content scaffold-create" role="main">
 				<h2>Imagen de Empleado</h2>
 				<br><br>
+				<g:uploadForm action="modificar_foto" controller="foto" >			        
+			        <div id="preview-pane">
+					    <div class="preview-container" >
+					      <img src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" class="jcrop-preview" alt="Preview"/>
+					      
+					    </div>
+					  </div>
+					<input id="idfoto" name="idfoto" type="hidden" value="${params.id}" />
+			        <input type="submit" />
+			    </g:uploadForm>
 				<g:form action="save_tipotelefono_persona" controller="tipoTelefono">
 				<fieldset class="form">											
-					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.idFoto}" />" width="400" height="400"/>
+					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.id}" />" width="400" height="400"/>
 					<div id="preview-pane">
 					    <div class="preview-container" >
-					      <img src="<g:createLink controller='persona' action='renderImage' id="${params.idFoto}"/>" class="jcrop-preview" alt="Preview" />
+					      <img src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" class="jcrop-preview" alt="Preview" />
 					    </div>
 					  </div>	
 					<br><br><br><br>
@@ -480,7 +566,7 @@
 			</div>
 		</div>
 		
-		
+		</g:if>
 		
 		<a id="nuevaImagen" class="modalbox" href="#inline100" style="display:none;"></a>
 		

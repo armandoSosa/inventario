@@ -27,7 +27,7 @@ class CaracteristicaUnidadController {
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'caracteristicaUnidad.label', default: 'CaracteristicaUnidad'), caracteristicaUnidadInstance.id])
-        redirect(action: "show", id: caracteristicaUnidadInstance.id)
+        redirect(action: "mostrar", id: caracteristicaUnidadInstance.id)
     }
 
     def show(Long id) {

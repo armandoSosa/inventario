@@ -40,4 +40,9 @@
 /target
 
 # other
+<<<<<<< HEAD
 *.iws
+=======
+*.iws
+
+>>>>>>> a392e37afc7d7a0a8c4992210bb1f08016cfdffc

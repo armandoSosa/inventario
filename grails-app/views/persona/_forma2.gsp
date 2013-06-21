@@ -68,17 +68,15 @@
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'telefono', 'error')} ">
-	<table>
-		<tbody>			
-			<tr class="prop">
-				<td valign="top" class="name"><label for="books">Teléfono:</label></td>
-				<td valign="top" class="value ${hasErrors(bean:personaInstance,field:'persona','errors')}">
-				<g:render template="phones" model="['personaInstance':personaInstance]" />
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<label for="telefono">
+		<g:message code="persona.telefono.label" default="Telefono" />
+	</label>
+	<input type="button" value="Nuevo Teléfono" onclick="crear(this)" />
+	<input type="hidden" id="cantidad" name="cantidad">
+	<input type="hidden" id="idfoto" name="idfoto" value="${params.id}"/>	
+	<fieldset id="fiel"></fieldset>	
 </div>
+
 
 <br><br>
 <fieldset>

@@ -18,7 +18,7 @@
       <select id="countries" class="multiselect" multiple="multiple" name="caracteristicas">
       		<g:if test="${objetosList}">
 				<g:each var="objeto" in="${objetosList}">
-					<option value="${objeto.noInventario}">
+					<option value="${objeto.id}">
 						${objeto.tipo.descripcion}
 					</option>
 				</g:each>
@@ -33,7 +33,4 @@
 			</g:if>
       </select>
         
-</div>
-
-	
 </div>
