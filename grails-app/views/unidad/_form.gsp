@@ -2,18 +2,18 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: unidadInstance, field: 'caracteristicas', 'error')} ">
-	<label for="caracteristicas">
-		<g:message code="unidad.caracteristicas.label" default="Caracteristicas" />
+<div class="fieldcontain ${hasErrors(bean: unidadInstance, field: 'caracteristicaUnidades', 'error')} ">
+	<label for="caracteristicaUnidades">
+		<g:message code="unidad.caracteristicaUnidades.label" default="Caracteristica Unidades" />
 		
 	</label>
 	
 <ul class="one-to-many">
-<g:each in="${unidadInstance?.caracteristicas?}" var="c">
-    <li><g:link controller="caracteristica" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
+<g:each in="${unidadInstance?.caracteristicaUnidades?}" var="c">
+    <li><g:link controller="caracteristicaUnidad" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
 </g:each>
 <li class="add">
-<g:link controller="caracteristica" action="create" params="['unidad.id': unidadInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'caracteristica.label', default: 'Caracteristica')])}</g:link>
+<g:link controller="caracteristicaUnidad" action="create" params="['unidad.id': unidadInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'caracteristicaUnidad.label', default: 'CaracteristicaUnidad')])}</g:link>
 </li>
 </ul>
 

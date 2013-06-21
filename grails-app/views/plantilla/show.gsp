@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="metro">
+		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'plantilla.label', default: 'Plantilla')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
@@ -23,11 +23,11 @@
 			</g:if>
 			<ol class="property-list plantilla">
 			
-				<g:if test="${plantillaInstance?.caracteristica}">
+				<g:if test="${plantillaInstance?.caracteristicaUnidad}">
 				<li class="fieldcontain">
-					<span id="caracteristica-label" class="property-label"><g:message code="plantilla.caracteristica.label" default="Caracteristica" /></span>
+					<span id="caracteristicaUnidad-label" class="property-label"><g:message code="plantilla.caracteristicaUnidad.label" default="Caracteristica Unidad" /></span>
 					
-						<span class="property-value" aria-labelledby="caracteristica-label"><g:link controller="caracteristica" action="show" id="${plantillaInstance?.caracteristica?.id}">${plantillaInstance?.caracteristica?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="caracteristicaUnidad-label"><g:link controller="caracteristicaUnidad" action="show" id="${plantillaInstance?.caracteristicaUnidad?.id}">${plantillaInstance?.caracteristicaUnidad?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>

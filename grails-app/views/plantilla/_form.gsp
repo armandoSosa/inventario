@@ -2,12 +2,12 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: plantillaInstance, field: 'caracteristica', 'error')} required">
-	<label for="caracteristica">
-		<g:message code="plantilla.caracteristica.label" default="Caracteristica" />
+<div class="fieldcontain ${hasErrors(bean: plantillaInstance, field: 'caracteristicaUnidad', 'error')} required">
+	<label for="caracteristicaUnidad">
+		<g:message code="plantilla.caracteristicaUnidad.label" default="Caracteristica Unidad" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="caracteristica" name="caracteristica.id" from="${com.redoaxaca.Caracteristica.list()}" optionKey="id" required="" value="${plantillaInstance?.caracteristica?.id}" class="many-to-one"/>
+	<g:select id="caracteristicaUnidad" name="caracteristicaUnidad.id" from="${com.redoaxaca.CaracteristicaUnidad.list()}" optionKey="id" required="" value="${plantillaInstance?.caracteristicaUnidad?.id}" class="many-to-one"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: plantillaInstance, field: 'tipo', 'error')} required">

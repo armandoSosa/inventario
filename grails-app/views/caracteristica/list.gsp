@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="metro">
+		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'caracteristica.label', default: 'Caracteristica')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
@@ -26,8 +26,6 @@
 					
 						<g:sortableColumn property="caracteristica" title="${message(code: 'caracteristica.caracteristica.label', default: 'Caracteristica')}" />
 					
-						<th><g:message code="caracteristica.unidad.label" default="Unidad" /></th>
-					
 					</tr>
 				</thead>
 				<tbody>
@@ -35,8 +33,6 @@
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
 						<td><g:link action="show" id="${caracteristicaInstance.id}">${fieldValue(bean: caracteristicaInstance, field: "caracteristica")}</g:link></td>
-					
-						<td>${fieldValue(bean: caracteristicaInstance, field: "unidad")}</td>
 					
 					</tr>
 				</g:each>

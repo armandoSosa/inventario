@@ -6,11 +6,11 @@ class Plantilla {
     }
 	
 	static hasMany = [valores: Valor]
-	static belongsTo = [caracteristica: Caracteristica, tipo:Tipo]
+	static belongsTo = [tipo:Tipo, caracteristicaUnidad: CaracteristicaUnidad]
 	
 	
 	String toString() {
-		"${tipo}"+" : "+"${caracteristica}"+" : ${caracteristica.unidad}"
+		"${tipo}"+" : "+"${caracteristicaUnidad}"
 	}
 
 }

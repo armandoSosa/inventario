@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="metro">
+		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'caracteristicaUnidad.label', default: 'CaracteristicaUnidad')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 	</head>

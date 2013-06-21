@@ -32,6 +32,17 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${caracteristicaUnidadInstance?.plantillas}">
+				<li class="fieldcontain">
+					<span id="plantillas-label" class="property-label"><g:message code="caracteristicaUnidad.plantillas.label" default="Plantillas" /></span>
+					
+						<g:each in="${caracteristicaUnidadInstance.plantillas}" var="p">
+						<span class="property-value" aria-labelledby="plantillas-label"><g:link controller="plantilla" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${caracteristicaUnidadInstance?.unidad}">
 				<li class="fieldcontain">
 					<span id="unidad-label" class="property-label"><g:message code="caracteristicaUnidad.unidad.label" default="Unidad" /></span>

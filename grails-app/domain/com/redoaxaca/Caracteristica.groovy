@@ -8,8 +8,7 @@ class Caracteristica {
 		caracteristica(nullable: false)
     }
 	
-	static belongsTo = [unidad: Unidad]
-	static hasMany = [plantillas : Plantilla, caracteristicaUnidad: CaracteristicaUnidad]
+	static hasMany = [caracteristicaUnidades: CaracteristicaUnidad]
 	
 	String toString() {
 		"${caracteristica}"

@@ -118,9 +118,5 @@
 			</fieldset>
 		</g:form>
 	</div>
-	
-	
-	
-	
 </body>
 </html>
