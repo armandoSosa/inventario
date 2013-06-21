@@ -1202,6 +1202,32 @@ class ObjetoController {
 	def save_objeto3 = {
 
 		System.out.println("Recibo " +params)
+		String name
+		def tipo = Tipo.get(Long.parseLong(params.tipoNombre))
+		if (tipo) {
+			def newObjeto = new Objeto(noInventario: params.noInventarioHidden, tipo:tipo, tipoPropiedad: TipoPropiedad.get(Long.parseLong(params.tipoPropiedad)))
+			def plantilla, caracteristicaUnidad, plantillaArray
+			
+			for (int i=0; i<params.keySet().toList().size; i++) {
+				name = params.keySet().toList().get(i)
+				if (name.contains("valor")) {
+					name = name.replaceAll("valor", "")
+					plantilla = Plantilla.get(Long.parseLong(name)) 
+					def valor = new Valor(valor: params.values().toList().get(i), plantilla:plantilla)
+					System.out.println("se guardará plantilla:"+plantilla?.id+" * valor: "+valor+" * tipo:"+tipo.id)
+					newObjeto.addToValores(valor)
+				}
+			}
+			tipo.addToObjetos(newObjeto)
+			if(tipo.save(flush:true)) {
+				flash.message = "El objeto se ha agregado correctamente"
+				redirect(action: 'menu')
+			} else {
+				flash.message = "Hubo un error al agregar el objeto"
+				redirect(action: 'menu')
+			}
+		}
+		
 
 		/*Objeto newObjeto= objetoService.guardarObjeto(params.noInventario, Long.parseLong(params.tipoPropiedad), params.tipoObjeto)
 		 if (params.valor0.length()>0) {
