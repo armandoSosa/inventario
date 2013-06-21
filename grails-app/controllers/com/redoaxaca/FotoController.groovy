@@ -37,8 +37,19 @@ class FotoController {
 			render(view: "create", model: [fotoInstance: fotoInstance])
 			return
 		}
-		redirect(action: "insertar2", controller: "persona", model:[idFoto: fotoInstance.id ])		
+		redirect(action: "insertar2", controller: "persona", id: fotoInstance.id)		
 	}
+	
+	def modificar_foto() {		
+		def fotoInstance = Foto.get(params.idfoto)
+		System.out.println("idfoto:"+params.idfoto)
+		if (!fotoInstance.save(flush: true)) {
+			render(view: "create", model: [fotoInstance: fotoInstance])
+			return
+		}
+		redirect(action: "insertar2", controller: "persona", id: fotoInstance.id)
+	}
+	
 
     def show(Long id) {
         def fotoInstance = Foto.get(id)

@@ -52,7 +52,7 @@
 				  <ul>
 				  
 	               		<div id="imagenPerfil">
-							<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="1"/>" width="200" height="300"/>
+							<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${personaInstance?.foto?.id}"/>" width="200" height="300"/>
 						</div>
 						
 								

@@ -78,8 +78,9 @@ class PersonaController {
     def save_persona() {
         def personaInstance = new Persona(params)
 		def direccionInstance = new Direccion(params)
-		def puestoPersonaInstance = new PuestoPersona(params)		
-		
+		def puestoPersonaInstance = new PuestoPersona(params)
+		def fotoInstance = Foto.findById(params.idfoto)
+		System.out.println("idfoto:"+params.idfoto)
 		personaInstance.properties = params
 		
 		personaInstance.setNombre(personaInstance.getNombre().toUpperCase())
@@ -88,10 +89,11 @@ class PersonaController {
 		direccionInstance.setCalle(direccionInstance.getCalle().toUpperCase())
 		direccionInstance.setColonia(direccionInstance.getColonia().toUpperCase())		
 		
-		direccionInstance.fecha = new Date()
-		direccionInstance.persona = personaInstance
+		direccionInstance.fecha = new Date()		
 		puestoPersonaInstance.persona = personaInstance
 		puestoPersonaInstance.fechaInicio = new Date()
+		
+		 
 				
 		String rfc = params.rfc
 		String anio = rfc.substring(4, 6)
@@ -103,7 +105,7 @@ class PersonaController {
 		
 		personaInstance.curp = personaInstance.curp.toString().toUpperCase()
 		personaInstance.rfc = personaInstance.rfc.toString().toUpperCase()
-		
+		/*
 	   // find the phones that are marked for deletion
 	   def _toBeDeleted = personaInstance.telefonos.findAll {(it?.deleted || (it == null))}
 		
@@ -115,23 +117,28 @@ class PersonaController {
 	   personaInstance.telefonos.eachWithIndex(){tel, i ->
 		   tel.fecha = new Date()		   
 		   tel.index = i		   
+	   }*/		
+	   
+		personaInstance.addToDirecciones(direccionInstance)
+		personaInstance.addToPuestosPersona(puestoPersonaInstance)			         			
+		personaInstance.setFoto(fotoInstance)
+		
+		int cantidad = params.cantidad
+	   
+	   for(int i=1; i<=cantidad; i++ ){
+		   if((params.get("num"+i))!=null){			   
+			   Telefono tel = new Telefono()
+			   tel.setFecha(new Date())
+			   tel.setTelefono(params.get("num"+i))			   
+			   tel.tipoTelefono = TipoTelefono.findByTipo(params.get("tipo"+i).toString().trim())
+			   personaInstance.addToTelefonos(tel)
+		   }
 	   }
-			  
-        if (!personaInstance.save(flush: true)) {
-			flash.error = "No se pudo insertar"
-            render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance, puestoPersonaInstance: puestoPersonaInstance ])
-            return
-        }
-		
-		if(!direccionInstance.save(flush: true)){
-			render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance, puestoPersonaInstance: puestoPersonaInstance])
-			return 
-		}
-		
-		if(!puestoPersonaInstance.save(flush: true)){
-			render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance, puestoPersonaInstance: puestoPersonaInstance])
-			return
-		}
+	   if (!personaInstance.save(flush: true)) {
+		   flash.error = "No se pudo insertar"
+		   render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance, puestoPersonaInstance: puestoPersonaInstance ])
+		   return
+	   }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'persona.label', default: 'Persona'), personaInstance.id])
         redirect(action: "empleados")

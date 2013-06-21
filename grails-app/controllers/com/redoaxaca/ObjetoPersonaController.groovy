@@ -181,16 +181,16 @@ class ObjetoPersonaController {
 	}
 	
 	def guardarObjetoPersona(){
-		System.out.println(params.caracteristicas)	
-		for (String idString in params.caracteristicas) {
-						
+		System.out.println(params.caracteristicas)
+		def caracteristicas = params.list("caracteristicas")
+		for (String idString in caracteristicas) {						
 					try {
 						def objetoPersonaInstance = new ObjetoPersona(params)
-						objetoPersonaInstance.objeto = Objeto.findByNoInventario(idString)
+						objetoPersonaInstance.objeto = Objeto.findById(idString)
 						objetoPersonaInstance.fechaInicio = new Date()
 						objetoPersonaInstance.fechaFin = objetoPersonaInstance.fechaInicio
 						objetoPersonaInstance.persona = Persona.findById(params.persona.id)												
-						
+						System.out.println("id:"+idString)
 						if (!objetoPersonaInstance.save(flush: true)) {
 							render(view: "mostrar", model: [objetoPersonaInstance: objetoPersonaInstance])
 							return
