@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="insertar2"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="insertar3"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-caracteristica" class="content scaffold-list" role="main">
@@ -26,17 +26,13 @@
 					
 						<g:sortableColumn property="caracteristica" title="${message(code: 'caracteristica.caracteristica.label', default: 'Caracteristica')}" />
 					
-						<th><g:message code="caracteristica.unidad.label" default="Unidad" /></th>
-					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${caracteristicaInstanceList}" status="i" var="caracteristicaInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${caracteristicaInstance.id}">${fieldValue(bean: caracteristicaInstance, field: "caracteristica")}</g:link></td>
-					
-						<td>${fieldValue(bean: caracteristicaInstance, field: "unidad")}</td>
+						<td><g:link action="mostrar" id="${caracteristicaInstance.id}">${fieldValue(bean: caracteristicaInstance, field: "caracteristica")}</g:link></td>
 					
 					</tr>
 				</g:each>

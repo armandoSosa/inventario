@@ -64,10 +64,11 @@
 		
 		<div id="create-objeto" class="content scaffold-create" role="main">
 			<h1 class="titulo">Crear Objeto</h1>
-			<g:form action="save_objeto" >
+			<g:form action="save_objeto3" >
 				<fieldset class="form">
 					<g:render template="buscarTipoObjeto"/>
 				</fieldset>
+				
 			</g:form>
 		</div>
 		

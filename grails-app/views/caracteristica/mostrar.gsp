@@ -13,7 +13,7 @@
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="list" action="menu"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="insertar2"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="insertar3"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="show-caracteristica" class="content scaffold-show" role="main">
@@ -32,22 +32,13 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${caracteristicaInstance?.plantillas}">
+				<g:if test="${caracteristicaInstance?.caracteristicaUnidades}">
 				<li class="fieldcontain">
-					<span id="plantillas-label" class="property-label"><g:message code="caracteristica.plantillas.label" default="Tipos de Objeto que la utilizan" /></span>
+					<span id="caracteristicaUnidades-label" class="property-label"><g:message code="caracteristica.caracteristicaUnidades.label" default="Unidades" /></span>
 					
-						<g:each in="${caracteristicaInstance.plantillas}" var="p">
-						<span class="property-value" aria-labelledby="plantillas-label"><g:link controller="tipo" action="mostrar" id="${p.tipo?.id}">${p?.tipo?.descripcion}</g:link></span>
+						<g:each in="${caracteristicaInstance.caracteristicaUnidades}" var="c">
+						<span class="property-value" aria-labelledby="caracteristicaUnidades-label"><g:link controller="caracteristicaUnidad" action="mostrar" id="${c.id}">${c?.unidad} </g:link></span>
 						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${caracteristicaInstance?.unidad}">
-				<li class="fieldcontain">
-					<span id="unidad-label" class="property-label"><g:message code="caracteristica.unidad.label" default="Unidad" /></span>
-					
-						<span class="property-value" aria-labelledby="unidad-label"><g:link controller="unidad" action="mostrar" id="${caracteristicaInstance?.unidad?.id}">${caracteristicaInstance?.unidad?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>
@@ -56,7 +47,7 @@
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${caracteristicaInstance?.id}" />
-					<g:link class="edit" action="editar" id="${caracteristicaInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:link class="edit" action="edit" id="${caracteristicaInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>

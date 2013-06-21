@@ -99,4 +99,25 @@ class CaracteristicaUnidadController {
             redirect(action: "show", id: id)
         }
     }
+	
+	def mostrar(Long id) {
+		def caracteristicaUnidadInstance = CaracteristicaUnidad.get(id)
+		if (!caracteristicaUnidadInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'caracteristicaUnidad.label', default: 'CaracteristicaUnidad'), id])
+			redirect(action: "menu")
+			return
+		}
+
+		[caracteristicaUnidadInstance: caracteristicaUnidadInstance]
+	}
+	
+	def menu(Integer max) {
+		params.max = Math.min(max ?: 10, 100)
+		[caracteristicaUnidadInstanceList: CaracteristicaUnidad.list(params), caracteristicaUnidadInstanceTotal: CaracteristicaUnidad.count()]
+	}
+	
+	def insertar() {
+		[caracteristicaUnidadInstance: new CaracteristicaUnidad(params)]
+	}
+	
 }

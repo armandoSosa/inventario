@@ -7,14 +7,17 @@
 						<label for="tipo"> <g:message code="persona.label"
 								default="Tipo de objeto" /> <span class="required-indicator">*</span>
 						</label>
+						<g:textField id="tipo" name="tipo" required="" value="" disabled="true"/>
+						<g:hiddenField id="tipoNombre"name="tipoNombre" value=""/> 
 						<g:if test="${tipoInstance}">
-							<g:textField name="tipo" required="" value="${tipoInstance.descripcion}" disabled="true"/>
 							<script>
+								$("#tipo").val("${tipoInstance.descripcion}");
+								$("#tipoNombre").val("${tipoInstance.id}");
 								reiniciarCadenaValores();
 							</script> 
 						</g:if>
 						<g:else>
-							<g:textField name="tipo" required="" value="" disabled="true"/> 
+							
 						</g:else>
 
 						<a class="modalbox" href="#inline">Buscar</a>
@@ -31,6 +34,7 @@
 				
 			</label><span class="required-indicator">*</span>
 			<g:textField name="noInventario" value="${claveInventario}" disabled="true"/>
+			<g:hiddenField name="noInventarioHidden" value="${claveInventario}"/>
 		</div>
 		
 		<div
@@ -77,8 +81,10 @@
 		<br>
 		<br>
 		
+		
 		<fieldset class="buttons">
 			<a name="create" class="save" href="javascript:void(0)" onclick="submitObjeto();return false;">Crear Objeto</a>
+			<input type="submit" value="Enviar"/>
 		</fieldset>
 		
 		

@@ -7,4 +7,8 @@ class CaracteristicaUnidad {
 	}
 	static hasMany= [plantillas: Plantilla]
 	static belongsTo= [caracteristica: Caracteristica, unidad: Unidad]
+	
+	String toString() {
+		"${caracteristica} : ${unidad}"
+	}
 }
