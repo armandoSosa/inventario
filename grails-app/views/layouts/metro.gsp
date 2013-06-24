@@ -365,7 +365,7 @@
 								<ul class="pureCssMenum">
 									<li class="pureCssMenui"><a class="pureCssMenui" href="#"><span>Empleados</span><![if gt IE 6]></a><![endif]><!--[if lte IE 6]><table><tr><td><![endif]-->
 										<ul class="pureCssMenum ">
-											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objetoPersona/insertar">Asignación de objetos</a></li>
+											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objetoPersona/insertar2">Asignación de objetos</a></li>
 											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/persona/empleados">Ver Empleados</a></li>
 											<li class="pureCssMenui"><a class="pureCssMenui" href="/inventarios3/objeto/buscarPer">Buscar Empleado</a></li>
 											

@@ -112,7 +112,7 @@
 
 					</label>
 					<g:textField id="unidad" name="unidad" value="${unidadInstance?.unidad}"
-						onkeypress="return validarTecleo(event, 1)" required=""
+						onkeypress="return validarTecleo(event, 8)" required=""
 						class="tooltip" title="" />
 				</div>
 			</fieldset>

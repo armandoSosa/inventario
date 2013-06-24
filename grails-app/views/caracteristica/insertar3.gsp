@@ -114,7 +114,7 @@
 
 					</label>
 					<g:textField id="caracteristica" name="caracteristica"
-						value="${caracteristicaInstance?.caracteristica}" onkeypress="return validarTecleo(event, 1)" required="" class="tooltip" title=""/>
+						value="${caracteristicaInstance?.caracteristica}" onkeypress="return validarTecleo(event, 8)" required="" class="tooltip" title=""/>
 				</div>
 			</fieldset>
 			<fieldset class="buttons">
