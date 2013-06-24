@@ -11,7 +11,7 @@
 					<g:if test="${tipoInstance}">
 						<script>
 								
-								$("#tipoNombre").val("${tipoInstance.id}");
+								$("#tipoNombre").val("${tipoInstance?.id}");
 							reiniciarCadenaValores();
 						</script>
 					</g:if>
@@ -46,7 +46,7 @@
 				</label>
 				<g:select id="tipoPropiedad" name="tipoPropiedad"
 					from="${com.redoaxaca.TipoPropiedad.list()}" optionKey="id"
-					required="" value="${session.tipoPropiedad}"
+					required="" value="${tipoPropiedad?.id}"
 					onChange="${session.tipoPropiedad=this.value }" class="many-to-one" />
 			</div>
 		</g:if>
@@ -58,25 +58,68 @@
 			<fieldset class="form">
 				<!--  <legend>Agregar valores</legend> -->
 				<br> <br>
-
-				<g:if test="${plantillas}">
-					<g:each var="plantilla" in="${plantillas}">
-						<label for="valor${plantilla.id}"> ${plantilla.caracteristicaUnidad.caracteristica}
+				<!-- Necesario al insertar -->
+				<g:if test="${editar==null}">
+					<g:if test="${plantillas}">
+						<g:each var="plantilla" in="${plantillas}">
+							<label for="valor${plantilla?.id}"> ${plantilla?.caracteristicaUnidad?.caracteristica}
+							</label>
+							<g:textField id="valor${plantilla?.id}" name="valor${plantilla?.id}"
+								value=""
+								onChange="generarCadenaValores('valor${plantilla?.id}')" />
+							${plantilla?.caracteristicaUnidad?.unidad}
+							<br>
+							<br>
+						</g:each>
+	
+					</g:if>
+					<g:else>
+						<label for="linkNuevaCarac"> <g:message
+								code="objeto.noInventario.label" default="No hay características" />
 						</label>
-						<g:textField id="valor${plantilla.id}" name="valor${plantilla.id}"
-							value="${objetoInstance?.valor}"
-							onChange="generarCadenaValores('valor${plantilla.id}')" />
-						${plantilla.caracteristicaUnidad.unidad}
-						<br>
-						<br>
-					</g:each>
-
+					</g:else>
 				</g:if>
 				<g:else>
-					<label for="linkNuevaCarac"> <g:message
-							code="objeto.noInventario.label" default="No hay características" />
-					</label>
+				<!-- Necesario al editar -->
+					<g:if test="${valores}">
+						<g:each var="valor" in="${valores}">
+							<label for="valor${valor?.id}"> ${valor?.plantilla?.caracteristicaUnidad?.caracteristica}
+							</label>
+							<g:textField id="valor${valor?.id}" name="valor${valor?.id}"
+								value="${valor?.valor}"
+								onChange="generarCadenaValores('valor${valor?.id}')" />
+							${valor?.plantilla?.caracteristicaUnidad?.unidad}
+							<br>
+							<br>
+						</g:each>
+	
+					</g:if>
+					<g:else>
+						<label for="linkNuevaCarac"> <g:message
+								code="objeto.noInventario.label" default="No hay características" />
+						</label>
+					</g:else>
+					
+					<!-- Agregamos las plantillas que no tienen valores -->
+					<g:if test="${plantillasFaltantes}">
+						<g:each var="p" in="${plantillasFaltantes}">
+							<label for="p${p?.id}"> ${p?.caracteristicaUnidad?.caracteristica}
+							</label>
+							<g:textField id="plantilla${p?.id}" name="plantilla${p?.id}"
+								value=""
+								onChange="generarCadenaValores('plantilla${p?.id}')" />
+							${p?.caracteristicaUnidad?.unidad}
+							<br>
+							<br>
+						</g:each>
+					
+					</g:if>
+					
+				
+				
 				</g:else>
+
+				
 			</fieldset>
 			<br>
 			<br>
