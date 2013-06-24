@@ -75,7 +75,7 @@
 					class="property-label"><g:message code="objeto.tipo.label"
 							default="Tipo" /></span> <span class="property-value"
 					aria-labelledby="tipo-label"><g:link controller="tipo"
-							action="show" id="${objetoInstance?.tipo?.id}">
+							action="mostrar" id="${objetoInstance?.tipo?.id}">
 							${objetoInstance?.tipo?.encodeAsHTML()}
 						</g:link></span></li>
 			</g:if>
@@ -91,17 +91,7 @@
 						</g:link></span></li>
 			</g:if>
 
-			<g:if test="${objetoInstance?.valores}">
-				<li class="fieldcontain"><span id="valores-label"
-					class="property-label"><g:message
-							code="objeto.valores.label" default="Valores" /></span> <g:each
-						in="${objetoInstance.valores}" var="v">
-						<span class="property-value" aria-labelledby="valores-label"><g:link
-								controller="valor" action="show" id="${v.id}">
-								${v?.encodeAsHTML()}
-							</g:link></span>
-					</g:each></li>
-			</g:if>
+			
 
 
 			<li class="fieldcontain"><span id="valores-label"
@@ -126,9 +116,48 @@
 					</g:each>
 				</g:if> <g:else>
 					<span class="property-value" aria-labelledby="valores-label">Ninguno</span>
-				</g:else> <span class="property-value" aria-labelledby="valores-label"><g:link
+				</g:else>
+				
+				<span class="property-value" aria-labelledby="valores-label"><g:link
 						controller="objetoPersona" action="insertar2"
 						id="${objetoInstance.id}">Agregar persona</g:link></span></li>
+				<br><br>
+				
+				
+				
+				
+				
+				<g:if test="${objetoInstance?.valores}">
+				<li class="fieldcontain"><span id="valores-label"
+					class="property-label"><h2>Características</h2></span>
+							<br><br><br>
+							<table><tr><th>Característica</th><th>Valor</th><th>Unidad</th></tr>
+							<g:each
+						in="${objetoInstance.valores}" var="v">
+						<tr>
+						
+								<td>${v?.plantilla?.caracteristicaUnidad?.caracteristica}</td><td><span class="property-value" aria-labelledby="valores-label"><g:link
+								controller="valor" action="show" id="${v.id}">${v?.encodeAsHTML()}</g:link></td><td>${v?.plantilla?.caracteristicaUnidad?.unidad}</td>
+							</span>
+							</tr>
+					</g:each>
+					<g:if test="${plantillas}">
+						<g:each in="${plantillas}" var="p">
+							<tr>
+							<td>${p?.caracteristicaUnidad?.caracteristica}</td>
+							<td><center>-</center></td>
+							<td>${p?.caracteristicaUnidad?.unidad}</td>
+							</tr>
+						</g:each>
+					</g:if>
+					
+					
+					
+					
+					
+					</table></li>
+			</g:if>
+			
 
 		</ol>
 		<g:form>

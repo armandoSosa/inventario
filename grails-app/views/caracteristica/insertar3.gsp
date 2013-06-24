@@ -51,6 +51,7 @@
 <script type="text/javascript">
 	function validarTecleo(e, tipo) {
 		var pasa = validar(e, tipo);
+
 		mostrarAlerta('caracteristica', !pasa, 'Solo se aceptan letras y números');
 		return pasa;
 	}
@@ -114,7 +115,7 @@
 
 					</label>
 					<g:textField id="caracteristica" name="caracteristica"
-						value="${caracteristicaInstance?.caracteristica}" onkeypress="return validarTecleo(event, 8)" required="" class="tooltip" title=""/>
+						value="${caracteristicaInstance?.caracteristica}" style='text-transform:uppercase;' onkeypress="return validarTecleo(event, 8)" required="" class="tooltip" title=""/>
 				</div>
 			</fieldset>
 			<fieldset class="buttons">

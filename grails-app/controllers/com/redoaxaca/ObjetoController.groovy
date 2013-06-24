@@ -224,8 +224,21 @@ class ObjetoController {
 			redirect(action: "menu")
 			return
 		}
+		
+		//buscamos las características del tipo de objeto que no están agregadas al objeto
+		def criterio = Plantilla.createCriteria()
+		def plantillas = criterio.listDistinct {
+			tipo {
+				eq 'id', objetoInstance?.tipo?.id
+			}
+			and {
+				not {
+					'in' ("id", objetoInstance?.valores?.plantilla.id)
+				}
+			}
+		}
 
-		[objetoInstance: objetoInstance]
+		[objetoInstance: objetoInstance, plantillas: plantillas]
 	}
 
 	def edit(Long id) {
@@ -822,6 +835,7 @@ class ObjetoController {
 
 	def buscarTipoObjeto = {
 		def tipos
+		System.out.println(params)
 		if (!params.valorABuscar.equals("")){
 			def criterio = Tipo.createCriteria()
 			tipos = criterio.listDistinct {
@@ -1267,6 +1281,7 @@ class ObjetoController {
 
 	def insertar5() {
 		session.setAttribute("tipoObjeto", new Tipo())
+		[mostrar: '2']
 	}
 
 	def infoPersona(Long id) {
@@ -1283,32 +1298,39 @@ class ObjetoController {
 		def criterioObjetos = Objeto.createCriteria()
 		def plantillas, objetos, mostrarCaracteristicas
 		def claveInventario=""
-
-		def tipoObj = Tipo.findById(id)
-
-		plantillas = tipoObj.plantilla
-
-		//Definimos el n������mero de inventario de acuerdo al tipo de objeto
-		objetos = criterioObjetos.listDistinct {
-			tipo { eq 'id', id }
-		}
-		def numObjetosPorTipo
-		if (objetos) {
-			numObjetosPorTipo = (objetos.size()+1).toString() //agregamos m������s uno porque ser������ el nuevo objeto que se agregue
+		def mostrar="1"
+		def tipoObj
+		if (id!=null) {
+			tipoObj = Tipo.findById(id)
+			
+					plantillas = tipoObj.plantilla
+			
+					//Definimos el n������mero de inventario de acuerdo al tipo de objeto
+					objetos = criterioObjetos.listDistinct {
+						tipo { eq 'id', id }
+					}
+					def numObjetosPorTipo
+					if (objetos) {
+						numObjetosPorTipo = (objetos.size()+1).toString() //agregamos m������s uno porque ser������ el nuevo objeto que se agregue
+					} else {
+						numObjetosPorTipo="1"
+					}
+			
+					def aux=""
+					while (numObjetosPorTipo.length()+aux.length()<5) {
+						aux+="0"
+					}
+					numObjetosPorTipo=aux+numObjetosPorTipo
+					claveInventario=tipoObj.claveInventario+"-"
+					//claveInventario+=numObjetosPorTipo+"-"+tipoObj.noInventarioSeriado.toString()
+					claveInventario+=numObjetosPorTipo
+					System.out.println(claveInventario)
 		} else {
-			numObjetosPorTipo="1"
+			mostrar="2"
 		}
 
-		def aux=""
-		while (numObjetosPorTipo.length()+aux.length()<5) {
-			aux+="0"
-		}
-		numObjetosPorTipo=aux+numObjetosPorTipo
-		claveInventario=tipoObj.claveInventario+"-"
-		//claveInventario+=numObjetosPorTipo+"-"+tipoObj.noInventarioSeriado.toString()
-		claveInventario+=numObjetosPorTipo
-		System.out.println(claveInventario)
-		render(template:'mostrarFormCaracteristicas', model: [tipoInstance:tipoObj, plantillas:plantillas, claveInventario:claveInventario])
+		
+		render(template:'mostrarFormCaracteristicas', model: [tipoInstance:tipoObj, plantillas:plantillas, claveInventario:claveInventario, mostrar: '1'])
 	}
 
 	def renderImage = {

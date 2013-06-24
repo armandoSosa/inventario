@@ -57,8 +57,8 @@
 	}
 
 	function validarEnvio(e, tipo) {
-		if ($('#unidad').val().length<3){
-			mostrarAlerta('unidad', true, 'La descripción debe ser de al menos 3 caracteres');
+		if ($('#unidad').val().length<1){
+			mostrarAlerta('unidad', true, 'La descripción debe tener al menos un caracter');
 		} else {
 			//debemos verificar que el tipo no exista
 			var cadenaValores="unidadTexto="+$("#unidad").val();
@@ -112,7 +112,7 @@
 
 					</label>
 					<g:textField id="unidad" name="unidad" value="${unidadInstance?.unidad}"
-						onkeypress="return validarTecleo(event, 8)" required=""
+						onkeypress="return validarTecleo(event, 8)" style='text-transform:uppercase;' required=""
 						class="tooltip" title="" />
 				</div>
 			</fieldset>

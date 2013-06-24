@@ -7,6 +7,14 @@
 	value="${message(code: 'caracteristicaUnidad.label', default: 'CaracteristicaUnidad')}" />
 <title><g:message code="default.create.label"
 		args="[entityName]" /></title>
+
+<link rel="stylesheet"
+	href="${resource(dir: 'js', file: 'chosen/chosen.css')}"
+	type="text/css">
+<script type="text/javascript"
+	src="${resource(dir: 'js', file: 'jquery.scrollTo.js')}"></script>
+<g:javascript src="jcrop/jquery.Jcrop.min.js" />
+
 </head>
 <body>
 	<a href="#create-caracteristicaUnidad" class="skip" tabindex="-1"><g:message
@@ -41,6 +49,8 @@
 		</g:hasErrors>
 		<g:form action="save">
 			<fieldset class="form">
+
+
 				<div
 					class="fieldcontain ${hasErrors(bean: caracteristicaUnidadInstance, field: 'caracteristica', 'error')} required">
 					<label for="caracteristica"> <g:message
@@ -51,7 +61,8 @@
 						from="${com.redoaxaca.Caracteristica.list()}" optionKey="id"
 						required=""
 						value="${caracteristicaUnidadInstance?.caracteristica?.id}"
-						class="many-to-one" />
+						data-placeholder="Selecciona una característica"
+						class="chzn-select" style="width:350px;" tabindex="2" />
 				</div>
 
 
@@ -65,7 +76,9 @@
 					<g:select id="unidad" name="unidad.id"
 						from="${com.redoaxaca.Unidad.list()}" optionKey="id" required=""
 						value="${caracteristicaUnidadInstance?.unidad?.id}"
-						class="many-to-one" />
+						data-placeholder="Selecciona una unidad"
+						class="chzn-select" style="width:350px;" tabindex="2"
+						/>
 				</div>
 			</fieldset>
 			<fieldset class="buttons">
@@ -74,5 +87,30 @@
 			</fieldset>
 		</g:form>
 	</div>
+	<script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
+	<script src="${resource(dir: 'js', file: 'chosen/chosen.jquery.js')}"
+		type="text/javascript"></script>
+	<script type="text/javascript">
+		var config = {
+			'.chzn-select' : {
+				no_results_text : 'No se encontró algún dato con'
+			},
+			'.chzn-select-deselect' : {
+				allow_single_deselect : true
+			},
+			'.chzn-select-no-single' : {
+				disable_search_threshold : 10
+			},
+			'.chzn-select-no-results' : {
+				no_results_text : 'Oops, nothing found!'
+			},
+			'.chzn-select-width' : {
+				width : "95%"
+			}
+		}
+		for ( var selector in config) {
+			$(selector).chosen(config[selector]);
+		}
+	</script>
 </body>
 </html>
