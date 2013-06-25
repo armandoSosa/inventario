@@ -99,4 +99,50 @@ class UnidadController {
             redirect(action: "show", id: id)
         }
     }
+	
+	def mostrar(Long id) {
+		def unidadInstance = Unidad.get(id)
+		if (!unidadInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'unidad.label', default: 'Unidad'), id])
+			redirect(action: "list")
+			return
+		}
+
+		[unidadInstance: unidadInstance]
+	}
+	
+	def menu(Integer max) {
+		params.max = Math.min(max ?: 10, 100)
+		[unidadInstanceList: Unidad.list(params), unidadInstanceTotal: Unidad.count()]
+	}
+	
+	def insertar3() {
+		
+	}
+	
+	def verificarSiExiste() {
+		System.out.println("recibo: "+params)
+		def unidadProbable = Unidad.findByUnidad(params.unidadTexto.toUpperCase())
+		if (unidadProbable) {
+			System.out.println("Existe");
+			render(template: "verificarExistencia", model: [existe: 1])
+			return
+		} else {
+			System.out.println("NO Existe");
+			render(template: "verificarExistencia", model: [existe: 2])
+			return
+		}
+	}
+	
+	def save_unidad() {
+		def unidadInstance = new Unidad(unidad: params.unidad.toUpperCase())
+        if (!unidadInstance.save(flush: true)) {
+            render(view: "insertar3", model: [unidadInstance: unidadInstance])
+            return
+        } else {
+			flash.message = message(code: 'La unidad se ha agregado correctamente')
+			redirect(action: 'menu')
+		}
+		
+	}
 }

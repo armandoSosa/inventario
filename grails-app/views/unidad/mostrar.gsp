@@ -13,7 +13,7 @@
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="list" action="menu"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="insertar2"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="insertar3"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="show-unidad" class="content scaffold-show" role="main">
@@ -23,7 +23,16 @@
 			</g:if>
 			<ol class="property-list unidad">
 			
-				
+				<g:if test="${unidadInstance?.caracteristicaUnidades}">
+				<li class="fieldcontain">
+					<span id="caracteristicaUnidades-label" class="property-label"><g:message code="unidad.caracteristicaUnidades.label" default="Caracteristicas a las que está asignada" /></span>
+					
+						<g:each in="${unidadInstance.caracteristicaUnidades}" var="c">
+						<span class="property-value" aria-labelledby="caracteristicaUnidades-label"><g:link controller="caracteristicaUnidad" action="mostrar" id="${c.id}">${c?.caracteristica}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
 			
 				<g:if test="${unidadInstance?.unidad}">
 				<li class="fieldcontain">
@@ -31,16 +40,6 @@
 					
 						<span class="property-value" aria-labelledby="unidad-label"><g:fieldValue bean="${unidadInstance}" field="unidad"/></span>
 					
-				</li>
-				</g:if>
-				
-				<g:if test="${unidadInstance?.caracteristicas}">
-				<li class="fieldcontain">
-					<span id="caracteristicas-label" class="property-label"><g:message code="unidad.caracteristicas.label" default="Caracteristicas que la ocupan" /></span>
-					
-						<g:each in="${unidadInstance.caracteristicas}" var="c">
-						<span class="property-value" aria-labelledby="caracteristicas-label"><g:link controller="caracteristica" action="mostrar" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
-						</g:each>
 				</li>
 				</g:if>
 			

@@ -19,7 +19,7 @@
       		<g:if test="${objetosList}">
 				<g:each var="objeto" in="${objetosList}">
 					<option value="${objeto.id}">
-						${objeto.tipo.descripcion}
+						${objeto.noInventario} : ${objeto.tipo.descripcion}
 					</option>
 				</g:each>
 			</g:if>

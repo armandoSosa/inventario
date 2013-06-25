@@ -10,7 +10,9 @@
     </g:if>
     <g:else>
         No hay municipios registrados para este Estado
+
     </g:else>        
+
 </div>
 
 <script src="${resource(dir: 'js', file: 'chosen/chosen.jquery.js')}" type="text/javascript"></script>

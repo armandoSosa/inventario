@@ -95,8 +95,8 @@
 
 
 	<div id="create-objeto" class="content scaffold-create" role="main">
-		<h1 class="titulo">Crear Objeto</h1>
-		<g:form action="save_objeto3">
+		<h1 class="titulo">Editar Objeto</h1>
+		<g:form action="editar_objeto">
 			<fieldset class="form">
 				<div
 					class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipo', 'error')} required">
@@ -106,11 +106,15 @@
 					<g:select id="tipo" name="tipo.id"
 						from="${com.redoaxaca.Tipo.list()}" optionKey="id" required=""
 						noSelection="['':'Seleccione un tipo']"
-						value="${objetoInstance?.tipo?.id}"
+						value="${tipo?.id}"
+						disabled="true"
 						data-placeholder="Selecciona un tipo" class="chzn-select"
 						style="width:350px;" tabindex="2"
 						onChange="${ remoteFunction (controller:'objeto', action:'mostrarFormCarac', params: '\'id=\' + this.value', update:'divInfoTipoObjeto')}" />
 				</div>
+				<g:if test="${idObjeto}">
+					<g:hiddenField id="idObjeto" name="idObjeto" value="${idObjeto}"/>
+				</g:if>
 
 				<g:render template="mostrarFormCaracteristicas" />
 				

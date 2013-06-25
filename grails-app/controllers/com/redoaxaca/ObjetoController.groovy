@@ -224,8 +224,48 @@ class ObjetoController {
 			redirect(action: "menu")
 			return
 		}
+		
+		System.out.println("antes")
+		for (Valor v in objetoInstance.valores) {
+			System.out.println(v)
+		}
+		System.out.println(" ")
+		System.out.println("despues")
+		
+		//ordenamos los valores de acuerdo al orden en que tienen que ser mostradas cada una de las características
+		def valores
+		def criterioValor = Valor.createCriteria()
+		valores = criterioValor.listDistinct {
+			objetos {
+				eq 'id', id
+			}
+			and {
+				plantilla {
+					order 'orden'
+				}
+			}
+		}
+		
+		for (Valor v in valores) {
+			System.out.println(v)
+		}
+		System.out.println("ya se imprimio")
 
-		[objetoInstance: objetoInstance]
+		//buscamos las características del tipo de objeto que no están agregadas al objeto
+		def criterio = Plantilla.createCriteria()
+		def plantillas = criterio.listDistinct {
+			tipo {
+				eq 'id', objetoInstance?.tipo?.id
+			}
+			and {
+				not {
+					'in' ("id", objetoInstance?.valores?.plantilla.id)
+				}
+			}
+			order 'id'
+		}
+
+		[objetoInstance: objetoInstance, plantillas: plantillas, valores:valores]
 	}
 
 	def edit(Long id) {
@@ -822,6 +862,7 @@ class ObjetoController {
 
 	def buscarTipoObjeto = {
 		def tipos
+		System.out.println(params)
 		if (!params.valorABuscar.equals("")){
 			def criterio = Tipo.createCriteria()
 			tipos = criterio.listDistinct {
@@ -1202,6 +1243,32 @@ class ObjetoController {
 	def save_objeto3 = {
 
 		System.out.println("Recibo " +params)
+		String name
+		def tipo = Tipo.get(Long.parseLong(params.tipoNombre))
+		if (tipo) {
+			def newObjeto = new Objeto(noInventario: params.noInventarioHidden, tipo:tipo, tipoPropiedad: TipoPropiedad.get(Long.parseLong(params.tipoPropiedad)))
+			def plantilla, caracteristicaUnidad, plantillaArray
+
+			for (int i=0; i<params.keySet().toList().size; i++) {
+				name = params.keySet().toList().get(i)
+				if (name.contains("valor")) {
+					name = name.replaceAll("valor", "")
+					plantilla = Plantilla.get(Long.parseLong(name))
+					def valor = new Valor(valor: params.values().toList().get(i), plantilla:plantilla)
+					System.out.println("se guardará plantilla:"+plantilla?.id+" * valor: "+valor+" * tipo:"+tipo.id)
+					newObjeto.addToValores(valor)
+				}
+			}
+			tipo.addToObjetos(newObjeto)
+			if(tipo.save(flush:true)) {
+				flash.message = "El objeto se ha agregado correctamente"
+				redirect(action: 'menu')
+			} else {
+				flash.message = "Hubo un error al agregar el objeto"
+				redirect(action: 'menu')
+			}
+		}
+
 
 		/*Objeto newObjeto= objetoService.guardarObjeto(params.noInventario, Long.parseLong(params.tipoPropiedad), params.tipoObjeto)
 		 if (params.valor0.length()>0) {
@@ -1231,7 +1298,7 @@ class ObjetoController {
 		 //Agregamos los valores al objeto
 		 //Objeto newObjeto2= objetoService.asignarValores(nuevosValores, newObjeto)
 		 return*/
-	
+
 
 	}
 
@@ -1241,6 +1308,7 @@ class ObjetoController {
 
 	def insertar5() {
 		session.setAttribute("tipoObjeto", new Tipo())
+		[mostrar: '2']
 	}
 
 	def infoPersona(Long id) {
@@ -1257,32 +1325,50 @@ class ObjetoController {
 		def criterioObjetos = Objeto.createCriteria()
 		def plantillas, objetos, mostrarCaracteristicas
 		def claveInventario=""
+		def mostrar="1"
+		def tipoObj
+		if (id!=null) {
+			tipoObj = Tipo.findById(id)
+			
+			def criterioPlantillas = Plantilla.createCriteria()
+			plantillas = criterioPlantillas.listDistinct {
+				tipo {
+					eq 'id', id
+				}
+				order 'orden'
+			}
 
-		def tipoObj = Tipo.findById(id)
+			
+			for (Plantilla p in plantillas) {
+				System.out.println(p)
+			}
 
-		plantillas = tipoObj.plantilla
+			//Definimos el n������mero de inventario de acuerdo al tipo de objeto
+			objetos = criterioObjetos.listDistinct {
+				tipo { eq 'id', id }
+			}
+			def numObjetosPorTipo
+			if (objetos) {
+				numObjetosPorTipo = (objetos.size()+1).toString() //agregamos m������s uno porque ser������ el nuevo objeto que se agregue
+			} else {
+				numObjetosPorTipo="1"
+			}
 
-		//Definimos el n������mero de inventario de acuerdo al tipo de objeto
-		objetos = criterioObjetos.listDistinct {
-			tipo { eq 'id', id }
-		}
-		def numObjetosPorTipo
-		if (objetos) {
-			numObjetosPorTipo = (objetos.size()+1).toString() //agregamos m������s uno porque ser������ el nuevo objeto que se agregue
+			def aux=""
+			while (numObjetosPorTipo.length()+aux.length()<5) {
+				aux+="0"
+			}
+			numObjetosPorTipo=aux+numObjetosPorTipo
+			claveInventario=tipoObj.claveInventario+"-"
+			//claveInventario+=numObjetosPorTipo+"-"+tipoObj.noInventarioSeriado.toString()
+			claveInventario+=numObjetosPorTipo
+			System.out.println(claveInventario)
 		} else {
-			numObjetosPorTipo="1"
+			mostrar="2"
 		}
 
-		def aux=""
-		while (numObjetosPorTipo.length()+aux.length()<5) {
-			aux+="0"
-		}
-		numObjetosPorTipo=aux+numObjetosPorTipo
-		claveInventario=tipoObj.claveInventario+"-"
-		//claveInventario+=numObjetosPorTipo+"-"+tipoObj.noInventarioSeriado.toString()
-		claveInventario+=numObjetosPorTipo
-		System.out.println(claveInventario)
-		render(template:'mostrarFormCaracteristicas', model: [tipoInstance:tipoObj, plantillas:plantillas, claveInventario:claveInventario])
+
+		render(template:'mostrarFormCaracteristicas', model: [tipoInstance:tipoObj, plantillas:plantillas, claveInventario:claveInventario, mostrar: '1'])
 	}
 
 	def renderImage = {
@@ -1297,6 +1383,95 @@ class ObjetoController {
 
 	def clic() {
 		System.out.println("dio clic")
+	}
+
+	def editar(Long id) {
+		def objetoInstance = Objeto.get(id)
+		if (!objetoInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'objeto.label', default: 'Objeto'),
+				id
+			])
+			redirect(action: "menu")
+			return
+		}
+		
+		//buscamos las características del tipo de objeto que no están agregadas al objeto
+		def criterio = Plantilla.createCriteria()
+		def plantillas = criterio.listDistinct {
+			tipo {
+				eq 'id', objetoInstance?.tipo?.id
+			}
+			and {
+				not {
+					'in' ("id", objetoInstance?.valores?.plantilla.id)
+				}
+			}
+			order 'orden'
+		}
+		def valores = new ArrayList()
+		def criterioValor = Valor.createCriteria()
+		valores = criterioValor.listDistinct {
+			objetos {
+				eq 'id', id
+			}
+			and {
+				plantilla {
+					order 'orden'
+				}
+			}
+		}
+		
+		
+		[tipo: objetoInstance?.tipo,tipoInstance: objetoInstance?.tipo, claveInventario:objetoInstance?.noInventario,  tipoPropiedad: objetoInstance?.tipoPropiedad , valores:valores, idObjeto:objetoInstance?.id, plantillasFaltantes: plantillas, mostrar:'1', editar:'1']
+		//render(template:'mostrarFormCaracteristicas', model: [tipoInstance:objetoInstance?.tipo, plantillas:objetoInstance?.tipo?.plantilla, claveInventario:objetoInstance?.noInventario, mostrar: '1', objetoInstance:objetoInstance])
+	}
+	
+	def editar_objeto(){
+		System.out.println(params)
+		def objeto = Objeto.get(Long.parseLong(params.idObjeto))
+		
+		objeto.tipoPropiedad=TipoPropiedad.get(Long.parseLong(params.tipoPropiedad))
+		String name
+		//Buscamos las características que ya tenía el objeto y las asignamos todas, por lo que tendrán que editarse
+		def valor, plantilla
+		boolean nuevas=false
+		for (int i=0; i<params.keySet().toList().size; i++) {
+			name = params.keySet().toList().get(i)
+			if (name.contains("valor")) {
+				name = name.replaceAll("valor", "")
+				valor = Valor.get(Long.parseLong(name))
+				valor.valor=params.get("valor"+name)
+				//Almacenamos el valor
+				if (!valor.save(flush: true)) {
+					flash.message = message(code: 'El valor no se ha actualizado')
+					redirect(action: "menu")
+					return
+				}				
+			} else if(name.contains("plantilla")) { //es un nuevo valor que se le va a asignar al objeto
+				nuevas=true	
+				name = name.replaceAll("plantilla", "")
+				plantilla = Plantilla.get(Long.parseLong(name))
+				def newValor = new Valor(valor: params.values().toList().get(i), plantilla:plantilla)
+				System.out.println("se guardará plantilla:"+plantilla?.id+" * valor: "+valor)
+				objeto.addToValores(newValor)
+			}
+		}
+		
+		//si se agregaron nuevas características, las tenemos que persistir en el objeto
+		if (nuevas) {
+			if (!objeto.save(flush: true)) {
+				flash.message = message(code: 'El objeto no se ha guardado correctamente')
+				redirect(action: "menu")
+				return
+			}
+			
+		}
+		
+	
+		flash.message = message(code: 'Las características se han actualizado correctamente')
+		redirect(action: "mostrar", id:objeto?.id)
+		
 	}
 
 }

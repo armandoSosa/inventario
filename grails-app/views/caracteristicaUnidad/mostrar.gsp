@@ -12,8 +12,8 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="menu"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="insertar"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="show-caracteristicaUnidad" class="content scaffold-show" role="main">
@@ -27,7 +27,7 @@
 				<li class="fieldcontain">
 					<span id="caracteristica-label" class="property-label"><g:message code="caracteristicaUnidad.caracteristica.label" default="Caracteristica" /></span>
 					
-						<span class="property-value" aria-labelledby="caracteristica-label"><g:link controller="caracteristica" action="show" id="${caracteristicaUnidadInstance?.caracteristica?.id}">${caracteristicaUnidadInstance?.caracteristica?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="caracteristica-label"><g:link controller="caracteristica" action="mostrar" id="${caracteristicaUnidadInstance?.caracteristica?.id}">${caracteristicaUnidadInstance?.caracteristica?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>
@@ -37,7 +37,7 @@
 					<span id="plantillas-label" class="property-label"><g:message code="caracteristicaUnidad.plantillas.label" default="Plantillas" /></span>
 					
 						<g:each in="${caracteristicaUnidadInstance.plantillas}" var="p">
-						<span class="property-value" aria-labelledby="plantillas-label"><g:link controller="plantilla" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="plantillas-label"><g:link controller="plantilla" action="mostrar" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 				</li>
@@ -47,7 +47,7 @@
 				<li class="fieldcontain">
 					<span id="unidad-label" class="property-label"><g:message code="caracteristicaUnidad.unidad.label" default="Unidad" /></span>
 					
-						<span class="property-value" aria-labelledby="unidad-label"><g:link controller="unidad" action="show" id="${caracteristicaUnidadInstance?.unidad?.id}">${caracteristicaUnidadInstance?.unidad?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="unidad-label"><g:link controller="unidad" action="mostrar" id="${caracteristicaUnidadInstance?.unidad?.id}">${caracteristicaUnidadInstance?.unidad?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>

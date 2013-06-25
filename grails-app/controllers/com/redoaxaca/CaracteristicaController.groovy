@@ -14,6 +14,11 @@ class CaracteristicaController {
         params.max = Math.min(max ?: 10, 100)
         [caracteristicaInstanceList: Caracteristica.list(params), caracteristicaInstanceTotal: Caracteristica.count()]
     }
+	
+	def menu(Integer max) {
+		params.max = Math.min(max ?: 10, 100)
+		[caracteristicaInstanceList: Caracteristica.list(params), caracteristicaInstanceTotal: Caracteristica.count()]
+	}
 
     def create() {
         [caracteristicaInstance: new Caracteristica(params)]
@@ -99,4 +104,44 @@ class CaracteristicaController {
             redirect(action: "show", id: id)
         }
     }
+	
+	def insertar3() {
+		
+	}
+	
+	def verificarSiExiste() {
+		def caracProbable = Caracteristica.findByCaracteristica(params.caracteristicaTexto.toUpperCase())
+		if (caracProbable) {
+			System.out.println("Existe");
+			render(controller: "caracteristica", template: "verificarExistencia", model: [existe: 1])
+			return
+		} else {
+			System.out.println("NO Existe");
+			render(controller: "caracteristica", template: "verificarExistencia", model: [existe: 2])
+			return
+		}
+	}
+	
+	def save_caracteristica() {
+		def caracteristicaInstance = new Caracteristica (caracteristica: params.caracteristica.toUpperCase()) 
+		if (!caracteristicaInstance.save(flush: true)) {
+			render(view: "create", model: [caracteristicaInstance: caracteristicaInstance])
+			return
+		} else {
+			flash.message = message(code: 'La característica se ha agregado correctamente')
+			redirect(action: 'menu')
+		}
+		
+	}
+	
+	def mostrar(Long id) {
+		def caracteristicaInstance = Caracteristica.get(id)
+		if (!caracteristicaInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'caracteristica.label', default: 'Caracteristica'), id])
+			redirect(action: "list")
+			return
+		}
+
+		[caracteristicaInstance: caracteristicaInstance]
+	}
 }

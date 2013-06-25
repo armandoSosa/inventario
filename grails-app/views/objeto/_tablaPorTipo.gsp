@@ -16,7 +16,7 @@
 									<g:if test="${objetoMayor?.valores}">
 										<g:each var="valor" in="${objetoMayor.valores}">
 											<th>
-												${valor.plantilla.caracteristica}
+												${valor?.plantilla?.caracteristicaUnidad?.caracteristica}
 											</th>
 								        </g:each>
 									</g:if>
@@ -33,8 +33,8 @@
 						        			<g:each var="valorMayor" in="${objetoMayor.valores}">
 												<td>	
 													<g:each var="valor" in="${objetoInstance.valores}">	
-														<g:if test="${valorMayor.plantilla.caracteristica.caracteristica == valor.plantilla.caracteristica.caracteristica}">
-															${valor} ${valor.plantilla.caracteristica.unidad}
+														<g:if test="${valorMayor.plantilla.caracteristicaUnidad.caracteristica == valor.plantilla.caracteristicaUnidad.caracteristica}">
+															${valor} ${valor.plantilla.caracteristicaUnidad?.unidad}
 						   								</g:if>
 													</g:each>
 												</td>        
@@ -52,7 +52,7 @@
 						</table>
 					</g:if>
 					<g:else>
-						No hay ningún dato
+						No hay algún dato
 					</g:else>
 						
 			</fieldset>
