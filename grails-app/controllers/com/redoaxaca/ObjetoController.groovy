@@ -224,6 +224,32 @@ class ObjetoController {
 			redirect(action: "menu")
 			return
 		}
+		
+		System.out.println("antes")
+		for (Valor v in objetoInstance.valores) {
+			System.out.println(v)
+		}
+		System.out.println(" ")
+		System.out.println("despues")
+		
+		//ordenamos los valores de acuerdo al orden en que tienen que ser mostradas cada una de las características
+		def valores
+		def criterioValor = Valor.createCriteria()
+		valores = criterioValor.listDistinct {
+			objetos {
+				eq 'id', id
+			}
+			and {
+				plantilla {
+					order 'orden'
+				}
+			}
+		}
+		
+		for (Valor v in valores) {
+			System.out.println(v)
+		}
+		System.out.println("ya se imprimio")
 
 		//buscamos las características del tipo de objeto que no están agregadas al objeto
 		def criterio = Plantilla.createCriteria()
@@ -236,9 +262,10 @@ class ObjetoController {
 					'in' ("id", objetoInstance?.valores?.plantilla.id)
 				}
 			}
+			order 'id'
 		}
 
-		[objetoInstance: objetoInstance, plantillas: plantillas]
+		[objetoInstance: objetoInstance, plantillas: plantillas, valores:valores]
 	}
 
 	def edit(Long id) {
@@ -1302,8 +1329,19 @@ class ObjetoController {
 		def tipoObj
 		if (id!=null) {
 			tipoObj = Tipo.findById(id)
+			
+			def criterioPlantillas = Plantilla.createCriteria()
+			plantillas = criterioPlantillas.listDistinct {
+				tipo {
+					eq 'id', id
+				}
+				order 'orden'
+			}
 
-			plantillas = tipoObj.plantilla
+			
+			for (Plantilla p in plantillas) {
+				System.out.println(p)
+			}
 
 			//Definimos el n������mero de inventario de acuerdo al tipo de objeto
 			objetos = criterioObjetos.listDistinct {
@@ -1369,9 +1407,23 @@ class ObjetoController {
 					'in' ("id", objetoInstance?.valores?.plantilla.id)
 				}
 			}
+			order 'orden'
+		}
+		def valores = new ArrayList()
+		def criterioValor = Valor.createCriteria()
+		valores = criterioValor.listDistinct {
+			objetos {
+				eq 'id', id
+			}
+			and {
+				plantilla {
+					order 'orden'
+				}
+			}
 		}
 		
-		[tipo: objetoInstance?.tipo,tipoInstance: objetoInstance?.tipo, claveInventario:objetoInstance?.noInventario,  tipoPropiedad: objetoInstance?.tipoPropiedad , valores:objetoInstance?.valores, idObjeto:objetoInstance?.id, plantillasFaltantes: plantillas, mostrar:'1', editar:'1']
+		
+		[tipo: objetoInstance?.tipo,tipoInstance: objetoInstance?.tipo, claveInventario:objetoInstance?.noInventario,  tipoPropiedad: objetoInstance?.tipoPropiedad , valores:valores, idObjeto:objetoInstance?.id, plantillasFaltantes: plantillas, mostrar:'1', editar:'1']
 		//render(template:'mostrarFormCaracteristicas', model: [tipoInstance:objetoInstance?.tipo, plantillas:objetoInstance?.tipo?.plantilla, claveInventario:objetoInstance?.noInventario, mostrar: '1', objetoInstance:objetoInstance])
 	}
 	

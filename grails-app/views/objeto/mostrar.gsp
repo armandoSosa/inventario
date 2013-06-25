@@ -127,13 +127,13 @@
 				
 				
 				
-				<g:if test="${objetoInstance?.valores}">
+				<g:if test="${valores}">
 				<li class="fieldcontain"><span id="valores-label"
 					class="property-label"><h2>Características</h2></span>
 							<br><br><br>
 							<table><tr><th>Característica</th><th>Valor</th><th>Unidad</th></tr>
 							<g:each
-						in="${objetoInstance.valores}" var="v">
+						in="${valores}" var="v">
 						<tr>
 						
 								<td>${v?.plantilla?.caracteristicaUnidad?.caracteristica}</td><td><span class="property-value" aria-labelledby="valores-label"><g:link

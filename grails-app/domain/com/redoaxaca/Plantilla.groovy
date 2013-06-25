@@ -1,8 +1,10 @@
 package com.redoaxaca
 
 class Plantilla {
-
+	int orden
+	
     static constraints = {
+		
     }
 	
 	static hasMany = [valores: Valor]

@@ -149,16 +149,25 @@ class PlantillaController {
 	}
 
 	def save_plantilla() {
-		System.out.println(params)
+		System.out.println("recibimos "+params)
 
 		def caracUnidadString = params.list('caracteristicas')
 
 		def caracteristicaUnidad
 		def tipo = Tipo.get(Long.parseLong(params.idTipo))
 		def nuevaPlantilla
-		for (String s in caracUnidadString) {
-			caracteristicaUnidad = CaracteristicaUnidad.get(Long.parseLong(s))
-			nuevaPlantilla = new Plantilla(tipo:tipo, caracteristicaUnidad:caracteristicaUnidad)
+		def plantilla
+		for (int i=0; i<caracUnidadString.size(); i++) {
+			
+			caracteristicaUnidad = CaracteristicaUnidad.get(Long.parseLong(caracUnidadString.getAt(i)))
+			plantilla = Plantilla.findAllByTipoAndCaracteristicaUnidad(tipo, caracteristicaUnidad)
+			if (plantilla.size()>0) {//la plantilla ya existe y hay que cambiar el orden
+				plantilla.get(0).orden=(i+1)
+				nuevaPlantilla = plantilla.get(0)
+			} else {
+				nuevaPlantilla = new Plantilla(tipo:tipo, caracteristicaUnidad:caracteristicaUnidad, orden:(i+1))
+			}
+			
 			tipo.addToPlantilla(nuevaPlantilla)
 		}
 

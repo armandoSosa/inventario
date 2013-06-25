@@ -21,15 +21,15 @@
       		<g:if test="${caracteristicas}">
       			<g:each var="caracteristicaUnidad" in="${caracteristicas}">
 					<option value="${caracteristicaUnidad.id}">
-						${caracteristicaUnidad.caracteristica} : ${caracteristicaUnidad.unidad.unidad}
+						${caracteristicaUnidad.id} : ${caracteristicaUnidad.caracteristica} : ${caracteristicaUnidad.unidad.unidad}
 					</option>
 				</g:each>
 			</g:if>
 			<!-- Agregamos las características que ya tiene asignadas el tipo de objeto -->
 			 <g:if test="${caracteristicasActuales}">
 			 	<g:each var="caracteristicaUnidad" in="${caracteristicasActuales}">
-					<option value="${caracteristicaUnidad.id}" selected="selected" disabled>
-						${caracteristicaUnidad.caracteristica} : ${caracteristicaUnidad.unidad.unidad}
+					<option value="${caracteristicaUnidad.id}" selected="selected">
+						${caracteristicaUnidad.id} : ${caracteristicaUnidad.caracteristica} : ${caracteristicaUnidad.unidad.unidad}
 					</option>
 				</g:each>
 			</g:if>
