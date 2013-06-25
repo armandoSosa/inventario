@@ -14,16 +14,6 @@
 	<script type="text/javascript"	src="${resource(dir: 'js', file: 'jquery-1.6.4.min.js')}"></script>
 	
 	
-	
-	
-
-	
-	
-	
-		
-		
-	
-	
 <script type="text/javascript">
 	function validarTecleo(e, tipo) {
 		var pasa = validar(e, tipo);

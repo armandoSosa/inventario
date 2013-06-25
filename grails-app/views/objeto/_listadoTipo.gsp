@@ -17,7 +17,9 @@
 					   action: 'listadoTipoAjax',
                        update: 'tabla',
 					   onSuccess: 'tabla',
-                       params: '\'tipo=\' + this.value')}"/>
+                       params: '\'tipo=\' + this.value')}"
+            data-placeholder="Selecciona una característica"
+						class="chzn-select" style="width:350px;" tabindex="2"/>
 
 	</g:if>
 	<g:else>
@@ -28,7 +30,9 @@
 			onchange="${remoteFunction(
 					   action: 'listadoTipoAjax',
                        update: 'tabla',
-                       params: '\'tipo=\' + this.value')}"/>
+                       params: '\'tipo=\' + this.value')}"
+            data-placeholder="Selecciona una característica"
+						class="chzn-select" style="width:350px;" tabindex="2"/>
 	</g:else>
 	<br>
 	<br>
