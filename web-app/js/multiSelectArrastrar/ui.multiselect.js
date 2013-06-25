@@ -361,7 +361,7 @@ $.widget("ui.multiselect", {
  	_registerRemoveEventsEspecial: function(elements) {
 		var that = this;
 		elements.click(function() {
-			alert('Esta característica no puede ser eliminada');
+			alert('Este elemento no puede ser eliminado');
 		});
  	},
 	_registerSearchEvents: function(input) {
@@ -387,7 +387,7 @@ $.extend($.ui.multiselect, {
 	locale: {
 		addAll:'Agregar todas',
 		removeAll:'Quitar todas',
-		itemsCount:'Características seleccionadas'
+		itemsCount:'Elementos seleccionados'
 	}
 });
 

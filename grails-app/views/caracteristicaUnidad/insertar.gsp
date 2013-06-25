@@ -7,7 +7,7 @@
 	value="${message(code: 'caracteristicaUnidad.label', default: 'CaracteristicaUnidad')}" />
 <title><g:message code="default.create.label"
 		args="[entityName]" /></title>
-
+		
 <link rel="stylesheet"
 	href="${resource(dir: 'js', file: 'chosen/chosen.css')}"
 	type="text/css">

@@ -128,9 +128,14 @@ class PlantillaController {
 	def insertar2(Long id) {
 		//Buscamos las características que están asignadas al tipo de objeto
 		System.out.println("Recibo "+params+" id "+id)
-		def tipo = Tipo.get(id)
-		if (tipo!=null) {
-			def plantillas = tipo.plantilla
+		def tipoObj = Tipo.get(id)
+		if (tipoObj!=null) {
+			def criterioPlantilla = Plantilla.createCriteria()
+			def plantillas = criterioPlantilla.listDistinct {
+				tipo { eq 'id', id }
+				order 'orden'
+			}
+			
 			def caracteristicasActuales = new ArrayList()
 			for (Plantilla p in plantillas) {
 				caracteristicasActuales.add(p.caracteristicaUnidad)
@@ -144,7 +149,7 @@ class PlantillaController {
 
 			[caracteristicasActuales:caracteristicasActuales, caracteristicas: plantillasNoAgregadas, idTipo: id]
 		} else {
-			redirect(action: "list")
+			redirect(controller: 'tipo', action: "menu")
 		}
 	}
 

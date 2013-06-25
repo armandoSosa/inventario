@@ -28,7 +28,7 @@
 			<!-- Agregamos las características que ya tiene asignadas el tipo de objeto -->
 			 <g:if test="${caracteristicasActuales}">
 			 	<g:each var="caracteristicaUnidad" in="${caracteristicasActuales}">
-					<option value="${caracteristicaUnidad.id}" selected="selected">
+					<option value="${caracteristicaUnidad.id}" selected="selected" class="tooltip" title="">
 						${caracteristicaUnidad.id} : ${caracteristicaUnidad.caracteristica} : ${caracteristicaUnidad.unidad.unidad}
 					</option>
 				</g:each>
