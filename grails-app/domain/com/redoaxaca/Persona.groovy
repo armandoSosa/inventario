@@ -8,8 +8,7 @@ class Persona {
 	String curp
 	String rfc
 	Date fechaNacimiento
-	String email
-	List telefonos = new ArrayList()
+	String email	
 	List objetosPersona = new ArrayList()
 	
 	static hasMany = [subordinado: Persona, objetosPersona: ObjetoPersona, puestosPersona: PuestoPersona, direcciones: Direccion, telefonos: Telefono, usuarios: Usuario]	
@@ -21,8 +20,7 @@ class Persona {
 		paterno(blank: false)
 		materno(blank: false)
 		fechaNacimiento(blank: false)
-		email(email:true)				
-		telefonos(nullable:true)
+		email(email:true)						
 		objetosPersona(nullable:true)	
 		foto(nullable:true)
 		curp(unique:true)
@@ -33,17 +31,6 @@ class Persona {
 	static mapping = {
 		foto column:"foto", sqlType: "blob"
 	}*/
-	
-	static mapping = {
-		telefonos cascade:"all-delete-orphan"		
-	}
- 
-	def getTelefonosList() {
-		return LazyList.decorate(
-			  telefonos,
-			  FactoryUtils.instantiateFactory(Telefono.class))
-	}
-	
 	def getObjetosPersonaList() {
 		return LazyList.decorate(
 			  objetosPersona,

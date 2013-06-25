@@ -123,7 +123,9 @@ class PersonaController {
 		personaInstance.addToPuestosPersona(puestoPersonaInstance)			         			
 		personaInstance.setFoto(fotoInstance)
 		
-		int cantidad = params.cantidad
+		int cantidad = 0
+		if(params.cantidad!='')
+			cantidad = params.cantidad
 	   
 	   for(int i=1; i<=cantidad; i++ ){
 		   if((params.get("num"+i))!=null){			   
@@ -194,6 +196,74 @@ class PersonaController {
 
 		[personaInstance: personaInstance]
 	}
+	
+	def editar(Long id) {
+		def personaInstance = Persona.get(id)
+		if (!personaInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'persona.label', default: 'Persona'), id])
+			redirect(action: "list")
+			return
+		}
+
+		[personaInstance: personaInstance]
+	}
+	
+	def actualizar(Long id) {
+		def personaInstance = Persona.get(id)		
+		def direccionInstance = Direccion.get(personaInstance.direcciones.id.get(0))
+		def puestoPersonaInstance = PuestoPersona.get(personaInstance.puestosPersona.id.get(0))
+		def fotoInstance = personaInstance.getFoto()		
+		
+		personaInstance.setNombre(personaInstance.getNombre().toUpperCase())
+		personaInstance.setMaterno(personaInstance.getMaterno().toUpperCase())
+		personaInstance.setPaterno(personaInstance.getPaterno().toUpperCase())
+		direccionInstance.setCalle(direccionInstance.getCalle().toUpperCase())
+		direccionInstance.setColonia(direccionInstance.getColonia().toUpperCase())
+		direccionInstance.setNoExterior(direccionInstance.getNoExterior().toUpperCase())
+		direccionInstance.setNoInterior(direccionInstance.getNoInterior().toUpperCase())
+		
+		direccionInstance.fecha = new Date()
+		puestoPersonaInstance.persona = personaInstance
+		puestoPersonaInstance.fechaInicio = new Date()
+		
+		String rfc = params.rfc
+		String anio = rfc.substring(4, 6)
+		String mes = rfc.substring(6, 8)
+		String dia = rfc.substring(8, 10)
+		Date fecha = new Date(Integer.parseInt(anio), Integer.parseInt(mes)-1, Integer.parseInt(dia))
+		
+		personaInstance.fechaNacimiento = fecha		
+		personaInstance.curp = personaInstance.curp.toString().toUpperCase()
+		personaInstance.rfc = personaInstance.rfc.toString().toUpperCase()
+		
+		personaInstance.addToDirecciones(direccionInstance)
+		personaInstance.addToPuestosPersona(puestoPersonaInstance)
+		personaInstance.setFoto(fotoInstance)
+		personaInstance.telefonos.clear()
+		
+		int cantidad = 0
+		if(params.cantidad!='')
+			cantidad = params.cantidad
+	   
+	   for(int i=1; i<=cantidad; i++ ){
+		   if((params.get("num"+i))!=null){
+			   Telefono tel = new Telefono()
+			   tel.setFecha(new Date())
+			   tel.setTelefono(params.get("num"+i))
+			   tel.tipoTelefono = TipoTelefono.findByTipo(params.get("tipo"+i).toString().trim())
+			   personaInstance.addToTelefonos(tel)
+		   }
+	   }
+	   
+	   personaInstance.properties = params
+	   if (!personaInstance.save(flush: true)) {
+            render(view: "editar", model: [personaInstance: personaInstance])
+            return
+        }
+
+		flash.message = message(code: 'default.created.message', args: [message(code: 'persona.label', default: 'Persona'), personaInstance.id])
+		redirect(action: "empleados")
+	}
 
     def edit(Long id) {
         def personaInstance = Persona.get(id)
@@ -258,9 +328,27 @@ class PersonaController {
 		def personas, personas2, personas3
 		def personaInstanceList
 		def personaInstanceTotal
-		params.max = Math.min(max ?: 10, 100)
+		params.max = Math.min(max ?: 10, 100)				
+		def tipoBusqueda = params.tipo			
+		def persona = params.persona
 		if (!params.persona.equals("")){
-			personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+params.persona+"%", "%"+params.persona+"%", "%"+params.persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+			switch(tipoBusqueda){
+				case '0':
+					personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+					break
+				case '1':
+					personas = Persona.findAllByNombreLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+					break
+				case '2':
+					personas = Persona.findAllByPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+					break
+				case '3':
+					personas = Persona.findAllByRfcLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+					break
+				case '4':
+					personas = Persona.findAllByCurpLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+					break
+			}			
 			
 			personaInstanceList = personas
 			personaInstanceTotal = personas.count

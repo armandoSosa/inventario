@@ -111,6 +111,16 @@ function validarFocus(tipo, input, valor){
 	if(tipo==1){
 		if(!validarCURP(valor)){
 			mostrarValidacion(input, "La CURP no es valida");
+		}else{
+			var anio = parseInt(valor.substring(8,10));
+			if(anio<30){
+				document.formPersona.fechaNacimiento_year.value = anio+2000;
+			}else{
+				document.formPersona.fechaNacimiento_year.value = anio+1900;
+			}
+			document.formPersona.fechaNacimiento_day.value = parseInt(valor.substring(4, 6)); 
+			document.formPersona.fechaNacimiento_month.value = parseInt(valor.substring(6,8));
+			
 		}
 	}
 	else if(tipo==2){
@@ -131,8 +141,43 @@ function validarFocus(tipo, input, valor){
 			mostrarValidacion(input, "El Email no es valido");
 		}else{
 			ocultarValidacion(input);
-			}
+		}
 	}
+}
+
+function validarFecha(txtDate){	
+    var currVal = txtDate;
+    if(currVal == '')
+        return false;
+    
+    var rxDatePattern = /^(\d{1,2})(\d{1,2})(\d{2})$/; //Declare Regex
+    var dtArray = currVal.match(rxDatePattern); // is format OK?
+    
+    if (dtArray == null) 
+        return false;
+    
+    //Checks for dd/mm/yyyy format.
+    dtDay = dtArray[1];
+    dtMonth = dtArray[2];
+    dtYear = dtArray[4];        
+    
+    if (dtMonth < 1 || dtMonth > 12) 
+        return false;
+    else if (dtDay < 1 || dtDay> 31) 
+        return false;
+    else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31) 
+        return false;
+    else if (dtMonth == 2 && dtDay > 28) {         
+        return false;
+    }
+    /*
+    else if (dtMonth == 2) 
+    {
+        var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+        if (dtDay> 29 || (dtDay ==29 && !isleap)) 
+                return false;
+    }*/    
+    return true;    
 }
 
 
@@ -153,8 +198,10 @@ function validarCURP(curp){
 	if(curp.length==longitudCURP){
 		var letras = curp.substring(0, 4);
 		var numeros = curp.substring(4, 10);			 
-		if(validarLetras(letras) && validarNumeros(numeros)){
-			curpValida = true;
+		if(validarLetras(letras) && validarNumeros(numeros)){			
+			if(validarFecha(numeros)){				
+				curpValida = true;
+			}			
 		}			
 	}
 	return curpValida;

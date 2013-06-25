@@ -87,14 +87,25 @@
 									</div>
 									<br>
 									<div>
+									<form action="" name="forma">
 											<label for="valorABuscar"> Buscar:</label>
-											<g:textField name="valorABuscar" required="" value=""
+											<g:textField name="valorABuscar" required="" value="" style="text-transform:uppercase;"
 											    onkeyup="${remoteFunction(
 												   controller: 'persona',
 												   action: 'buscarPersona',
 							                       update: 'list-persona',
-							                       params: '\'persona=\' + this.value')}"/>
-										</div>		
+							                       params: '\'tipo=\' + document.forma.tipo.selectedIndex+\'&persona=\' + this.value.toUpperCase()'												   
+												)}"/>
+							                <label for="tipo"> Por:</label>
+							                <select name="tipo">
+							                	<option value="1">Nombre completo</option>
+							                	<option value="2">Nombre(s)</option>
+							                	<option value="3">Apellidos</option>							                	
+							                	<option value="4">RFC</option>
+							                	<option value="5">CURP</option>
+							                </select>
+							                </form>
+										</div>											
                                 </div>
                             </div>
                         </div>                        

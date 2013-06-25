@@ -1,5 +1,4 @@
-<div id="list-persona" class="content scaffold-list" role="main">	
-	<:if >									
+<div id="list-persona" class="content scaffold-list" role="main">									
 										<table>
 											<thead>
 												<tr>

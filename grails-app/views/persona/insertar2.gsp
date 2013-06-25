@@ -36,6 +36,10 @@
 	
 
 	<script>
+	jQuery(function($) {
+		
+		});
+	
 		function llamarInLine(){
 			$("#formFoto").submit();						
 			//$("#nuevaImagen").click();
@@ -64,9 +68,7 @@
 	        $.mask.definitions['~'] = "[+-]";        
 	        $("#num0").mask("aaaa999999***", { placeholder: " " });		
 	        $("#curp").mask("aaaa999999********", { placeholder: " " });
-	    });*/
-	    $.mask.definitions['~'] = "[+-]";
-	    $("#prueba").mask("(999) 999-9999");
+	    });*/	    
 	</script>	
 	<script type="text/javascript">
 		jQuery(function($){
@@ -206,7 +208,8 @@
 		
 		<!--Termina: Elementos para validacion pop up animado -->
 		
-		<script type="text/javascript">
+		
+<script type="text/javascript">
 	function validarTecleo(e, tipo, id) {
 		var pasa = validarInput(e, tipo)		
 		mostrarValidacion(id, validarInput(e, tipo));
@@ -335,12 +338,16 @@ function crear(obj) {
   var ele = document.createElement('input'); 
   ele.type = 'text'; // 6
   ele.id = 'num'+num.toString();
-  ele.name='num'+num.toString();
-  ele.value="campo"+num.toString();
-  ele.onkeypress="return validarTecleo(event, 2, this.id)";
-  ele.class="tooltip";
-  ele.maxlength="10"; 
-  
+  ele.name='num'+num.toString();  
+  ele.maxLength="10"; 
+  ele.onkeypress = function(event){
+	  return validarTecleo(event, 2, this.id);
+   };  
+  ele.onBlur = function(){
+	  validarFocus(4, this.id, this.value);
+   };
+  ele.setAttribute('class', 'tooltip');    
+    
   contenedor.appendChild(ele); // 7
   
   var espacio = document.createTextNode("\u00a0");
@@ -404,12 +411,15 @@ function borrar(obj) {
 				<g:if test="${error.field == 'curp'}">
 					Esta CURP ya está siendo ocupada por otra persona
 				</g:if>
-				<g:if test="${error.field == 'rfc'}">
+				<g:elseif test="${error.field == 'rfc'}">
 					Este RFC ya está siendo ocupado por otra persona
-				</g:if>
-				<g:if test="${error.field == 'numeroEmpleado'}">
+				</g:elseif>
+				<g:elseif test="${error.field == 'numeroEmpleado'}">
 					El número de empleado ya existe, seleccione otro número
-				</g:if>			
+				</g:elseif>	
+				<g:else>
+					El número de teléfono es inválido
+				</g:else>		
 				</li>
 				</g:eachError>
 			</ul>

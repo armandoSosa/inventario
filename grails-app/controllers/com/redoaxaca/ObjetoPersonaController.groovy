@@ -51,6 +51,63 @@ class ObjetoPersonaController {
 
 		[objetoPersonaInstance: objetoPersonaInstance]
 	}
+	
+	def desasignarObjeto(Long id){
+				
+		def personaInstance = Persona.get(id)
+		
+		if (!personaInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), id])
+			redirect(action: "list")
+			return
+		}
+				
+		def objetosList = Objeto.findAll("\
+			from \
+			ObjetoPersona as op\
+			where op.fechaInicio = op.fechaFin and op.persona = ?", [personaInstance])
+		System.out.println(objetosList.size())
+		
+		def criterio = Objeto.createCriteria()
+		def objetos = criterio.listDistinct {
+			'in'("id", objetosList.objeto.id)
+		}
+				
+		[objetoPersonaInstance: new ObjetoPersona(params), personaInstance: personaInstance, objetosList: objetos]
+	}
+	
+	def actualizar(Long id) {
+		def personaInstance = Persona.get(id)
+		if (!objetoPersonaInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), id])
+			redirect(action: "list")
+			return
+		}
+
+		objetoPersonaInstance.properties = params
+		
+		
+		def caracteristicas = params.list("caracteristicas")
+		for (String idString in caracteristicas) {
+					try {
+						def objetoPersonaInstance = ObjetoPersona.get(idString)
+						objetoPersonaInstance.objeto = Objeto.findById(idString)						
+						objetoPersonaInstance.fechaFin = objetoPersonaInstance.fechaInicio
+						objetoPersonaInstance.persona = Persona.findById(params.persona.id)
+						System.out.println("id:"+idString)
+						if (!objetoPersonaInstance.save(flush: true)) {
+							render(view: "mostrar", model: [objetoPersonaInstance: objetoPersonaInstance])
+							return
+						}						
+					} catch (PlantillaException pe) {
+						//flash.message = pe.message
+						System.out.println(pe.message)
+					}
+		}
+		
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona'), objetoPersonaInstance.id])
+		redirect(action: "show", id: objetoPersonaInstance.id)
+	}
 
     def edit(Long id) {
         def objetoPersonaInstance = ObjetoPersona.get(id)
