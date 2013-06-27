@@ -28,7 +28,7 @@
 					
 						<g:sortableColumn property="claveInventario" title="${message(code: 'tipo.claveInventario.label', default: 'Clave Inventario')}" />
 					
-						<g:sortableColumn property="noInventarioSeriado" title="${message(code: 'tipo.noInventarioSeriado.label', default: 'No Inventario Seriado')}" />
+						
 					
 					</tr>
 				</thead>
@@ -40,7 +40,7 @@
 					
 						<td>${fieldValue(bean: tipoInstance, field: "claveInventario")}</td>
 					
-						<td>${fieldValue(bean: tipoInstance, field: "noInventarioSeriado")}</td>
+						
 					
 					</tr>
 				</g:each>

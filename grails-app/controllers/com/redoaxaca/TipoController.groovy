@@ -4,7 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class TipoController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	def tipoService
 	def scaffold = true
 	
@@ -28,14 +28,14 @@ class TipoController {
 		redirect(action: list)
 	}
 
-    def index() {
-        redirect(action: "list", params: params)
-    }
+	def index() {
+		redirect(action: "list", params: params)
+	}
 
-    def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [tipoInstanceList: Tipo.list(params), tipoInstanceTotal: Tipo.count()]
-    }
+	def list(Integer max) {
+		params.max = Math.min(max ?: 10, 100)
+		[tipoInstanceList: Tipo.list(params), tipoInstanceTotal: Tipo.count()]
+	}
 	
 	def menu(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
@@ -43,20 +43,20 @@ class TipoController {
 	}
 	
 
-    def create() {
-        [tipoInstance: new Tipo(params)]
-    }
+	def create() {
+		[tipoInstance: new Tipo(params)]
+	}
 
-    def save() {
-        def tipoInstance = new Tipo(params)
-        if (!tipoInstance.save(flush: true)) {
-            render(view: "create", model: [tipoInstance: tipoInstance])
-            return
-        }
+	def save() {
+		def tipoInstance = new Tipo(params)
+		if (!tipoInstance.save(flush: true)) {
+			render(view: "create", model: [tipoInstance: tipoInstance])
+			return
+		}
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'tipo.label', default: 'Tipo'), tipoInstance.id])
-        redirect (action: "show", id: tipoInstance.id)
-    }
+		flash.message = message(code: 'default.created.message', args: [message(code: 'tipo.label', default: 'Tipo'), tipoInstance.id])
+		redirect (action: "show", id: tipoInstance.id)
+	}
 	
 	def save_tipo() {
 		def tipoInstance = new Tipo(descripcion:params.descripcion.toUpperCase())
@@ -96,16 +96,16 @@ class TipoController {
 		
 	}
 
-    def show(Long id) {
-        def tipoInstance = Tipo.get(id)
-        if (!tipoInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
-            redirect(action: "list")
-            return
-        }
+	def show(Long id) {
+		def tipoInstance = Tipo.get(id)
+		if (!tipoInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
+			redirect(action: "list")
+			return
+		}
 
-        [tipoInstance: tipoInstance]
-    }
+		[tipoInstance: tipoInstance]
+	}
 	def mostrar(Long id) {
 		def tipoInstance = Tipo.get(id)
 		if (!tipoInstance) {
@@ -117,64 +117,64 @@ class TipoController {
 		[tipoInstance: tipoInstance]
 	}
 
-    def edit(Long id) {
-        def tipoInstance = Tipo.get(id)
-        if (!tipoInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
-            redirect(action: "list")
-            return
-        }
+	def edit(Long id) {
+		def tipoInstance = Tipo.get(id)
+		if (!tipoInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
+			redirect(action: "list")
+			return
+		}
 
-        [tipoInstance: tipoInstance]
-    }
+		[tipoInstance: tipoInstance]
+	}
 
-    def update(Long id, Long version) {
-        def tipoInstance = Tipo.get(id)
-        if (!tipoInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
-            redirect(action: "list")
-            return
-        }
+	def update(Long id, Long version) {
+		def tipoInstance = Tipo.get(id)
+		if (!tipoInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
+			redirect(action: "list")
+			return
+		}
 
-        if (version != null) {
-            if (tipoInstance.version > version) {
-                tipoInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                          [message(code: 'tipo.label', default: 'Tipo')] as Object[],
-                          "Another user has updated this Tipo while you were editing")
-                render(view: "edit", model: [tipoInstance: tipoInstance])
-                return
-            }
-        }
+		if (version != null) {
+			if (tipoInstance.version > version) {
+				tipoInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+						  [message(code: 'tipo.label', default: 'Tipo')] as Object[],
+						  "Another user has updated this Tipo while you were editing")
+				render(view: "edit", model: [tipoInstance: tipoInstance])
+				return
+			}
+		}
 
-        tipoInstance.properties = params
+		tipoInstance.properties = params
 
-        if (!tipoInstance.save(flush: true)) {
-            render(view: "edit", model: [tipoInstance: tipoInstance])
-            return
-        }
+		if (!tipoInstance.save(flush: true)) {
+			render(view: "edit", model: [tipoInstance: tipoInstance])
+			return
+		}
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'tipo.label', default: 'Tipo'), tipoInstance.id])
-        redirect(action: "show", id: tipoInstance.id)
-    }
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'tipo.label', default: 'Tipo'), tipoInstance.id])
+		redirect(action: "show", id: tipoInstance.id)
+	}
 
-    def delete(Long id) {
-        def tipoInstance = Tipo.get(id)
-        if (!tipoInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
-            redirect(action: "list")
-            return
-        }
+	def delete(Long id) {
+		def tipoInstance = Tipo.get(id)
+		if (!tipoInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
+			redirect(action: "list")
+			return
+		}
 
-        try {
-            tipoInstance.delete(flush: true)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
-            redirect(action: "list")
-        }
-        catch (DataIntegrityViolationException e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
-            redirect(action: "show", id: id)
-        }
-    }
+		try {
+			tipoInstance.delete(flush: true)
+			flash.message = message(code: 'default.deleted.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
+			redirect(action: "list")
+		}
+		catch (DataIntegrityViolationException e) {
+			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'tipo.label', default: 'Tipo'), id])
+			redirect(action: "show", id: id)
+		}
+	}
 	
 	def verificarExistencia() {
 		System.out.println("uno "+params.tipoTexto)

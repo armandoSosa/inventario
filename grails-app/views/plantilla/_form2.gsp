@@ -29,7 +29,7 @@
 			 <g:if test="${caracteristicasActuales}">
 			 	<g:each var="caracteristicaUnidad" in="${caracteristicasActuales}">
 					<option value="${caracteristicaUnidad.id}" selected="selected" class="tooltip" title="">
-						${caracteristicaUnidad.id} : ${caracteristicaUnidad.caracteristica} : ${caracteristicaUnidad.unidad.unidad}
+						${caracteristicaUnidad.caracteristica} : ${caracteristicaUnidad.unidad.unidad}
 					</option>
 				</g:each>
 			</g:if>

@@ -11,12 +11,60 @@
 <link rel="stylesheet"
 	href="${resource(dir: 'js', file: 'chosen/chosen.css')}"
 	type="text/css">
+<script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
+
+
+
+
+
+
+
+
+<!-- Elementos para validacion pop up animado -->
+<link rel="stylesheet" type="text/css"
+	href="${resource(dir: 'js/tooltipster-master/css', file: 'tooltipster.css')}" />
 <script type="text/javascript"
-	src="${resource(dir: 'js', file: 'jquery.scrollTo.js')}"></script>
-<g:javascript src="jcrop/jquery.Jcrop.min.js" />
+	src="${resource(dir: 'js', file: 'tooltipster-master/js/jquery.tooltipster.js')}"></script>
+
+<script>
+			$(document).ready(function() {
+				$('#caracteristica_chzn').addClass('tooltip');
+				$('.tooltip').tooltipster({
+				    animation: 'grow',
+				    trigger: 'custom',
+				    position: 'right'
+				});
+			});
+			
+			function mostrarAlerta(elemento, mostrar, mensaje) {
+				if (mostrar) {
+					
+					$('#caracteristica_chzn').tooltipster('update', mensaje);
+					$('#caracteristica_chzn').tooltipster('show');
+					
+				} else {
+					$('#caracteristica_chzn').tooltipster('hide');
+				}
+			}
+		</script>
+
+<!--Termina: Elementos para validacion pop up animado -->
+
+<script type="text/javascript">
+	function validarEnvio(e, tipo) {
+		//debemos verificar que el tipo no exista
+		var cadenaValores="caracteristicaTexto="+$("#caracteristica").val()+"&unidadTexto="+$("#unidad").val();
+		${remoteFunction (controller:'caracteristicaUnidad', action:'verificarSiExiste', params: 'cadenaValores', update: 'verificarSiExiste')}
+		
+	}
+</script>
+
+
+
 
 </head>
 <body>
+	<g:render template="verificarExistencia" />
 	<a href="#create-caracteristicaUnidad" class="skip" tabindex="-1"><g:message
 			code="default.link.skip.label" default="Skip to content&hellip;" /></a>
 	<div class="nav" role="navigation">
@@ -47,8 +95,8 @@
 				</g:eachError>
 			</ul>
 		</g:hasErrors>
-		<g:form action="save">
-			<fieldset class="form">
+		<g:form id="formcarac" name="formcarac" action="save">
+			<fieldset id="field" name="field" class="form tooltip" title="">
 
 
 				<div
@@ -62,10 +110,11 @@
 						required=""
 						value="${caracteristicaUnidadInstance?.caracteristica?.id}"
 						data-placeholder="Selecciona una característica"
-						class="chzn-select" style="width:350px;" tabindex="2" />
+						class="chzn-select" style="width:350px;" tabindex="2" 
+						onChange="mostrarAlerta('mensaje', false, '');"/>
 				</div>
 
-
+				
 
 				<div
 					class="fieldcontain ${hasErrors(bean: caracteristicaUnidadInstance, field: 'unidad', 'error')} required">
@@ -77,17 +126,19 @@
 						from="${com.redoaxaca.Unidad.list()}" optionKey="id" required=""
 						value="${caracteristicaUnidadInstance?.unidad?.id}"
 						data-placeholder="Selecciona una unidad"
-						class="chzn-select" style="width:350px;" tabindex="2"
+						class="chzn-select tooltip" style="width:350px;" tabindex="2"
+						title="" onChange="mostrarAlerta('mensaje', false, '');"
 						/>
+					
 				</div>
 			</fieldset>
 			<fieldset class="buttons">
-				<g:submitButton name="create" class="save"
-					value="${message(code: 'default.button.create.label', default: 'Create')}" />
+				<a class="save" onClick="validarEnvio()">Crear</a>
+				<g:link name="cancel" class="cancelar" action="menu">Cancelar</g:link>
 			</fieldset>
 		</g:form>
 	</div>
-	<script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
+	
 	<script src="${resource(dir: 'js', file: 'chosen/chosen.jquery.js')}"
 		type="text/javascript"></script>
 	<script type="text/javascript">

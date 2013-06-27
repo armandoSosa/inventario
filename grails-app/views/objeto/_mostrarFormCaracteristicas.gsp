@@ -19,7 +19,7 @@
 
 					</g:else>
 
-					
+
 				</div>
 				<br>
 			</fieldset>
@@ -54,7 +54,7 @@
 
 
 		<g:if test="${claveInventario}">
-			
+
 			<fieldset class="form">
 				<!--  <legend>Agregar valores</legend> -->
 				<br> <br>
@@ -64,62 +64,65 @@
 						<g:each var="plantilla" in="${plantillas}">
 							<label for="valor${plantilla?.id}"> ${plantilla?.caracteristicaUnidad?.caracteristica}
 							</label>
-							<g:textField id="valor${plantilla?.id}" name="valor${plantilla?.id}"
-								value=""
+							<g:textField id="valor${plantilla?.id}"
+								name="valor${plantilla?.id}" value=""
 								onChange="generarCadenaValores('valor${plantilla?.id}')" />
 							${plantilla?.caracteristicaUnidad?.unidad}
 							<br>
 							<br>
 						</g:each>
-	
+
 					</g:if>
 					<g:else>
 						<label for="linkNuevaCarac"> <g:message
-								code="objeto.noInventario.label" default="No hay características" />
+								code="objeto.noInventario.label"
+								default="No hay características1" />
 						</label>
 					</g:else>
 				</g:if>
 				<g:else>
-				<!-- Necesario al editar -->
-					<g:if test="${valores}">
-						<g:each var="valor" in="${valores}">
-							<label for="valor${valor?.id}"> ${valor?.plantilla?.caracteristicaUnidad?.caracteristica}
-							</label>
-							<g:textField id="valor${valor?.id}" name="valor${valor?.id}"
-								value="${valor?.valor}"
-								onChange="generarCadenaValores('valor${valor?.id}')" />
-							${valor?.plantilla?.caracteristicaUnidad?.unidad}
-							<br>
-							<br>
-						</g:each>
-	
+					<g:if test="${valores || plantillasFaltantes}">
+						<!-- Necesario al editar -->
+						<g:if test="${valores}">
+							<g:each var="valor" in="${valores}">
+								<label for="valor${valor?.id}"> ${valor?.plantilla?.caracteristicaUnidad?.caracteristica}
+								</label>
+								<g:textField id="valor${valor?.id}" name="valor${valor?.id}"
+									value="${valor?.valor}"
+									onChange="generarCadenaValores('valor${valor?.id}')" />
+								${valor?.plantilla?.caracteristicaUnidad?.unidad}
+								<br>
+								<br>
+							</g:each>
+
+						</g:if>
+
+						<!-- Agregamos las plantillas que no tienen valores -->
+						<g:if test="${plantillasFaltantes}">
+							<g:each var="p" in="${plantillasFaltantes}">
+								<label for="p${p?.id}"> ${p?.caracteristicaUnidad?.caracteristica}
+								</label>
+								<g:textField id="plantilla${p?.id}" name="plantilla${p?.id}"
+									value="" onChange="generarCadenaValores('plantilla${p?.id}')" />
+								${p?.caracteristicaUnidad?.unidad}
+								<br>
+								<br>
+							</g:each>
+
+						</g:if>
 					</g:if>
 					<g:else>
 						<label for="linkNuevaCarac"> <g:message
-								code="objeto.noInventario.label" default="No hay características" />
+								code="objeto.noInventario.label"
+								default="No hay características2" />
 						</label>
 					</g:else>
-					
-					<!-- Agregamos las plantillas que no tienen valores -->
-					<g:if test="${plantillasFaltantes}">
-						<g:each var="p" in="${plantillasFaltantes}">
-							<label for="p${p?.id}"> ${p?.caracteristicaUnidad?.caracteristica}
-							</label>
-							<g:textField id="plantilla${p?.id}" name="plantilla${p?.id}"
-								value=""
-								onChange="generarCadenaValores('plantilla${p?.id}')" />
-							${p?.caracteristicaUnidad?.unidad}
-							<br>
-							<br>
-						</g:each>
-					
-					</g:if>
-					
-				
-				
+
+
+
 				</g:else>
 
-				
+
 			</fieldset>
 			<br>
 			<br>
@@ -127,8 +130,19 @@
 
 			<fieldset class="buttons">
 				<a name="create" class="save" href="javascript:void(0)"
-					onclick="submitObjeto();return false;">Crear Objeto</a> <input
-					type="submit" value="Enviar" />
+					onclick="submitObjeto();return false;">Crear Objeto</a>
+					
+				<g:if test="${editar==null}">
+					<g:link name="cancel" class="cancelar" action="menu">Cancelar</g:link>
+				</g:if>
+				<g:else>
+					<g:link name="cancel" class="cancelar" action="mostrar" id="${idObjeto}">Cancelar</g:link>
+				</g:else>
+					
+				
+					
+				
+				
 			</fieldset>
 
 

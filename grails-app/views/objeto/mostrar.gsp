@@ -91,7 +91,7 @@
 						</g:link></span></li>
 			</g:if>
 
-			
+
 
 
 			<li class="fieldcontain"><span id="valores-label"
@@ -116,48 +116,66 @@
 					</g:each>
 				</g:if> <g:else>
 					<span class="property-value" aria-labelledby="valores-label">Ninguno</span>
-				</g:else>
-				
-				<span class="property-value" aria-labelledby="valores-label"><g:link
+				</g:else> <span class="property-value" aria-labelledby="valores-label"><g:link
 						controller="objetoPersona" action="insertar2"
 						id="${objetoInstance.id}">Agregar persona</g:link></span></li>
-				<br><br>
-				
-				
-				
-				
-				
-				<g:if test="${valores}">
-				<li class="fieldcontain"><span id="valores-label"
-					class="property-label"><h2>Características</h2></span>
-							<br><br><br>
-							<table><tr><th>Característica</th><th>Valor</th><th>Unidad</th></tr>
-							<g:each
-						in="${valores}" var="v">
-						<tr>
-						
-								<td>${v?.plantilla?.caracteristicaUnidad?.caracteristica}</td><td><span class="property-value" aria-labelledby="valores-label"><g:link
-								controller="valor" action="show" id="${v.id}">${v?.encodeAsHTML()}</g:link></td><td>${v?.plantilla?.caracteristicaUnidad?.unidad}</td>
-							</span>
-							</tr>
-					</g:each>
-					<g:if test="${plantillas}">
-						<g:each in="${plantillas}" var="p">
+			<br>
+			<br>
+
+
+
+
+
+
+			<li class="fieldcontain"><span id="valores-label"
+				class="property-label"><h2>Características</h2></span> <br> <br>
+				<br>
+				<table>
+					<tr>
+						<th>Característica</th>
+						<th>Valor</th>
+						<th>Unidad</th>
+					</tr>
+					<g:if test="${valores}">
+						<g:each in="${valores}" var="v">
 							<tr>
-							<td>${p?.caracteristicaUnidad?.caracteristica}</td>
-							<td><center>-</center></td>
-							<td>${p?.caracteristicaUnidad?.unidad}</td>
+
+								<td>
+									${v?.plantilla?.caracteristicaUnidad?.caracteristica}
+								</td>
+								<td><span class="property-value"
+									aria-labelledby="valores-label"><g:link
+											controller="valor" action="show" id="${v.id}">
+											${v?.encodeAsHTML()}
+										</g:link></td>
+								<td>
+									${v?.plantilla?.caracteristicaUnidad?.unidad}
+								</td>
+								</span>
 							</tr>
 						</g:each>
 					</g:if>
-					
-					
-					
-					
-					
-					</table></li>
-			</g:if>
-			
+					<g:if test="${plantillas}">
+						<g:each in="${plantillas}" var="p">
+							<tr>
+								<td>
+									${p?.caracteristicaUnidad?.caracteristica}
+								</td>
+								<td><center>-</center></td>
+								<td>
+									${p?.caracteristicaUnidad?.unidad}
+								</td>
+							</tr>
+						</g:each>
+					</g:if>
+
+
+
+
+
+				</table></li>
+
+
 
 		</ol>
 		<g:form>

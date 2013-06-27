@@ -137,11 +137,38 @@ class CaracteristicaController {
 	def mostrar(Long id) {
 		def caracteristicaInstance = Caracteristica.get(id)
 		if (!caracteristicaInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'caracteristica.label', default: 'Caracteristica'), id])
-			redirect(action: "list")
+			flash.message = message(code: 'La característica no existe')
+			redirect(action: "menu")
 			return
 		}
 
 		[caracteristicaInstance: caracteristicaInstance]
+	}
+	
+	def editar2(Long id) {
+		def caracteristicaInstance = Caracteristica.get(id)
+		if (!caracteristicaInstance) {
+			flash.message = message(code: 'No se ha encontrado la característica')
+			redirect(action: "menu")
+			return
+		}
+
+		[caracteristicaInstance: caracteristicaInstance]
+	}
+	
+	
+	def edit_caracteristica() {
+		def caracteristicaInstance = Caracteristica.get(Long.parseLong(params.idCaracteristica))
+		caracteristicaInstance.caracteristica= params.caracteristica.toUpperCase()
+		
+		
+		if (!caracteristicaInstance.save(flush: true)) {
+			render(view: "editar2", model: [caracteristicaInstance: caracteristicaInstance])
+			return
+		}
+
+		flash.message = message(code: 'La característica se ha editado correctamente')
+		redirect(action: "mostrar", id: caracteristicaInstance.id)
+		
 	}
 }

@@ -12,8 +12,8 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="menu"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="insertar2"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="show-tipo" class="content scaffold-show" role="main">
@@ -52,10 +52,10 @@
 			
 				<g:if test="${tipoInstance?.objetos}">
 				<li class="fieldcontain">
-					<span id="objetos-label" class="property-label"><g:message code="tipo.objetos.label" default="Objetos" /></span>
+					<span id="objetos-label" class="property-label"><g:message code="tipo.objetos.label" default="Objetos registrados" /></span>
 					
 						<g:each in="${tipoInstance.objetos}" var="o">
-						<span class="property-value" aria-labelledby="objetos-label"><g:link controller="objeto" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="objetos-label"><g:link controller="objeto" action="mostrar" id="${o.id}">${o?.noInventario}</g:link></span>
 						</g:each>
 					
 				</li>
@@ -63,16 +63,22 @@
 			
 				<g:if test="${tipoInstance?.plantilla}">
 				<li class="fieldcontain">
-					<span id="plantilla-label" class="property-label"><g:message code="tipo.plantilla.label" default="Plantilla" /></span>
-					
-						<g:each in="${tipoInstance.plantilla}" var="p">
-						<span class="property-value" aria-labelledby="plantilla-label"><g:link controller="plantilla" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
-						</g:each>
+					<br><br>
+					<h2>Características</h2>
+						<br>
+						<table>
+							<tr><th>Característica</th><th>Unidad</th></tr>
+							<g:each in="${tipoInstance.plantilla}" var="p">
+								<tr>
+									<span class="property-value" aria-labelledby="plantilla-label"><g:link controller="plantilla" action="mostrar" id="${p.id}"><td>${p?.caracteristicaUnidad.caracteristica}</td><td>${p?.caracteristicaUnidad.unidad}</td></g:link></span>
+								</tr>
+							</g:each>
+						</table>
 					
 				</li>
 				</g:if>
 				<br><br>
-				<a href="/inventarios3/plantilla/insertar2/${tipoInstance?.id}">Agregar características</a>
+				<a href="/inventarios3/plantilla/insertar2/${tipoInstance?.id}">Modificar características</a>
 			
 			</ol>
 			<g:form>
