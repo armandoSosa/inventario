@@ -14,6 +14,7 @@ class UnidadController {
         params.max = Math.min(max ?: 10, 100)
         [unidadInstanceList: Unidad.list(params), unidadInstanceTotal: Unidad.count()]
     }
+	
 
     def create() {
         [unidadInstance: new Unidad(params)]
@@ -143,6 +144,32 @@ class UnidadController {
 			flash.message = message(code: 'La unidad se ha agregado correctamente')
 			redirect(action: 'menu')
 		}
+		
+	}
+	
+	def editar2(Long id) {
+		def unidadInstance = Unidad.get(id)
+		if (!unidadInstance) {
+			flash.message = message(code: 'No se ha encontrado la unidad')
+			redirect(action: "menu")
+			return
+		}
+
+		[unidadInstance: unidadInstance]
+		
+	}
+	
+	def edit_unidad() {
+		def unidadInstance = Unidad.get(Long.parseLong(params.idUnidad))
+		unidadInstance.unidad = params.unidad.toUpperCase()
+		
+		if (!unidadInstance.save(flush: true)) {
+			render(view: "editar2", model: [unidadInstance: unidadInstance])
+			return
+		}
+
+		flash.message = message(code: 'La unidad se ha actualizado correctamente')
+		redirect(action: "mostrar", id: unidadInstance.id)
 		
 	}
 }

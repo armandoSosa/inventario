@@ -16,6 +16,7 @@ class ObjetoController {
 	def burningImageService
 
 
+	
 	def insertar = {
 		[tipoList : Tipo.list()]
 	}
@@ -224,46 +225,43 @@ class ObjetoController {
 			redirect(action: "menu")
 			return
 		}
-		
+
 		System.out.println("antes")
 		for (Valor v in objetoInstance.valores) {
 			System.out.println(v)
 		}
 		System.out.println(" ")
-		System.out.println("despues")
-		
+
+
 		//ordenamos los valores de acuerdo al orden en que tienen que ser mostradas cada una de las características
 		def valores
 		def criterioValor = Valor.createCriteria()
 		valores = criterioValor.listDistinct {
-			objetos {
-				eq 'id', id
-			}
+			objetos { eq 'id', id }
 			and {
-				plantilla {
-					order 'orden'
-				}
+				plantilla { order 'orden' }
 			}
 		}
-		
+
 		for (Valor v in valores) {
 			System.out.println(v)
 		}
-		System.out.println("ya se imprimio")
+
 
 		//buscamos las características del tipo de objeto que no están agregadas al objeto
-		def criterio = Plantilla.createCriteria()
-		def plantillas = criterio.listDistinct {
-			tipo {
-				eq 'id', objetoInstance?.tipo?.id
-			}
-			and {
-				not {
-					'in' ("id", objetoInstance?.valores?.plantilla.id)
+		def plantillas, criterio = Plantilla.createCriteria()
+		plantillas = criterio.listDistinct {
+				tipo {
+					eq 'id', objetoInstance?.tipo?.id
 				}
+				and {
+					not {
+						'in' ("id", objetoInstance?.valores?.plantilla.id)
+					}
+				}
+				order 'orden'
 			}
-			order 'id'
-		}
+
 
 		[objetoInstance: objetoInstance, plantillas: plantillas, valores:valores]
 	}
@@ -1329,16 +1327,14 @@ class ObjetoController {
 		def tipoObj
 		if (id!=null) {
 			tipoObj = Tipo.findById(id)
-			
+
 			def criterioPlantillas = Plantilla.createCriteria()
 			plantillas = criterioPlantillas.listDistinct {
-				tipo {
-					eq 'id', id
-				}
+				tipo { eq 'id', id }
 				order 'orden'
 			}
 
-			
+
 			for (Plantilla p in plantillas) {
 				System.out.println(p)
 			}
@@ -1395,7 +1391,7 @@ class ObjetoController {
 			redirect(action: "menu")
 			return
 		}
-		
+
 		//buscamos las características del tipo de objeto que no están agregadas al objeto
 		def criterio = Plantilla.createCriteria()
 		def plantillas = criterio.listDistinct {
@@ -1412,25 +1408,21 @@ class ObjetoController {
 		def valores = new ArrayList()
 		def criterioValor = Valor.createCriteria()
 		valores = criterioValor.listDistinct {
-			objetos {
-				eq 'id', id
-			}
+			objetos { eq 'id', id }
 			and {
-				plantilla {
-					order 'orden'
-				}
+				plantilla { order 'orden' }
 			}
 		}
-		
-		
+
+
 		[tipo: objetoInstance?.tipo,tipoInstance: objetoInstance?.tipo, claveInventario:objetoInstance?.noInventario,  tipoPropiedad: objetoInstance?.tipoPropiedad , valores:valores, idObjeto:objetoInstance?.id, plantillasFaltantes: plantillas, mostrar:'1', editar:'1']
 		//render(template:'mostrarFormCaracteristicas', model: [tipoInstance:objetoInstance?.tipo, plantillas:objetoInstance?.tipo?.plantilla, claveInventario:objetoInstance?.noInventario, mostrar: '1', objetoInstance:objetoInstance])
 	}
-	
+
 	def editar_objeto(){
 		System.out.println(params)
 		def objeto = Objeto.get(Long.parseLong(params.idObjeto))
-		
+
 		objeto.tipoPropiedad=TipoPropiedad.get(Long.parseLong(params.tipoPropiedad))
 		String name
 		//Buscamos las características que ya tenía el objeto y las asignamos todas, por lo que tendrán que editarse
@@ -1447,9 +1439,9 @@ class ObjetoController {
 					flash.message = message(code: 'El valor no se ha actualizado')
 					redirect(action: "menu")
 					return
-				}				
+				}
 			} else if(name.contains("plantilla")) { //es un nuevo valor que se le va a asignar al objeto
-				nuevas=true	
+				nuevas=true
 				name = name.replaceAll("plantilla", "")
 				plantilla = Plantilla.get(Long.parseLong(name))
 				def newValor = new Valor(valor: params.values().toList().get(i), plantilla:plantilla)
@@ -1457,7 +1449,7 @@ class ObjetoController {
 				objeto.addToValores(newValor)
 			}
 		}
-		
+
 		//si se agregaron nuevas características, las tenemos que persistir en el objeto
 		if (nuevas) {
 			if (!objeto.save(flush: true)) {
@@ -1465,13 +1457,13 @@ class ObjetoController {
 				redirect(action: "menu")
 				return
 			}
-			
+
 		}
-		
-	
+
+
 		flash.message = message(code: 'Las características se han actualizado correctamente')
 		redirect(action: "mostrar", id:objeto?.id)
-		
+
 	}
 
 }

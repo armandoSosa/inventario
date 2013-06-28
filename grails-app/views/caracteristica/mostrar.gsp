@@ -37,7 +37,7 @@
 					<span id="caracteristicaUnidades-label" class="property-label"><g:message code="caracteristica.caracteristicaUnidades.label" default="Unidades" /></span>
 					
 						<g:each in="${caracteristicaInstance.caracteristicaUnidades}" var="c">
-						<span class="property-value" aria-labelledby="caracteristicaUnidades-label"><g:link controller="caracteristicaUnidad" action="mostrar" id="${c.id}">${c?.unidad} </g:link></span>
+						<span class="property-value" aria-labelledby="caracteristicaUnidades-label"><g:link controller="unidad" action="mostrar" id="${c?.unidad?.id}">${c?.unidad} </g:link></span>
 						</g:each>
 					
 				</li>
@@ -47,7 +47,7 @@
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${caracteristicaInstance?.id}" />
-					<g:link class="edit" action="edit" id="${caracteristicaInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:link class="edit" action="editar2" id="${caracteristicaInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>

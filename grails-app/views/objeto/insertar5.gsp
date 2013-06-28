@@ -38,11 +38,11 @@
 			var actualizaciones=0;
 			var cadenaValores='valor0=0';
 			var numeros="0";
-			var submitObjeto = function() {
-				cadenaValores=cadenaValores.replace("valor0=0", "valor0="+numeros.substring(1))+"&noInventario="+$("#noInventario").val()+"&tipoPropiedad="+$("#tipoPropiedad").val()+"&tipoObjeto="+$("#tipo").val();
-		    	${ remoteFunction (controller:'objeto', action:'save_objeto3', id:'5', params: 'cadenaValores', onLoaded='start()')}
-				
-		    };
+			
+			function submitObjeto() {
+				$('#formulario').submit();
+			
+			}
 		    function generarCadenaValores(cadena){
 		    	//alert($("#"+cadena).val());
 		    	if (cadenaValores.indexOf(cadena) == -1) {//si no esta, se agrega
@@ -71,14 +71,14 @@
 </head>
 
 <body>
-	<a href="#list-objeto" class="skip" tabindex="-1"><g:message
+	<a href="#create-objeto" class="skip" tabindex="-1"><g:message
 			code="default.link.skip.label" default="Skip to content&hellip;" /></a>
 	<div class="nav" role="navigation">
 		<ul>
 			<li><a class="home" href="${createLink(uri: '/')}"><g:message
 						code="default.home.label" /></a></li>
-			<li><g:link class="create" action="insertar3">
-					<g:message code="default.new.label" args="[entityName]" />
+			<li><g:link class="list" action="menu">
+					<g:message code="default.list.label" args="[entityName]" />
 				</g:link></li>
 		</ul>
 	</div>
@@ -96,7 +96,7 @@
 
 	<div id="create-objeto" class="content scaffold-create" role="main">
 		<h1 class="titulo">Crear Objeto</h1>
-		<g:form action="save_objeto3">
+		<g:form id="formulario" name="formulario" action="save_objeto3">
 			<fieldset class="form">
 				<div
 					class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipo', 'error')} required">
@@ -113,8 +113,8 @@
 				</div>
 
 				<g:render template="mostrarFormCaracteristicas" />
-				
-				
+
+
 			</fieldset>
 
 		</g:form>

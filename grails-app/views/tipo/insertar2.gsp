@@ -102,7 +102,7 @@
 			</fieldset>
 			<fieldset class="buttons">
 				<a  class="save" onClick="validarEnvio()">Crear</a>
-				
+				<g:link name="cancel" class="cancelar" action="menu">Cancelar</g:link>
 			</fieldset>
 		</g:form>
 	</div>

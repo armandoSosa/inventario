@@ -34,7 +34,7 @@
 				<g:each in="${caracteristicaUnidadInstanceList}" status="i" var="caracteristicaUnidadInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${caracteristicaUnidadInstance.id}">${fieldValue(bean: caracteristicaUnidadInstance, field: "caracteristica")}</g:link></td>
+						<td><g:link action="mostrar" id="${caracteristicaUnidadInstance.id}">${fieldValue(bean: caracteristicaUnidadInstance, field: "caracteristica")}</g:link></td>
 					
 						<td>${fieldValue(bean: caracteristicaUnidadInstance, field: "unidad")}</td>
 					

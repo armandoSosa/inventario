@@ -31,18 +31,7 @@
 					
 				</li>
 				</g:if>
-			
-				<g:if test="${caracteristicaUnidadInstance?.plantillas}">
-				<li class="fieldcontain">
-					<span id="plantillas-label" class="property-label"><g:message code="caracteristicaUnidad.plantillas.label" default="Plantillas" /></span>
-					
-						<g:each in="${caracteristicaUnidadInstance.plantillas}" var="p">
-						<span class="property-value" aria-labelledby="plantillas-label"><g:link controller="plantilla" action="mostrar" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
+				
 				<g:if test="${caracteristicaUnidadInstance?.unidad}">
 				<li class="fieldcontain">
 					<span id="unidad-label" class="property-label"><g:message code="caracteristicaUnidad.unidad.label" default="Unidad" /></span>
@@ -52,11 +41,24 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${caracteristicaUnidadInstance?.plantillas}">
+				<li class="fieldcontain">
+					<span id="plantillas-label" class="property-label"><g:message code="caracteristicaUnidad.plantillas.label" default="Tipos de objeto" /></span>
+					
+						<g:each in="${caracteristicaUnidadInstance.plantillas}" var="p">
+						<span class="property-value" aria-labelledby="plantillas-label"><g:link controller="tipo" action="mostrar" id="${p?.tipo?.id}">${p?.tipo}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
+				
+			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${caracteristicaUnidadInstance?.id}" />
-					<g:link class="edit" action="edit" id="${caracteristicaUnidadInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:link class="edit" action="editar" id="${caracteristicaUnidadInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>
