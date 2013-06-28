@@ -12,25 +12,22 @@ class DepartamentoController {
 	def index() {
 		redirect(action: "list", params: params)
 	}
-	
+
 	def listar = {
 	}
 
 	def modificar = {
-	
 	}
-	
+
 	def eliminar = {
-	
 	}
-	
+
 	def insertar = {
-	
 	}
-	
+
 	def insertar2 = {
 		def departamentos = Departamento.list();
-		
+
 		JSONArray arrayRaiz=new JSONArray();
 		ArrayList<Long> idDepartamentos = new ArrayList<Long>();
 		for (Departamento d in departamentos) {
@@ -40,7 +37,7 @@ class DepartamentoController {
 				JSONObject jsonDepartamento = new JSONObject();
 				jsonDepartamento.put('v', s.id.toString());
 				jsonDepartamento.put('f', s.nombre);
-				
+
 				arrayObj.put(jsonDepartamento);
 				arrayObj.put(d.id.toString());
 				arrayObj.put(s.nombre);
@@ -54,33 +51,42 @@ class DepartamentoController {
 		jsonDepartamento.put('v', raiz.id.toString());
 		jsonDepartamento.put('f', raiz.nombre);
 		System.out.println(raiz.nombre);
-		
+
 		arrayObj.put(jsonDepartamento);
 		arrayObj.put('');
 		arrayObj.put(raiz.nombre);
 		arrayRaiz.put(arrayObj);
-		
+
 		System.out.println(arrayRaiz.toString());
 		[datos: arrayRaiz.toString()]
-	
+
 	}
 
 	def list(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		[departamentoInstanceList: Departamento.list(params), departamentoInstanceTotal: Departamento.count()]
 	}
-	
+
 	def menu(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		[departamentoInstanceList: Departamento.list(params), departamentoInstanceTotal: Departamento.count()]
 	}
-	
-	def menu2(Integer max) {
+
+	def menu2() {
 		//params.max = Math.min(max ?: 10, 100)
 		//[departamentoInstanceList: Departamento.list(params), departamentoInstanceTotal: Departamento.count()]
 		//[[{v : '1',	f : 'Mike'}, '', '' ],[{v : '2', f : 'Jim'}, '1', '' ], [ {v : '3',f : 'Alice'}, '1', '' ], [ {v : '4', f : 'Bob'}, '2', '' ], [ {v : '5', f : 'Carol'}, '4', 'hola' ] ]
 		def departamentos = Departamento.list();
-		
+
+		if (departamentos.size()==0) {
+			def newDepartamento = new Departamento(nombre: 'Raíz')
+			if (newDepartamento.save()) {
+				System.out.println("el departamento raíz se guardó correctamente")
+			}
+		}
+
+		departamentos = Departamento.list();
+
 		JSONArray arrayRaiz=new JSONArray();
 		ArrayList<Long> idDepartamentos = new ArrayList<Long>();
 		for (Departamento d in departamentos) {
@@ -90,7 +96,7 @@ class DepartamentoController {
 				JSONObject jsonDepartamento = new JSONObject();
 				jsonDepartamento.put('v', s.id.toString());
 				jsonDepartamento.put('f', s.nombre);
-				
+
 				arrayObj.put(jsonDepartamento);
 				arrayObj.put(d.id.toString());
 				arrayObj.put(s.nombre);
@@ -104,18 +110,19 @@ class DepartamentoController {
 		jsonDepartamento.put('v', raiz.id.toString());
 		jsonDepartamento.put('f', raiz.nombre);
 		System.out.println(raiz.nombre);
-		
+
 		arrayObj.put(jsonDepartamento);
 		arrayObj.put('');
 		arrayObj.put(raiz.nombre);
 		arrayRaiz.put(arrayObj);
-		
+
 		System.out.println(arrayRaiz.toString());
+
 		[datos: arrayRaiz.toString()]
 	}
-	
-	
-	
+
+
+
 	def create() {
 		[departamentoInstance: new Departamento(params)]
 	}
@@ -127,10 +134,13 @@ class DepartamentoController {
 			return
 		}
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'departamento.label', default: 'Departamento'), departamentoInstance.id])
+		flash.message = message(code: 'default.created.message', args: [
+			message(code: 'departamento.label', default: 'Departamento'),
+			departamentoInstance.id
+		])
 		redirect(action: "show", id: departamentoInstance.id)
 	}
-	
+
 	def save_departamento() {
 		def departamentoInstance = new Departamento(params)
 		if (!departamentoInstance.save(flush: true)) {
@@ -138,10 +148,13 @@ class DepartamentoController {
 			return
 		}
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'departamento.label', default: 'Departamento'), departamentoInstance.id])
+		flash.message = message(code: 'default.created.message', args: [
+			message(code: 'departamento.label', default: 'Departamento'),
+			departamentoInstance.id
+		])
 		redirect(action: "menu")
 	}
-	
+
 	def save_departamento_puesto(){
 		def departamentoInstance = new Departamento(params)
 		if (!departamentoInstance.save(flush: true)) {
@@ -156,7 +169,10 @@ class DepartamentoController {
 	def show(Long id) {
 		def departamentoInstance = Departamento.get(id)
 		if (!departamentoInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'departamento.label', default: 'Departamento'), id])
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'departamento.label', default: 'Departamento'),
+				id
+			])
 			redirect(action: "list")
 			return
 		}
@@ -167,7 +183,10 @@ class DepartamentoController {
 	def edit(Long id) {
 		def departamentoInstance = Departamento.get(id)
 		if (!departamentoInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'departamento.label', default: 'Departamento'), id])
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'departamento.label', default: 'Departamento'),
+				id
+			])
 			redirect(action: "list")
 			return
 		}
@@ -178,7 +197,10 @@ class DepartamentoController {
 	def update(Long id, Long version) {
 		def departamentoInstance = Departamento.get(id)
 		if (!departamentoInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'departamento.label', default: 'Departamento'), id])
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'departamento.label', default: 'Departamento'),
+				id
+			])
 			redirect(action: "list")
 			return
 		}
@@ -186,8 +208,9 @@ class DepartamentoController {
 		if (version != null) {
 			if (departamentoInstance.version > version) {
 				departamentoInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-						  [message(code: 'departamento.label', default: 'Departamento')] as Object[],
-						  "Another user has updated this Departamento while you were editing")
+						[
+							message(code: 'departamento.label', default: 'Departamento')] as Object[],
+						"Another user has updated this Departamento while you were editing")
 				render(view: "edit", model: [departamentoInstance: departamentoInstance])
 				return
 			}
@@ -200,29 +223,41 @@ class DepartamentoController {
 			return
 		}
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'departamento.label', default: 'Departamento'), departamentoInstance.id])
+		flash.message = message(code: 'default.updated.message', args: [
+			message(code: 'departamento.label', default: 'Departamento'),
+			departamentoInstance.id
+		])
 		redirect(action: "show", id: departamentoInstance.id)
 	}
 
 	def delete(Long id) {
 		def departamentoInstance = Departamento.get(id)
 		if (!departamentoInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'departamento.label', default: 'Departamento'), id])
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'departamento.label', default: 'Departamento'),
+				id
+			])
 			redirect(action: "list")
 			return
 		}
 
 		try {
 			departamentoInstance.delete(flush: true)
-			flash.message = message(code: 'default.deleted.message', args: [message(code: 'departamento.label', default: 'Departamento'), id])
+			flash.message = message(code: 'default.deleted.message', args: [
+				message(code: 'departamento.label', default: 'Departamento'),
+				id
+			])
 			redirect(action: "list")
 		}
 		catch (DataIntegrityViolationException e) {
-			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'departamento.label', default: 'Departamento'), id])
+			flash.message = message(code: 'default.not.deleted.message', args: [
+				message(code: 'departamento.label', default: 'Departamento'),
+				id
+			])
 			redirect(action: "show", id: id)
 		}
 	}
-	
+
 	def save_departamentos() {
 		//eliminarTodos()
 		def slurper = new JsonSlurper()
@@ -231,7 +266,7 @@ class DepartamentoController {
 		for (int i=0; i<result.rows.size(); i++) {
 			System.out.println(result.rows[i].c[0].v+"; label: "+result.rows[i].c[0].f+"; padre: '"+result.rows[i].c[1].v+"'");
 		}
-		
+
 		//Editamos los departamentos que cambiaron de nombre
 		def departamentos = Departamento.list()
 		for (int i=0; i<result.rows.size(); i++) {
@@ -245,8 +280,8 @@ class DepartamentoController {
 				}
 			}
 		}
-		
-		
+
+
 		//Buscamos los departamentos que ya no están para eliminarlos
 		departamentos = Departamento.list()
 		for (Departamento d in departamentos) {
@@ -264,24 +299,30 @@ class DepartamentoController {
 				if (padre) {
 					padre.removeFromDepartamentos(d)
 				}
-				
+
 				try {
 					d.delete(flush: true)
 					System.out.println("Se borro")
-					flash.message = message(code: 'default.deleted.message', args: [message(code: 'departamento.label', default: 'Departamento'), d.id])
+					flash.message = message(code: 'default.deleted.message', args: [
+						message(code: 'departamento.label', default: 'Departamento'),
+						d.id
+					])
 					redirect(action: "menu2")
 				}
 				catch (DataIntegrityViolationException e) {
 					System.out.println("No se borro")
-					flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'departamento.label', default: 'Departamento'), d.id])
+					flash.message = message(code: 'default.not.deleted.message', args: [
+						message(code: 'departamento.label', default: 'Departamento'),
+						d.id
+					])
 					redirect(action: "show", id: d.id)
 				}
-				
+
 			} else {
 				System.out.println("sigue")
 			}
 		}
-		
+
 		//organizamos a los hijos
 		Departamento depto;
 		//buscamos el elemento que no tenga padre
@@ -306,20 +347,24 @@ class DepartamentoController {
 				redirect(action: "create", model: [departamentoInstance: depto])
 				return
 			} else {
-				System.out.println("Se guardaron los departamentos "+depto.getNombre());
+				System.out.println("Se guardaron los departamentos y por raíz tienen "+depto.getNombre());
+				//flash.message = message(code: 'Se han guardado los Departamentos')
+				
+				
 			}
 		} else  {
 			System.out.println("depto no definido");
 		}
+		redirect(action: "menu2")
 	}
-	
+
 	void imprimirDepto(Departamento d) {
 		System.out.println("Id: "+d.id+"; Nombre: "+d.nombre)
 		for (Departamento sub in d.departamentos) {
 			imprimirDepto(sub);
 		}
 	}
-	
+
 	void buscarSubDepartamentos(Departamento depto, String idPadre, HashMap result) {
 		for (int i=0; i<result.rows.size(); i++) {
 			if(result.rows[i].c[1].v.equals(idPadre)) {
@@ -334,7 +379,7 @@ class DepartamentoController {
 			}
 		}
 	}
-	
+
 	void eliminarTodos() {
 		def departamentos = Departamento.list()
 		//eliminamos todas las referencias de los departamentos
@@ -344,14 +389,14 @@ class DepartamentoController {
 			}
 			d.save()
 		}
-		
+
 		for (Departamento d in departamentos){
 			d.delete()
 		}
-		
-		
+
+
 	}
-	
+
 	Departamento buscarPadre(Departamento hijo) {
 		def departamentos = Departamento.list()
 		for (Departamento d in departamentos){
