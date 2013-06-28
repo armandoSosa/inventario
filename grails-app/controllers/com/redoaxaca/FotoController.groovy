@@ -1,11 +1,15 @@
 package com.redoaxaca
 
+import java.awt.image.BufferedImage
+import javax.imageio.ImageIO
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class FotoController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	def scaffold = true
+	def s3ImageService
 	
     def index() {
         redirect(action: "list", params: params)
@@ -40,9 +44,17 @@ class FotoController {
 		redirect(action: "insertar2", controller: "persona", id: fotoInstance.id)		
 	}
 	
-	def modificar_foto() {		
+	def modificar_foto() {
+		System.out.println(params)
 		def fotoInstance = Foto.get(params.idfoto)
-		System.out.println("idfoto:"+params.idfoto)
+		
+		def photoS3Object = fotoInstance
+				
+		def imageCrooped = cropping(photoS3Object)
+		
+		System.out.println("idfoto:"+params.idfoto+"."+params.foto)
+				
+		fotoInstance.foto = imageCrooped
 		if (!fotoInstance.save(flush: true)) {
 			render(view: "create", model: [fotoInstance: fotoInstance])
 			return
@@ -74,7 +86,7 @@ class FotoController {
     }
 
     def update(Long id, Long version) {
-        def fotoInstance = Foto.get(id)
+        def fotoInstance = Foto.get(id)		
         if (!fotoInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'foto.label', default: 'Foto'), id])
             redirect(action: "list")
@@ -120,4 +132,59 @@ class FotoController {
             redirect(action: "show", id: id)
         }
     }
+	
+	
+	
+
+private cropping(photoFromS3){
+		  
+  def posx   = parseIntTheValueDoubleAsString(params.x)
+  def posy   = parseIntTheValueDoubleAsString(params.y)
+  def width  = parseIntTheValueDoubleAsString(params.w)
+  def height = parseIntTheValueDoubleAsString(params.h)
+  			  
+	  BufferedImage image = ImageIO.read(photoFromS3)		    	 
+  withException{
+	  def position_y = calculatePositonHeight(height,posy,image.height)
+	  def position_x = calculatePositonWidth(width,posx,image.width)
+
+	  return image.getSubimage( position_x, position_y , width , height )
+  }
+
+}
+
+private withException(closure){
+  try{
+	 closure()
+  }catch(all){
+	log.error "Error when cropping image",all
+		 
+  }
+}
+  
+private parseIntTheValueDoubleAsString(value){
+  Double.parseDouble(value) as Integer
+}
+
+private calculatePositonHeight(height,posy,heightOriginal){
+
+  if(isHeightOutOfRaster(height,posy,heightOriginal)){
+	  return heightOriginal - height
+  }
+  return posy
+}
+private calculatePositonWidth(width,posx,widthOriginal){
+	  
+  if(isWidthOutOfRaster(width,posx,widthOriginal)){
+	  return widthOriginal - width
+  }
+  return posx
+}
+
+private isHeightOutOfRaster(height,posy,heightOriginal){
+  height + posy > heightOriginal
+}
+private isWidthOutOfRaster(width,posx,widthOriginal){
+  width + posx > widthOriginal
+}
 }

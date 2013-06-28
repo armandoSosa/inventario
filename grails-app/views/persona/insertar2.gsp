@@ -338,15 +338,15 @@ function crear(obj) {
   var ele = document.createElement('input'); 
   ele.type = 'text'; // 6
   ele.id = 'num'+num.toString();
-  ele.name='num'+num.toString();  
+  ele.name='num'+num.toString(); 
   ele.maxLength="10"; 
   ele.onkeypress = function(event){
 	  return validarTecleo(event, 2, this.id);
    };  
   ele.onBlur = function(){
-	  validarFocus(4, this.id, this.value);
+	  validarFocus(5, this.id, this.value);
    };
-  ele.setAttribute('class', 'tooltip');    
+  ele.setAttribute('class', 'tooltip');   
     
   contenedor.appendChild(ele); // 7
   
@@ -355,17 +355,16 @@ function crear(obj) {
   contenedor.appendChild(espacio);
   contenedor.appendChild(espacio2);
   
-    var ele2 = document.createElement('select');
-	ele2.type = 'select';
-	ele2.name = 'tipo'+num; // 8
-	ele2.id='tipo'+num;
-
-	for (i=0; i<myarray.length; i++) {
-		opt = document.createElement('option');
-		opt.value = myarray[i];
-		opt.innerHTML = myarray[i];
-		ele2.appendChild(opt);
-	}	
+  var ele2 = document.createElement('select');
+  ele2.type = 'select';
+  ele2.name = 'tipo'+num; // 8
+  ele2.id='tipo'+num;
+  for (i=0; i<myarray.length; i++) {
+  opt = document.createElement('option');
+  opt.value = myarray[i];
+  opt.innerHTML = myarray[i];
+  ele2.appendChild(opt);
+  }
 	
 	contenedor.appendChild(ele2);
   
@@ -552,12 +551,16 @@ function borrar(obj) {
 				<g:uploadForm action="modificar_foto" controller="foto" >			        
 			        <div id="preview-pane">
 					    <div class="preview-container" >
-					      <img src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" class="jcrop-preview" alt="Preview"/>
-					      
+					      <img id="foto" name="foto" src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" class="jcrop-preview" alt="Preview"/>					      
 					    </div>
 					  </div>
+					  <input type="text" name="prueba" value="ads" />
+					<g:hiddenField name="x" value="100" />
+					<g:hiddenField name="y" value="100" />
+					<g:hiddenField name="w" value="100" />
+					<g:hiddenField name="h" value="100" />					      
 					<input id="idfoto" name="idfoto" type="hidden" value="${params.id}" />
-			        <input type="submit" />
+			        <input type="submit" value="prueba" />
 			    </g:uploadForm>
 				<g:form action="save_tipotelefono_persona" controller="tipoTelefono">
 				<fieldset class="form">											
