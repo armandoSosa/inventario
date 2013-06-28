@@ -114,12 +114,13 @@ function validarFocus(tipo, input, valor){
 		}else{
 			var anio = parseInt(valor.substring(8,10));
 			if(anio<30){
-				document.formPersona.fechaNacimiento_year.value = anio+2000;
+				anio = anio+2000;
 			}else{
-				document.formPersona.fechaNacimiento_year.value = anio+1900;
+				anio = anio+1900;
 			}
-			document.formPersona.fechaNacimiento_day.value = parseInt(valor.substring(4, 6)); 
-			document.formPersona.fechaNacimiento_month.value = parseInt(valor.substring(6,8));
+			document.formPersona.fechaNacimientoP_year.value = anio
+			document.formPersona.fechaNacimientoP_day.value = parseInt(valor.substring(4, 6)); 
+			document.formPersona.fechaNacimientoP_month.value = parseInt(valor.substring(6,8));
 			
 		}
 	}

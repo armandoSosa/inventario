@@ -1,8 +1,8 @@
 <%@ page import="com.redoaxaca.Persona" %>
 <!DOCTYPE html>
 <html>
-	<head>		
-	 <script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
+	<head>
+		<script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
 	<script src="${resource(dir: 'js', file: 'jquery.maskedinput.min.js')}" type="text/javascript"></script>
 		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'persona.label', default: 'Persona')}" />
@@ -317,7 +317,7 @@
 
 <script type="text/javascript">
 <!--
-num=0;
+num=0+${personaInstance?.telefonos?.size()}-1;
 
 var datos = "${com.redoaxaca.TipoTelefono.list()}";
 var fin = datos.length - 1;
@@ -337,8 +337,8 @@ function crear(obj) {
 
   var ele = document.createElement('input'); 
   ele.type = 'text'; // 6
-  ele.id = 'num'+num.toString();
-  ele.name='num'+num.toString(); 
+  ele.id = 'telefonos['+num.toString()+'].telefono';
+  ele.name='telefonos['+num.toString()+'].telefono';  
   ele.maxLength="10"; 
   ele.onkeypress = function(event){
 	  return validarTecleo(event, 2, this.id);
@@ -346,7 +346,7 @@ function crear(obj) {
   ele.onBlur = function(){
 	  validarFocus(5, this.id, this.value);
    };
-  ele.setAttribute('class', 'tooltip');   
+  ele.setAttribute('class', 'tooltip');    
     
   contenedor.appendChild(ele); // 7
   
@@ -355,16 +355,20 @@ function crear(obj) {
   contenedor.appendChild(espacio);
   contenedor.appendChild(espacio2);
   
-  var ele2 = document.createElement('select');
-  ele2.type = 'select';
-  ele2.name = 'tipo'+num; // 8
-  ele2.id='tipo'+num;
-  for (i=0; i<myarray.length; i++) {
-  opt = document.createElement('option');
-  opt.value = myarray[i];
-  opt.innerHTML = myarray[i];
-  ele2.appendChild(opt);
-  }
+    var ele2 = document.createElement('select');
+	ele2.type = 'select';
+	ele2.name = 'telefonos['+num+"].tipoTelefono.id"; // 8
+	ele2.id='telefonos['+num+"].tipoTelefono";
+	<%
+	com.redoaxaca.TipoTelefono.list().eachWithIndex(){ tp, i ->
+		%>
+		opt = document.createElement('option');
+		opt.value = <%=tp.id%>;
+		opt.innerHTML = myarray[<%=i%>];
+		ele2.appendChild(opt);		
+		<%
+	}
+	%>	
 	
 	contenedor.appendChild(ele2);
   
@@ -393,214 +397,38 @@ function borrar(obj) {
 </script>	
 	</head>
 	<body>
-		<a href="#create-persona" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
+	
+		<a href="#edit-persona" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="empleados">Lista de Empleados</g:link></li>
+				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
-		<div id="create-persona" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
-			
+		<div id="edit-persona" class="content scaffold-edit" role="main">
+			<h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+			<g:if test="${flash.message}">
+			<div class="message" role="status">${flash.message}</div>
+			</g:if>
 			<g:hasErrors bean="${personaInstance}">
 			<ul class="errors" role="alert">
 				<g:eachError bean="${personaInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>>
-				<g:if test="${error.field == 'curp'}">
-					Esta CURP ya está siendo ocupada por otra persona
-				</g:if>
-				<g:elseif test="${error.field == 'rfc'}">
-					Este RFC ya está siendo ocupado por otra persona
-				</g:elseif>
-				<g:elseif test="${error.field == 'numeroEmpleado'}">
-					El número de empleado ya existe, seleccione otro número
-				</g:elseif>	
-				<g:else>
-					El número de teléfono es inválido
-				</g:else>		
-				</li>
-				</g:eachError>
-			</ul>
-			</g:hasErrors>
-			
-			<g:hasErrors bean="${direccionInstance}">
-			<ul class="errors" role="alert">
-				<g:eachError bean="${direccionInstance}" var="error">
 				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			
-			<g:hasErrors bean="${telefonoInstance}">
-			<ul class="errors" role="alert">
-				<g:eachError bean="${telefonoInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-				</g:eachError>
-			</ul>
-			</g:hasErrors>
-			
-			<g:hasErrors bean="${puestoPersonaInstance}">
-			<ul class="errors" role="alert">
-				<g:eachError bean="${puestoPersonaInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-				</g:eachError>
-			</ul>
-			</g:hasErrors>
-			<br><br>			
-			<fieldset>			
-			<legend>Información personal</legend>
-			<g:form name="formFoto"  action="save_foto" controller="foto" enctype="multipart/form-data">				
-				<div class="fieldcontain ${hasErrors(bean: fotoInstance, field: 'foto', 'error')} required">
-					<label for="foto">
-						<g:message code="foto.foto.label" default="Foto" />						
-					</label>
-					<input type="file" id="foto" name="foto" value="${params.id}" onchange="llamarInLine();"/>
-				</div>
-				<g:submitButton style="display:none;" name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-			</g:form>
-			</fieldset>
-			<g:form name="formPersona" action="save_persona"  enctype="multipart/form-data">
+			<g:form method="post" name="formPersona" action="actualizar" enctype="multipart/form-data">
+				<g:hiddenField name="id" value="${personaInstance?.id}" />
+				<g:hiddenField name="version" value="${personaInstance?.version}" />
 				<fieldset class="form">
 					<g:render template="forma2"/>
 				</fieldset>
 				<fieldset class="buttons">
-					<a  class="save" onClick="validarEnvio()">Crear</a>
-					<g:submitButton name="create" class="save" value="Insertar" />					
+					<a  class="save" onClick="validarEnvio()">Editar</a>
+					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>
-			
-			
-			
-		</div>			
-		
-		<!-- hidden inline form -->
-		<div id="inline4">		
-			<div id="create-estado" class="content scaffold-create" role="main">
-				<h1>Nuevo Estado</h1>
-				<g:hasErrors bean="${estadoInstance}">
-				<ul class="errors" role="alert">
-					<g:eachError bean="${estadoInstance}" var="error">
-					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-					</g:eachError>
-				</ul>
-				</g:hasErrors>
-				<g:form action="save_estado" >
-					<fieldset class="form">
-						<g:render template="../estado/forma"/>
-					</fieldset>
-					<fieldset class="buttons">
-						<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-					</fieldset>
-				</g:form>
-			</div>
 		</div>
-		
-		<!-- hidden inline form -->
-		<div id="inline3">		
-			<div id="create-estado" class="content scaffold-create" role="main">
-				<h1>Nuevo Tipo Telefono</h1>
-				<g:form action="save_tipotelefono_persona" controller="tipoTelefono">
-				<fieldset class="form">
-					<g:render template="../tipoTelefono/forma"/>					
-				</fieldset>
-				<fieldset class="buttons">
-					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />					
-				</fieldset>
-			</g:form>
-			</div>
-		</div>
-		
-		<!-- buscar tipo -->
-		
-		<div id="inline" class="inline">
-			<div id="create-tipo" class="content scaffold-create" role="main">
-				<h2>Buscar Estado</h2>
-				<br>
-				<h3>Ingrese el nombre del Estado a buscar</h3>
-				<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-				</g:if>
-				<g:hasErrors bean="${tipoInstance}">
-				<ul class="errors" role="alert">
-					<g:eachError bean="${tipoInstance}" var="error">
-					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-					</g:eachError>
-				</ul>
-				</g:hasErrors>
-				
-				<br>
-				<label for="valorABuscar"> Estado: <span class="required-indicator">*</span>
-				</label>
-				<g:textField name="valorABuscar" required="" value=""
-				    onkeyup="${remoteFunction(
-					   controller: 'estado',
-					   action: 'buscarEstado',
-                       update: 'estados',
-                       params: '\'estado=\' + this.value')}"/> 
-				<div id="estados"></div>
-			</div>
-		</div>
-		
-		<g:if test="${params.id}">
-		<!-- hidden inline form -->
-		<div id="inline100">		
-			<div id="create-imagen" class="content scaffold-create" role="main">
-				<h2>Imagen de Empleado</h2>
-				<br><br>
-				<g:uploadForm action="modificar_foto" controller="foto" >			        
-			        <div id="preview-pane">
-					    <div class="preview-container" >
-					      <img id="foto" name="foto" src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" class="jcrop-preview" alt="Preview"/>					      
-					    </div>
-					  </div>
-					  <input type="text" name="prueba" value="ads" />
-					<g:hiddenField name="x" value="100" />
-					<g:hiddenField name="y" value="100" />
-					<g:hiddenField name="w" value="100" />
-					<g:hiddenField name="h" value="100" />					      
-					<input id="idfoto" name="idfoto" type="hidden" value="${params.id}" />
-			        <input type="submit" value="prueba" />
-			    </g:uploadForm>
-				<g:form action="save_tipotelefono_persona" controller="tipoTelefono">
-				<fieldset class="form">											
-					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.id}" />" width="400" height="400"/>
-					<div id="preview-pane">
-					    <div class="preview-container" >
-					      <img src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" class="jcrop-preview" alt="Preview" />
-					    </div>
-					  </div>	
-					<br><br><br><br>
-				</fieldset>
-				<fieldset class="buttons">					
-					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />					
-				</fieldset>
-			</g:form>
-			</div>
-		</div>
-		
-		</g:if>
-		
-		<a id="nuevaImagen" class="modalbox" href="#inline100" style="display:none;"></a>
-		
-		<!-- Render the phone template (_phone.gsp) hidden so we can clone it -->
-    <g:render template='phone' model="['phone':null,'i':'_clone','hidden':true]"/>
-    <!-- Render the phone template (_phone.gsp) hidden so we can clone it -->
-    
-
-    
-    
-    
-  <!-- basic fancybox setup -->
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$(".modalbox").fancybox();
-			});
-		</script>
-		
-		
-		
-		
-  
 	</body>
 </html>

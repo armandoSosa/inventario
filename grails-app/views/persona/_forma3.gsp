@@ -73,21 +73,31 @@
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: telefonoInstance, field: 'telefono', 'error')} ">
-<label for="telefono">
-<g:message code="persona.telefono.label" default="Telefono" />
-</label>
-<input type="button" value="Nuevo Teléfono" name="telefono" onclick="crear(this)" />
-<input type="hidden" id="cantidad" name="cantidad" value="${personaInstance?.telefonos?.size()}">
-<input type="hidden" id="idfoto" name="idfoto" value="${params.id}"/>	
-<fieldset id="fiel">
-<g:set var="contador" value="${1}" />
-<g:each in="${personaInstance?.telefonos?}" var="t">
-<div id="div${contador}">
-<input type="text" id="num${contador}" name="num${contador}" required="" value="${t.telefono}" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/><g:select name="tipo${contador}" from="${t.tipoTelefono}"/> <input type="button" name="div${contador}" value="Quitar" onclick="borrar(this.name)"/>
-<g:set var="counter" value="${contador + 1}" />
-</div> 
-</g:each>
-</fieldset>	
+	<label for="telefono">
+		<g:message code="persona.telefono.label" default="Telefono" />
+	</label>
+	<input type="button" value="Nuevo Teléfono" name="telefono" onclick="crear(this)" />
+	<input type="hidden" id="cantidad" name="cantidad" value="${personaInstance?.telefonos?.size()}">
+	<input type="hidden" id="idfoto" name="idfoto" value="${params.id}"/>	
+	<fieldset id="fiel">
+	<g:set var="contador" value="${0}" />
+	<g:each in="${personaInstance?.telefonos?}" var="t">
+		<div id="div${contador}">
+		<input type="text" id="telefonos[${contador}].telefono" name="telefonos[${contador}].telefono" required="" value="${t.telefono}" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/>
+		<select name="telefonos[${contador}].tipoTelefono.id" id="telefonos[${contador}].tipoTelefono">
+		<%
+	com.redoaxaca.TipoTelefono.list().eachWithIndex(){ tp, i ->
+		%>
+		<option value="<%=tp.id%>"><%=tp.tipo%></option>			
+		<%
+	}
+	%>	
+		</select> 
+		<input type="button" name="div${contador}" value="Quitar" onclick="borrar(this.name)"/>
+		<g:set var="contador" value="${contador + 1}" />
+		</div>   	
+	</g:each>
+	</fieldset>	
 </div>
 
 
