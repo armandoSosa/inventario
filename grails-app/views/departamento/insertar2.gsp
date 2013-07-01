@@ -192,9 +192,11 @@
 
 	function submitJSON() {
 		//alert(data.toJSON());
-		var datos='datos='+data.toJSON().toString();
+		
+		$("#datos").val(data.toJSON().toString());
+		$("#formulario").submit();
 
-		${remoteFunction (controller:'departamento', action:'save_departamentos', id:'1', params: 'datos')}
+		
 		//document.location.href="/inventarios3/departamento/menu2";
 	}
 </script>
@@ -266,7 +268,7 @@
 			Dé clic sobre el departamento al que desea hacer modificaciones
 			<br>
 			<br>
-			<div id='chart_div'></div>
+			<div id='chart_div' style="border-style:solid;padding: 10px; "></div>
 		</fieldset>
 
 	</div>
@@ -335,7 +337,8 @@
 			</div>
 		</div>
 	</div>
-	<g:form>
+	<g:form id="formulario" name="formulario" action="save_departamentos">
+		<g:hiddenField name="datos" id="datos"  />
 		<fieldset class="buttons">
 					
 					<a name="create" class="save" href="javascript:void(0)"	onclick="submitJSON();return false;">Guardar</a>
