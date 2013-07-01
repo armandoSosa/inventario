@@ -48,7 +48,8 @@ class FotoController {
 		System.out.println(params)
 		def fotoInstance = Foto.get(params.idfoto)
 		
-		def photoS3Object = fotoInstance
+		//def photoS3Object = request.getInputStream().get
+				
 				
 		def imageCrooped = cropping(photoS3Object)
 		
@@ -141,8 +142,7 @@ private cropping(photoFromS3){
   def posx   = parseIntTheValueDoubleAsString(params.x)
   def posy   = parseIntTheValueDoubleAsString(params.y)
   def width  = parseIntTheValueDoubleAsString(params.w)
-  def height = parseIntTheValueDoubleAsString(params.h)
-  			  
+  def height = parseIntTheValueDoubleAsString(params.h)  
 	  BufferedImage image = ImageIO.read(photoFromS3)		    	 
   withException{
 	  def position_y = calculatePositonHeight(height,posy,image.height)

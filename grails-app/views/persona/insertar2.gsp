@@ -317,7 +317,12 @@
 
 <script type="text/javascript">
 <!--
+<g:if test="${params.id}">
+num=${personaInstance?.telefonos?.size()};
+</g:if>
+<g:else>
 num=0;
+</g:else>
 
 var datos = "${com.redoaxaca.TipoTelefono.list()}";
 var fin = datos.length - 1;
@@ -555,6 +560,7 @@ function borrar(obj) {
 					    </div>
 					  </div>
 					  <input type="text" name="prueba" value="ads" />
+					  <input type="file" id="foto" name="foto"/>
 					<g:hiddenField name="x" value="100" />
 					<g:hiddenField name="y" value="100" />
 					<g:hiddenField name="w" value="100" />

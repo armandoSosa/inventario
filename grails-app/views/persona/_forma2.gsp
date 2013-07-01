@@ -83,8 +83,8 @@
 <g:set var="contador" value="${1}" />
 <g:each in="${personaInstance?.telefonos?}" var="t">
 <div id="div${contador}">
-<input type="text" id="num${contador}" name="num${contador}" required="" value="${t.telefono}" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/><g:select name="tipo${contador}" from="${t.tipoTelefono}"/> <input type="button" name="div${contador}" value="Quitar" onclick="borrar(this.name)"/>
-<g:set var="counter" value="${contador + 1}" />
+<input type="text" id="num${contador}" name="num${contador}" required="" value="${t.telefono}" maxLength="10" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/><g:select name="tipo${contador}" from="${com.redoaxaca.TipoTelefono.list()}"/> <input type="button" name="div${contador}" value="Quitar" onclick="borrar(this.name)"/>
+<g:set var="contador" value="${contador + 1}" />
 </div> 
 </g:each>
 </fieldset>	
