@@ -70,8 +70,20 @@
 				</g:link></li>
 		</ul>
 	</div>
-	<a id="tipoLabel" class="modalbox" href="#inline">Nuevo Tipo</a>
-	<div id='chart_div'></div>
+	
+	
+	<div id="list-objeto" class="content scaffold-list" role="main">
+		<h1>Ver Departamentos</h1>
+		<br>
+		
+		<br>
+		<fieldset class="form">
+			
+			<div id='chart_div'></div>
+		</fieldset>
+
+	</div>
+	
 
 </body>
 </html>
