@@ -79,7 +79,7 @@ class DepartamentoController {
 		def departamentos = Departamento.list();
 
 		if (departamentos.size()==0) {
-			def newDepartamento = new Departamento(nombre: 'Raíz')
+			def newDepartamento = new Departamento(nombre: '[Edite]')
 			if (newDepartamento.save()) {
 				System.out.println("el departamento raíz se guardó correctamente")
 			}

@@ -132,8 +132,8 @@
 
 
 		$("#inline2").fadeOut("fast", function() {
-			$(this).before("Se ha eliminado correctamente");
-			setTimeout("parent.$.fancybox.close()", 1000);
+			$(this).before("");
+			setTimeout("parent.$.fancybox.close()", 0);
 		});
 		
 	}
@@ -144,31 +144,37 @@
 	function agregarElemento() {
 		//alert(contador.toString()+' '+$('#txtNuevoNodo').val()+' '+data.getValue(chart.getSelection()[0].row, 0).toString());
 		//validamos si ya existe el elemento para impedir que se agregue nuevamente
-		var pasa=1;
-		for (var i=0; i<data.getNumberOfRows(); i++ ) {
-			if (data.getFormattedValue(i,0) == $('#txtNuevoNodo').val()) {
-				pasa=0;
+		if ($('#txtNuevoNodo').val()!="") {
+			var pasa=1;
+			for (var i=0; i<data.getNumberOfRows(); i++ ) {
+				if (data.getFormattedValue(i,0) == $('#txtNuevoNodo').val()) {
+					pasa=0;
+				}
 			}
-		}
-		$(".google-visualization-orgchart-nodesel").focus();
-		
-		if (pasa==1) {
-			data.addRows([ [ {
-				v : contador.toString(),
-				f : $('#txtNuevoNodo').val()
-			}, data.getValue(chart.getSelection()[0].row, 0).toString(), '' ] ]);
-			contador++;
-			chart.draw(data, {
-				allowHtml : true
-			});
-			$("#inline").fadeOut("fast", function() {
-				$(this).before("Se ha agregado correctamente");
-				setTimeout("parent.$.fancybox.close()", 1000);
-			});
-			$("#txtNuevoNodo").val("");
+			$(".google-visualization-orgchart-nodesel").focus();
+			
+			if (pasa==1) {
+				data.addRows([ [ {
+					v : contador.toString(),
+					f : $('#txtNuevoNodo').val()
+				}, data.getValue(chart.getSelection()[0].row, 0).toString(), '' ] ]);
+				contador++;
+				chart.draw(data, {
+					allowHtml : true
+				});
+				$("#inline").fadeOut("fast", function() {
+					$(this).before("Se ha agregado correctamente");
+					setTimeout("parent.$.fancybox.close()", 1000);
+				});
+				$("#txtNuevoNodo").val("");
+			} else {
+				alert('El nombre del departamento ingresado ya existe');
+			}
+			
 		} else {
-			alert('El nombre del departamento ingresado ya existe');
+			alert('Debes ingresar un nombre');
 		}
+		
 		
 	}
 
@@ -178,13 +184,17 @@
 	}
 
 	function editar() {
-		data.setFormattedValue(chart.getSelection()[0].row, 0, $("#txtEditarLabel").val());
-		chart.draw(data, {});
-		$("#inline3").fadeOut("fast", function() {
-			$(this).before("Se ha editado correctamente");
-			setTimeout("parent.$.fancybox.close()", 1000);
-		});
-		$("#txtEditarLabel").val("");
+		if ($('#txtEditarLabel').val()!="") {
+			data.setFormattedValue(chart.getSelection()[0].row, 0, $("#txtEditarLabel").val());
+			chart.draw(data, {});
+			$("#inline3").fadeOut("fast", function() {
+				$(this).before("Se ha editado correctamente");
+				setTimeout("parent.$.fancybox.close()", 1000);
+			});
+			$("#txtEditarLabel").val("");
+		} else {
+			alert('Debes ingresar un nombre');
+		}
 		
 		//alert(data.getNumberOfRows());
 		//alert(data.getNumberOfColumns());

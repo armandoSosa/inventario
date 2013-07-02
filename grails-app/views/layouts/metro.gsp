@@ -419,9 +419,6 @@
 									<li class="pureCssMenui"><a class="pureCssMenui" href="#">Template 5</a></li>
 									<li class="pureCssMenui"><a class="pureCssMenui" href="#">Template 6</a></li>
 								</ul>
-							
-							<li class="pureCssMenui"><a class="pureCssMenui" href="#">FAQ</a></li>
-							<li class="pureCssMenui"><a class="pureCssMenui" href="#">Contact Us</a></li>
 						</div>
 					</ul>
 					<br>

@@ -89,7 +89,7 @@
 	<div id="create-caracteristica" class="content scaffold-create"
 		role="main">
 		<h1>
-			<g:message code="default.create.label" args="[entityName]" />
+			<g:message code="Crear Característica" />
 		</h1>
 		<g:if test="${flash.message}">
 			<div class="message" role="status">
@@ -111,7 +111,7 @@
 					class="fieldcontain ${hasErrors(bean: caracteristicaInstance, field: 'caracteristica', 'error')} ">
 					<label for="caracteristica"> <g:message
 							code="caracteristica.caracteristica.label"
-							default="Caracteristica" />
+							default="Característica" />
 
 					</label>
 					<g:textField id="caracteristica" name="caracteristica"
