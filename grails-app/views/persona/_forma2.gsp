@@ -139,7 +139,7 @@
 	<g:select id="estado" name="estado.id" from="${com.redoaxaca.Estado.list() }" optionKey="id" required=""
 		noSelection="['': 'Seleccione un estado']"								 
 		data-placeholder="Seleccione un estado" class="chzn-select" 
-		value="${personaInstance?.direcciones?.municipio?.estado?.id.get(index_direccion)}"
+		value="${personaInstance?.direcciones?.municipio?.estado?.id?.get(index_direccion)}"
 		style="width:350px;" tabindex="2"		
 		onChange="${ remoteFunction (
 			controller:'estado', 
@@ -154,7 +154,7 @@
 		<span class="required-indicator">*</span>
 	</label>
 		<g:select id="municipio" name="municipio.id" from="${com.redoaxaca.Municipio.list()}" optionKey="id" required=""
-                  value="${personaInstance?.direcciones?.municipio?.id.get(index_direccion)}" data-placeholder="Selecciona un municipio" class="chzn-select" style="width:350px;" tabindex="2"/>		
+                  value="${personaInstance?.direcciones?.municipio?.id?.get(index_direccion)}" data-placeholder="Selecciona un municipio" class="chzn-select" style="width:350px;" tabindex="2"/>		
 	</g:if>
 </div>
 </div>

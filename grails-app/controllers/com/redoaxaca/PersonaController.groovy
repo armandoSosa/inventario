@@ -96,9 +96,9 @@ class PersonaController {
 
 
 		String rfc = params.rfc
-		String dia = rfc.substring(4, 6)
+		String anio = rfc.substring(4, 6)
 		String mes = rfc.substring(6, 8)
-		String anio = rfc.substring(8, 10)
+		String dia = rfc.substring(8, 10)
 		Date fecha = new Date(Integer.parseInt(anio), Integer.parseInt(mes)-1, Integer.parseInt(dia))
 
 		personaInstance.fechaNacimiento = fecha
@@ -229,9 +229,9 @@ class PersonaController {
 		puestoPersonaInstance.fechaInicio = new Date()
 
 		String rfc = params.rfc
-		String dia = rfc.substring(4, 6)
+		String anio = rfc.substring(4, 6)
 		String mes = rfc.substring(6, 8)
-		String anio = rfc.substring(8, 10)
+		String dia = rfc.substring(8, 10)
 		Date fecha = new Date(Integer.parseInt(anio), Integer.parseInt(mes)-1, Integer.parseInt(dia))
 
 		personaInstance.fechaNacimiento = fecha
