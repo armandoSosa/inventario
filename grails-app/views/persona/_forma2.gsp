@@ -154,7 +154,7 @@
 		<span class="required-indicator">*</span>
 	</label>
 		<g:select id="municipio" name="municipio.id" from="${com.redoaxaca.Municipio.list()}" optionKey="id" required=""
-                  value="${personaInstance?.direcciones?.municipio?.id.get(index_direccion)}" data-placeholder="Selecciona un municipio" class="chzn-select" style="width:350px;" tabindex="2"/>		
+                  value="${personaInstance?.direcciones?.municipio?.id?.get(index_direccion)}" data-placeholder="Selecciona un municipio" class="chzn-select" style="width:350px;" tabindex="2"/>		
 	</g:if>
 </div>
 </div>

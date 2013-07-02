@@ -112,14 +112,14 @@ function validarFocus(tipo, input, valor){
 		if(!validarCURP(valor)){
 			mostrarValidacion(input, "La CURP no es valida");
 		}else{
-			var anio = parseInt(valor.substring(8,10));
+			var anio = parseInt(valor.substring(4, 6));
 			if(anio<30){
 				anio = anio+2000;
 			}else{
 				anio = anio+1900;
 			}
 			document.formPersona.fechaNacimientoP_year.value = anio
-			document.formPersona.fechaNacimientoP_day.value = parseInt(valor.substring(4, 6)); 
+			document.formPersona.fechaNacimientoP_day.value = parseInt(valor.substring(8,10)); 
 			document.formPersona.fechaNacimientoP_month.value = parseInt(valor.substring(6,8));
 			
 		}
@@ -158,10 +158,9 @@ function validarFecha(txtDate){
         return false;
     
     //Checks for dd/mm/yyyy format.
-    dtDay = dtArray[1];
+    dtYear = dtArray[1];
     dtMonth = dtArray[2];
-    dtYear = dtArray[4];        
-    
+    dtDay = dtArray[3];            
     if (dtMonth < 1 || dtMonth > 12) 
         return false;
     else if (dtDay < 1 || dtDay> 31) 
