@@ -317,7 +317,7 @@
 
 <script type="text/javascript">
 <!--
-<g:if test="${params.id}">
+<g:if test="${personaInstance?.telefonos}">
 num=${personaInstance?.telefonos?.size()};
 </g:if>
 <g:else>
@@ -364,12 +364,16 @@ function crear(obj) {
   ele2.type = 'select';
   ele2.name = 'tipo'+num; // 8
   ele2.id='tipo'+num;
-  for (i=0; i<myarray.length; i++) {
-  opt = document.createElement('option');
-  opt.value = myarray[i];
-  opt.innerHTML = myarray[i];
-  ele2.appendChild(opt);
-  }
+  <%
+	com.redoaxaca.TipoTelefono.list().eachWithIndex(){ tp, i ->
+		%>
+		opt = document.createElement('option');
+		opt.value = <%=tp.id%>;
+		opt.innerHTML = myarray[<%=i%>];
+		ele2.appendChild(opt);		
+		<%
+	}
+	%>
 	
 	contenedor.appendChild(ele2);
   
@@ -467,6 +471,7 @@ function borrar(obj) {
 			</fieldset>
 			<g:form name="formPersona" action="save_persona"  enctype="multipart/form-data">
 				<fieldset class="form">
+					<g:set var="index_direccion" value="${0}" />
 					<g:render template="forma2"/>
 				</fieldset>
 				<fieldset class="buttons">
