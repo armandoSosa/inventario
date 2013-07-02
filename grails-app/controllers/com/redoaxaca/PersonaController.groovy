@@ -130,7 +130,7 @@ class PersonaController {
 				 Telefono tel = new Telefono()
 				 tel.setFecha(new Date())
 				 tel.setTelefono(params.get("num"+i))			   
-				 tel.tipoTelefono = TipoTelefono.findByTipo(params.get("tipo"+i).toString().trim())
+				 tel.tipoTelefono = TipoTelefono.get(params.get("tipo"+i))
 				 System.out.println("tel:"+tel.telefono+" tipo:"+tel.tipoTelefono)				 
 				 personaInstance.addToTelefonos(tel)
 			 }
@@ -243,8 +243,7 @@ class PersonaController {
 		personaInstance.setFoto(fotoInstance)
 
 		
-		 def telefonos = personaInstance.telefonos		
-		 System.out.println("tel:"+telefonos?.telefono?.get(0)+".tam:"+telefonos.size())
+		 def telefonos = personaInstance.telefonos.isEmpty()				 
 		 int cantidad = 0
 		 if(params.cantidad!='')
 		 	cantidad = params.cantidad
@@ -253,27 +252,42 @@ class PersonaController {
 		 tel.tipoTelefono = TipoTelefono.findByTipo(params.get("tipo"+i+1).toString().trim())
 		 tel.setTelefono(params.get("num"+i+1))
 		 System.out.println("tipo:"+tel.tipoTelefono+".tel:"+tel.telefono)
-		 }*/
-			 System.out.println(params)
+		}*/
+		System.out.println(personaInstance.telefonos.isEmpty())
 		personaInstance.telefonos.eachWithIndex(){tel, i ->
-			tel.setTelefono(params.get("num"+(i+1)))
-			tel.tipoTelefono = TipoTelefono.findByTipo(params.get("tipo"+(i+1)).toString().trim())
-			System.out.println("numero:"+params.get("num"+i+1)+".i:"+i)
+			if(params.get("num"+(i+1))!=null){			
+				tel.setTelefono(params.get("num"+(i+1)))
+				tel.tipoTelefono = TipoTelefono.get(params.get("tipo"+(i+1)))
+				System.out.println("numero:"+params.get("num"+(i+1))+".i:"+i)
+			}else{
+				personaInstance.removeFromTelefonos(tel)
+			}
 		}		
-		 /*
-		 for(int i=1; i<=cantidad; i++ ){
-			 if((params.get("num"+i))!=null){
-				 Telefono tel = new Telefono()				 
-				 tel.setFecha(new Date())
-				 tel.setTelefono(params.get("num"+i))
-				 tel.tipoTelefono = TipoTelefono.findByTipo(params.get("tipo"+i).toString().trim())
-				 //tel.persona = personaInstance
-				 System.out.println("tipo:"+tel.tipoTelefono+".tel:"+tel.telefono)			   
-				 personaInstance.addToTelefonos(tel)
+		if(personaInstance.telefonos.isEmpty()){
+			 for(int i=1; i<=cantidad; i++ ){
+				 if((params.get("num"+i))!=null){
+					 Telefono tel = new Telefono()				 
+					 tel.setFecha(new Date())
+					 tel.setTelefono(params.get("num"+i))
+					 tel.tipoTelefono = TipoTelefono.get(params.get("tipo"+i))			   
+					 personaInstance.addToTelefonos(tel)
+				 }
 			 }
-		 }
+		}else if(cantidad>personaInstance.telefonos.size()){
+			personaInstance.telefonos.eachWithIndex(){tel, i ->
+				personaInstance.removeFromTelefonos(tel)
+			}
+			for(int i=1; i<=cantidad; i++ ){
+				if((params.get("num"+i))!=null){
+					Telefono tel = new Telefono()
+					tel.setFecha(new Date())
+					tel.setTelefono(params.get("num"+i))
+					tel.tipoTelefono = TipoTelefono.get(params.get("tipo"+i))
+					personaInstance.addToTelefonos(tel)
+				}
+			}
+		}
 		 
-			 */
 
 		if (!personaInstance.save(flush: true)) {
 			render(view: "editar", model: [personaInstance: personaInstance])

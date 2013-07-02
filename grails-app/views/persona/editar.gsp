@@ -317,7 +317,7 @@
 
 <script type="text/javascript">
 <!--
-num=0+${personaInstance?.telefonos?.size()}-1;
+num=0+${personaInstance?.telefonos?.size()};
 
 var datos = "${com.redoaxaca.TipoTelefono.list()}";
 var fin = datos.length - 1;
@@ -327,71 +327,72 @@ var myarray = datos.split(",");
 var nombre="fil";
 
 function crear(obj) {
-  num++;
-  document.formPersona.cantidad.value = num;
-  var fi = document.getElementById('fiel'); // 1
-  var contenedor = document.createElement('div'); // 2
-  fi.appendChild(contenedor);
-  
-  contenedor.id = 'div'+num;
+	  num++;
+	  document.formPersona.cantidad.value = num;
+	  var fi = document.getElementById('fiel'); // 1
+	  var contenedor = document.createElement('div'); // 2
+	  fi.appendChild(contenedor);
+	  
+	  contenedor.id = 'div'+num;
 
-  var ele = document.createElement('input'); 
-  ele.type = 'text'; // 6
-  ele.id = 'telefonos['+num.toString()+'].telefono';
-  ele.name='telefonos['+num.toString()+'].telefono';  
-  ele.maxLength="10"; 
-  ele.onkeypress = function(event){
-	  return validarTecleo(event, 2, this.id);
-   };  
-  ele.onBlur = function(){
-	  validarFocus(5, this.id, this.value);
-   };
-  ele.setAttribute('class', 'tooltip');    
-    
-  contenedor.appendChild(ele); // 7
-  
-  var espacio = document.createTextNode("\u00a0");
-  var espacio2 = document.createTextNode("\u00a0");
-  contenedor.appendChild(espacio);
-  contenedor.appendChild(espacio2);
-  
-    var ele2 = document.createElement('select');
-	ele2.type = 'select';
-	ele2.name = 'telefonos['+num+"].tipoTelefono.id"; // 8
-	ele2.id='telefonos['+num+"].tipoTelefono";
-	<%
-	com.redoaxaca.TipoTelefono.list().eachWithIndex(){ tp, i ->
+	  var ele = document.createElement('input'); 
+	  ele.type = 'text'; // 6
+	  ele.id = 'num'+num.toString();
+	  ele.name='num'+num.toString(); 
+	  ele.maxLength="10"; 
+	  ele.onkeypress = function(event){
+		  return validarTecleo(event, 2, this.id);
+	   };  
+	  ele.onBlur = function(){
+		  validarFocus(5, this.id, this.value);
+	   };
+	  ele.setAttribute('class', 'tooltip');   
+	    
+	  contenedor.appendChild(ele); // 7
+	  
+	  var espacio = document.createTextNode("\u00a0");
+	  var espacio2 = document.createTextNode("\u00a0");
+	  contenedor.appendChild(espacio);
+	  contenedor.appendChild(espacio2);
+	  
+	  var ele2 = document.createElement('select');
+	  ele2.type = 'select';
+	  ele2.name = 'tipo'+num; // 8
+	  ele2.id='tipo'+num;
+	  <%
+		com.redoaxaca.TipoTelefono.list().eachWithIndex(){ tp, i ->
+			%>
+			opt = document.createElement('option');
+			opt.value = <%=tp.id%>;
+			opt.innerHTML = myarray[<%=i%>];
+			ele2.appendChild(opt);		
+			<%
+		}
 		%>
-		opt = document.createElement('option');
-		opt.value = <%=tp.id%>;
-		opt.innerHTML = myarray[<%=i%>];
-		ele2.appendChild(opt);		
-		<%
+		
+		contenedor.appendChild(ele2);
+	  
+	  espacio3 = document.createTextNode("\u00a0");
+	  espacio4 = document.createTextNode("\u00a0");
+	  contenedor.appendChild(espacio3);
+	  contenedor.appendChild(espacio4);
+	  
+		
+	  var ele3 = document.createElement('input'); // 5
+	  ele3.type = 'button'; // 6
+	  ele3.value = 'Quitar'; // 8
+	  ele3.name = 'div'+num; // 8
+	  ele3.onclick = function () {borrar(this.name)} // 9
+	  
+	  contenedor.appendChild(ele3); // 7
+
 	}
-	%>	
-	
-	contenedor.appendChild(ele2);
-  
-  espacio3 = document.createTextNode("\u00a0");
-  espacio4 = document.createTextNode("\u00a0");
-  contenedor.appendChild(espacio3);
-  contenedor.appendChild(espacio4);
-  
-	
-  var ele3 = document.createElement('input'); // 5
-  ele3.type = 'button'; // 6
-  ele3.value = 'Quitar'; // 8
-  ele3.name = 'div'+num; // 8
-  ele3.onclick = function () {borrar(this.name)} // 9
-  
-  contenedor.appendChild(ele3); // 7
 
-}
+	function borrar(obj) {
+	  fi = document.getElementById('fiel'); // 1 
+	  fi.removeChild(document.getElementById(obj)); // 10
+	}
 
-function borrar(obj) {
-  fi = document.getElementById('fiel'); // 1 
-  fi.removeChild(document.getElementById(obj)); // 10
-}
 
 --> 
 </script>	
@@ -422,6 +423,7 @@ function borrar(obj) {
 				<g:hiddenField name="id" value="${personaInstance?.id}" />
 				<g:hiddenField name="version" value="${personaInstance?.version}" />
 				<fieldset class="form">
+					<g:set var="index_direccion" value="${personaInstance?.direcciones?.size()-1}" />
 					<g:render template="forma2"/>
 				</fieldset>
 				<fieldset class="buttons">

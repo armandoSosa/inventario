@@ -83,7 +83,9 @@
 <g:set var="contador" value="${1}" />
 <g:each in="${personaInstance?.telefonos?}" var="t">
 <div id="div${contador}">
-<input type="text" id="num${contador}" name="num${contador}" required="" value="${t.telefono}" maxLength="10" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/><g:select name="tipo${contador}" from="${com.redoaxaca.TipoTelefono.list()}"/> <input type="button" name="div${contador}" value="Quitar" onclick="borrar(this.name)"/>
+<input type="text" id="num${contador}" name="num${contador}" required="" value="${t.telefono}" maxLength="10" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/>	
+<g:select name="tipo${contador}" value="${t?.tipoTelefono?.id}" from="${com.redoaxaca.TipoTelefono.list()}" optionKey="id" required=""/>		
+<input type="button" name="div${contador}" value="Quitar" onclick="borrar(this.name)"/>
 <g:set var="contador" value="${contador + 1}" />
 </div> 
 </g:each>
@@ -101,7 +103,7 @@
 		<g:message code="direccion.calle.label" default="Calle" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="calle" required="" value="${personaInstance?.direcciones?.calle?.get(0)}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 4, this.id)" class="tooltip"/>
+	<g:textField name="calle" required="" value="${personaInstance?.direcciones?.calle?.get(index_direccion)}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 4, this.id)" class="tooltip"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noExterior', 'error')} required">
@@ -109,7 +111,7 @@
 		<g:message code="direccion.noExterior.label" default="No Exterior" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="noExterior" required="" value="${personaInstance?.direcciones?.noExterior?.get(0)}" style="text-transform:uppercase;" class="tooltip"/>
+	<g:textField name="noExterior" required="" value="${personaInstance?.direcciones?.noExterior?.get(index_direccion)}" style="text-transform:uppercase;" class="tooltip"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noInterior', 'error')} ">
@@ -117,7 +119,7 @@
 		<g:message code="direccion.noInterior.label" default="No Interior" />
 		
 	</label>
-	<g:textField name="noInterior" value="${personaInstance?.direcciones?.noInterior?.get(0)}" style="text-transform:uppercase;"/>
+	<g:textField name="noInterior" value="${personaInstance?.direcciones?.noInterior?.get(index_direccion)}" style="text-transform:uppercase;"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'colonia', 'error')} required">
@@ -125,7 +127,7 @@
 		<g:message code="direccion.colonia.label" default="Colonia" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="colonia" required="" value="${personaInstance?.direcciones?.colonia?.get(0)}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 4, this.id)" class="tooltip"/>
+	<g:textField name="colonia" required="" value="${personaInstance?.direcciones?.colonia?.get(index_direccion)}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 4, this.id)" class="tooltip"/>
 </div>
 
 <div id="procedencia">
@@ -134,19 +136,26 @@
 		<g:message code="municipio.estado.label" default="Estado" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="estado" name="estado.id"
-		from="${com.redoaxaca.Estado.list()}" optionKey="id" required=""
-		noSelection="['':'Seleccione un estado']"
-		value=""
-		data-placeholder="Seleccione un estado" class="chzn-select"
-		style="width:350px;" tabindex="2"
+	<g:select id="estado" name="estado.id" from="${com.redoaxaca.Estado.list() }" optionKey="id" required=""
+		noSelection="['': 'Seleccione un estado']"								 
+		data-placeholder="Seleccione un estado" class="chzn-select" 
+		value="${personaInstance?.direcciones?.municipio?.estado?.id.get(index_direccion)}"
+		style="width:350px;" tabindex="2"		
 		onChange="${ remoteFunction (
 			controller:'estado', 
 			action:'mostrarMunicipios', 
 			params: '\'id=\' + this.value',
-			update:'municipioDiv')}" />		
+			update:'municipioDiv')}"/>	
 </div>
 <div id="municipioDiv" class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">	
+	<g:if test="${personaInstance?.direcciones?.municipio?.nombre}">
+		<label for="municipio">
+		<g:message code="direccion.municipio.label" default="Municipio" />
+		<span class="required-indicator">*</span>
+	</label>
+		<g:select id="municipio" name="municipio.id" from="${com.redoaxaca.Municipio.list()}" optionKey="id" required=""
+                  value="${personaInstance?.direcciones?.municipio?.id.get(index_direccion)}" data-placeholder="Selecciona un municipio" class="chzn-select" style="width:350px;" tabindex="2"/>		
+	</g:if>
 </div>
 </div>
 
