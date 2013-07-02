@@ -76,7 +76,7 @@
 					<g:else>
 						<label for="linkNuevaCarac"> <g:message
 								code="objeto.noInventario.label"
-								default="No hay características1" />
+								default="No hay características" />
 						</label>
 					</g:else>
 				</g:if>
@@ -114,7 +114,7 @@
 					<g:else>
 						<label for="linkNuevaCarac"> <g:message
 								code="objeto.noInventario.label"
-								default="No hay características2" />
+								default="No hay características" />
 						</label>
 					</g:else>
 
