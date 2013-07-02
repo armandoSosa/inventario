@@ -84,7 +84,7 @@
 <g:each in="${personaInstance?.telefonos?}" var="t">
 <div id="div${contador}">
 <input type="text" id="num${contador}" name="num${contador}" required="" value="${t.telefono}" maxLength="10" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/>	
-	<g:select name="tipo${contador}" value="${t.tipoTelefono.id}" from="${com.redoaxaca.TipoTelefono.list()}" optionKey="id" required=""/>		
+<g:select name="tipo${contador}" value="${t?.tipoTelefono?.id}" from="${com.redoaxaca.TipoTelefono.list()}" optionKey="id" required=""/>		
 <input type="button" name="div${contador}" value="Quitar" onclick="borrar(this.name)"/>
 <g:set var="contador" value="${contador + 1}" />
 </div> 

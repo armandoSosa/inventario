@@ -243,7 +243,7 @@ class PersonaController {
 		personaInstance.setFoto(fotoInstance)
 
 		
-		 def telefonos = personaInstance.telefonos				 
+		 def telefonos = personaInstance.telefonos.isEmpty()				 
 		 int cantidad = 0
 		 if(params.cantidad!='')
 		 	cantidad = params.cantidad
@@ -253,7 +253,7 @@ class PersonaController {
 		 tel.setTelefono(params.get("num"+i+1))
 		 System.out.println("tipo:"+tel.tipoTelefono+".tel:"+tel.telefono)
 		}*/
-		System.out.println(params)
+		System.out.println(personaInstance.telefonos.isEmpty())
 		personaInstance.telefonos.eachWithIndex(){tel, i ->
 			if(params.get("num"+(i+1))!=null){			
 				tel.setTelefono(params.get("num"+(i+1)))
@@ -263,20 +263,31 @@ class PersonaController {
 				personaInstance.removeFromTelefonos(tel)
 			}
 		}		
-		 /*
-		 for(int i=1; i<=cantidad; i++ ){
-			 if((params.get("num"+i))!=null){
-				 Telefono tel = new Telefono()				 
-				 tel.setFecha(new Date())
-				 tel.setTelefono(params.get("num"+i))
-				 tel.tipoTelefono = TipoTelefono.findByTipo(params.get("tipo"+i).toString().trim())
-				 //tel.persona = personaInstance
-				 System.out.println("tipo:"+tel.tipoTelefono+".tel:"+tel.telefono)			   
-				 personaInstance.addToTelefonos(tel)
+		if(personaInstance.telefonos.isEmpty()){
+			 for(int i=1; i<=cantidad; i++ ){
+				 if((params.get("num"+i))!=null){
+					 Telefono tel = new Telefono()				 
+					 tel.setFecha(new Date())
+					 tel.setTelefono(params.get("num"+i))
+					 tel.tipoTelefono = TipoTelefono.get(params.get("tipo"+i))			   
+					 personaInstance.addToTelefonos(tel)
+				 }
 			 }
-		 }
+		}else if(cantidad>personaInstance.telefonos.size()){
+			personaInstance.telefonos.eachWithIndex(){tel, i ->
+				personaInstance.removeFromTelefonos(tel)
+			}
+			for(int i=1; i<=cantidad; i++ ){
+				if((params.get("num"+i))!=null){
+					Telefono tel = new Telefono()
+					tel.setFecha(new Date())
+					tel.setTelefono(params.get("num"+i))
+					tel.tipoTelefono = TipoTelefono.get(params.get("tipo"+i))
+					personaInstance.addToTelefonos(tel)
+				}
+			}
+		}
 		 
-			 */
 
 		if (!personaInstance.save(flush: true)) {
 			render(view: "editar", model: [personaInstance: personaInstance])
