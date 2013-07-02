@@ -260,6 +260,7 @@ class DepartamentoController {
 
 	def save_departamentos() {
 		//eliminarTodos()
+		System.out.println("Los parámetros son: "+params)
 		def slurper = new JsonSlurper()
 		def result = slurper.parseText(params.datos);
 		System.out.println("entro "+params.datos);
@@ -307,7 +308,7 @@ class DepartamentoController {
 						message(code: 'departamento.label', default: 'Departamento'),
 						d.id
 					])
-					redirect(action: "menu2")
+					
 				}
 				catch (DataIntegrityViolationException e) {
 					System.out.println("No se borro")

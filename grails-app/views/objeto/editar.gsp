@@ -39,8 +39,7 @@
 			var cadenaValores='valor0=0';
 			var numeros="0";
 			var submitObjeto = function() {
-				cadenaValores=cadenaValores.replace("valor0=0", "valor0="+numeros.substring(1))+"&noInventario="+$("#noInventario").val()+"&tipoPropiedad="+$("#tipoPropiedad").val()+"&tipoObjeto="+$("#tipo").val();
-		    	${ remoteFunction (controller:'objeto', action:'save_objeto3', id:'5', params: 'cadenaValores', onLoaded='start()')}
+				$("#formulario").submit();
 				
 		    };
 		    function generarCadenaValores(cadena){
@@ -96,7 +95,7 @@
 
 	<div id="create-objeto" class="content scaffold-create" role="main">
 		<h1 class="titulo">Editar Objeto</h1>
-		<g:form action="editar_objeto">
+		<g:form id="formulario" name="formulario" action="editar_objeto">
 			<fieldset class="form">
 				<div
 					class="fieldcontain ${hasErrors(bean: objetoInstance, field: 'tipo', 'error')} required">
@@ -112,9 +111,9 @@
 						style="width:350px;" tabindex="2"
 						onChange="${ remoteFunction (controller:'objeto', action:'mostrarFormCarac', params: '\'id=\' + this.value', update:'divInfoTipoObjeto')}" />
 				</div>
-				<g:if test="${idObjeto}">
-					<g:hiddenField id="idObjeto" name="idObjeto" value="${idObjeto}"/>
-				</g:if>
+				<input type="text" id="idO" name="idO" value="${idObjeto}" hidden="true"/>
+				<g:hiddenField id="idObjeto" name="idObjeto" value="${idObjeto}"/>
+				
 
 				<g:render template="mostrarFormCaracteristicas" />
 				

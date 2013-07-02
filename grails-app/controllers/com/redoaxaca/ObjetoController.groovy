@@ -1421,7 +1421,7 @@ class ObjetoController {
 
 	def editar_objeto(){
 		System.out.println(params)
-		def objeto = Objeto.get(Long.parseLong(params.idObjeto))
+		def objeto = Objeto.get(Long.parseLong(params.idO))
 
 		objeto.tipoPropiedad=TipoPropiedad.get(Long.parseLong(params.tipoPropiedad))
 		String name
