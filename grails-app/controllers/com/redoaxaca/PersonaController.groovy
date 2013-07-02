@@ -243,7 +243,7 @@ class PersonaController {
 		personaInstance.setFoto(fotoInstance)
 
 		
-		 def telefonos = personaInstance.telefonos.isEmpty()				 
+		 				 
 		 int cantidad = 0
 		 if(params.cantidad!='')
 		 	cantidad = params.cantidad
@@ -253,6 +253,7 @@ class PersonaController {
 		 tel.setTelefono(params.get("num"+i+1))
 		 System.out.println("tipo:"+tel.tipoTelefono+".tel:"+tel.telefono)
 		}*/
+		def telefonos = []
 		System.out.println(personaInstance.telefonos.isEmpty())
 		personaInstance.telefonos.eachWithIndex(){tel, i ->
 			if(params.get("num"+(i+1))!=null){			
@@ -260,9 +261,15 @@ class PersonaController {
 				tel.tipoTelefono = TipoTelefono.get(params.get("tipo"+(i+1)))
 				System.out.println("numero:"+params.get("num"+(i+1))+".i:"+i)
 			}else{
-				personaInstance.removeFromTelefonos(tel)
+				telefonos.add(tel)
+				//personaInstance.removeFromTelefonos(tel)
 			}
-		}		
+		}
+		
+		telefonos.each { tel ->
+			personaInstance.removeFromTelefonos(tel)
+		}
+		
 		if(personaInstance.telefonos.isEmpty()){
 			 for(int i=1; i<=cantidad; i++ ){
 				 if((params.get("num"+i))!=null){
@@ -275,6 +282,10 @@ class PersonaController {
 			 }
 		}else if(cantidad>personaInstance.telefonos.size()){
 			personaInstance.telefonos.eachWithIndex(){tel, i ->
+				telefonos.add(tel)
+				//personaInstance.removeFromTelefonos(tel)
+			}
+			telefonos.each { tel ->
 				personaInstance.removeFromTelefonos(tel)
 			}
 			for(int i=1; i<=cantidad; i++ ){
@@ -287,6 +298,7 @@ class PersonaController {
 				}
 			}
 		}
+		
 		 
 
 		if (!personaInstance.save(flush: true)) {
