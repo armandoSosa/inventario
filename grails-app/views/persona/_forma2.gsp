@@ -134,19 +134,45 @@
 		<g:message code="municipio.estado.label" default="Estado" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="estado" name="estado.id"
-		from="${com.redoaxaca.Estado.list()}" optionKey="id" required=""
-		noSelection="['':'Seleccione un estado']"
-		value=""
+	<select id="estado" name="estado.id"							  
 		data-placeholder="Seleccione un estado" class="chzn-select"
 		style="width:350px;" tabindex="2"
 		onChange="${ remoteFunction (
 			controller:'estado', 
 			action:'mostrarMunicipios', 
 			params: '\'id=\' + this.value',
-			update:'municipioDiv')}" />		
+			update:'municipioDiv')}">
+		<option value="">Seleccione un estado</option>
+		<g:each in="${com.redoaxaca.Estado.list()}" var="estado">
+			<g:if test="${personaInstance?.direcciones?.municipio?.estado?.nombre}">
+				<option value="${estado.id}" selected>${estado.nombre}</option>
+			</g:if>
+			<g:else>
+				<option value="${estado.id}">${estado.nombre}</option>
+			</g:else>
+		</g:each>
+	</select>
 </div>
 <div id="municipioDiv" class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">	
+	<g:if test="${personaInstance?.direcciones?.municipio?.nombre}">
+		<label for="municipio">
+		<g:message code="direccion.municipio.label" default="Municipio" />
+		<span class="required-indicator">*</span>
+	</label>
+		<select id="municipio" name="municipio.id" 		
+        data-placeholder="Seleccione un municipio" class="chzn-select" 
+        style="width:350px;" tabindex="2">
+        <option value="">Seleccione un municipio</option>
+		<g:each in="${com.redoaxaca.Municipio.list()}" var="municipio">
+			<g:if test="${personaInstance?.direcciones?.municipio?.nombre}">
+				<option value="${municipio.id}" selected>${municipio.nombre}</option>
+			</g:if>
+			<g:else>
+				<option value="${municipio.id}">${municipio.nombre}</option>
+			</g:else>
+		</g:each>
+        </select>
+	</g:if>
 </div>
 </div>
 

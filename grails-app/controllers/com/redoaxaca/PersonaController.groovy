@@ -253,12 +253,16 @@ class PersonaController {
 		 tel.tipoTelefono = TipoTelefono.findByTipo(params.get("tipo"+i+1).toString().trim())
 		 tel.setTelefono(params.get("num"+i+1))
 		 System.out.println("tipo:"+tel.tipoTelefono+".tel:"+tel.telefono)
-		 }*/
-			 System.out.println(params)
+		}*/
+		System.out.println(params)
 		personaInstance.telefonos.eachWithIndex(){tel, i ->
-			tel.setTelefono(params.get("num"+(i+1)))
-			tel.tipoTelefono = TipoTelefono.findByTipo(params.get("tipo"+(i+1)).toString().trim())
-			System.out.println("numero:"+params.get("num"+i+1)+".i:"+i)
+			if(params.get("num"+(i+1))!=null){			
+				tel.setTelefono(params.get("num"+(i+1)))
+				tel.tipoTelefono = TipoTelefono.findByTipo(params.get("tipo"+(i+1)).toString().trim())
+				System.out.println("numero:"+params.get("num"+(i+1))+".i:"+i)
+			}else{
+				tel.delete()
+			}
 		}		
 		 /*
 		 for(int i=1; i<=cantidad; i++ ){

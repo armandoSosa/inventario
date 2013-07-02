@@ -317,7 +317,7 @@
 
 <script type="text/javascript">
 <!--
-num=0+${personaInstance?.telefonos?.size()}-1;
+num=0+${personaInstance?.telefonos?.size()};
 
 var datos = "${com.redoaxaca.TipoTelefono.list()}";
 var fin = datos.length - 1;

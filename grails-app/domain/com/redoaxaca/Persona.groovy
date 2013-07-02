@@ -26,6 +26,10 @@ class Persona {
 		curp(unique:true)
 		rfc(unique:true)
     }
+	
+	static mapping = {
+		telefonos cascade:"all-delete-orphan"
+	}
 		
 	/*
 	static mapping = {
