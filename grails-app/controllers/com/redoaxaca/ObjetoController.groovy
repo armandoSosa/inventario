@@ -261,9 +261,22 @@ class ObjetoController {
 				}
 				order 'orden'
 			}
+		
+		def criterioOP = ObjetoPersona.createCriteria()
+		def historiaObjetosPersona = criterioOP.listDistinct {
+			objeto {
+				eq 'id', objetoInstance.id
+			}
+			and {
+				order 'fechaInicio', 'desc'
+			}
+		}
+		def ultimoObjetoPersona = (historiaObjetosPersona.size()>0?historiaObjetosPersona.get(0):null)
+		if (historiaObjetosPersona.size()>0) {
+			historiaObjetosPersona.remove(0)
+		}
 
-
-		[objetoInstance: objetoInstance, plantillas: plantillas, valores:valores]
+		[objetoInstance: objetoInstance, plantillas: plantillas, valores:valores, ultimoObjetoPersona: ultimoObjetoPersona, historiaObjetosPersona: historiaObjetosPersona]
 	}
 
 	def edit(Long id) {
@@ -1252,7 +1265,7 @@ class ObjetoController {
 				if (name.contains("valor")) {
 					name = name.replaceAll("valor", "")
 					plantilla = Plantilla.get(Long.parseLong(name))
-					def valor = new Valor(valor: params.values().toList().get(i), plantilla:plantilla)
+					def valor = new Valor(valor: params.values().toList().get(i).toUpperCase(), plantilla:plantilla)
 					System.out.println("se guardará plantilla:"+plantilla?.id+" * valor: "+valor+" * tipo:"+tipo.id)
 					newObjeto.addToValores(valor)
 				}
@@ -1464,6 +1477,48 @@ class ObjetoController {
 		flash.message = message(code: 'Las características se han actualizado correctamente')
 		redirect(action: "mostrar", id:objeto?.id)
 
+	}
+	
+	def asignarPersona() {
+		def fechaActual = new Date()
+		
+		//damos de baja a los demás arrendatarios
+		def anteriores = ObjetoPersona.findAllByObjetoAndFechaFinIsNull(Objeto.get(Long.parseLong(params.objeto.id)))
+		for (ObjetoPersona o in anteriores) {
+			o.fechaFin=fechaActual
+			o.save()
+		}
+		
+		
+		def objetoPersona = new ObjetoPersona(params)
+		objetoPersona.fechaInicio =  fechaActual
+		
+		
+		
+		System.out.println("objetoPersona info: "+objetoPersona)
+		if (!objetoPersona.save(flush: true)) {
+			flash.message = message(code: 'No ha sido posible agregar el objeto a la persona')
+			redirect(action: "mostrar", id: Long.parseLong(params.objeto.id))
+			return
+		}
+		
+
+		flash.message = message(code: 'Se ha actualizado el arrendatario actual del objeto')
+		redirect(action: "mostrar", id: Long.parseLong(params.objeto.id))
+	}
+	
+	def darDeBajaArrendatario() {
+		def objetoPersona = ObjetoPersona.get(Long.parseLong(params.objetoPersona.id))
+		objetoPersona.fechaFin = new Date()
+		
+		if(!objetoPersona.save(flush:true)) {
+			flash.message = message(code: 'No ha sido posible dar de baja el arrendatario')
+			redirect(action: "mostrar", id: objetoPersona?.objeto?.id)
+			return
+		}
+		
+		flash.message = message(code: 'Se ha dado de baja el arrendatario correctamente')
+		redirect(action: "mostrar", id: objetoPersona?.objeto?.id)
 	}
 
 }

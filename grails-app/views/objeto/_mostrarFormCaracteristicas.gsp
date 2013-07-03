@@ -64,7 +64,7 @@
 						<g:each var="plantilla" in="${plantillas}">
 							<label for="valor${plantilla?.id}"> ${plantilla?.caracteristicaUnidad?.caracteristica}
 							</label>
-							<g:textField id="valor${plantilla?.id}"
+							<g:textField id="valor${plantilla?.id}" style='text-transform:uppercase;'
 								name="valor${plantilla?.id}" value=""
 								onChange="generarCadenaValores('valor${plantilla?.id}')" />
 							${plantilla?.caracteristicaUnidad?.unidad}
@@ -87,7 +87,7 @@
 							<g:each var="valor" in="${valores}">
 								<label for="valor${valor?.id}"> ${valor?.plantilla?.caracteristicaUnidad?.caracteristica}
 								</label>
-								<g:textField id="valor${valor?.id}" name="valor${valor?.id}"
+								<g:textField id="valor${valor?.id}" name="valor${valor?.id}" style='text-transform:uppercase;'
 									value="${valor?.valor}"
 									onChange="generarCadenaValores('valor${valor?.id}')" />
 								${valor?.plantilla?.caracteristicaUnidad?.unidad}
@@ -102,7 +102,7 @@
 							<g:each var="p" in="${plantillasFaltantes}">
 								<label for="p${p?.id}"> ${p?.caracteristicaUnidad?.caracteristica}
 								</label>
-								<g:textField id="plantilla${p?.id}" name="plantilla${p?.id}"
+								<g:textField id="plantilla${p?.id}" name="plantilla${p?.id}" style='text-transform:uppercase;'
 									value="" onChange="generarCadenaValores('plantilla${p?.id}')" />
 								${p?.caracteristicaUnidad?.unidad}
 								<br>

@@ -7,6 +7,42 @@
 <g:set var="entityName"
 	value="${message(code: 'objeto.label', default: 'Objeto')}" />
 <title><g:message code="default.show.label" args="[entityName]" /></title>
+
+
+
+<link rel="stylesheet"
+	href="${resource(dir: 'js', file: 'chosen/chosen.css')}"
+	type="text/css">
+<script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"
+	type="text/javascript" charset="utf-8"></script>
+
+<script>
+
+		
+		
+		function procedimientoAgregarPersona(primera) {
+			if(primera) {
+				$('#agregarPersona').show();
+				$('#btnAgregar').hide();
+			} else {
+				var respuesta = confirm("Ya existe un arrendatario. ¿Desea darlo de baja y asignar un nuevo arrendatario?");
+				if(respuesta) {
+					$('#agregarPersona').show();
+					$('#btnAgregar').hide();
+				}
+			}
+			
+		}
+
+		function darDeBaja() {
+			var respuesta = confirm("¿Está seguro que desea dar de baja al arrendatario?");
+			if(respuesta) {
+				$('#formBaja').submit();
+			}
+		}
+	</script>
+
+
 </head>
 <body>
 	<a href="#show-objeto" class="skip" tabindex="-1"><g:message
@@ -56,20 +92,6 @@
 					</g:each></li>
 			</g:if>
 
-			<g:if test="${objetoInstance?.objetosPersona}">
-				<li class="fieldcontain"><span id="objetosPersona-label"
-					class="property-label"><g:message
-							code="objeto.objetosPersona.label" default="Objetos Persona" /></span>
-
-					<g:each in="${objetoInstance.objetosPersona}" var="o">
-						<span class="property-value"
-							aria-labelledby="objetosPersona-label"><g:link
-								controller="objetoPersona" action="show" id="${o.id}">
-								${o?.encodeAsHTML()}
-							</g:link></span>
-					</g:each></li>
-			</g:if>
-
 			<g:if test="${objetoInstance?.tipo}">
 				<li class="fieldcontain"><span id="tipo-label"
 					class="property-label"><g:message code="objeto.tipo.label"
@@ -92,35 +114,10 @@
 			</g:if>
 
 
-
-
-			<li class="fieldcontain"><span id="valores-label"
-				class="property-label"><g:message code="objeto.valores.label"
-						default="Arrendatario" /></span> <g:if
-					test="${objetoInstance?.objetosPersona}">
-					<g:each in="${objetoInstance.objetosPersona}" var="v">
-						<span class="property-value" aria-labelledby="valores-label"><g:link
-								controller="objetoPersona" action="mostrar" id="${v.id}">Fecha de inicio: <g:formatDate
-									format="dd-MM-yyyy" date="${v?.fechaInicio}" />
-							</g:link></span>
-						<g:if test="${v?.fechaFin}">
-							<span class="property-value" aria-labelledby="valores-label"><g:link
-									controller="objetoPersona" action="mostrar" id="${v.id}">Fecha fin: <g:formatDate
-										format="dd-MM-yyyy" date="${v?.fechaFin}" />
-								</g:link></span>
-						</g:if>
-						<span class="property-value" aria-labelledby="valores-label"><g:link
-								controller="objetoPersona" action="mostrar" id="${v.id}">Persona: ${v?.persona}
-							</g:link></span>
-						<br>
-					</g:each>
-				</g:if> <g:else>
-					<span class="property-value" aria-labelledby="valores-label">Ninguno</span>
-				</g:else> <span class="property-value" aria-labelledby="valores-label"><g:link
-						controller="objetoPersona" action="insertar2"
-						id="${objetoInstance.id}">Agregar persona</g:link></span></li>
 			<br>
 			<br>
+			<br>
+
 
 
 
@@ -175,6 +172,194 @@
 
 				</table></li>
 
+			<br>
+			<br>
+			<br>
+
+			<li class="fieldcontain"><span id="valores-label"
+				class="property-label"><h2>Arrendatarios</h2></span> <br> <br>
+				<br> <g:if
+					test="${historiaObjetosPersona || ultimoObjetoPersona}">
+
+
+
+
+
+
+
+					<div id="historiaArrendatarios" hidden="true">
+
+						<table>
+							<tr>
+								<th>Fecha inicio</th>
+								<th>Persona</th>
+								<th>Fecha fin</th>
+							</tr>
+
+
+							<tr>
+								<td>
+										<g:formatDate format="dd-MM-yyyy hh:mm:ss"
+											date="${ultimoObjetoPersona?.fechaInicio}" />
+									</td>
+
+								<td><g:link controller="persona" action="mostrar"
+										id="${ultimoObjetoPersona?.persona?.id}">
+										${ultimoObjetoPersona?.persona}
+									</g:link></td>
+
+								<td><g:if test="${ultimoObjetoPersona?.fechaFin}">
+										
+											<g:formatDate format="dd-MM-yyyy hh:mm:ss"
+												date="${ultimoObjetoPersona?.fechaFin}" />
+										
+									</g:if> <g:else>
+										
+										<input type="button" value="Dar de baja"
+											onClick="darDeBaja();" />
+									</g:else></td>
+
+
+							</tr>
+							<g:each in="${historiaObjetosPersona}" var="v">
+								<tr>
+									<td>
+											<g:formatDate format="dd-MM-yyyy hh:mm:ss"
+												date="${v?.fechaInicio}" />
+										</td>
+									<td><g:link controller="persona" action="mostrar"
+											id="${v.persona.id}">
+											${v?.persona}
+										</g:link></td>
+
+									<td>
+											<g:formatDate format="dd-MM-yyyy hh:mm:ss"
+												date="${v?.fechaFin}" />
+										</td>
+								</tr>
+							</g:each>
+						</table>
+
+
+						<span class="property-value" aria-labelledby="valores-label">
+							<input type="button" value="Ocultar historia"
+							onClick="$('#historiaArrendatarios').hide();  $('#tablaActual').show();" />
+						</span>
+					</div>
+
+
+
+
+					<div id="tablaActual">
+						<table>
+							<tr>
+								<th>Fecha inicio</th>
+								<th>Persona</th>
+								<th>Fecha fin</th>
+							</tr>
+
+
+							<tr>
+								<td>
+										<g:formatDate format="dd-MM-yyyy hh:mm:ss"
+											date="${ultimoObjetoPersona?.fechaInicio}" />
+									</td>
+
+								<td><g:link controller="persona" action="mostrar"
+										id="${ultimoObjetoPersona?.persona?.id}">
+										${ultimoObjetoPersona?.persona}
+									</g:link></td>
+
+								<td><g:if test="${ultimoObjetoPersona?.fechaFin}">
+										
+											<g:formatDate format="dd-MM-yyyy hh:mm:ss"
+												date="${ultimoObjetoPersona?.fechaFin}" />
+										
+									</g:if> <g:else>
+										
+										<input type="button" value="Dar de baja"
+											onClick="darDeBaja();" />
+
+									</g:else></td>
+
+
+
+							</tr>
+						</table>
+
+						<g:if test="${historiaObjetosPersona}">
+							<span class="property-value" aria-labelledby="valores-label">
+								<input id="btnVerHistoria" type="button" value="Ver historia"
+								onClick="$('#historiaArrendatarios').show(); $('#tablaActual').hide();" />
+							</span>
+						</g:if>
+
+					</div>
+
+					<g:form id="formBaja" name="formBaja" action="darDeBajaArrendatario" hidden="true">
+						<input type="text" name="objetoPersona.id"
+							value="${ultimoObjetoPersona.id}" />
+					</g:form>
+
+
+
+
+
+
+				</g:if> <g:else>
+					No hay arrendatarios registrados
+				</g:else></li>
+
+
+
+
+
+			<li class="fieldcontain"><span class="property-value"
+				aria-labelledby="valores-label"> <g:if
+						test="${ultimoObjetoPersona!=null && ultimoObjetoPersona.fechaFin==null}">
+						<input id="btnAgregar" name="btnAgregar" type="button"
+							value="Agregar persona"
+							onClick="procedimientoAgregarPersona(false);" />
+					</g:if> <g:else>
+						<input id="btnAgregar" name="btnAgregar" type="button"
+							value="Agregar persona"
+							onClick="procedimientoAgregarPersona(true);" />
+					</g:else>
+
+
+			</span></li>
+
+
+
+
+
+			<li class="fieldcontain"><span class="property-value"
+				aria-labelledby="valores-label">
+					<div id="agregarPersona" hidden="true">
+						<g:form name="formPersona" action="asignarPersona">
+							<g:hiddenField name="objeto.id" id="objeto.id"
+								value="${objetoInstance?.id}" />
+
+							<g:select id="persona" name="persona.id"
+								from="${com.redoaxaca.Persona.list()}" optionKey="id"
+								noSelection="['':'Seleccione una persona']" required="" value=""
+								data-placeholder="Seleccione una persona" class="chzn-select"
+								style="width:350px;" tabindex="2" />
+							<br>
+							<br>
+							<input type="submit" value="Guardar" />
+							<input type="button" value="Cancelar"
+								onClick="$('#agregarPersona').hide(); $('#btnAgregar').show();" />
+							<br>
+							<br>
+							<br>
+							<br>
+						</g:form>
+					</div>
+			</span></li>
+			<br>
+			<br>
+
 
 
 		</ol>
@@ -190,6 +375,32 @@
 			</fieldset>
 		</g:form>
 	</div>
+
+
+	<script src="${resource(dir: 'js', file: 'chosen/chosen.jquery.js')}"
+		type="text/javascript"></script>
+	<script type="text/javascript">
+		var config = {
+			'.chzn-select' : {
+				no_results_text : 'No se encontró algún dato con'
+			},
+			'.chzn-select-deselect' : {
+				allow_single_deselect : true
+			},
+			'.chzn-select-no-single' : {
+				disable_search_threshold : 10
+			},
+			'.chzn-select-no-results' : {
+				no_results_text : 'Oops, nothing found!'
+			},
+			'.chzn-select-width' : {
+				width : "95%"
+			}
+		}
+		for ( var selector in config) {
+			$(selector).chosen(config[selector]);
+		}
+	</script>
 </body>
 </html>
 
