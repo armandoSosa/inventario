@@ -36,10 +36,10 @@ function validar(e, tipo) {
     if(tipo==1){
     	patron =/\w/; //letras y numeros
 	}else if(tipo==2){
-		patron =/\d/; //numeros; D, no acepta números
+		patron =/\d/; //numeros; D, no acepta n��meros
 	}
 	else if(tipo==3){
-		patron =/[A-Za-zñÑ\s]/; //acepta todas las letras y espacios
+		patron =/[A-Za-z����\s]/; //acepta todas las letras y espacios
 	}
     te = String.fromCharCode(tecla);		    
     return patron.test(te);
@@ -52,19 +52,19 @@ function validarInput(e, tipo) {
     	patron =/\w/; //letras y numeros
     	mensaje = "Solo se aceptan letras y numeros";
 	}else if(tipo==2){
-		patron =/\d/; //numeros; D, no acepta números
+		patron =/\d/; //numeros; D, no acepta n��meros
 		mensaje = "Solo se aceptan numeros";
 	}else if(tipo==3){
-		patron =/[A-Za-zñÑ\s]/; //acepta todas las letras y espacios
+		patron =/[A-Za-z����\s]/; //acepta todas las letras y espacios
 		mensaje = "Solo se aceptan letras y espacios";
 	}else if(tipo==4){
-		patron =/[0-9A-Za-zñÑ\s]/; //acepta todas las letras y espacios
+		patron =/[0-9A-Za-z����\s]/; //acepta todas las letras y espacios
 		mensaje = "Solo se aceptan letras y numeros";
 	}else if(tipo==5){
 		patron =/[A-Za-z]/; //acepta todas las letras
 		mensaje = "El caracter debe ser una letra";
 	}else if(tipo==6){
-		patron =/\d/; //numeros; D, no acepta números
+		patron =/\d/; //numeros; D, no acepta n��meros
 		mensaje = "El caracter debe ser un numero";
 	}
     te = String.fromCharCode(tecla);
@@ -108,9 +108,11 @@ function validarCorreo(correo){
 }
 
 function validarFocus(tipo, input, valor){
+	
 	if(tipo==1){
 		if(!validarCURP(valor)){
-			mostrarValidacion(input, "La CURP no es valida");
+			
+			mostrarValidacion(input, "La CURP no es válida");
 		}else{
 			var anio = parseInt(valor.substring(4, 6));
 			if(anio<30){
@@ -160,7 +162,7 @@ function validarFecha(txtDate){
     //Checks for dd/mm/yyyy format.
     dtYear = dtArray[1];
     dtMonth = dtArray[2];
-    dtDay = dtArray[3];            
+    dtDay = dtArray[3];   
     if (dtMonth < 1 || dtMonth > 12) 
         return false;
     else if (dtDay < 1 || dtDay> 31) 
@@ -194,6 +196,7 @@ function validarRFC(rfc){
 }
 
 function validarCURP(curp){
+	
 	var longitudCURP = 18, curpValida = false;
 	if(curp.length==longitudCURP){
 		var letras = curp.substring(0, 4);
