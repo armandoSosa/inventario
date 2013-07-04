@@ -34,22 +34,6 @@
 	<g:textField name="materno" required="" value="${personaInstance?.materno}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'curp', 'error')} required">
-	<label for="curp">
-		<g:message code="persona.curp.label" default="Curp" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="curp" required="" value="${personaInstance?.curp}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'rfc', 'error')} required">
-	<label for="rfc">
-		<g:message code="persona.rfc.label" default="Rfc" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="rfc" required="" value="${personaInstance?.rfc}"/>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'fechaNacimiento', 'error')} required">
 	<label for="fechaNacimiento">
 		<g:message code="persona.fechaNacimiento.label" default="Fecha Nacimiento" />
@@ -66,29 +50,53 @@
 	<g:field type="email" name="email" value="${personaInstance?.email}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'objetosPersona', 'error')} ">
+	<label for="objetosPersona">
+		<g:message code="persona.objetosPersona.label" default="Objetos Persona" />
+		
+	</label>
+	
+<ul class="one-to-many">
+<g:each in="${personaInstance?.objetosPersona?}" var="o">
+    <li><g:link controller="objetoPersona" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></li>
+</g:each>
+<li class="add">
+<g:link controller="objetoPersona" action="create" params="['persona.id': personaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona')])}</g:link>
+</li>
+</ul>
+
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'foto', 'error')} ">
 	<label for="foto">
 		<g:message code="persona.foto.label" default="Foto" />
 		
 	</label>
-	<input type="file" id="foto" name="foto" />
+	<g:select id="foto" name="foto.id" from="${com.redoaxaca.Foto.list()}" optionKey="id" value="${personaInstance?.foto?.id}" class="many-to-one" noSelection="['null': '']"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'telefonos', 'error')} required">
-	<label for="telefonos">
-		<g:message code="persona.telefonos.label" default="Telefonos" />
-		<span class="required-indicator">*</span>
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'curp', 'error')} ">
+	<label for="curp">
+		<g:message code="persona.curp.label" default="Curp" />
+		
 	</label>
-	
-<ul class="one-to-many">
-<g:each in="${personaInstance?.telefonos?}" var="t">
-    <li><g:link controller="telefono" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
-</g:each>
-<li class="add">
-<g:link controller="telefono" action="create" params="['persona.id': personaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'telefono.label', default: 'Telefono')])}</g:link>
-</li>
-</ul>
+	<g:textField name="curp" value="${personaInstance?.curp}"/>
+</div>
 
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'rfc', 'error')} ">
+	<label for="rfc">
+		<g:message code="persona.rfc.label" default="Rfc" />
+		
+	</label>
+	<g:textField name="rfc" value="${personaInstance?.rfc}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'archivado', 'error')} ">
+	<label for="archivado">
+		<g:message code="persona.archivado.label" default="Archivado" />
+		
+	</label>
+	<g:checkBox name="archivado" value="${personaInstance?.archivado}" />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'direcciones', 'error')} ">
@@ -103,23 +111,6 @@
 </g:each>
 <li class="add">
 <g:link controller="direccion" action="create" params="['persona.id': personaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'direccion.label', default: 'Direccion')])}</g:link>
-</li>
-</ul>
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'objetosPersona', 'error')} ">
-	<label for="objetosPersona">
-		<g:message code="persona.objetosPersona.label" default="Objetos Persona" />
-		
-	</label>
-	
-<ul class="one-to-many">
-<g:each in="${personaInstance?.objetosPersona?}" var="o">
-    <li><g:link controller="objetoPersona" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></li>
-</g:each>
-<li class="add">
-<g:link controller="objetoPersona" action="create" params="['persona.id': personaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'objetoPersona.label', default: 'ObjetoPersona')])}</g:link>
 </li>
 </ul>
 
@@ -142,12 +133,37 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'sexo', 'error')} required">
+	<label for="sexo">
+		<g:message code="persona.sexo.label" default="Sexo" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="sexo" name="sexo.id" from="${com.redoaxaca.Sexo.list()}" optionKey="id" required="" value="${personaInstance?.sexo?.id}" class="many-to-one"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'subordinado', 'error')} ">
 	<label for="subordinado">
 		<g:message code="persona.subordinado.label" default="Subordinado" />
 		
 	</label>
 	<g:select name="subordinado" from="${com.redoaxaca.Persona.list()}" multiple="multiple" optionKey="id" size="5" value="${personaInstance?.subordinado*.id}" class="many-to-many"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'telefonos', 'error')} ">
+	<label for="telefonos">
+		<g:message code="persona.telefonos.label" default="Telefonos" />
+		
+	</label>
+	
+<ul class="one-to-many">
+<g:each in="${personaInstance?.telefonos?}" var="t">
+    <li><g:link controller="telefono" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
+</g:each>
+<li class="add">
+<g:link controller="telefono" action="create" params="['persona.id': personaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'telefono.label', default: 'Telefono')])}</g:link>
+</li>
+</ul>
+
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'usuarios', 'error')} ">

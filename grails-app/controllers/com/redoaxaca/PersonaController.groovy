@@ -10,8 +10,8 @@ class PersonaController {
 	def scaffold = true
 
 	def inicio (Integer max) {
-		params.max = Math.min(max ?: 10, 100)
-		[personaInstanceList: Persona.list(params), personaInstanceTotal: Persona.count()]
+		params.max = Math.min(max ?: 10, 100)		
+		[personaInstanceList: Persona.findAllByArchivado("false"), personaInstanceTotal: Persona.count()]
 	}
 
 	def index2 = {
@@ -190,11 +190,30 @@ class PersonaController {
 		def personaInstance = Persona.get(id)
 		if (!personaInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'persona.label', default: 'Persona'), id])
-			redirect(action: "menu")
+			redirect(action: "inicio")
 			return
 		}
 
 		[personaInstance: personaInstance]
+	}
+	
+	def archivar(Long id){
+		def personaInstance = Persona.get(id)
+		personaInstance.archivado = true
+		if (!personaInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'persona.label', default: 'Persona'), id])
+			redirect(action: "list")
+			return
+		}
+
+		if (!personaInstance.save(flush: true)) {
+			render(view: "editar", model: [personaInstance: personaInstance])
+			return
+		}
+
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'persona.label', default: 'Persona'), personaInstance.id])
+		redirect(action: "mostrar", id: personaInstance.id)
+		
 	}
 
 	def editar(Long id) {
@@ -370,35 +389,70 @@ class PersonaController {
 	}
 
 	def buscarPersona (Integer max) {
-		def personas, personas2, personas3
+		def personas, personas2, personas3, estados
 		def personaInstanceList
 		def personaInstanceTotal
 		params.max = Math.min(max ?: 10, 100)
 		def tipoBusqueda = params.tipo
 		def persona = params.persona
 		if (!params.persona.equals("")){
-			switch(tipoBusqueda){
-				case '0':
-					personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
-					break
-				case '1':
-					personas = Persona.findAllByNombreLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
-					break
-				case '2':
-					personas = Persona.findAllByPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
-					break
-				case '3':
-					personas = Persona.findAllByRfcLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
-					break
-				case '4':
-					personas = Persona.findAllByCurpLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
-					break
+			if(params.archivado=="true"){
+				switch(tipoBusqueda){
+					case '0':
+						personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						break
+					case '1':					
+						personas = Persona.findAllByNumeroEmpleadoLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						break
+					case '2':
+						def query = Persona.where {
+							(direcciones.municipio.estado.nombre =~ persona)
+						}
+						personas = query.find()
+						if(personas==null){
+							personas = new Persona()
+						}						
+						break
+					case '3':
+						personas = Persona.findAllByRfcLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						break
+					case '4':
+						personas = Persona.findAllByCurpLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						break
+				}
+			}else{
+				switch(tipoBusqueda){
+					case '0':
+						personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						def aux = Persona.findAllByArchivado("true")
+						personas.removeAll(aux)
+						break
+					case '1':												
+						personas = Persona.findAllByNumeroEmpleadoLikeAndArchivado("%"+persona+"%", false, [max: 5, offset: 0, sort: "nombre", order: "desc"])						
+						break
+					case '2':																	
+						def query = Persona.where {
+							direcciones.municipio.estado.nombre =~ persona
+						}
+						personas = query.find()
+						if(personas==null){
+							personas = []
+						}						
+						break
+					case '3':
+						personas = Persona.findAllByRfcLikeAndArchivado("%"+persona+"%", false, [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						break
+					case '4':
+						personas = Persona.findAllByCurpLikeAndArchivado("%"+persona+"%", false, [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						break
+				}
 			}
-
+			System.out.println("asd:"+params)
+			
 			personaInstanceList = personas
 			personaInstanceTotal = personas.count
 		}else{
-			personaInstanceList = Persona.list(params)
+			personaInstanceList = Persona.findAllByArchivado("false")
 			personaInstanceTotal = Persona.count()
 		}
 

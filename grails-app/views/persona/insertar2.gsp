@@ -476,7 +476,7 @@ function borrar(obj) {
 				</fieldset>
 				<fieldset class="buttons">
 					<a  class="save" onClick="validarEnvio()">Crear</a>
-					<g:submitButton name="create" class="save" value="Insertar" />					
+					<g:link name="cancel" class="cancelar" action="empleados">Cancelar</g:link>									
 				</fieldset>
 			</g:form>
 			

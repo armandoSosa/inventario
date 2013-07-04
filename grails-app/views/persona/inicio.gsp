@@ -94,16 +94,28 @@
 												   controller: 'persona',
 												   action: 'buscarPersona',
 							                       update: 'list-persona',
-							                       params: '\'tipo=\' + document.forma.tipo.selectedIndex+\'&persona=\' + this.value.toUpperCase()'												   
+							                       params: '\'tipo=\' + document.forma.tipo.selectedIndex+\'&persona=\' + this.value.toUpperCase()+\'&archivado=\' + document.forma.archivado.checked'												   
 												)}"/>
 							                <label for="tipo"> Por:</label>
-							                <select name="tipo">
+							                <select name="tipo" onchange="${remoteFunction(
+												   controller: 'persona',
+												   action: 'buscarPersona',
+							                       update: 'list-persona',
+							                       params: '\'tipo=\' + document.forma.tipo.selectedIndex+\'&persona=\' + document.forma.valorABuscar.value.toUpperCase()+\'&archivado=\' + document.forma.archivado.checked'												   
+												)}">
 							                	<option value="1">Nombre completo</option>
-							                	<option value="2">Nombre(s)</option>
-							                	<option value="3">Apellidos</option>							                	
+							                	<option value="2">No. de empleado</option>
+							                	<option value="3">Estado</option>							                	
 							                	<option value="4">RFC</option>
 							                	<option value="5">CURP</option>
 							                </select>
+							                <label for="archivado">Mostrar archivados:</label>							                
+							                <g:checkBox name="archivado" onchange="${remoteFunction(
+												   controller: 'persona',
+												   action: 'buscarPersona',
+							                       update: 'list-persona',
+							                       params: '\'tipo=\' + document.forma.tipo.selectedIndex+\'&persona=\' + document.forma.valorABuscar.value.toUpperCase()+\'&archivado=\' + document.forma.archivado.checked'												   
+												)}"/>
 							                </form>
 										</div>											
                                 </div>
