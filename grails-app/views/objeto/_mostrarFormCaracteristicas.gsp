@@ -67,7 +67,8 @@
 							<g:textField id="valor${plantilla?.id}" style='text-transform:uppercase;'
 								name="valor${plantilla?.id}" value=""
 								onChange="generarCadenaValores('valor${plantilla?.id}')" />
-							${plantilla?.caracteristicaUnidad?.unidad}
+								${plantilla?.caracteristicaUnidad?.unidad}
+							
 							<br>
 							<br>
 						</g:each>

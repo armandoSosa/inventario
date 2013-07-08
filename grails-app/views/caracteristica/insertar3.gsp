@@ -7,7 +7,7 @@
 	value="${message(code: 'caracteristica.label', default: 'Caracteristica')}" />
 <title><g:message code="default.create.label"
 		args="[entityName]" /></title>
-		
+
 <link rel="stylesheet"
 	href="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.css')}"
 	type="text/css">
@@ -17,7 +17,7 @@
 	src="${resource(dir: 'images', file: 'fancybox/jquery.min.js')}"></script>
 <script type="text/javascript"
 	src="${resource(dir: 'images', file: 'fancybox/jquery.fancybox.js?v=2.0.6')}"></script>
-	<script type="text/javascript"
+<script type="text/javascript"
 	src="${resource(dir: 'js', file: 'validacion/funciones.js')}"></script>
 
 <!-- Elementos para validacion pop up animado -->
@@ -72,6 +72,7 @@
 	
 	
 </script>
+
 </head>
 <body>
 	<g:render template="verificarExistencia" />
@@ -115,7 +116,10 @@
 
 					</label>
 					<g:textField id="caracteristica" name="caracteristica"
-						value="${caracteristicaInstance?.caracteristica}" style='text-transform:uppercase;' onkeypress="return validarTecleo(event, 8)" required="" class="tooltip" title=""/>
+						value="${caracteristicaInstance?.caracteristica}"
+						style='text-transform:uppercase;'
+						onkeypress="return validarTecleo(event, 8)" required=""
+						class="tooltip" title="" />
 				</div>
 			</fieldset>
 			<fieldset class="buttons">
@@ -124,5 +128,8 @@
 			</fieldset>
 		</g:form>
 	</div>
+
+
+
 </body>
 </html>
