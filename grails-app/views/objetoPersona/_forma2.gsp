@@ -5,12 +5,9 @@
 	<label for="persona">
 		<g:message code="objetoPersona.persona.label" default="Persona" />
 		<span class="required-indicator">*</span>
-	</label>
-	
-	<g:select id="persona" name="persona.id" from="${com.redoaxaca.Persona.list()}" optionKey="id" required=""
-              noSelection="['':'Seleccione una persona']"
-              
-              value="${objetoPersonaInstance?.persona?.id}" class="many-to-one"/>	
+	</label>	
+	<g:textField name="persona" value="${personaInstance}" disabled="true"/>
+	<g:hiddenField name="persona.id" value="${personaInstance?.id}"/>	
 </div>
 <br>
 <div id="objetos"></div>

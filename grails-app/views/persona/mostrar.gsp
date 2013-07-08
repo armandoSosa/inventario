@@ -83,6 +83,11 @@
 							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Fecha Nacimiento:</font> <g:formatDate type="date" style="LONG" date="${personaInstance?.fechaNacimiento}"/> </h3>
 																
 						</g:if>
+						<br>
+						<g:if test="${personaInstance?.sexo}">
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Sexo:</font> ${personaInstance?.sexo} </h3>
+																
+						</g:if>
 						<br>					
 						<g:if test="${personaInstance?.puestosPersona}">
 							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Puesto:</font> <br>
@@ -149,6 +154,8 @@
 				  <div id="tabs-3">
 				    <h2>Pertenencias</h2>
 				  		<br>
+				  		<h3 ><g:link action="insertar2" controller="objetoPersona" id="${personaInstance.id }" ><font class="empleado">Asignar objeto</font> </g:link></h3>
+				  		<br>
 				  		<g:if test="${personaInstance?.objetosPersona}">
 				  			<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Pertenencias:</font> 
 				  			</h3><br>
@@ -157,7 +164,9 @@
 				  						<tr><td>Número de inventario</td><td>Tipo de objeto</td><td>Tipo de propiedad</td></tr>		  										  					
 					  						<g:each in="${personaInstance.objetosPersona}" var="o">
 					  						<tr>
-												<td>${o?.objeto?.noInventario}</td><td>${o?.objeto?.tipo}</td><td>${o?.objeto?.tipoPropiedad } </td>
+					  							<g:if test="${o.fechaInicio==o.fechaFin}">
+												<g:link action="mostrar" controller="objeto" id="${o?.objeto?.id}"><td>${o?.objeto?.noInventario}</td></g:link><td>${o?.objeto?.tipo}</td><td>${o?.objeto?.tipoPropiedad } </td>
+												</g:if>
 											</tr>
 											</g:each>						  					
 				  					</tbody>
@@ -169,10 +178,7 @@
 							<h3 class="empleado">Este usuario no tiene pertenencias.</h3>	
 						</g:else>
 				  </div>
-				</div>
-					
-			
-               
+				</div>				
                </div>
         	</div>			
 		</div>			
@@ -182,7 +188,9 @@
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${personaInstance?.id}" />
 					<g:link class="edit" action="editar" id="${personaInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+					<g:if test="${!personaInstance?.archivado}">
+					<g:link name="cancel" class="delete" action="archivar" id="${personaInstance.id}" onclick="return confirm('¿Seguro que desear archivar al empleado?');">Archivar</g:link>
+					</g:if>					
 				</fieldset>
 			</g:form>
 		

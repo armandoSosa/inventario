@@ -64,6 +64,14 @@
 	<g:datePicker name="fechaNacimientoP" precision="day"  value="${personaInstance?.fechaNacimiento}" disabled="true" />
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'sexo', 'error')} required">
+	<label for="sexo">
+		<g:message code="persona.sexo.label" default="Sexo" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="sexo" name="sexo.id" from="${com.redoaxaca.Sexo.list()}" optionKey="id" required="" value="${personaInstance?.sexo?.id}" class="many-to-one"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'email', 'error')} ">
 	<label for="email">
 		<g:message code="persona.email.label" default="Email" />

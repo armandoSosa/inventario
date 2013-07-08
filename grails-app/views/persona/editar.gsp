@@ -427,8 +427,8 @@ function crear(obj) {
 					<g:render template="forma2"/>
 				</fieldset>
 				<fieldset class="buttons">
-					<a  class="save" onClick="validarEnvio()">Editar</a>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+					<a  class="save" onClick="validarEnvio()">Editar</a>										
+					<g:link name="cancel" class="cancelar" action="mostrar" id="${personaInstance.id}">Cancelar</g:link>
 				</fieldset>
 			</g:form>
 		</div>

@@ -7,12 +7,13 @@ class Persona {
 	String materno
 	String curp
 	String rfc
+	boolean archivado
 	Date fechaNacimiento
 	String email	
 	List objetosPersona = new ArrayList()
 	
 	static hasMany = [subordinado: Persona, objetosPersona: ObjetoPersona, puestosPersona: PuestoPersona, direcciones: Direccion, telefonos: Telefono, usuarios: Usuario]	
-	static belongsTo = [foto: Foto] 
+	static belongsTo = [foto: Foto, sexo: Sexo] 
     
 	static constraints = {
 		numeroEmpleado(blank: false, unique: true)

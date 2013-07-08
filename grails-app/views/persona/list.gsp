@@ -32,9 +32,9 @@
 					
 						<g:sortableColumn property="materno" title="${message(code: 'persona.materno.label', default: 'Materno')}" />
 					
-						<g:sortableColumn property="curp" title="${message(code: 'persona.curp.label', default: 'Curp')}" />
+						<g:sortableColumn property="fechaNacimiento" title="${message(code: 'persona.fechaNacimiento.label', default: 'Fecha Nacimiento')}" />
 					
-						<g:sortableColumn property="rfc" title="${message(code: 'persona.rfc.label', default: 'Rfc')}" />
+						<g:sortableColumn property="email" title="${message(code: 'persona.email.label', default: 'Email')}" />
 					
 					</tr>
 				</thead>
@@ -50,9 +50,9 @@
 					
 						<td>${fieldValue(bean: personaInstance, field: "materno")}</td>
 					
-						<td>${fieldValue(bean: personaInstance, field: "curp")}</td>
+						<td><g:formatDate date="${personaInstance.fechaNacimiento}" /></td>
 					
-						<td>${fieldValue(bean: personaInstance, field: "rfc")}</td>
+						<td>${fieldValue(bean: personaInstance, field: "email")}</td>
 					
 					</tr>
 				</g:each>

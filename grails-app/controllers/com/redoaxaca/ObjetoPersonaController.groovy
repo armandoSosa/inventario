@@ -189,9 +189,9 @@ class ObjetoPersonaController {
 		[objetoPersonaInstance: new ObjetoPersona(params), personaInstance: new Persona(params)]
 	}
 	
-	def insertar2 = {
+	def insertar2 (Long id) {
 		def objetosList = Objeto.list()
-		
+		def personaInstance = Persona.get(id)
 		
 		objetosList = Objeto.findAll("\
 			from \
@@ -203,7 +203,7 @@ class ObjetoPersonaController {
 			not {'in'("id", objetosList.objeto.id)}
 		}
 				
-		[objetoPersonaInstance: new ObjetoPersona(params), personaInstance: new Persona(params), objetosList: objetos]
+		[objetoPersonaInstance: new ObjetoPersona(params), personaInstance: personaInstance, objetosList: objetos]
 	}
 	
 	def getObjetos(){
@@ -238,25 +238,28 @@ class ObjetoPersonaController {
 	}
 	
 	def guardarObjetoPersona(){
-		System.out.println(params.caracteristicas)
-		def caracteristicas = params.list("caracteristicas")
+		System.out.println(params)
+		def caracteristicas = params.list("caracteristicas")		
+		def personaInstance = Persona.get(params.persona.id)
 		for (String idString in caracteristicas) {						
 					try {
 						def objetoPersonaInstance = new ObjetoPersona(params)
 						objetoPersonaInstance.objeto = Objeto.findById(idString)
 						objetoPersonaInstance.fechaInicio = new Date()
 						objetoPersonaInstance.fechaFin = objetoPersonaInstance.fechaInicio
-						objetoPersonaInstance.persona = Persona.findById(params.persona.id)												
+						//objetoPersonaInstance.persona = Persona.findById(params.persona)
+						personaInstance.addToObjetosPersona(objetoPersonaInstance)
 						System.out.println("id:"+idString)
-						if (!objetoPersonaInstance.save(flush: true)) {
-							render(view: "mostrar", model: [objetoPersonaInstance: objetoPersonaInstance])
-							return
-						}
+						
 						
 					} catch (PlantillaException pe) {
 						//flash.message = pe.message
 						System.out.println(pe.message)
 					}				
+		}
+		if (!personaInstance.save(flush: true)) {
+			render(view: "mostrar", model: [objetoPersonaInstance: objetoPersonaInstance])
+			return
 		}
 		redirect(action: "list")
 	}

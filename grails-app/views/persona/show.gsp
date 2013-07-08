@@ -59,24 +59,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${personaInstance?.curp}">
-				<li class="fieldcontain">
-					<span id="curp-label" class="property-label"><g:message code="persona.curp.label" default="Curp" /></span>
-					
-						<span class="property-value" aria-labelledby="curp-label"><g:fieldValue bean="${personaInstance}" field="curp"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.rfc}">
-				<li class="fieldcontain">
-					<span id="rfc-label" class="property-label"><g:message code="persona.rfc.label" default="Rfc" /></span>
-					
-						<span class="property-value" aria-labelledby="rfc-label"><g:fieldValue bean="${personaInstance}" field="rfc"/></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${personaInstance?.fechaNacimiento}">
 				<li class="fieldcontain">
 					<span id="fechaNacimiento-label" class="property-label"><g:message code="persona.fechaNacimiento.label" default="Fecha Nacimiento" /></span>
@@ -95,20 +77,49 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${personaInstance?.foto}">
+				<g:if test="${personaInstance?.objetosPersona}">
 				<li class="fieldcontain">
-					<span id="foto-label" class="property-label"><g:message code="persona.foto.label" default="Foto" /></span>
+					<span id="objetosPersona-label" class="property-label"><g:message code="persona.objetosPersona.label" default="Objetos Persona" /></span>
+					
+						<g:each in="${personaInstance.objetosPersona}" var="o">
+						<span class="property-value" aria-labelledby="objetosPersona-label"><g:link controller="objetoPersona" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
+						</g:each>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${personaInstance?.telefonos}">
+				<g:if test="${personaInstance?.foto}">
 				<li class="fieldcontain">
-					<span id="telefonos-label" class="property-label"><g:message code="persona.telefonos.label" default="Telefonos" /></span>
+					<span id="foto-label" class="property-label"><g:message code="persona.foto.label" default="Foto" /></span>
 					
-						<g:each in="${personaInstance.telefonos}" var="t">
-						<span class="property-value" aria-labelledby="telefonos-label"><g:link controller="telefono" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></span>
-						</g:each>
+						<span class="property-value" aria-labelledby="foto-label"><g:link controller="foto" action="show" id="${personaInstance?.foto?.id}">${personaInstance?.foto?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${personaInstance?.curp}">
+				<li class="fieldcontain">
+					<span id="curp-label" class="property-label"><g:message code="persona.curp.label" default="Curp" /></span>
+					
+						<span class="property-value" aria-labelledby="curp-label"><g:fieldValue bean="${personaInstance}" field="curp"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${personaInstance?.rfc}">
+				<li class="fieldcontain">
+					<span id="rfc-label" class="property-label"><g:message code="persona.rfc.label" default="Rfc" /></span>
+					
+						<span class="property-value" aria-labelledby="rfc-label"><g:fieldValue bean="${personaInstance}" field="rfc"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${personaInstance?.archivado}">
+				<li class="fieldcontain">
+					<span id="archivado-label" class="property-label"><g:message code="persona.archivado.label" default="Archivado" /></span>
+					
+						<span class="property-value" aria-labelledby="archivado-label"><g:formatBoolean boolean="${personaInstance?.archivado}" /></span>
 					
 				</li>
 				</g:if>
@@ -119,17 +130,6 @@
 					
 						<g:each in="${personaInstance.direcciones}" var="d">
 						<span class="property-value" aria-labelledby="direcciones-label"><g:link controller="direccion" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${personaInstance?.objetosPersona}">
-				<li class="fieldcontain">
-					<span id="objetosPersona-label" class="property-label"><g:message code="persona.objetosPersona.label" default="Objetos Persona" /></span>
-					
-						<g:each in="${personaInstance.objetosPersona}" var="o">
-						<span class="property-value" aria-labelledby="objetosPersona-label"><g:link controller="objetoPersona" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 				</li>
@@ -146,12 +146,32 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${personaInstance?.sexo}">
+				<li class="fieldcontain">
+					<span id="sexo-label" class="property-label"><g:message code="persona.sexo.label" default="Sexo" /></span>
+					
+						<span class="property-value" aria-labelledby="sexo-label"><g:link controller="sexo" action="show" id="${personaInstance?.sexo?.id}">${personaInstance?.sexo?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${personaInstance?.subordinado}">
 				<li class="fieldcontain">
 					<span id="subordinado-label" class="property-label"><g:message code="persona.subordinado.label" default="Subordinado" /></span>
 					
 						<g:each in="${personaInstance.subordinado}" var="s">
 						<span class="property-value" aria-labelledby="subordinado-label"><g:link controller="persona" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${personaInstance?.telefonos}">
+				<li class="fieldcontain">
+					<span id="telefonos-label" class="property-label"><g:message code="persona.telefonos.label" default="Telefonos" /></span>
+					
+						<g:each in="${personaInstance.telefonos}" var="t">
+						<span class="property-value" aria-labelledby="telefonos-label"><g:link controller="telefono" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 				</li>
