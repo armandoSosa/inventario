@@ -237,6 +237,14 @@ class ObjetoPersonaController {
 		return [ objetosPersona: objetosPersona, persona: persona]
 	}
 	
+	def desasignarObjetoPersona(){		
+		def objetoPersonaInstance = ObjetoPersona.get(params.objetoPersona)
+		objetoPersonaInstance.fechaFin = new Date()
+		objetoPersonaInstance.save(flush: true)		
+		redirect(controller: "persona", action: "mostrar", id: params.persona)
+		
+	}
+	
 	def guardarObjetoPersona(){
 		System.out.println(params)
 		def caracteristicas = params.list("caracteristicas")		
@@ -261,7 +269,7 @@ class ObjetoPersonaController {
 			render(view: "mostrar", model: [objetoPersonaInstance: objetoPersonaInstance])
 			return
 		}
-		redirect(action: "list")
+		redirect(action: "mostrar", controller: "persona", id:params.persona.id)
 	}
 	
 	def save_objetoPersona(){

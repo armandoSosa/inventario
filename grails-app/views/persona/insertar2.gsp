@@ -29,7 +29,7 @@
 	<g:if test="${params.id}">	
 		<script language="javascript">
 		window.onload = function() {
-			llamarInLine2();
+			//llamarInLine2();
 		}
 		</script>															
 	</g:if>
@@ -166,7 +166,9 @@
 		<script type="text/javascript" src="${resource(dir: 'js', file: 'tooltipster-master/js/jquery.tooltipster.js')}"></script>
 		<script type="text/javascript" src="${resource(dir: 'js/validacion', file: 'funciones.js')}"></script>
 		<script>
-			$(document).ready(function() {
+			$(document).ready(function() {				
+				$('#departamento_chzn').addClass('tooltip');				
+				$('#estado_chzn').addClass('tooltip');				
 				
 				$('.tooltip').tooltipster({
 				    animation: 'grow',
@@ -242,9 +244,10 @@
 	
 
 	function validarEnvio() {
-		var container, inputs, index, fin, municipioSelecionado, rfcValido, curpValida, rfc, curp;
+		var container, inputs, index, fin, municipioSelecionado, puestoSeleccionado, rfcValido, curpValida, rfc, curp;
 		fin = false;
 		municipioSelecionado = false;
+		puestoSeleccionado = false;
 		rfcValido = false;
 		curpValida = false;
 		// Get the container element
@@ -254,7 +257,7 @@
 		inputs = container.getElementsByTagName('input');
 		selects = container.getElementsByTagName('select');
 		
-		for (index = 0; index < inputs.length; ++index) {
+		for (index = 0; index < inputs.length; ++index) {			
 		    if(inputs[index].id!="" && inputs[index].type!="hidden" && inputs[index].id!="noInterior" && inputs[index].value == ""){		    	
 			    if(!fin){				    			    				    
 			    	mostrarValidacion(inputs[index].id, "Debe completar este campo");	
@@ -297,19 +300,27 @@
 	    	fin = true;
 		}		
 		
-		for (index = 0; index < selects.length; ++index) {
-			if(selects[index].id=="municipio"){
-				municipioSelecionado = true;
+		for (index = 0; index < selects.length; ++index) {			
+				if(selects[index].id=="municipio"){					
+					municipioSelecionado = true;					
+				}
+				if(selects[index].id=="puesto"){									
+					puestoSeleccionado = true;					
+				}
+							
+		}		
+		if(!fin){
+			if(!puestoSeleccionado){		
+				mostrarValidacion("departamento_chzn", "Debe seleccionar un departamento que contenga puestos");
+				fin = true;
+			}else if(!municipioSelecionado){				
+				mostrarValidacion("estado_chzn", "Debe seleccionar un estado que contenga municipios");
+				fin = true;							
 			}
 		}		
-				
-		if (!fin && curpValida && rfcValido){
-			if(!municipioSelecionado){
-				alert("Este estado no tiene municipios registrados, seleccione otro estado o ingrese municipios para este estado");				
-			}else{
-				$('#formPersona').submit();
-				//alert("enviado");
-			}						
+		
+		if (!fin && curpValida && rfcValido){			
+			$('#formPersona').submit();								
 		}
 	}	
 </script>
@@ -458,7 +469,8 @@ function borrar(obj) {
 			</g:hasErrors>
 			<br><br>			
 			<fieldset>			
-			<legend>Información personal</legend>
+			<legend>Información personal</legend>			
+			<g:if test="${!params.id }">
 			<g:form name="formFoto"  action="save_foto" controller="foto" enctype="multipart/form-data">				
 				<div class="fieldcontain ${hasErrors(bean: fotoInstance, field: 'foto', 'error')} required">
 					<label for="foto">
@@ -468,6 +480,13 @@ function borrar(obj) {
 				</div>
 				<g:submitButton style="display:none;" name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
 			</g:form>
+			</g:if>
+			<g:else>
+				<br><br>
+				<div id="imagenPerfil">
+					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" width="200" height="300"/>
+				</div>
+			</g:else>
 			</fieldset>
 			<g:form name="formPersona" action="save_persona"  enctype="multipart/form-data">
 				<fieldset class="form">

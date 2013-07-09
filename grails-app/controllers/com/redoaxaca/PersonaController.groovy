@@ -11,7 +11,7 @@ class PersonaController {
 
 	def inicio (Integer max) {
 		params.max = Math.min(max ?: 10, 100)		
-		[personaInstanceList: Persona.findAllByArchivado("false"), personaInstanceTotal: Persona.count()]
+		[personaInstanceList: Persona.findAllByArchivado("false", [max: max, offset: 0, sort: params.sort, order: params.order]), personaInstanceTotal: Persona.count()]		
 	}
 
 	def index2 = {
@@ -56,8 +56,7 @@ class PersonaController {
 
 	def empleados(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
-		[personaInstanceList: Persona.list(params), personaInstanceTotal: Persona.count()]
-
+		[personaInstanceList: Persona.list(params), personaInstanceTotal: Persona.count()]		
 	}
 
 	def index() {
@@ -80,7 +79,10 @@ class PersonaController {
 		def direccionInstance = new Direccion(params)
 		def puestoPersonaInstance = new PuestoPersona(params)
 		def fotoInstance = Foto.findById(params.idfoto)
+		//def fotoInstance = new Foto(params)
 		System.out.println("idfoto:"+params.idfoto)
+		
+		//fotoInstance.save(flush: true)
 
 		personaInstance.properties = params
 		personaInstance.setNombre(personaInstance.getNombre().toUpperCase())
@@ -118,8 +120,8 @@ class PersonaController {
 		 }*/		
 
 		personaInstance.addToDirecciones(direccionInstance)
-		personaInstance.addToPuestosPersona(puestoPersonaInstance)
-		personaInstance.setFoto(fotoInstance)		
+		personaInstance.addToPuestosPersona(puestoPersonaInstance)		
+		personaInstance.setFoto(fotoInstance)
 
 		 int cantidad = 0
 		 if(params.cantidad!='')
@@ -137,8 +139,15 @@ class PersonaController {
 		 }
 		 
 		if (!personaInstance.save(flush: true)) {
+			def departamentoInstance = Departamento.get(personaInstance?.puestosPersona?.puesto?.departamento?.id?.get(personaInstance?.puestosPersona?.size()-1))
+			//Se obtiene la lista de puestos
+			def puestosList = departamentoInstance?.puestos
+			
+			def estadoInstance = Estado.get(personaInstance?.direcciones?.municipio?.estado?.id?.get(personaInstance?.direcciones?.size()-1))
+			//Se obtiene la lista de municipio
+			def municipiosList = estadoInstance?.municipios
 			flash.error = "No se pudo insertar"
-			render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance, puestoPersonaInstance: puestoPersonaInstance ])
+			render(view: "insertar2", model: [personaInstance: personaInstance, direccionInstance: direccionInstance, puestoPersonaInstance: puestoPersonaInstance, puestosList: puestosList, municipiosList:municipiosList])
 			return
 		}
 
@@ -218,13 +227,24 @@ class PersonaController {
 
 	def editar(Long id) {
 		def personaInstance = Persona.get(id)
+		
+		def departamentoInstance = Departamento.get(personaInstance?.puestosPersona?.puesto?.departamento?.id?.get(personaInstance?.puestosPersona?.size()-1))		
+		//Se obtiene la lista de puestos
+		def puestosList = departamentoInstance?.puestos
+		
+		def estadoInstance = Estado.get(personaInstance?.direcciones?.municipio?.estado?.id?.get(personaInstance?.direcciones?.size()-1))
+		//Se obtiene la lista de municipio
+		def municipiosList = estadoInstance?.municipios
+		
+		System.out.println("tam:"+departamentoInstance?.puestos)
+		
 		if (!personaInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'persona.label', default: 'Persona'), id])
-			redirect(action: "list")
+			redirect(action: "mostrar")
 			return
 		}
 
-		[personaInstance: personaInstance]
+		[personaInstance: personaInstance, puestosList: puestosList, municipiosList:municipiosList]
 	}
 
 	def actualizar(Long id) {
@@ -321,7 +341,15 @@ class PersonaController {
 		 
 
 		if (!personaInstance.save(flush: true)) {
-			render(view: "editar", model: [personaInstance: personaInstance])
+			def departamentoInstance = Departamento.get(personaInstance?.puestosPersona?.puesto?.departamento?.id?.get(personaInstance?.puestosPersona?.size()-1))
+			//Se obtiene la lista de puestos
+			def puestosList = departamentoInstance?.puestos
+			
+			def estadoInstance = Estado.get(personaInstance?.direcciones?.municipio?.estado?.id?.get(personaInstance?.direcciones?.size()-1))
+			//Se obtiene la lista de municipio
+			def municipiosList = estadoInstance?.municipios
+			
+			render(view: "editar", model: [personaInstance: personaInstance, puestosList: puestosList, municipiosList:municipiosList])
 			return
 		}
 
@@ -389,6 +417,7 @@ class PersonaController {
 	}
 
 	def buscarPersona (Integer max) {
+		//System.out.println(params)
 		def personas, personas2, personas3, estados
 		def personaInstanceList
 		def personaInstanceTotal
@@ -399,65 +428,78 @@ class PersonaController {
 			if(params.archivado=="true"){
 				switch(tipoBusqueda){
 					case '0':
-						personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: max, offset: 0, sort: params.sort, order: params.order])
 						break
 					case '1':					
-						personas = Persona.findAllByNumeroEmpleadoLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						personas = Persona.findAllByNumeroEmpleadoLike("%"+persona+"%", [max: max, offset: 0, sort: params.sort, order: params.order])
 						break
 					case '2':
-						def query = Persona.where {
-							(direcciones.municipio.estado.nombre =~ persona)
-						}
-						personas = query.find()
-						if(personas==null){
-							personas = new Persona()
+						def criterio = Persona.createCriteria()
+						personas = criterio{
+							direcciones{
+								municipio{
+									estado{
+										like("nombre", persona+"%")										
+									}
+								}
+							}
 						}						
+												
 						break
 					case '3':
-						personas = Persona.findAllByRfcLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						personas = Persona.findAllByRfcLike("%"+persona+"%", [max: max, offset: 0, sort: params.sort, order: params.order])
 						break
 					case '4':
-						personas = Persona.findAllByCurpLike("%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						personas = Persona.findAllByCurpLike("%"+persona+"%", [max: max, offset: 0, sort: params.sort, order: params.order])
 						break
 				}
 			}else{
 				switch(tipoBusqueda){
 					case '0':
-						personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: max, offset: 0, sort: params.sort, order: params.order])
 						def aux = Persona.findAllByArchivado("true")
 						personas.removeAll(aux)
 						break
 					case '1':												
-						personas = Persona.findAllByNumeroEmpleadoLikeAndArchivado("%"+persona+"%", false, [max: 5, offset: 0, sort: "nombre", order: "desc"])						
+						personas = Persona.findAllByNumeroEmpleadoLikeAndArchivado("%"+persona+"%", false, [max: max, offset: 0, sort: params.sort, order: params.order])						
 						break
 					case '2':																	
-						def query = Persona.where {
-							direcciones.municipio.estado.nombre =~ persona
-						}
-						personas = query.find()
-						if(personas==null){
-							personas = []
+						def criterio = Persona.createCriteria()
+						personas = criterio{
+							direcciones{
+								municipio{
+									estado{
+										like("nombre", persona+"%")										
+									}
+								}
+							}
+							eq("archivado", false)
 						}						
 						break
 					case '3':
-						personas = Persona.findAllByRfcLikeAndArchivado("%"+persona+"%", false, [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						personas = Persona.findAllByRfcLikeAndArchivado("%"+persona+"%", false, [max: max, offset: 0, sort: params.sort, order: params.order])
 						break
 					case '4':
-						personas = Persona.findAllByCurpLikeAndArchivado("%"+persona+"%", false, [max: 5, offset: 0, sort: "nombre", order: "desc"])
+						personas = Persona.findAllByCurpLikeAndArchivado("%"+persona+"%", false, [max: max, offset: 0, sort: params.sort, order: params.order])
 						break
 				}
-			}
-			System.out.println("asd:"+params)
-			
+			}			
 			personaInstanceList = personas
 			personaInstanceTotal = personas.count
 		}else{
-			personaInstanceList = Persona.findAllByArchivado("false")
+			if(params.archivado=="true"){
+				personaInstanceList = Persona.findAll([max: max, offset: 0, sort: params.sort, order: params.order])
+			}else{
+				personaInstanceList = Persona.findAllByArchivado("false", [max: max, offset: 0, sort: params.sort, order: params.order])
+			}
+			
 			personaInstanceTotal = Persona.count()
+		}	
+		if(!max){
+			render (template:'tablaPersonas', model: [ archivado: params.archivado, tipo: params.tipo, persona:params.persona, personaInstanceList: personaInstanceList, personaInstanceTotal: personaInstanceTotal, max:max])
+		}else{
+			render (view:'inicio', model: [ archivado: params.archivado, tipo: params.tipo, persona:params.persona, personaInstanceList: personaInstanceList, personaInstanceTotal: personaInstanceTotal, max:max])
 		}
-
-
-		render (template:'tablaPersonas', model: [ personaInstanceList: personaInstanceList, personaInstanceTotal: personaInstanceTotal])
-
+				
 	}
 }
