@@ -203,7 +203,7 @@ var editados=0;
 		}
 	}
 
-	function editar(id, tieneValores) {
+	function editar(id, fila, tieneValores) {
 		var confirmacion;
 		if (tieneValores>0 && $("#editados").val().indexOf("'"+id+"'")==-1) {
 			confirmacion = confirm('Hay valores ya ingresados para esta característica. ¿Está seguro que desea editarla? NOTA: Se deben actualizar '+tieneValores+' objetos');
@@ -212,13 +212,13 @@ var editados=0;
 		}
 		if(confirmacion) {
 			if(editados==0) {
-				$("#editados").val("'"+id+"'");
+				$("#editados").val("'"+id+"'*"+fila+"*");
 				editados++;
 			} else {
 				
 				var editadosString = $("#editados").val();
 				if(editadosString.indexOf("'"+id+"'")==-1) {
-					$("#editados").val(editadosString+",'"+id+"'");
+					$("#editados").val(editadosString+",'"+id+"'*"+fila+"*");
 				}
 			}
 		} else {
@@ -269,7 +269,7 @@ var editados=0;
 			<li><a class="home" href="${createLink(uri: '/')}"><g:message
 						code="default.home.label" /></a></li>
 			<li><g:link class="list" action="menu">
-					<g:message code="default.list.label" args="[entityName]" />
+					<g:message code="Tipo Lista" />
 				</g:link></li>
 		</ul>
 	</div>
@@ -313,21 +313,16 @@ var editados=0;
 				
 				
 				
+				</fieldset>
+
 				
 
+				<g:hiddenField id="orden" name="orden" type="text" value="" />
+				<g:hiddenField id="quitados" name="quitados" type="text" value="" />
+				<g:hiddenField id="editados" name="editados" type="text" value="" />
 
-
-				<input id="orden" name="orden" type="text" value="" />
-				<input id="quitados" name="quitados" type="text" value="" />
-				<input id="editados" name="editados" type="text" value="" />
-
-			</fieldset>
-			<fieldset class="buttons">
-				<a class="save" onClick="enviar()">Crear</a>
-				<g:submitButton name="envio" value="enPrueba" />
-				<g:link name="cancel" class="cancelar" action="menu">Cancelar</g:link>
-
-			</fieldset>
+			
+			
 		</g:form>
 	</div>
 

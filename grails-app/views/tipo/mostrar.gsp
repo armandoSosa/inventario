@@ -79,7 +79,7 @@
 				</li>
 				</g:if>
 				<br><br>
-				<a href="/inventarios3/plantilla/insertar2/${tipoInstance?.id}">Modificar características</a>
+				<a href="/inventarios3/tipo/insertar3/${tipoInstance?.id}">Modificar características</a>
 			
 			</ol>
 			<g:form>
