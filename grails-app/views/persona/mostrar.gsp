@@ -21,7 +21,13 @@
   $(function() {
     $( "#tabs" ).tabs()
     .addClass('ui-tabs-vertical ui-helper-clearfix');
-  });
+  });  
+  </script>
+  <script>
+	function recargar(){
+		window.location.reload()
+	}
+	
   </script>
 	</head>
 	<body>
@@ -50,12 +56,12 @@
 			
 				<div id="tabs">
 				  <ul>
-				  
+				  	<g:if test="${personaInstance?.foto?.id}">
 	               		<div id="imagenPerfil">
 							<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${personaInstance?.foto?.id}"/>" width="200" height="300"/>
 						</div>
-						
-								
+					</g:if>
+							
 				    <li><a href="#tabs-1">Información del Empleado</a></li>
 				    <li><a href="#tabs-2">Contacto</a></li>
 				    <li><a href="#tabs-3">Pertenecias</a></li>
@@ -161,11 +167,24 @@
 				  			</h3><br>
 				  				<table>		
 				  					<tbody>	
-				  						<tr><td>Número de inventario</td><td>Tipo de objeto</td><td>Tipo de propiedad</td></tr>		  										  					
+				  						<tr>
+				  						<td>No. de inventario</td>
+				  						<td>Tipo de objeto</td>
+				  						<td>Tipo de propiedad</td>
+				  						<td></td>
+				  						</tr>		  										  					
 					  						<g:each in="${personaInstance.objetosPersona}" var="o">
 					  						<tr>
 					  							<g:if test="${o.fechaInicio==o.fechaFin}">
-												<g:link action="mostrar" controller="objeto" id="${o?.objeto?.id}"><td>${o?.objeto?.noInventario}</td></g:link><td>${o?.objeto?.tipo}</td><td>${o?.objeto?.tipoPropiedad } </td>
+												<td><g:link action="mostrar" controller="objeto" id="${o?.objeto?.id}">${o?.objeto?.noInventario}</g:link></td><td>${o?.objeto?.tipo}</td><td>${o?.objeto?.tipoPropiedad } </td>
+												<td><input id="${personaInstance.id}" name="${o.id }" type="button" value="Desasignar" 
+												onclick="${remoteFunction(
+													   controller: 'objetoPersona',
+													   action: 'desasignarObjetoPersona',
+												  onComplete: 'recargar()',								                       
+									                params: '\'objetoPersona=\' + this.name+\'&persona=\' + this.id'
+												  	
+													)} "></td>
 												</g:if>
 											</tr>
 											</g:each>						  					

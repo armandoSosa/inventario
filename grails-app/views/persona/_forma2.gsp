@@ -9,14 +9,6 @@
 	<g:textField name="numeroEmpleado" required="" value="${personaInstance?.numeroEmpleado}" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: puestoPersonaInstance, field: 'puesto', 'error')} required">
-	<label for="puesto">
-		<g:message code="puestoPersona.puesto.label" default="Puesto" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="puesto" name="puesto.id" from="${com.redoaxaca.Puesto.list()}" optionKey="id" required="" value="${puestoPersonaInstance?.puesto?.id}" class="many-to-one"/>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'nombre', 'error')} required">
 	<label for="nombre">
 		<g:message code="persona.nombre.label" default="Nombre(s)" />
@@ -100,6 +92,34 @@
 </fieldset>	
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: puestoPersonaInstance, field: 'puesto', 'error')} required">
+<label for="puesto">
+Departamento
+<span class="required-indicator">*</span>
+</label>
+	<g:select id="departamento" name="departamento.id" from="${com.redoaxaca.Departamento.list() }" optionKey="id" required=""
+		noSelection="['': 'Seleccione un departamento']"								 
+		data-placeholder="Seleccione un departamento" class="chzn-select" 
+		value="${personaInstance?.puestosPersona?.puesto?.departamento?.id?.get(0)}"
+		style="width:350px;" tabindex="2"		
+		onChange="${ remoteFunction (
+			controller:'departamento', 
+			action:'mostrarPuestos', 
+			params: '\'id=\' + this.value',
+			update:'puestosDiv')}"/>
+</div>
+
+<div id="puestosDiv" class="fieldcontain ${hasErrors(bean: puestoPersonaInstance, field: 'puesto', 'error')} required">
+<g:if test="${personaInstance?.puestosPersona?.puesto?.nombre}">
+	<label for="puesto">
+			<g:message code="puestoPersona.puesto.label" default="Puesto" />			
+			<span class="required-indicator">*</span>
+		</label>
+	<g:select id="puesto" name="puesto.id" from="${puestosList}"
+		value="${personaInstance?.puestosPersona?.puesto?.id?.get(0)}" 
+		optionKey="id" required="" class="many-to-one" data-placeholder="Seleccione un puesto" class="chzn-select" style="width:350px;" tabindex="2"/>
+</g:if>					
+</div>
 
 <br><br>
 <fieldset>
@@ -161,7 +181,7 @@
 		<g:message code="direccion.municipio.label" default="Municipio" />
 		<span class="required-indicator">*</span>
 	</label>
-		<g:select id="municipio" name="municipio.id" from="${com.redoaxaca.Municipio.list()}" optionKey="id" required=""
+		<g:select id="municipio" name="municipio.id" from="${municipiosList}" optionKey="id" required=""
                   value="${personaInstance?.direcciones?.municipio?.id?.get(index_direccion)}" data-placeholder="Selecciona un municipio" class="chzn-select" style="width:350px;" tabindex="2"/>		
 	</g:if>
 </div>

@@ -394,9 +394,7 @@ class DepartamentoController {
 		for (Departamento d in departamentos){
 			d.delete()
 		}
-
-
-	}
+	}	
 
 	Departamento buscarPadre(Departamento hijo) {
 		def departamentos = Departamento.list()
@@ -405,5 +403,15 @@ class DepartamentoController {
 				return d
 			}
 		}
+	}
+	
+	def mostrarPuestos(Long id){
+		def departamentoInstance = Departamento.get(id)		
+				
+		//Se obtiene la lista de municipio
+		def puestosList = departamentoInstance?.puestos		
+		
+		//Se hace el render del template '_selectMunicipios.gsp' con la lista de estados obtenida.
+		render(template: "puestos", model: [puestosList:puestosList, estadoInstance: departamentoInstance])
 	}
 }

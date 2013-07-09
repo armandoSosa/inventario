@@ -15,7 +15,8 @@
 						<tr id='fila_${contador+1}'>
 							
 							<td><img src="${resource(dir: 'images', file: 'sortableIcon.png')}"
-										width="15" height="15"> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<input id='carac_${contador+1}' name='carac_${contador+1}'
+										width="15" height="15"> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+								<input id='carac_${contador+1}' name='carac_${contador+1}'
 								style='text-transform: uppercase;' class='tooltip ui-widget'
 								title='' required='' value="${p?.caracteristicaUnidad?.caracteristica?.caracteristica}"
 								onkeydown="return editar(${p.id}, ${contador+1}, ${tieneValores.get(contador)});"/></td>
