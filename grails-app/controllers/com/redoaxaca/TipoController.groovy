@@ -221,7 +221,8 @@ class TipoController {
 		render(controller:"tipo", template: "formAgregarTipo", model: [tipoProbable: tipoProbable])
 	}
 
-	def insertar3() {
+	def insertar3(Long id) {
+		
 		def tipos = Tipo.executeQuery('select descripcion from Tipo')
 		JSONArray arrayTipo=new JSONArray();
 		for (String tipo in tipos){
@@ -243,8 +244,10 @@ class TipoController {
 		for (String c in carac) {
 			arrayCaracUnidad.put(c)
 		}
-
+		
 		[tipos:arrayTipo, caracteristicas:arrayCaracUnidad, unidades:arrayUnidad]
+
+		
 	}
 
 	def insertar4() {
@@ -445,6 +448,12 @@ class TipoController {
 			if(ordenString.length()>=1 && ordenString.charAt(0).toString().equals(",")){
 				ordenString=ordenString.substring(1, ordenString.length())
 			}
+			
+			String[] arrayEditados
+			System.out.println("editados------------------- "+params.editados)
+			if(!params.editados.equals("")) {
+				arrayEditados = params.editados.split(",")
+			}
 			String[] arrayOrden = ordenString.split(",")
 			System.out.println("--------------------------")
 			for (String s in arrayOrden) {
@@ -507,8 +516,48 @@ class TipoController {
 						System.out.println("se guardó "+plantillaBD+" "+plantillaBD.orden+" orden "+(i+1))
 					}
 				} else {
-					def plantilla = new Plantilla(tipo: tipo, caracteristicaUnidad: caracUnidad, orden: (i+1))
-					tipo.addToPlantilla(plantilla)
+				
+					//Debemos verificar si la plantilla corresponde a una edición o es nueva
+					int indexEdicion = params.editados.indexOf("*"+arrayOrden[i]+"*")
+					if(indexEdicion!=-1) {//Es editado
+						System.out.print("Es editado de la plantilla: "+params.editados+" fila: "+arrayOrden[i])
+						//Obtenemos el id de la plantilla que se va a editar
+						String idPlantilla="";
+						for (int j=0; j<arrayEditados.length; j++) {
+							if(arrayEditados[j].contains("*"+arrayOrden[i]+"*")) {
+								int indexAsterisco = arrayEditados[j].toString().indexOf("*")
+								idPlantilla = arrayEditados[j].toString().substring(0, indexAsterisco).replaceAll("'", "")
+								
+							}
+						}
+						
+						//Verificamos si la caracterítiscaUnidad de la plantilla a editar existe en alguna otra plantilla
+						def plantillaEditar = Plantilla.get(Long.parseLong(idPlantilla))
+						
+						def plantillas = Plantilla.findAllByCaracteristicaUnidad(plantillaEditar.caracteristicaUnidad)
+						if(plantillas.size()>1) {//Hay más tipos de objeto con esa característicaUnidad
+							System.out.println("Hay más plantillas con esta caracteristica unidad "+idPlantilla)
+							tipo.removeFromPlantilla(plantillaEditar) 
+							
+							
+							def plantilla = new Plantilla(tipo: tipo, caracteristicaUnidad: caracUnidad, orden: (i+1))
+							tipo.addToPlantilla(plantilla)
+						} else {//Es posible editarla, ya que es el único tipo de objeto que tiene esa característicaUnidad
+							System.out.println("Es la única plantilla con esta caracteristica unidad")
+							plantillaEditar.caracteristicaUnidad=caracUnidad
+							if(!plantillaEditar.save(flush:true)) {
+								System.out.println("ERROR")
+							} else {
+								System.out.println("se guardó la plantilla editada"+plantillaEditar)
+							}
+						}
+					} else { //Es una plantilla nueva
+						def plantilla = new Plantilla(tipo: tipo, caracteristicaUnidad: caracUnidad, orden: (i+1))
+						tipo.addToPlantilla(plantilla)
+					}
+				
+				
+					
 				}	
 			}
 
