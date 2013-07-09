@@ -61,15 +61,16 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${tipoInstance?.plantilla}">
+				<g:if test="${plantillasOrdenadas}">
 				<li class="fieldcontain">
 					<br><br>
 					<h2>Características</h2>
 						<br>
 						<table>
 							<tr><th>Característica</th><th>Unidad</th></tr>
-							<g:each in="${tipoInstance.plantilla}" var="p">
+							<g:each in="${plantillasOrdenadas}" var="p">
 								<tr>
+								
 									<span class="property-value" aria-labelledby="plantilla-label"><g:link controller="plantilla" action="mostrar" id="${p.id}"><td>${p?.caracteristicaUnidad.caracteristica}</td><td>${p?.caracteristicaUnidad.unidad}</td></g:link></span>
 								</tr>
 							</g:each>
