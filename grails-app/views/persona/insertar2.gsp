@@ -255,7 +255,7 @@
 
 		// Find its child `input` elements
 		inputs = container.getElementsByTagName('input');
-		selects = container.getElementsByTagName('select');
+		selects = container.getElementsByTagName('select');		
 		
 		for (index = 0; index < inputs.length; ++index) {			
 		    if(inputs[index].id!="" && inputs[index].type!="hidden" && inputs[index].id!="noInterior" && inputs[index].value == ""){		    	
@@ -293,6 +293,25 @@
 				}				
 			}			
 		}
+		var numeros = new Array();
+		var cont = 0;
+		for (index = 0; index < inputs.length; ++index) {
+			if(inputs[index].id.substring(0, 3)=="num" && inputs[index].id!="numeroEmpleado"){
+				alert(inputs[index].id.substring(0, 3)+"."+inputs[index].id);				    			    				    
+		    	numeros[cont] = index;	
+		    	cont++;		    			    	
+			}
+		}
+
+		for (i = 0; i < numeros.length; ++i) {			
+			if(!fin && inputs[numeros[i]].value==inputs[numeros[j]].value){
+				alert(inputs[numeros[i]].id);
+				mostrarValidacion(inputs[numeros[i]].id, "El número está repetido");
+			   	$.scrollTo('#'+inputs[numeros[i]].id,800);
+				fin = true;
+			}			
+		}
+		
 
 		if(rfc != curp){
 			mostrarValidacion("curp", "El RFC o la CURP no son válidos");
@@ -483,8 +502,11 @@ function borrar(obj) {
 			</g:if>
 			<g:else>
 				<br><br>
-				<div id="imagenPerfil">
-					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" width="200" height="300"/>
+				<div class="fieldcontain ${hasErrors(bean: fotoInstance, field: 'foto', 'error')} required">
+					<label for="foto">
+												
+					</label>
+					<img id="imagenP" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" width="200" height="300"/>
 				</div>
 			</g:else>
 			</fieldset>

@@ -175,7 +175,7 @@
 				  						</tr>		  										  					
 					  						<g:each in="${personaInstance.objetosPersona}" var="o">
 					  						<tr>
-					  							<g:if test="${o.fechaInicio==o.fechaFin}">
+					  							<g:if test="${!o.fechaFin}">
 												<td><g:link action="mostrar" controller="objeto" id="${o?.objeto?.id}">${o?.objeto?.noInventario}</g:link></td><td>${o?.objeto?.tipo}</td><td>${o?.objeto?.tipoPropiedad } </td>
 												<td><input id="${personaInstance.id}" name="${o.id }" type="button" value="Desasignar" 
 												onclick="${remoteFunction(

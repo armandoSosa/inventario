@@ -193,10 +193,7 @@ class ObjetoPersonaController {
 		def objetosList = Objeto.list()
 		def personaInstance = Persona.get(id)
 		
-		objetosList = Objeto.findAll("\
-			from \
-			ObjetoPersona as op\
-			where op.fechaInicio = op.fechaFin") 
+		objetosList = ObjetoPersona.findAllByFechaFinIsNull() 
 
 		def criterio = Objeto.createCriteria();
 		def objetos = criterio.listDistinct {
@@ -232,8 +229,7 @@ class ObjetoPersonaController {
 		criterio = Persona.createCriteria()
 		def persona = criterio.list {
 			eq 'numeroEmpleado', params.id
-		}
-		
+		}		
 		return [ objetosPersona: objetosPersona, persona: persona]
 	}
 	
@@ -254,7 +250,7 @@ class ObjetoPersonaController {
 						def objetoPersonaInstance = new ObjetoPersona(params)
 						objetoPersonaInstance.objeto = Objeto.findById(idString)
 						objetoPersonaInstance.fechaInicio = new Date()
-						objetoPersonaInstance.fechaFin = objetoPersonaInstance.fechaInicio
+						//objetoPersonaInstance.fechaFin = objetoPersonaInstance.fechaInicio
 						//objetoPersonaInstance.persona = Persona.findById(params.persona)
 						personaInstance.addToObjetosPersona(objetoPersonaInstance)
 						System.out.println("id:"+idString)
