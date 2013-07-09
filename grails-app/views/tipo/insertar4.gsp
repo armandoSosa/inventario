@@ -119,26 +119,32 @@ var unidades = ${unidades};
 var orden="";
 
 var contador=1;
-var quitados=0;
-var editados=0;
 
 
   $(function() {
     $( "#tipo" ).autocomplete({
       source: tipos,
-      sortable: true,
-      close: function( event, ui ) {
-    	  enviarTipo();
-      }
+      sortable: true
     });
   });
 
-  function enviarTipo() {
-	  ${ remoteFunction (controller:'tipo', action:'mostrarFormCaracUnidad', params: '\'tipo=\' + $("#tipo").val()', update:'tablaCaracUnidad')}
-  }
+
+  $(function() {
+	  
+	    $( "#sortable" ).sortable({
+	    	update: function(event, ui) {
+				orden = $(this).sortable('toArray').toString();
+				$("#orden").val(orden);
+			}
+		
+		}
+	    );
+	    $( "#sortable" ).disableSelection();
 
 
- 
+
+	    
+	  });
 
   function verificarTipo() {
 	  
@@ -186,71 +192,9 @@ var editados=0;
 		contador++;
 	}
 
-	
-
 	function remover(id) {
 		$("#fila_"+id).remove();
 	}
-
-	function quitarBaseDatos(id) {
-		if(quitados==0) {
-			$("#quitados").val(id);
-			quitados++;
-		} else {
-			var quitadosString = $("#quitados").val();
-			$("#quitados").val(quitadosString+","+id);
-			
-		}
-	}
-
-	function editar(id, tieneValores) {
-		var confirmacion;
-		if (tieneValores>0 && $("#editados").val().indexOf("'"+id+"'")==-1) {
-			confirmacion = confirm('Hay valores ya ingresados para esta característica. ¿Está seguro que desea editarla? NOTA: Se deben actualizar '+tieneValores+' objetos');
-		} else {
-			confirmacion=true;
-		}
-		if(confirmacion) {
-			if(editados==0) {
-				$("#editados").val("'"+id+"'");
-				editados++;
-			} else {
-				
-				var editadosString = $("#editados").val();
-				if(editadosString.indexOf("'"+id+"'")==-1) {
-					$("#editados").val(editadosString+",'"+id+"'");
-				}
-			}
-		} else {
-			
-			
-			
-			return false;
-		}
-	}
-
-	function quitar(fila, idPlantilla, tieneValores) {
-		var confirmacion;
-		if (tieneValores>0) {
-			var mensaje="", entrada="";
-			if (tieneValores==1) {
-				entrada="Existe";
-				mensaje=" objeto ingresado";
-			} else {
-				entrada="Existen";
-				mensaje=" objetos ingresados";
-			}
-			confirmacion = confirm(entrada+' '+tieneValores+mensaje+' con esta característica. ¿Estás seguro que deseas quitarla? NOTA: Se borrarán todos los valores relacionados a esta característica');
-		} else {
-			confirmacion=true;
-		}
-		if(confirmacion) {
-			remover(fila);
-			quitarBaseDatos(idPlantilla);
-		}
-	
-	}
-	 
   </script>
 
 
@@ -261,7 +205,7 @@ var editados=0;
 
 </head>
 <body>
-	
+	<g:render template="verificarExistencia" />
 	<a href="#create-caracteristica" class="skip" tabindex="-1"><g:message
 			code="default.link.skip.label" default="Skip to content&hellip;" /></a>
 	<div class="nav" role="navigation">
@@ -276,7 +220,7 @@ var editados=0;
 	<div id="create-caracteristica" class="content scaffold-create"
 		role="main">
 		<h1>
-			<g:message code="Crear Tipo de objeto" />
+			<g:message code="Crear Característica" />
 		</h1>
 		<g:if test="${flash.message}">
 			<div class="message" role="status">
@@ -292,41 +236,48 @@ var editados=0;
 				</g:eachError>
 			</ul>
 		</g:hasErrors>
-		<g:form id="formcarac" name="formcarac" action="save_tipo3">
+		<g:form id="formcarac" name="formcarac" action="save_tipo2">
 			<fieldset class="form">
 
 
 				<div class=" fieldcontain ui-widget">
-					<label id="prueba" name="prueba" for="tipo">Tipo de objeto </label> <input  id="tipo"
+					<label for="tipo">Tipo de objeto </label> <input id="tipo"
 						name="tipo" style='text-transform: uppercase;' class="tooltip"
-						title="" required="" onkeyup="${ remoteFunction (controller:'tipo', action:'mostrarFormCaracUnidad', params: '\'tipo=\' + this.value', update:'tablaCaracUnidad')}"
-						onclick="${ remoteFunction (controller:'tipo', action:'mostrarFormCaracUnidad', params: '\'tipo=\' + $("#tipo").val()', update:'tablaCaracUnidad')}"/>
+						title="" required="" />
 				</div>
 
 
 
 
-				
-				
-				
-				<g:render template="tablaCaracUnidad" />
-				
-				
-				
-				
 
+				<div class="fieldcontain ">
+					<table>
+						<thead>
+							<tr>
+								<th>Característica</th>
+								<th>Unidad</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="sortable">
 
+						</tbody>
+					</table>
 
+				</div>
+
+				<div class="fieldcontain">
+					<input type="button" onClick="addCaracteristica()"
+						value="+ Otra característica" />
+				</div>
 				<input id="orden" name="orden" type="text" value="" />
-				<input id="quitados" name="quitados" type="text" value="" />
-				<input id="editados" name="editados" type="text" value="" />
 
 			</fieldset>
 			<fieldset class="buttons">
 				<a class="save" onClick="enviar()">Crear</a>
 				<g:submitButton name="envio" value="enPrueba" />
 				<g:link name="cancel" class="cancelar" action="menu">Cancelar</g:link>
-
+				
 			</fieldset>
 		</g:form>
 	</div>

@@ -70,6 +70,7 @@
 							<tr><th>Característica</th><th>Unidad</th></tr>
 							<g:each in="${plantillasOrdenadas}" var="p">
 								<tr>
+								
 									<span class="property-value" aria-labelledby="plantilla-label"><g:link controller="plantilla" action="mostrar" id="${p.id}"><td>${p?.caracteristicaUnidad.caracteristica}</td><td>${p?.caracteristicaUnidad.unidad}</td></g:link></span>
 								</tr>
 							</g:each>
