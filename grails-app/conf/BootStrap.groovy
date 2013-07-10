@@ -6,9 +6,7 @@ class BootStrap {
 		environments{
 			development{
 				new TipoTelefono(tipo: "CASA").save()
-				new TipoTelefono(tipo: "OFICINA").save()
-				new Sexo(sexo: "MASCULINO").save()
-				def sexo = new Sexo(sexo: "FEMENINO").save()
+				new TipoTelefono(tipo: "OFICINA").save()				
 				def estado = new Estado(nombre:"OAXACA").save()
 				new Municipio(nombre:"SANTA LUCIA", estado: estado).save()
 				def municipio = new Municipio(nombre:"CENTRO", estado: estado).save()				

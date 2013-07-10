@@ -150,7 +150,7 @@
 				<li class="fieldcontain">
 					<span id="sexo-label" class="property-label"><g:message code="persona.sexo.label" default="Sexo" /></span>
 					
-						<span class="property-value" aria-labelledby="sexo-label"><g:link controller="sexo" action="show" id="${personaInstance?.sexo?.id}">${personaInstance?.sexo?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="sexo-label"><g:fieldValue bean="${personaInstance}" field="sexo"/></span>
 					
 				</li>
 				</g:if>

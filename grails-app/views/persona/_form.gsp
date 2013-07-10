@@ -133,12 +133,12 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'sexo', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'sexo', 'error')} ">
 	<label for="sexo">
 		<g:message code="persona.sexo.label" default="Sexo" />
-		<span class="required-indicator">*</span>
+		
 	</label>
-	<g:select id="sexo" name="sexo.id" from="${com.redoaxaca.Sexo.list()}" optionKey="id" required="" value="${personaInstance?.sexo?.id}" class="many-to-one"/>
+	<g:textField name="sexo" value="${personaInstance?.sexo}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'subordinado', 'error')} ">
