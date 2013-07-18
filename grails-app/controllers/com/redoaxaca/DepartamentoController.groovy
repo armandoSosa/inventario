@@ -407,9 +407,23 @@ class DepartamentoController {
 	
 	def mostrarPuestos(Long id){
 		def departamentoInstance = Departamento.get(id)		
+		def criterio = Puesto.createCriteria()
+		def puestosList = criterio{
+			departamento{
+				eq("id", id)
+			}		
+		}
 				
-		//Se obtiene la lista de municipio
-		def puestosList = departamentoInstance?.puestos		
+		def puestoPersonaList = PuestoPersona.findAllByFechaFinIsNull()
+		
+		def puestosOcupados = new ArrayList<Puesto>()		
+		puestoPersonaList.each{ puestoPersona ->
+			puestosOcupados.add(puestoPersona.puesto)			
+		}
+		
+		if(puestosOcupados.size()>0 && puestosList){
+			puestosList.removeAll(puestosOcupados)
+		}		
 		
 		//Se hace el render del template '_selectMunicipios.gsp' con la lista de estados obtenida.
 		render(template: "puestos", model: [puestosList:puestosList, estadoInstance: departamentoInstance])

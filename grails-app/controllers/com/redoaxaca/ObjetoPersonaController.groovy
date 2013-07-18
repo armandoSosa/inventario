@@ -249,7 +249,7 @@ class ObjetoPersonaController {
 					try {
 						def objetoPersonaInstance = new ObjetoPersona(params)
 						objetoPersonaInstance.objeto = Objeto.findById(idString)
-						objetoPersonaInstance.fechaInicio = new Date()
+						objetoPersonaInstance.fechaInicio = new Date()						
 						//objetoPersonaInstance.fechaFin = objetoPersonaInstance.fechaInicio
 						//objetoPersonaInstance.persona = Persona.findById(params.persona)
 						personaInstance.addToObjetosPersona(objetoPersonaInstance)

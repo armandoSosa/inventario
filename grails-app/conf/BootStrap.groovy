@@ -13,6 +13,8 @@ class BootStrap {
 				def departamento = new Departamento(nombre:"DEPTO1").save()
 				def nivel = new Nivel(nivel:"10").save()
 				def puesto = new Puesto(nombre:"GERENTE", departamento:departamento, nivel: nivel).save()
+				new TipoPropiedad(nombre: "PATRIMONIAL").save()
+				new TipoPropiedad(nombre: "NO PATRIMONIAL").save()
 				/*														
 				def direccion = new Direccion(calle:"REFORMA", colonia:"REFORMA", noExterior: "312", fecha:new Date(), municipio: municipio).save()
 				def persona = new Persona(nombre:"RENE", paterno:"CORDERO", materno:"ARELLANES", curp:"RENE010101FTRERT01", rfc:"RENE010101FTR", numeroEmpleado: "1" ,fechaNacimiento:new Date(), email:"rene@gmail.com", direcciones:direccion, sexo: sexo)				

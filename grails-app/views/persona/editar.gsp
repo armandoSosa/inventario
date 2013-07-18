@@ -1,8 +1,8 @@
 <%@ page import="com.redoaxaca.Persona" %>
 <!DOCTYPE html>
 <html>
-	<head>
-		<script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
+	<head>		
+	 <script src="${resource(dir: 'js', file: 'jquery-1.8.3.min.js')}"  type="text/javascript" charset="utf-8"></script>
 	<script src="${resource(dir: 'js', file: 'jquery.maskedinput.min.js')}" type="text/javascript"></script>
 		<meta name="layout" content="metro">
 		<g:set var="entityName" value="${message(code: 'persona.label', default: 'Persona')}" />
@@ -18,18 +18,11 @@
 		  
 		 <link rel="stylesheet" href="${resource(dir: 'js', file: 'chosen/chosen.css')}" type="text/css"> 
 		 <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.scrollTo.js')}"></script>
-		<!--	  
-		<script type="text/javascript">
-		    $(function() {
-		    	$.mask.definitions['~'] = "[+-]";        
-		        $("#num1").mask("(999) 999-9999");		
-		    });
-	</script>-->
-	
-	<g:if test="${params.id}">	
+		
+	<g:if test="${params.fotoid}">	
 		<script language="javascript">
 		window.onload = function() {
-			llamarInLine2();
+			$("#nuevaImagen").click();
 		}
 		</script>															
 	</g:if>
@@ -42,12 +35,6 @@
 	
 		function llamarInLine(){
 			$("#formFoto").submit();						
-			//$("#nuevaImagen").click();
-		}
-
-		function llamarInLine2(){
-			//$("#formFoto").submit();						
-			$("#nuevaImagen").click();
 		}
 
 		function validar(e, tipo) {
@@ -62,14 +49,10 @@
 			}
 		    te = String.fromCharCode(tecla);		    
 		    return patron.test(te);
-		} 
-	
-		/*$(function() {
-	        $.mask.definitions['~'] = "[+-]";        
-	        $("#num0").mask("aaaa999999***", { placeholder: " " });		
-	        $("#curp").mask("aaaa999999********", { placeholder: " " });
-	    });*/	    
+		} 		   
 	</script>	
+	
+	<!--  Inicia JCROP - Recortar imagen -->	
 	<script type="text/javascript">
 		jQuery(function($){
 			
@@ -121,6 +104,12 @@
 		          marginTop: '-' + Math.round(ry * c.y) + 'px'
 		        });
 		      }
+		      $('#x1').val(c.x);
+		      $('#y1').val(c.y);
+		      $('#x2').val(c.x2);
+		      $('#y2').val(c.y2);
+		      $('#w').val(c.w);
+		      $('#h').val(c.h);
 		    };
 
 		  });
@@ -157,16 +146,18 @@
 			  width: 200px;
 			  height: 300px;
 			  overflow: hidden;
-			}
-		
+			}		
 		</style>
-			  		
+	<!--  Termina JCROP - Recortar imagen -->	
+	  		
 		<!-- Elementos para validacion pop up animado -->
 	<link rel="stylesheet" type="text/css" href="${resource(dir: 'js/tooltipster-master/css', file: 'tooltipster.css')}"/>
 		<script type="text/javascript" src="${resource(dir: 'js', file: 'tooltipster-master/js/jquery.tooltipster.js')}"></script>
 		<script type="text/javascript" src="${resource(dir: 'js/validacion', file: 'funciones.js')}"></script>
 		<script>
-			$(document).ready(function() {
+			$(document).ready(function() {				
+				$('#departamento_chzn').addClass('tooltip');				
+				$('#estado_chzn').addClass('tooltip');				
 				
 				$('.tooltip').tooltipster({
 				    animation: 'grow',
@@ -219,6 +210,44 @@
 		return pasa;
 	}
 
+	function validarNumeroEmpleado(input, valor){
+		if(!validarNumeros(valor)){
+			document.getElementById(input).value = "";
+		}else{
+			${remoteFunction(
+				controller: 'persona',
+				action:'esNumeroEmpleadoValido',				
+				params: '\'numero=\'+ valor',
+				update: 'numeroEmpleadoValido',
+				onComplete: 'validarNumeroEmpleadoAlerta();'
+			)}
+		}
+	}
+
+	function validarCurpBlur(input, valor){
+		if(!validarCURP(valor)){		
+			mostrarValidacion(input, "La CURP no es válida");
+		}else{
+			${remoteFunction(
+					controller: 'persona',
+					action:'esCurpRepetida',				
+					params: '\'curp=\'+ valor.toUpperCase()',
+					update: 'curpValida',
+					onComplete: 'validarCurpAlerta();'
+				)}				
+			var anio = parseInt(valor.substring(4, 6));
+			if(anio<30){
+				anio = anio+2000;
+			}else{
+				anio = anio+1900;
+			}
+			document.formPersona.fechaNacimientoP_year.value = anio
+			document.formPersona.fechaNacimientoP_day.value = parseInt(valor.substring(8,10)); 
+			document.formPersona.fechaNacimientoP_month.value = parseInt(valor.substring(6,8));
+			document.formPersona.rfc.value = valor.substring(0, 10)
+		}
+	}
+
 	function validarString(e, id, longitudMaxima, valor) {
 		var tipo=1;
 		if(valor.length<4){
@@ -230,31 +259,27 @@
 		mostrarValidacion(id, validarInput(e, tipo));
 		if(pasa!=true){
 			pasa=false;
-		}
-		/*
-		if(valor.length>=longitudMaxima-1){
-			mostrarValidacion(id, "completo: ");			
-		}*/
-		
+		}				
 		return pasa;
 	}
 
-	
-
 	function validarEnvio() {
-		var container, inputs, index, fin, municipioSelecionado, rfcValido, curpValida, rfc, curp;
+		var container, inputs, index, fin, municipioSelecionado, puestoSeleccionado, rfcValido, curpValida, rfc, curp;
 		fin = false;
 		municipioSelecionado = false;
+		puestoSeleccionado = false;
 		rfcValido = false;
 		curpValida = false;
-		// Get the container element
+		
+		// Obtener el contenedor del form
 		container = document.getElementById('formPersona');
 
-		// Find its child `input` elements
+		// Obtener todos los inputs y selects
 		inputs = container.getElementsByTagName('input');
-		selects = container.getElementsByTagName('select');
-		
-		for (index = 0; index < inputs.length; ++index) {
+		selects = container.getElementsByTagName('select');		
+
+		//Validar que no se hayan dejado inputs vacios
+		for (index = 0; index < inputs.length; ++index) {			
 		    if(inputs[index].id!="" && inputs[index].type!="hidden" && inputs[index].id!="noInterior" && inputs[index].value == ""){		    	
 			    if(!fin){				    			    				    
 			    	mostrarValidacion(inputs[index].id, "Debe completar este campo");	
@@ -266,6 +291,7 @@
 				curpValida = validarCURP(inputs[index].value);
 				curp = inputs[index].value;
 				curp = curp.substring(0, 10);
+				curp.toUpperCase();
 				if(!curpValida){
 					mostrarValidacion(inputs[index].id, "La CURP no es valida");
 					$.scrollTo('#'+inputs[index].id,800);
@@ -276,6 +302,7 @@
 				rfcValido = validarRFC(inputs[index].value);
 				rfc = inputs[index].value;
 				rfc = rfc.substring(0, 10);
+				rfc.toUpperCase();
 				if(!rfcValido){
 					mostrarValidacion(inputs[index].id, "El RFC no es valido");
 					$.scrollTo('#'+inputs[index].id,800);
@@ -291,25 +318,68 @@
 			}			
 		}
 
+		//Validar número de empleado	
+		if (!validarNumeroEmpleadoAlerta()){
+			$.scrollTo('#'+"numeroEmpleado",800);
+			fin = true;
+		}	
+
+		//Verificar si la curp y el rfc son válidos
 		if(rfc != curp){
 			mostrarValidacion("curp", "El RFC o la CURP no son válidos");
 	    	$.scrollTo('#'+"curp",800);
 	    	fin = true;
-		}		
+		}
+
+		//Validar curp repetida
+		if(!validarCurpAlerta()){
+			$.scrollTo('#'+"curp",800);
+			fin = true;
+		}	
+
+		//Validar telefono repetido
+		var numeros = new Array();
+		var cont = 0;
+		for (index = 0; index < inputs.length; ++index) {
+			if(inputs[index].id.substring(0, 3)=="num" && inputs[index].id!="numeroEmpleado"){
+				//alert(inputs[index].id.substring(0, 3)+"."+inputs[index].id);				    			    				    
+		    	numeros[cont] = index;	
+		    	cont++;		    			    	
+			}
+		}	
+		for (i = 0; i < numeros.length; i++) {
+			for (j = 0; j < numeros.length; j++) {
+				if(!fin && i!=j && inputs[numeros[i]].value==inputs[numeros[j]].value){					
+					mostrarValidacion(inputs[numeros[i]].id, "El número está repetido");
+				   	$.scrollTo('#'+inputs[numeros[i]].id,800);
+					fin = true;
+				}
+			}								
+		}
 		
-		for (index = 0; index < selects.length; ++index) {
-			if(selects[index].id=="municipio"){
-				municipioSelecionado = true;
+		//Verificar la selección de municipios y puestos
+		for (index = 0; index < selects.length; ++index) {			
+				if(selects[index].id=="municipio"){					
+					municipioSelecionado = true;					
+				}
+				if(selects[index].id=="puesto"){									
+					puestoSeleccionado = true;					
+				}
+							
+		}		
+		if(!fin){
+			if(!puestoSeleccionado){		
+				mostrarValidacion("departamento_chzn", "Debe seleccionar un departamento que contenga puestos");
+				fin = true;
+			}else if(!municipioSelecionado){				
+				mostrarValidacion("estado_chzn", "Debe seleccionar un estado que contenga municipios");
+				fin = true;							
 			}
 		}		
-				
-		if (!fin && curpValida && rfcValido){
-			if(!municipioSelecionado){
-				alert("Este estado no tiene municipios registrados, seleccione otro estado o ingrese municipios para este estado");				
-			}else{
-				$('#formPersona').submit();
-				//alert("enviado");
-			}						
+
+		//Enviar formulario
+		if (!fin && curpValida && rfcValido){			
+			$('#formPersona').submit();								
 		}
 	}	
 </script>
@@ -317,7 +387,12 @@
 
 <script type="text/javascript">
 <!--
-num=0+${personaInstance?.telefonos?.size()};
+<g:if test="${personaInstance?.telefonos}">
+num=${personaInstance?.telefonos?.size()};
+</g:if>
+<g:else>
+num=0;
+</g:else>
 
 var datos = "${com.redoaxaca.TipoTelefono.list()}";
 var fin = datos.length - 1;
@@ -327,84 +402,84 @@ var myarray = datos.split(",");
 var nombre="fil";
 
 function crear(obj) {
-	  num++;
-	  document.formPersona.cantidad.value = num;
-	  var fi = document.getElementById('fiel'); // 1
-	  var contenedor = document.createElement('div'); // 2
-	  fi.appendChild(contenedor);
-	  
-	  contenedor.id = 'div'+num;
+  num++;
+  document.formPersona.cantidad.value = num;
+  var fi = document.getElementById('fiel'); // 1
+  var contenedor = document.createElement('div'); // 2
+  fi.appendChild(contenedor);
+  
+  contenedor.id = 'div'+num;
 
-	  var ele = document.createElement('input'); 
-	  ele.type = 'text'; // 6
-	  ele.id = 'num'+num.toString();
-	  ele.name='num'+num.toString(); 
-	  ele.maxLength="10"; 
-	  ele.onkeypress = function(event){
-		  return validarTecleo(event, 2, this.id);
-	   };  
-	  ele.onBlur = function(){
-		  validarFocus(5, this.id, this.value);
-	   };
-	  ele.setAttribute('class', 'tooltip');   
-	    
-	  contenedor.appendChild(ele); // 7
-	  
-	  var espacio = document.createTextNode("\u00a0");
-	  var espacio2 = document.createTextNode("\u00a0");
-	  contenedor.appendChild(espacio);
-	  contenedor.appendChild(espacio2);
-	  
-	  var ele2 = document.createElement('select');
-	  ele2.type = 'select';
-	  ele2.name = 'tipo'+num; // 8
-	  ele2.id='tipo'+num;
-	  <%
-		com.redoaxaca.TipoTelefono.list().eachWithIndex(){ tp, i ->
-			%>
-			opt = document.createElement('option');
-			opt.value = <%=tp.id%>;
-			opt.innerHTML = myarray[<%=i%>];
-			ele2.appendChild(opt);		
-			<%
-		}
+  var ele = document.createElement('input'); 
+  ele.type = 'text'; // 6
+  ele.id = 'num'+num.toString();
+  ele.name='num'+num.toString(); 
+  ele.maxLength="10"; 
+  ele.onkeypress = function(event){
+	  return validarTecleo(event, 2, this.id);
+   };  
+  ele.onBlur = function(){
+	  validarFocus(5, this.id, this.value);
+   };
+  ele.setAttribute('class', 'tooltip');   
+    
+  contenedor.appendChild(ele); // 7
+  
+  var espacio = document.createTextNode("\u00a0");
+  var espacio2 = document.createTextNode("\u00a0");
+  contenedor.appendChild(espacio);
+  contenedor.appendChild(espacio2);
+  
+  var ele2 = document.createElement('select');
+  ele2.type = 'select';
+  ele2.name = 'tipo'+num; // 8
+  ele2.id='tipo'+num;
+  <%
+	com.redoaxaca.TipoTelefono.list().eachWithIndex(){ tp, i ->
 		%>
-		
-		contenedor.appendChild(ele2);
-	  
-	  espacio3 = document.createTextNode("\u00a0");
-	  espacio4 = document.createTextNode("\u00a0");
-	  contenedor.appendChild(espacio3);
-	  contenedor.appendChild(espacio4);
-	  
-		
-	  var ele3 = document.createElement('input'); // 5
-	  ele3.type = 'button'; // 6
-	  ele3.value = 'Quitar'; // 8
-	  ele3.name = 'div'+num; // 8
-	  ele3.onclick = function () {borrar(this.name)} // 9
-	  
-	  contenedor.appendChild(ele3); // 7
-
+		opt = document.createElement('option');
+		opt.value = <%=tp.id%>;
+		opt.innerHTML = myarray[<%=i%>];
+		ele2.appendChild(opt);		
+		<%
 	}
+	%>
+	
+	contenedor.appendChild(ele2);
+  
+  espacio3 = document.createTextNode("\u00a0");
+  espacio4 = document.createTextNode("\u00a0");
+  contenedor.appendChild(espacio3);
+  contenedor.appendChild(espacio4);
+  
+	
+  var ele3 = document.createElement('input'); // 5
+  ele3.type = 'button'; // 6
+  ele3.value = 'Quitar'; // 8
+  ele3.name = 'div'+num; // 8
+  ele3.onclick = function () {borrar(this.name)} // 9
+  
+  contenedor.appendChild(ele3); // 7
 
-	function borrar(obj) {
-	  fi = document.getElementById('fiel'); // 1 
-	  fi.removeChild(document.getElementById(obj)); // 10
-	}
+}
 
+function borrar(obj) {
+  fi = document.getElementById('fiel'); // 1 
+  fi.removeChild(document.getElementById(obj)); // 10
+}
 
 --> 
 </script>	
 	</head>
 	<body>
-	
+		<g:render template="numeroEmpleado"></g:render>
+		<g:render template="mensajeCurp"></g:render>
 		<a href="#edit-persona" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="insertar2"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="edit-persona" class="content scaffold-edit" role="main">
@@ -419,6 +494,54 @@ function crear(obj) {
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
+			<br><br>			
+			<fieldset>			
+			<legend>Información personal</legend>			
+			<g:if test="${!personaInstance?.foto}">
+				<g:if test="${!params.idfoto}">
+					<g:render template="../foto/formFoto" model="['id':2, 'action':'guardar_foto']"></g:render>					
+				</g:if>
+				<g:else>
+					<g:form name="formFoto"  action="guardar_foto" controller="foto" enctype="multipart/form-data">				
+					<div class="fieldcontain ${hasErrors(bean: fotoInstance, field: 'foto', 'error')} required">					
+						<img id="imagenP" height="300px;" width="200px;" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.idfoto}" />" style="margin-left:13em;"/>					
+						<br>
+						<label for="foto">
+							Cambiar imagen						
+						</label>
+						<input type="file" id="foto" name="foto" value="${params.fotoid}" onchange="llamarInLine();"/>
+						<g:remoteLink update="fotoDiv" action="quitar" params="[editar:'true']" controller="foto" id="${personaInstance?.id}">Quitar</g:remoteLink>
+						<g:hiddenField id="idpersona" name="idpersona" value="${params.id}"/>
+					</div>
+					<g:submitButton style="display:none;" name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+					</g:form>
+				</g:else>
+			</g:if>
+			<g:else>
+								
+				<div id="fotoDiv" class="fieldcontain ${hasErrors(bean: fotoInstance, field: 'foto', 'error')} required">
+					<g:form name="formFoto"  action="guardar_foto" controller="foto" enctype="multipart/form-data">
+					<g:if test="${params.idfoto }">
+					<img id="imagenP" height="300px;" width="200px;" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.idfoto}" />" style="margin-left:13em;"/>
+					</g:if>
+					<g:else>
+					<img id="imagenP" height="300px;" width="200px;" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${personaInstance?.foto?.id}" />" style="margin-left:13em;"/>
+					</g:else>
+					
+					<br>
+					<label for="foto">
+						Cambiar imagen						
+					</label>
+					<input type="file" id="foto" name="foto" value="${params.fotoid}" onchange="llamarInLine();"/>
+					<g:remoteLink update="fotoDiv" action="quitar" params="[editar:'true']" controller="foto" id="${personaInstance?.id}">Quitar</g:remoteLink>
+					<g:hiddenField id="idpersona" name="idpersona" value="${params.id}"/>
+					<g:submitButton style="display:none;" name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+				</g:form>
+				</div>
+											
+			</g:else>
+			</fieldset>
+			
 			<g:form method="post" name="formPersona" action="actualizar" enctype="multipart/form-data">
 				<g:hiddenField name="id" value="${personaInstance?.id}" />
 				<g:hiddenField name="version" value="${personaInstance?.version}" />
@@ -432,5 +555,51 @@ function crear(obj) {
 				</fieldset>
 			</g:form>
 		</div>
+		
+		<g:if test="${params.fotoid}">
+		<!-- hidden inline form -->
+		<div id="inline100">		
+			<div id="create-imagen" class="content scaffold-create" role="main">
+				<h2>Imagen de Empleado</h2>
+				<br><br>				
+				<g:form id="formFoto" action="editar_foto" controller="foto">
+				<fieldset class="form">
+					<div style="max-height:360px; max-width:100px;">											
+					<img id="imagen" class="imagenPerfil" style="max-height:400px; max-width:500px;" src="<g:createLink controller='persona' action='renderImage' id="${params.fotoid}" />"/>
+					</div>
+					<div id="preview-pane">
+					    <div class="preview-container" >
+					      <img id="imagenRecortada" name="imagenRecortada" src="<g:createLink controller='persona' action='renderImage' id="${params.fotoid}"/>" class="jcrop-preview" alt="Preview" />
+					    </div>					  
+					  </div>
+					  <g:hiddenField id="idpersona" name="idpersona" value="${params.id}"/>
+					  <g:hiddenField id="idfoto" name="idfoto" value="${params.fotoid}"/>
+					  <g:hiddenField id="x1" name="x1"/>
+					  <g:hiddenField id="y1" name="y1"/>
+					  <g:hiddenField id="x2" name="x2"/>
+					  <g:hiddenField id="y2" name="y2"/>
+					  <g:hiddenField id="w" name="w"/>
+					  <g:hiddenField id="h" name="h"/>
+						<br> 
+					
+				</fieldset>
+				<fieldset class="buttons">											
+					<g:submitButton name="create" class="save" value="Recortar" />													
+				</fieldset>
+			</g:form>
+			</div>
+		</div>
+		
+		</g:if>
+		<a id="nuevaImagen" class="modalbox" href="#inline100" style="display:none;"></a>
+		
+		
+  <!-- basic fancybox setup -->
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(".modalbox").fancybox();
+			});
+		</script>
+		
 	</body>
 </html>

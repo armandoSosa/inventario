@@ -4,7 +4,7 @@ class Foto {
 	byte[] foto
 	
     static constraints = {
-		foto(nullable: false, maxSize:1048576)
+		foto(nullable: false, maxSize:104857632)
     }
 	
 	static mapping = {

@@ -10,8 +10,9 @@ class PersonaController {
 	def scaffold = true
 
 	def inicio (Integer max) {
-		params.max = Math.min(max ?: 10, 100)		
-		[personaInstanceList: Persona.findAllByArchivado("false", [max: max, offset: 0, sort: params.sort, order: params.order]), personaInstanceTotal: Persona.count()]		
+		params.max = Math.min(max ?: 10, 100)
+		def personaInstance = Persona.findAllByArchivado("false", [max: max, offset: 0, sort: params.sort, order: params.order])		
+		[personaInstanceList: personaInstance, personaInstanceTotal: personaInstance.count]		
 	}
 
 	def index2 = {
@@ -56,7 +57,8 @@ class PersonaController {
 
 	def empleados(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
-		[personaInstanceList: Persona.list(params), personaInstanceTotal: Persona.count()]		
+		def personaList = Persona.findAllByArchivado("false", [max: max, offset: 0, sort: params.sort, order: params.order])		
+		[personaInstanceList: personaList, personaInstanceTotal: personaList.count]		
 	}
 
 	def index() {
@@ -72,6 +74,27 @@ class PersonaController {
 
 	def create() {
 		[personaInstance: new Persona(params)]
+	}
+	
+	def boolean esNumeroEmpleadoValido(){
+		def numero = params.numero		
+		def persona = Persona.findByNumeroEmpleado(numero)
+		def valido = true;
+		if(persona){
+			valido = false;
+		}		
+		render(template:'numeroEmpleado', model:[valido: valido])
+	}
+	
+	def boolean esCurpRepetida(){
+		def curp = params.curp		
+		def persona = Persona.findByCurp(curp)			
+		def valido = true;
+		if(persona){
+			valido = false;
+		}		
+		System.out.println("persona"+persona+"."+curp)
+		render(template:'mensajeCurp', model:[valido: valido])
 	}
 
 	def save_persona() {
@@ -211,17 +234,17 @@ class PersonaController {
 		personaInstance.archivado = true
 		if (!personaInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'persona.label', default: 'Persona'), id])
-			redirect(action: "list")
+			redirect(action: "empleados")
 			return
 		}
 
 		if (!personaInstance.save(flush: true)) {
-			render(view: "editar", model: [personaInstance: personaInstance])
+			render(view: "mostrar", model: [personaInstance: personaInstance], id: personaInstance.id)
 			return
 		}
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'persona.label', default: 'Persona'), personaInstance.id])
-		redirect(action: "mostrar", id: personaInstance.id)
+		redirect(action: "empleados")
 		
 	}
 
@@ -251,7 +274,7 @@ class PersonaController {
 		def personaInstance = Persona.get(id)
 		def direccionInstance = Direccion.get(personaInstance.direcciones.id.get(0))
 		def puestoPersonaInstance = PuestoPersona.get(personaInstance.puestosPersona.id.get(0))
-		def fotoInstance = personaInstance.getFoto()
+		def fotoInstance = Foto.findById(params.idfoto)
 
 		personaInstance.properties = params
 		personaInstance.setNombre(personaInstance.getNombre().toUpperCase())

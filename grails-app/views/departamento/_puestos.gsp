@@ -7,7 +7,7 @@
 		<g:select id="puesto" name="puesto.id" from="${puestosList}" optionKey="id" required="" value="${puestoPersonaInstance?.puesto?.id}" class="many-to-one" data-placeholder="Seleccione un puesto" class="chzn-select" style="width:350px;" tabindex="2"/>
 		</g:if>
 		<g:else>
-			Este departamento no tiene puestos asignados
+			No existen puestos disponibles para este departamento
 		</g:else>	
 </div>
 

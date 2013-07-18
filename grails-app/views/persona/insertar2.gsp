@@ -18,18 +18,11 @@
 		  
 		 <link rel="stylesheet" href="${resource(dir: 'js', file: 'chosen/chosen.css')}" type="text/css"> 
 		 <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.scrollTo.js')}"></script>
-		<!--	  
-		<script type="text/javascript">
-		    $(function() {
-		    	$.mask.definitions['~'] = "[+-]";        
-		        $("#num1").mask("(999) 999-9999");		
-		    });
-	</script>-->
-	
-	<g:if test="${params.id}">	
+		
+	<g:if test="${params.fotoid}">	
 		<script language="javascript">
 		window.onload = function() {
-			//llamarInLine2();
+			$("#nuevaImagen").click();
 		}
 		</script>															
 	</g:if>
@@ -42,12 +35,6 @@
 	
 		function llamarInLine(){
 			$("#formFoto").submit();						
-			//$("#nuevaImagen").click();
-		}
-
-		function llamarInLine2(){
-			//$("#formFoto").submit();						
-			$("#nuevaImagen").click();
 		}
 
 		function validar(e, tipo) {
@@ -62,14 +49,10 @@
 			}
 		    te = String.fromCharCode(tecla);		    
 		    return patron.test(te);
-		} 
-	
-		/*$(function() {
-	        $.mask.definitions['~'] = "[+-]";        
-	        $("#num0").mask("aaaa999999***", { placeholder: " " });		
-	        $("#curp").mask("aaaa999999********", { placeholder: " " });
-	    });*/	    
+		} 		   
 	</script>	
+	
+	<!--  Inicia JCROP - Recortar imagen -->	
 	<script type="text/javascript">
 		jQuery(function($){
 			
@@ -121,6 +104,12 @@
 		          marginTop: '-' + Math.round(ry * c.y) + 'px'
 		        });
 		      }
+		      $('#x1').val(c.x);
+		      $('#y1').val(c.y);
+		      $('#x2').val(c.x2);
+		      $('#y2').val(c.y2);
+		      $('#w').val(c.w);
+		      $('#h').val(c.h);
 		    };
 
 		  });
@@ -157,10 +146,10 @@
 			  width: 200px;
 			  height: 300px;
 			  overflow: hidden;
-			}
-		
+			}		
 		</style>
-			  		
+	<!--  Termina JCROP - Recortar imagen -->	
+	  		
 		<!-- Elementos para validacion pop up animado -->
 	<link rel="stylesheet" type="text/css" href="${resource(dir: 'js/tooltipster-master/css', file: 'tooltipster.css')}"/>
 		<script type="text/javascript" src="${resource(dir: 'js', file: 'tooltipster-master/js/jquery.tooltipster.js')}"></script>
@@ -213,12 +202,50 @@
 		
 <script type="text/javascript">
 	function validarTecleo(e, tipo, id) {
-		var pasa = validarInput(e, tipo)		
+		var pasa = validarInput(e, tipo);		
 		mostrarValidacion(id, validarInput(e, tipo));
 		if(pasa!=true){
 			pasa=false;
 		}
 		return pasa;
+	}
+
+	function validarNumeroEmpleado(input, valor){
+		if(!validarNumeros(valor)){
+			document.getElementById(input).value = "";
+		}else{
+			${remoteFunction(
+				controller: 'persona',
+				action:'esNumeroEmpleadoValido',				
+				params: '\'numero=\'+ valor',
+				update: 'numeroEmpleadoValido',
+				onComplete: 'validarNumeroEmpleadoAlerta();'
+			)}
+		}
+	}
+
+	function validarCurpBlur(input, valor){
+		if(!validarCURP(valor)){		
+			mostrarValidacion(input, "La CURP no es válida");
+		}else{
+			${remoteFunction(
+					controller: 'persona',
+					action:'esCurpRepetida',				
+					params: '\'curp=\'+ valor.toUpperCase()',
+					update: 'curpValida',
+					onComplete: 'validarCurpAlerta();'
+				)}				
+			var anio = parseInt(valor.substring(4, 6));
+			if(anio<30){
+				anio = anio+2000;
+			}else{
+				anio = anio+1900;
+			}
+			document.formPersona.fechaNacimientoP_year.value = anio
+			document.formPersona.fechaNacimientoP_day.value = parseInt(valor.substring(8,10)); 
+			document.formPersona.fechaNacimientoP_month.value = parseInt(valor.substring(6,8));
+			document.formPersona.rfc.value = valor.substring(0, 10)
+		}
 	}
 
 	function validarString(e, id, longitudMaxima, valor) {
@@ -232,16 +259,9 @@
 		mostrarValidacion(id, validarInput(e, tipo));
 		if(pasa!=true){
 			pasa=false;
-		}
-		/*
-		if(valor.length>=longitudMaxima-1){
-			mostrarValidacion(id, "completo: ");			
-		}*/
-		
+		}				
 		return pasa;
 	}
-
-	
 
 	function validarEnvio() {
 		var container, inputs, index, fin, municipioSelecionado, puestoSeleccionado, rfcValido, curpValida, rfc, curp;
@@ -250,13 +270,15 @@
 		puestoSeleccionado = false;
 		rfcValido = false;
 		curpValida = false;
-		// Get the container element
+		
+		// Obtener el contenedor del form
 		container = document.getElementById('formPersona');
 
-		// Find its child `input` elements
+		// Obtener todos los inputs y selects
 		inputs = container.getElementsByTagName('input');
 		selects = container.getElementsByTagName('select');		
-		
+
+		//Validar que no se hayan dejado inputs vacios
 		for (index = 0; index < inputs.length; ++index) {			
 		    if(inputs[index].id!="" && inputs[index].type!="hidden" && inputs[index].id!="noInterior" && inputs[index].value == ""){		    	
 			    if(!fin){				    			    				    
@@ -269,6 +291,7 @@
 				curpValida = validarCURP(inputs[index].value);
 				curp = inputs[index].value;
 				curp = curp.substring(0, 10);
+				curp.toUpperCase();
 				if(!curpValida){
 					mostrarValidacion(inputs[index].id, "La CURP no es valida");
 					$.scrollTo('#'+inputs[index].id,800);
@@ -279,6 +302,7 @@
 				rfcValido = validarRFC(inputs[index].value);
 				rfc = inputs[index].value;
 				rfc = rfc.substring(0, 10);
+				rfc.toUpperCase();
 				if(!rfcValido){
 					mostrarValidacion(inputs[index].id, "El RFC no es valido");
 					$.scrollTo('#'+inputs[index].id,800);
@@ -293,32 +317,47 @@
 				}				
 			}			
 		}
-		var numeros = new Array();
-		var cont = 0;
-		for (index = 0; index < inputs.length; ++index) {
-			if(inputs[index].id.substring(0, 3)=="num" && inputs[index].id!="numeroEmpleado"){
-				alert(inputs[index].id.substring(0, 3)+"."+inputs[index].id);				    			    				    
-		    	numeros[cont] = index;	
-		    	cont++;		    			    	
-			}
-		}
 
-		for (i = 0; i < numeros.length; ++i) {			
-			if(!fin && inputs[numeros[i]].value==inputs[numeros[j]].value){
-				alert(inputs[numeros[i]].id);
-				mostrarValidacion(inputs[numeros[i]].id, "El número está repetido");
-			   	$.scrollTo('#'+inputs[numeros[i]].id,800);
-				fin = true;
-			}			
-		}
-		
+		//Validar número de empleado	
+		if (!validarNumeroEmpleadoAlerta()){
+			$.scrollTo('#'+"numeroEmpleado",800);
+			fin = true;
+		}	
 
+		//Verificar si la curp y el rfc son válidos
 		if(rfc != curp){
 			mostrarValidacion("curp", "El RFC o la CURP no son válidos");
 	    	$.scrollTo('#'+"curp",800);
 	    	fin = true;
-		}		
+		}
+
+		//Validar curp repetida
+		if(!validarCurpAlerta()){
+			$.scrollTo('#'+"curp",800);
+			fin = true;
+		}	
+
+		//Validar telefono repetido
+		var numeros = new Array();
+		var cont = 0;
+		for (index = 0; index < inputs.length; ++index) {
+			if(inputs[index].id.substring(0, 3)=="num" && inputs[index].id!="numeroEmpleado"){
+				//alert(inputs[index].id.substring(0, 3)+"."+inputs[index].id);				    			    				    
+		    	numeros[cont] = index;	
+		    	cont++;		    			    	
+			}
+		}	
+		for (i = 0; i < numeros.length; i++) {
+			for (j = 0; j < numeros.length; j++) {
+				if(!fin && i!=j && inputs[numeros[i]].value==inputs[numeros[j]].value){					
+					mostrarValidacion(inputs[numeros[i]].id, "El número está repetido");
+				   	$.scrollTo('#'+inputs[numeros[i]].id,800);
+					fin = true;
+				}
+			}								
+		}
 		
+		//Verificar la selección de municipios y puestos
 		for (index = 0; index < selects.length; ++index) {			
 				if(selects[index].id=="municipio"){					
 					municipioSelecionado = true;					
@@ -337,7 +376,8 @@
 				fin = true;							
 			}
 		}		
-		
+
+		//Enviar formulario
 		if (!fin && curpValida && rfcValido){			
 			$('#formPersona').submit();								
 		}
@@ -432,6 +472,8 @@ function borrar(obj) {
 </script>	
 	</head>
 	<body>
+		<g:render template="numeroEmpleado"></g:render>
+		<g:render template="mensajeCurp"></g:render>
 		<a href="#create-persona" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div class="nav" role="navigation">
 			<ul>
@@ -458,61 +500,36 @@ function borrar(obj) {
 				<g:else>
 					El número de teléfono es inválido
 				</g:else>		
-				</li>
+				</li>				
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
 			
-			<g:hasErrors bean="${direccionInstance}">
-			<ul class="errors" role="alert">
-				<g:eachError bean="${direccionInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-				</g:eachError>
-			</ul>
-			</g:hasErrors>
-			
-			<g:hasErrors bean="${telefonoInstance}">
-			<ul class="errors" role="alert">
-				<g:eachError bean="${telefonoInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-				</g:eachError>
-			</ul>
-			</g:hasErrors>
-			
-			<g:hasErrors bean="${puestoPersonaInstance}">
-			<ul class="errors" role="alert">
-				<g:eachError bean="${puestoPersonaInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-				</g:eachError>
-			</ul>
-			</g:hasErrors>
 			<br><br>			
 			<fieldset>			
 			<legend>Información personal</legend>			
-			<g:if test="${!params.id }">
-			<g:form name="formFoto"  action="save_foto" controller="foto" enctype="multipart/form-data">				
-				<div class="fieldcontain ${hasErrors(bean: fotoInstance, field: 'foto', 'error')} required">
-					<label for="foto">
-						<g:message code="foto.foto.label" default="Foto" />						
-					</label>
-					<input type="file" id="foto" name="foto" value="${params.id}" onchange="llamarInLine();"/>
-				</div>
-				<g:submitButton style="display:none;" name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-			</g:form>
+			<g:if test="${!params.idfoto}">
+				<g:render template="../foto/formFoto" model="['id':1, 'action':'save_foto']"></g:render>
 			</g:if>
-			<g:else>
-				<br><br>
-				<div class="fieldcontain ${hasErrors(bean: fotoInstance, field: 'foto', 'error')} required">
-					<label for="foto">
-												
-					</label>
-					<img id="imagenP" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" width="200" height="300"/>
-				</div>
+			<g:else>								
+				<div id="fotoDiv" class="fieldcontain ${hasErrors(bean: fotoInstance, field: 'foto', 'error')} required">
+					<g:form name="formFoto"  action="save_foto" controller="foto" id="1" enctype="multipart/form-data">										
+						<img id="imagenP" height="300px;" width="200px;" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.idfoto}" />" style="margin-left:13em;"/>						
+						<br>
+						<label for="foto">
+							Cambiar imagen						
+						</label>
+						<input type="file" id="foto" name="foto" value="${params.fotoid}" onchange="llamarInLine();"/>
+						<g:remoteLink update="fotoDiv" action="quitar" controller="foto" id="${params.idfoto}">Quitar</g:remoteLink>												
+						<g:submitButton style="display:none;" name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+					</g:form>
+				</div>				
+											
 			</g:else>
 			</fieldset>
-			<g:form name="formPersona" action="save_persona"  enctype="multipart/form-data">
+			<g:form name="formPersona" action="save_persona" enctype="multipart/form-data">
 				<fieldset class="form">
-					<g:set var="index_direccion" value="${0}" />
+					<g:set var="index_direccion" value="${0}" />										
 					<g:render template="forma2"/>
 				</fieldset>
 				<fieldset class="buttons">
@@ -593,39 +610,34 @@ function borrar(obj) {
 			</div>
 		</div>
 		
-		<g:if test="${params.id}">
+		<g:if test="${params.fotoid}">
 		<!-- hidden inline form -->
 		<div id="inline100">		
 			<div id="create-imagen" class="content scaffold-create" role="main">
 				<h2>Imagen de Empleado</h2>
-				<br><br>
-				<g:uploadForm action="modificar_foto" controller="foto" >			        
-			        <div id="preview-pane">
-					    <div class="preview-container" >
-					      <img id="foto" name="foto" src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" class="jcrop-preview" alt="Preview"/>					      
-					    </div>
-					  </div>
-					  <input type="text" name="prueba" value="ads" />
-					  <input type="file" id="foto" name="foto"/>
-					<g:hiddenField name="x" value="100" />
-					<g:hiddenField name="y" value="100" />
-					<g:hiddenField name="w" value="100" />
-					<g:hiddenField name="h" value="100" />					      
-					<input id="idfoto" name="idfoto" type="hidden" value="${params.id}" />
-			        <input type="submit" value="prueba" />
-			    </g:uploadForm>
-				<g:form action="save_tipotelefono_persona" controller="tipoTelefono">
-				<fieldset class="form">											
-					<img id="imagen" class="imagenPerfil" src="<g:createLink controller='persona' action='renderImage' id="${params.id}" />" width="400" height="400"/>
+				<br><br>				
+				<g:form id="formFoto" action="modificar_foto" controller="foto">
+				<fieldset class="form">
+					<div style="max-height:360px; max-width:100px;">											
+					<img id="imagen" class="imagenPerfil" style="max-height:400px; max-width:500px;" src="<g:createLink controller='persona' action='renderImage' id="${params.fotoid}" />"/>
+					</div>
 					<div id="preview-pane">
 					    <div class="preview-container" >
-					      <img src="<g:createLink controller='persona' action='renderImage' id="${params.id}"/>" class="jcrop-preview" alt="Preview" />
+					      <img id="imagenRecortada" name="imagenRecortada" src="<g:createLink controller='persona' action='renderImage' id="${params.fotoid}"/>" class="jcrop-preview" alt="Preview" />
 					    </div>
-					  </div>	
-					<br><br><br><br>
+					  </div>
+					  <g:hiddenField id="idfoto" name="idfoto" value="${params.fotoid}"/>
+					  <g:hiddenField id="x1" name="x1"/>
+					  <g:hiddenField id="y1" name="y1"/>
+					  <g:hiddenField id="x2" name="x2"/>
+					  <g:hiddenField id="y2" name="y2"/>
+					  <g:hiddenField id="w" name="w"/>
+					  <g:hiddenField id="h" name="h"/>
+						<br> 
+					
 				</fieldset>
-				<fieldset class="buttons">					
-					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />					
+				<fieldset class="buttons">											
+					<g:submitButton name="create" class="save" value="Recortar" />													
 				</fieldset>
 			</g:form>
 			</div>
@@ -638,8 +650,6 @@ function borrar(obj) {
 		<!-- Render the phone template (_phone.gsp) hidden so we can clone it -->
     <g:render template='phone' model="['phone':null,'i':'_clone','hidden':true]"/>
     <!-- Render the phone template (_phone.gsp) hidden so we can clone it -->
-    
-
     
     
     

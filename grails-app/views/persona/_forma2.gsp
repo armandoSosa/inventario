@@ -6,7 +6,7 @@
 		<g:message code="persona.numeroEmpleado.label" default="Número Empleado" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="numeroEmpleado" required="" value="${personaInstance?.numeroEmpleado}" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarFocus(4, this.id, this.value);" class="tooltip"/>
+	<g:textField name="numeroEmpleado" required="" value="${personaInstance?.numeroEmpleado}" onkeypress="return validarTecleo(event, 2, this.id)" onblur="validarNumeroEmpleado(this.id, this.value);" class="tooltip"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'nombre', 'error')} required">
@@ -38,7 +38,7 @@
 		<g:message code="persona.curp.label" default="CURP" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField id="curp" name="curp" required="" value="${personaInstance?.curp}" style="text-transform:uppercase;" onkeypress="return validarString(event, this.id, 18, this.value)" onblur="validarFocus(1, this.id, this.value);" class="tooltip" maxlength="18"/>
+	<g:textField id="curp" name="curp" required="" value="${personaInstance?.curp}" style="text-transform:uppercase;" onkeypress="return validarString(event, this.id, 18, this.value)" onblur="validarCurpBlur(this.id, this.value);" class="tooltip" maxlength="18"/>	
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'rfc', 'error')} required">
@@ -61,7 +61,7 @@
 		<g:message code="persona.sexo.label" default="Sexo" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="sexo" name="sexo.id" from="${com.redoaxaca.Sexo.list()}" optionKey="id" required="" value="${personaInstance?.sexo?.id}" class="many-to-one"/>
+	<g:textField name="sexo" value="${personaInstance?.sexo}" readonly="readonly"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: personaInstance, field: 'email', 'error')} ">
@@ -78,7 +78,7 @@
 </label>
 <input type="button" value="Nuevo Teléfono" name="telefono" onclick="crear(this)" />
 <input type="hidden" id="cantidad" name="cantidad" value="${personaInstance?.telefonos?.size()}">
-<input type="hidden" id="idfoto" name="idfoto" value="${params.id}"/>	
+<input type="hidden" id="idfoto" name="idfoto" value="${params.idfoto}"/>	
 <fieldset id="fiel">
 <g:set var="contador" value="${1}" />
 <g:each in="${personaInstance?.telefonos?}" var="t">

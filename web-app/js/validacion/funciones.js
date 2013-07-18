@@ -110,21 +110,7 @@ function validarCorreo(correo){
 function validarFocus(tipo, input, valor){
 	
 	if(tipo==1){
-		if(!validarCURP(valor)){
-			
-			mostrarValidacion(input, "La CURP no es válida");
-		}else{
-			var anio = parseInt(valor.substring(4, 6));
-			if(anio<30){
-				anio = anio+2000;
-			}else{
-				anio = anio+1900;
-			}
-			document.formPersona.fechaNacimientoP_year.value = anio
-			document.formPersona.fechaNacimientoP_day.value = parseInt(valor.substring(8,10)); 
-			document.formPersona.fechaNacimientoP_month.value = parseInt(valor.substring(6,8));
-			
-		}
+		
 	}
 	else if(tipo==2){
 		if(!validarRFC(valor)){
@@ -182,6 +168,18 @@ function validarFecha(txtDate){
     return true;    
 }
 
+function validarSexo(letra){
+	var letraValida = false;	
+	if(letra=='h' || letra=='H'){
+		document.formPersona.sexo.value = 'HOMBRE';
+		letraValida = true;
+	}else if(letra=='m' || letra=='M'){
+		document.formPersona.sexo.value = 'MUJER';
+		letraValida = true;
+	}
+	return letraValida; 
+}
+
 
 function validarRFC(rfc){
 	var longitudRFC = 13, rfcValido = false;
@@ -202,7 +200,7 @@ function validarCURP(curp){
 		var letras = curp.substring(0, 4);
 		var numeros = curp.substring(4, 10);			 
 		if(validarLetras(letras) && validarNumeros(numeros)){			
-			if(validarFecha(numeros)){				
+			if(validarFecha(numeros) && validarSexo(curp.substring(10, 11))){				
 				curpValida = true;
 			}			
 		}			

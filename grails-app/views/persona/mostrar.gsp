@@ -15,7 +15,7 @@
 		
   <script src="${resource(dir:'js/tabs',file:'jquery-1.9.1.js')}"></script>
   <script src="${resource(dir:'js/tabs',file:'jquery-ui.js')}"></script>
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+  <link rel="stylesheet" href="${resource(dir:'css/tabs',file:'jquery-ui.css')}" />
   
 <script>
   $(function() {
@@ -27,7 +27,27 @@
 	function recargar(){
 		window.location.reload()
 	}
-	
+
+	function confirmarArchivar(){
+		<%
+  		def cantidad = 0
+  		personaInstance.objetosPersona.each{ obj ->
+  			if(!obj.fechaFin){
+  				cantidad++;
+  			}
+		}
+		%>
+		var objetosAsignados = <%=cantidad%>;
+		if(objetosAsignados==0){
+			var c = confirm('¿Seguro que desear archivar al empleado?')
+			if(c==true){
+				return true;
+			}
+		}else{
+			alert('Debe desasignar los objetos al empleado antes de poder archivarlo');
+		}
+		return false;
+	}
   </script>
 	</head>
 	<body>
@@ -36,7 +56,7 @@
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="list" action="empleados"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="insertar2"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="show-persona" class="content scaffold-show" role="main">
@@ -208,7 +228,7 @@
 					<g:hiddenField name="id" value="${personaInstance?.id}" />
 					<g:link class="edit" action="editar" id="${personaInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:if test="${!personaInstance?.archivado}">
-					<g:link name="cancel" class="delete" action="archivar" id="${personaInstance.id}" onclick="return confirm('¿Seguro que desear archivar al empleado?');">Archivar</g:link>
+					<g:link name="cancel" class="delete" action="archivar" id="${ personaInstance.id}" onclick="return confirmarArchivar();">Archivar</g:link>
 					</g:if>					
 				</fieldset>
 			</g:form>
