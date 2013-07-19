@@ -7,16 +7,43 @@ import oracle.sql.OffsetDST;
 import org.apache.jasper.compiler.Node.ParamsAction;
 import org.springframework.dao.DataIntegrityViolationException
 
+import com.sun.jmx.remote.util.OrderClassLoaders;
+
 class PersonaController {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	def scaffold = true
 
 	def inicio (Integer max) {
-		params.max = Math.min(max ?: 10, 100)		
+		params.max = Math.min(max ?: 10, 100)	
 		def personaTotal = Persona.findAllByArchivado("false")
-		def personaInstance = Persona.findAllByArchivado("false", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])		
-		[personaInstanceList: personaInstance, personaInstanceTotal: personaTotal.size()]		
+		def personaList
+		if(params.sort.equals("numeroEmpleado")){
+			personaList = Persona.findAllByArchivado("false")
+			System.out.println("params1:"+params)
+						
+			def listToSort = personaList.findAll()
+			if (params.order == 'asc') {
+				listToSort.sort{ it.getProperty("numeroEmpleado").toInteger()}
+			} else if (params.order == 'desc') {
+				listToSort.sort{ -it.getProperty("numeroEmpleado").toInteger()}
+			System.out.println("params:"+params)
+			}
+			def inicio = 0
+			def fin = 9
+			if(params.offset){
+				inicio = params.offset.toInteger()
+				fin = inicio + 9
+				if (fin>listToSort.size()){
+					fin = listToSort.size()-1
+				}
+			}
+			personaList = listToSort[inicio..fin]
+		}else{
+			personaList = Persona.findAllByArchivado("false", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
+		}
+				
+		[personaInstanceList: personaList, personaInstanceTotal: personaTotal.size()]		
 	}
 
 	def index2 = {
@@ -62,54 +89,32 @@ class PersonaController {
 	def empleados(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		def personaTotal = Persona.findAllByArchivado("false")
-		def personaList
-		def persona = new Persona()
-		/*
+		def personaList		
+		
 		if(params.sort.equals("numeroEmpleado")){
 			personaList = Persona.findAllByArchivado("false")
 			System.out.println("params1:"+params)
 						
 			def listToSort = personaList.findAll()
 			if (params.order == 'asc') {
-				listToSort.sort{ a,b ->
-					def n1 = (a =~ /\d+/)[-1] as Integer
-					def n2 = (b =~ /\d+/)[-1] as Integer
-				
-					def s1 = a.replaceAll(/\d+$/, '').trim()
-					def s2 = b.replaceAll(/\d+$/, '').trim()
-				
-					if (s1 == s2){
-						return n1 <=> n2
-					}
-					else{
-						return s1 <=> s2
-					}
-				}
-
+				listToSort.sort{ it.getProperty("numeroEmpleado").toInteger()}
 			} else if (params.order == 'desc') {
-				listToSort.sort{ a,b ->
-					def n1 = (a =~ /\d+/)[-1] as Integer
-					def n2 = (b =~ /\d+/)[-1] as Integer
-				
-					def s1 = a.replaceAll(/\d+$/, '').trim()
-					def s2 = b.replaceAll(/\d+$/, '').trim()
-				
-					if (s1 == s2){
-						return n1 <=> n2
-					}
-					else{
-						return s1 <=> s2
-					}
-				}
-				personaList = listToSort
-				
+				listToSort.sort{ -it.getProperty("numeroEmpleado").toInteger()}						
 			System.out.println("params:"+params)			
 			}		
+			def inicio = 0
+			def fin = 9
+			if(params.offset){
+				inicio = params.offset.toInteger()
+				fin = inicio + 9
+				if (fin>listToSort.size()){
+					fin = listToSort.size()-1
+				}
+			}			
+			personaList = listToSort[inicio..fin]
 		}else{
 			personaList = Persona.findAllByArchivado("false", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
 		}	
-			*/
-		personaList = Persona.findAllByArchivado("false", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
 		
 		[personaInstanceList: personaList, personaInstanceTotal: personaTotal.size()]		
 	}

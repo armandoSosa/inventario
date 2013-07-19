@@ -39,7 +39,7 @@
 		%>
 		var objetosAsignados = <%=cantidad%>;
 		if(objetosAsignados==0){
-			var c = confirm('¿Seguro que desear archivar al empleado?')
+			var c = confirm('¿Seguro que desea archivar al empleado?')
 			if(c==true){
 				return true;
 			}
