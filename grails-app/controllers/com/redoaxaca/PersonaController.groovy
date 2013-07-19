@@ -2,6 +2,9 @@ package com.redoaxaca
 
 import java.awt.print.Printable;
 
+import oracle.sql.OffsetDST;
+
+import org.apache.jasper.compiler.Node.ParamsAction;
 import org.springframework.dao.DataIntegrityViolationException
 
 class PersonaController {
@@ -10,9 +13,10 @@ class PersonaController {
 	def scaffold = true
 
 	def inicio (Integer max) {
-		params.max = Math.min(max ?: 10, 100)
-		def personaInstance = Persona.findAllByArchivado("false", [max: max, offset: 0, sort: params.sort, order: params.order])		
-		[personaInstanceList: personaInstance, personaInstanceTotal: personaInstance.count]		
+		params.max = Math.min(max ?: 10, 100)		
+		def personaTotal = Persona.findAllByArchivado("false")
+		def personaInstance = Persona.findAllByArchivado("false", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])		
+		[personaInstanceList: personaInstance, personaInstanceTotal: personaTotal.size()]		
 	}
 
 	def index2 = {
@@ -57,8 +61,57 @@ class PersonaController {
 
 	def empleados(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
-		def personaList = Persona.findAllByArchivado("false", [max: max, offset: 0, sort: params.sort, order: params.order])		
-		[personaInstanceList: personaList, personaInstanceTotal: personaList.count]		
+		def personaTotal = Persona.findAllByArchivado("false")
+		def personaList
+		def persona = new Persona()
+		/*
+		if(params.sort.equals("numeroEmpleado")){
+			personaList = Persona.findAllByArchivado("false")
+			System.out.println("params1:"+params)
+						
+			def listToSort = personaList.findAll()
+			if (params.order == 'asc') {
+				listToSort.sort{ a,b ->
+					def n1 = (a =~ /\d+/)[-1] as Integer
+					def n2 = (b =~ /\d+/)[-1] as Integer
+				
+					def s1 = a.replaceAll(/\d+$/, '').trim()
+					def s2 = b.replaceAll(/\d+$/, '').trim()
+				
+					if (s1 == s2){
+						return n1 <=> n2
+					}
+					else{
+						return s1 <=> s2
+					}
+				}
+
+			} else if (params.order == 'desc') {
+				listToSort.sort{ a,b ->
+					def n1 = (a =~ /\d+/)[-1] as Integer
+					def n2 = (b =~ /\d+/)[-1] as Integer
+				
+					def s1 = a.replaceAll(/\d+$/, '').trim()
+					def s2 = b.replaceAll(/\d+$/, '').trim()
+				
+					if (s1 == s2){
+						return n1 <=> n2
+					}
+					else{
+						return s1 <=> s2
+					}
+				}
+				personaList = listToSort
+				
+			System.out.println("params:"+params)			
+			}		
+		}else{
+			personaList = Persona.findAllByArchivado("false", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
+		}	
+			*/
+		personaList = Persona.findAllByArchivado("false", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
+		
+		[personaInstanceList: personaList, personaInstanceTotal: personaTotal.size()]		
 	}
 
 	def index() {
@@ -444,6 +497,7 @@ class PersonaController {
 		def personas, personas2, personas3, estados
 		def personaInstanceList
 		def personaInstanceTotal
+		def personaTotal = []
 		params.max = Math.min(max ?: 10, 100)
 		def tipoBusqueda = params.tipo
 		def persona = params.persona
@@ -451,14 +505,17 @@ class PersonaController {
 			if(params.archivado=="true"){
 				switch(tipoBusqueda){
 					case '0':
-						personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: max, offset: 0, sort: params.sort, order: params.order])
+						personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
+						personaTotal = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%")
 						break
 					case '1':					
-						personas = Persona.findAllByNumeroEmpleadoLike("%"+persona+"%", [max: max, offset: 0, sort: params.sort, order: params.order])
+						personas = Persona.findAllByNumeroEmpleadoLike("%"+persona+"%", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
+						personaTotal = Persona.findAllByNumeroEmpleadoLike("%"+persona+"%")
 						break
 					case '2':
 						def criterio = Persona.createCriteria()
-						personas = criterio{
+						def criterio2 = Persona.createCriteria()
+						personas = criterio.list(max: params.max, offset: params.offset){
 							direcciones{
 								municipio{
 									estado{
@@ -466,29 +523,45 @@ class PersonaController {
 									}
 								}
 							}
-						}						
+						}		
+						
+						personaTotal = criterio{
+							direcciones{
+								municipio{
+									estado{
+										like("nombre", persona+"%")										
+									}
+								}
+							}
+						}		
 												
 						break
 					case '3':
-						personas = Persona.findAllByRfcLike("%"+persona+"%", [max: max, offset: 0, sort: params.sort, order: params.order])
+						personas = Persona.findAllByRfcLike("%"+persona+"%", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
+						personaTotal = Persona.findAllByRfcLike("%"+persona+"%")
 						break
 					case '4':
-						personas = Persona.findAllByCurpLike("%"+persona+"%", [max: max, offset: 0, sort: params.sort, order: params.order])
+						personas = Persona.findAllByCurpLike("%"+persona+"%", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
+						personaTotal = Persona.findAllByCurpLike("%"+persona+"%")
 						break
 				}
 			}else{
 				switch(tipoBusqueda){
 					case '0':
-						personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: max, offset: 0, sort: params.sort, order: params.order])
+						personas = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
+						personaTotal = Persona.findAllByNombreLikeOrPaternoLikeOrMaternoLike("%"+persona+"%", "%"+persona+"%", "%"+persona+"%")
 						def aux = Persona.findAllByArchivado("true")
 						personas.removeAll(aux)
 						break
 					case '1':												
-						personas = Persona.findAllByNumeroEmpleadoLikeAndArchivado("%"+persona+"%", false, [max: max, offset: 0, sort: params.sort, order: params.order])						
+						personas = Persona.findAllByNumeroEmpleadoLikeAndArchivado("%"+persona+"%", false, [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
+						personaTotal = Persona.findAllByNumeroEmpleadoLikeAndArchivado("%"+persona+"%", false)
 						break
 					case '2':																	
 						def criterio = Persona.createCriteria()
-						personas = criterio{
+						def criterio2 = Persona.createCriteria()
+						System.out.println("offset:"+params.offset)
+						personas = criterio.list(max: params.max, offset: params.offset){
 							direcciones{
 								municipio{
 									estado{
@@ -496,32 +569,44 @@ class PersonaController {
 									}
 								}
 							}
-							eq("archivado", false)
-						}						
+							eq("archivado", false)																		
+						}
+						personaTotal = criterio2{
+							direcciones{
+								municipio{
+									estado{
+										like("nombre", persona+"%")										
+									}
+								}
+							}
+							eq("archivado", false)																				
+						}					
 						break
 					case '3':
-						personas = Persona.findAllByRfcLikeAndArchivado("%"+persona+"%", false, [max: max, offset: 0, sort: params.sort, order: params.order])
+						personas = Persona.findAllByRfcLikeAndArchivado("%"+persona+"%", false, [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
+						personaTotal = Persona.findAllByRfcLikeAndArchivado("%"+persona+"%", false)
 						break
 					case '4':
-						personas = Persona.findAllByCurpLikeAndArchivado("%"+persona+"%", false, [max: max, offset: 0, sort: params.sort, order: params.order])
+						personas = Persona.findAllByCurpLikeAndArchivado("%"+persona+"%", false, [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
+						personaTotal = Persona.findAllByCurpLikeAndArchivado("%"+persona+"%", false)
 						break
 				}
-			}			
+			}						
 			personaInstanceList = personas
-			personaInstanceTotal = personas.count
+			personaInstanceTotal = personaTotal.size()
 		}else{
 			if(params.archivado=="true"){
-				personaInstanceList = Persona.findAll([max: max, offset: 0, sort: params.sort, order: params.order])
+				personaInstanceList = Persona.findAll([max: params.max, offset: params.offset, sort: params.sort, order: params.order])
 			}else{
-				personaInstanceList = Persona.findAllByArchivado("false", [max: max, offset: 0, sort: params.sort, order: params.order])
+				personaInstanceList = Persona.findAllByArchivado("false", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
 			}
 			
 			personaInstanceTotal = Persona.count()
 		}	
 		if(!max){
-			render (template:'tablaPersonas', model: [ archivado: params.archivado, tipo: params.tipo, persona:params.persona, personaInstanceList: personaInstanceList, personaInstanceTotal: personaInstanceTotal, max:max])
+			render (template:'tablaPersonas', model: [ archivado: params.archivado, tipo: params.tipo, persona:params.persona, personaInstanceList: personaInstanceList, personaInstanceTotal: personaInstanceTotal, max:params.max])
 		}else{
-			render (view:'inicio', model: [ archivado: params.archivado, tipo: params.tipo, persona:params.persona, personaInstanceList: personaInstanceList, personaInstanceTotal: personaInstanceTotal, max:max])
+			render (view:'inicio', model: [ archivado: params.archivado, tipo: params.tipo, persona:params.persona, personaInstanceList: personaInstanceList, personaInstanceTotal: personaInstanceTotal, max:params.max])
 		}
 				
 	}

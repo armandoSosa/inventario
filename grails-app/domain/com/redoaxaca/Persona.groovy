@@ -13,6 +13,7 @@ class Persona {
 	String email	
 	List objetosPersona = new ArrayList()
 	
+	
 	static hasMany = [subordinado: Persona, objetosPersona: ObjetoPersona, puestosPersona: PuestoPersona, direcciones: Direccion, telefonos: Telefono, usuarios: Usuario]	
 	static belongsTo = [foto: Foto] 
     
