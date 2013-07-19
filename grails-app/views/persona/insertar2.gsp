@@ -19,7 +19,7 @@
 		 <link rel="stylesheet" href="${resource(dir: 'js', file: 'chosen/chosen.css')}" type="text/css"> 
 		 <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.scrollTo.js')}"></script>
 		
-	<g:if test="${params.fotoid}">	
+	<g:if test="${fotoInstance?.id}">	
 		<script language="javascript">
 		window.onload = function() {
 			$("#nuevaImagen").click();
@@ -519,7 +519,7 @@ function borrar(obj) {
 						<label for="foto">
 							Cambiar imagen						
 						</label>
-						<input type="file" id="foto" name="foto" value="${params.fotoid}" onchange="llamarInLine();"/>
+						<input type="file" id="foto" name="foto" value="${fotoInstance?.id}" onchange="llamarInLine();"/>
 						<g:remoteLink update="fotoDiv" action="quitar" controller="foto" id="${params.idfoto}">Quitar</g:remoteLink>												
 						<g:submitButton style="display:none;" name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
 					</g:form>
@@ -610,7 +610,7 @@ function borrar(obj) {
 			</div>
 		</div>
 		
-		<g:if test="${params.fotoid}">
+		<g:if test="${fotoInstance?.id}">
 		<!-- hidden inline form -->
 		<div id="inline100">		
 			<div id="create-imagen" class="content scaffold-create" role="main">
@@ -619,14 +619,14 @@ function borrar(obj) {
 				<g:form id="formFoto" action="modificar_foto" controller="foto">
 				<fieldset class="form">
 					<div style="max-height:360px; max-width:100px;">											
-					<img id="imagen" class="imagenPerfil" style="max-height:400px; max-width:500px;" src="<g:createLink controller='persona' action='renderImage' id="${params.fotoid}" />"/>
+					<img id="imagen" class="imagenPerfil" style="max-height:400px; max-width:500px;" src="<g:createLink controller='persona' action='renderImage' id="${fotoInstance?.id}" />"/>
 					</div>
 					<div id="preview-pane">
 					    <div class="preview-container" >
-					      <img id="imagenRecortada" name="imagenRecortada" src="<g:createLink controller='persona' action='renderImage' id="${params.fotoid}"/>" class="jcrop-preview" alt="Preview" />
+					      <img id="imagenRecortada" name="imagenRecortada" src="<g:createLink controller='persona' action='renderImage' id="${fotoInstance?.id}"/>" class="jcrop-preview" alt="Preview" />
 					    </div>
 					  </div>
-					  <g:hiddenField id="idfoto" name="idfoto" value="${params.fotoid}"/>
+					  <g:hiddenField id="idfoto" name="idfoto" value="${fotoInstance?.id}"/>
 					  <g:hiddenField id="x1" name="x1"/>
 					  <g:hiddenField id="y1" name="y1"/>
 					  <g:hiddenField id="x2" name="x2"/>

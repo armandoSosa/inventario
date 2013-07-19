@@ -67,7 +67,10 @@ class PersonaController {
 	def insertar2(Long id){
 		session["estado"] = 0
 		session["persona"] = true
-		[idEstado : id, personaInstance: new Persona(params), municipioInstance: new Municipio(params), estadoInstance: new Estado(params), telefonoInstance: new Telefono(params), fotoInstance: new Foto(params) ]
+		
+		System.out.println("parametros:"+params)
+		def fotoInstance = Foto.get(params.fotoid)
+		[idEstado : id, personaInstance: new Persona(params), municipioInstance: new Municipio(params), estadoInstance: new Estado(params), telefonoInstance: new Telefono(params), fotoInstance: fotoInstance ]
 	}
 
 	def renderImage = {

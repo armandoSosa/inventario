@@ -67,12 +67,12 @@ class FotoController {
 	
 	def save_foto(Long id) {
 		def fotoInstance = new Foto(params)
-		System.out.println("foto:"+fotoInstance.foto)
+		//System.out.println("foto:"+fotoInstance.foto)
 		ImageUtils imageUtils = new ImageUtils()
 		def imagenFile = imageUtils.loadImageByte(fotoInstance.foto)
 		BufferedImage imagenRedimencionada
 		BufferedImage buffer = ImageIO.read(imagenFile)
-		System.out.println("inicio:"+buffer.width+"."+buffer.height)
+		//System.out.println("inicio:"+buffer.width+"."+buffer.height)
 		imagenRedimencionada = buffer
 		
 		if(imagenRedimencionada.width>500){
@@ -93,8 +93,8 @@ class FotoController {
 			return
 		}
 				
-		System.out.println("fin:"+imagenRedimencionada.width+"."+imagenRedimencionada.height)
-		System.out.println("params:"+params+"."+id)
+		//System.out.println("fin:"+imagenRedimencionada.width+"."+imagenRedimencionada.height)
+		//System.out.println("params:"+params+"."+id)
 		
 		redirect(action: "insertar2", controller: "persona", params: [fotoid: fotoInstance.id])
 							
@@ -106,7 +106,7 @@ class FotoController {
 		def imagenFile = imageUtils.loadImageByte(fotoInstance.foto)
 		BufferedImage imagenRedimencionada
 		BufferedImage buffer = ImageIO.read(imagenFile)
-		System.out.println("inicio:"+buffer.width+"."+buffer.height)
+		//System.out.println("inicio:"+buffer.width+"."+buffer.height)
 		imagenRedimencionada = buffer
 		
 		if(imagenRedimencionada.width>500){
@@ -128,12 +128,12 @@ class FotoController {
 			return
 		}
 		
-		System.out.println("fin:"+imagenRedimencionada.width+"."+imagenRedimencionada.height)
+		//System.out.println("fin:"+imagenRedimencionada.width+"."+imagenRedimencionada.height)
 		redirect(action: "editar", controller: "persona", params: [fotoid: fotoInstance.id], id:params.idpersona)
 	}
 	
 	def modificar_foto() {
-		System.out.println(params)
+		//System.out.println(params)
 		def fotoInstance = Foto.get(params.idfoto)
 		
 		def x1 = params.x1
@@ -147,7 +147,7 @@ class FotoController {
 		def imageCrooped = cropping(photoS3Object)
 		imagen.saveImage(imageCrooped, photoS3Object.getPath())
 		def imageBytes = imagen.convertirBufferedImageABytes(photoS3Object.getPath());
-		System.out.println("idfoto:"+params.idfoto+"."+params.foto)
+		//System.out.println("idfoto:"+params.idfoto+"."+params.foto)
 				
 		fotoInstance.foto = imageBytes
 		if (!fotoInstance.save(flush: true)) {
@@ -158,7 +158,7 @@ class FotoController {
 	}
 	
 	def editar_foto() {
-		System.out.println(params)		
+		//System.out.println(params)		
 		def fotoInstance = Foto.get(params.idfoto)
 		
 		def x1 = params.x1
@@ -172,7 +172,7 @@ class FotoController {
 		def imageCrooped = cropping(photoS3Object)
 		imagen.saveImage(imageCrooped, photoS3Object.getPath())
 		def imageBytes = imagen.convertirBufferedImageABytes(photoS3Object.getPath());
-		System.out.println("idfoto:"+params.idfoto+"."+params.foto)
+		//System.out.println("idfoto:"+params.idfoto+"."+params.foto)
 				
 		fotoInstance.foto = imageBytes
 		if (!fotoInstance.save(flush: true)) {
