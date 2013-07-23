@@ -116,15 +116,15 @@
 						</g:if>
 						<br>					
 						<g:if test="${personaInstance?.puestosPersona}">
-							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Puesto:</font> <br>
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Puesto(s):</font> <br>
 								<g:each in="${personaInstance.puestosPersona}" var="p">
-									${p?.puesto?.nombre}
+									${p?.puesto?.nombre} <br>
 								</g:each>	
 							</h3>
 							<br>
-							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Departamento:</font> <br>
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Departamento(s):</font> <br>
 								<g:each in="${personaInstance.puestosPersona}" var="p">
-									${p?.puesto?.departamento?.nombre}
+									${p?.puesto?.departamento?.nombre}<br>									
 								</g:each>	
 							</h3>
 						</g:if>

@@ -8,7 +8,7 @@ class PuestoPersona {
     static constraints = {
 		fechaInicio(nullable:false)
 		fechaFin(nullable: true)
-		persona(unique:['persona','puesto'])
+		//persona(unique:['persona','puesto'])
     }
 	
 	String toString() {

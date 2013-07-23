@@ -165,7 +165,7 @@ class PersonaController {
 		def fotoInstance = Foto.findById(params.idfoto)
 		//def fotoInstance = new Foto(params)
 		System.out.println("idfoto:"+params.idfoto)
-		
+
 		//fotoInstance.save(flush: true)
 
 		personaInstance.properties = params
@@ -210,7 +210,7 @@ class PersonaController {
 		 int cantidad = 0
 		 if(params.cantidad!='')
 		 	cantidad = params.cantidad
-		 
+
 		 for(int i=1; i<=cantidad; i++ ){
 			 if((params.get("num"+i))!=null){			   
 				 Telefono tel = new Telefono()
@@ -221,12 +221,12 @@ class PersonaController {
 				 personaInstance.addToTelefonos(tel)
 			 }
 		 }
-		 
+
 		if (!personaInstance.save(flush: true)) {
 			def departamentoInstance = Departamento.get(personaInstance?.puestosPersona?.puesto?.departamento?.id?.get(personaInstance?.puestosPersona?.size()-1))
 			//Se obtiene la lista de puestos
 			def puestosList = departamentoInstance?.puestos
-			
+
 			def estadoInstance = Estado.get(personaInstance?.direcciones?.municipio?.estado?.id?.get(personaInstance?.direcciones?.size()-1))
 			//Se obtiene la lista de municipio
 			def municipiosList = estadoInstance?.municipios
@@ -314,7 +314,32 @@ class PersonaController {
 		
 		def departamentoInstance = Departamento.get(personaInstance?.puestosPersona?.puesto?.departamento?.id?.get(personaInstance?.puestosPersona?.size()-1))		
 		//Se obtiene la lista de puestos
-		def puestosList = departamentoInstance?.puestos
+		//def puestosList = departamentoInstance?.puestos
+		def criterio = Puesto.createCriteria()
+		def puestosList = criterio{
+			departamento{
+				eq("id", departamentoInstance.id)
+			}
+		}
+				
+		//def puestoPersonaList = PuestoPersona.findAllByFechaFinIsNull()
+		def criterio2 = PuestoPersona.createCriteria()
+		def puestoPersonaList = criterio2{
+			isNull("fechaFin")
+			puesto{
+				eq("permitirVarios", false)
+			}
+			
+		}
+		
+		def puestosOcupados = new ArrayList<Puesto>()
+		puestoPersonaList.each{ puestoPersona ->
+			puestosOcupados.add(puestoPersona.puesto)
+		}
+		
+		if(puestosOcupados.size()>0 && puestosList){
+			puestosList.removeAll(puestosOcupados)
+		}
 		
 		def estadoInstance = Estado.get(personaInstance?.direcciones?.municipio?.estado?.id?.get(personaInstance?.direcciones?.size()-1))
 		//Se obtiene la lista de municipio
@@ -334,7 +359,16 @@ class PersonaController {
 	def actualizar(Long id) {
 		def personaInstance = Persona.get(id)
 		def direccionInstance = Direccion.get(personaInstance.direcciones.id.get(0))
-		def puestoPersonaInstance = PuestoPersona.get(personaInstance.puestosPersona.id.get(0))
+		
+		//def criterioPuesto = PuestoPersona.createCriteria()
+	
+		def puestoPersonaInstanceAnterior = PuestoPersona.createCriteria().list {
+				persona{
+					eq("id", personaInstance.id)
+				}
+				order "fechaInicio", "desc"
+			}.get(0)
+		def puestoPersonaInstance = new PuestoPersona(params)
 		def fotoInstance = Foto.findById(params.idfoto)
 
 		personaInstance.properties = params
@@ -348,8 +382,8 @@ class PersonaController {
 		direccionInstance.setNoExterior(direccionInstance.getNoExterior().toUpperCase())
 		direccionInstance.setNoInterior(direccionInstance.getNoInterior().toUpperCase())
 
-		puestoPersonaInstance.properties = params
-		puestoPersonaInstance.fechaInicio = new Date()
+		
+		
 
 		String rfc = params.rfc
 		String anio = rfc.substring(4, 6)
@@ -362,7 +396,13 @@ class PersonaController {
 		personaInstance.rfc = personaInstance.rfc.toString().toUpperCase()
 
 		personaInstance.addToDirecciones(direccionInstance)
-		personaInstance.addToPuestosPersona(puestoPersonaInstance)
+		System.out.println(puestoPersonaInstance.puesto.nombre+"."+puestoPersonaInstanceAnterior.puesto.nombre)
+		if(puestoPersonaInstance.puesto.id != puestoPersonaInstanceAnterior.puesto.id){
+			puestoPersonaInstanceAnterior.fechaFin = new Date()
+			puestoPersonaInstance.fechaInicio = new Date()
+			personaInstance.addToPuestosPersona(puestoPersonaInstance)
+		}
+		
 		personaInstance.setFoto(fotoInstance)
 
 		
@@ -426,8 +466,34 @@ class PersonaController {
 
 		if (!personaInstance.save(flush: true)) {
 			def departamentoInstance = Departamento.get(personaInstance?.puestosPersona?.puesto?.departamento?.id?.get(personaInstance?.puestosPersona?.size()-1))
+			
 			//Se obtiene la lista de puestos
-			def puestosList = departamentoInstance?.puestos
+			//def puestosList = departamentoInstance?.puestos
+			def criterio = Puesto.createCriteria()
+			def puestosList = criterio{
+				departamento{
+					eq("id", departamentoInstance.id)
+				}
+			}
+					
+			//def puestoPersonaList = PuestoPersona.findAllByFechaFinIsNull()
+			def criterio2 = PuestoPersona.createCriteria()
+			def puestoPersonaList = criterio2{
+				isNull("fechaFin")
+				puesto{
+					eq("permitirVarios", false)
+				}
+				
+			}
+			
+			def puestosOcupados = new ArrayList<Puesto>()
+			puestoPersonaList.each{ puestoPersona ->
+				puestosOcupados.add(puestoPersona.puesto)
+			}
+			
+			if(puestosOcupados.size()>0 && puestosList){
+				puestosList.removeAll(puestosOcupados)
+			}
 			
 			def estadoInstance = Estado.get(personaInstance?.direcciones?.municipio?.estado?.id?.get(personaInstance?.direcciones?.size()-1))
 			//Se obtiene la lista de municipio

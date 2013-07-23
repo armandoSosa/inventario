@@ -20,6 +20,14 @@
 	<a class="modalbox" href="#inline2">Nuevo nivel</a>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: puestoInstance, field: 'permitirVarios', 'error')} ">
+	<label for="permitirVarios">
+		<g:message code="puesto.permitirVarios.label" default="Permitir Varios" />
+		
+	</label>
+	<g:checkBox name="permitirVarios" value="${puestoInstance?.permitirVarios}" />
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: puestoInstance, field: 'nombre', 'error')} ">
 	<label for="nombre">
 		<g:message code="puesto.nombre.label" default="Nombre" />

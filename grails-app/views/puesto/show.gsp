@@ -23,6 +23,15 @@
 			</g:if>
 			<ol class="property-list puesto">
 			
+				<g:if test="${puestoInstance?.nombre}">
+				<li class="fieldcontain">
+					<span id="nombre-label" class="property-label"><g:message code="puesto.nombre.label" default="Nombre" /></span>
+					
+						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${puestoInstance}" field="nombre"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${puestoInstance?.departamento}">
 				<li class="fieldcontain">
 					<span id="departamento-label" class="property-label"><g:message code="puesto.departamento.label" default="Departamento" /></span>
@@ -41,11 +50,11 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${puestoInstance?.nombre}">
+				<g:if test="${puestoInstance?.permitirVarios}">
 				<li class="fieldcontain">
-					<span id="nombre-label" class="property-label"><g:message code="puesto.nombre.label" default="Nombre" /></span>
+					<span id="permitirVarios-label" class="property-label"><g:message code="puesto.permitirVarios.label" default="Permitir Varios" /></span>
 					
-						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${puestoInstance}" field="nombre"/></span>
+						<span class="property-value" aria-labelledby="permitirVarios-label"><g:formatBoolean boolean="${puestoInstance?.permitirVarios}" /></span>
 					
 				</li>
 				</g:if>

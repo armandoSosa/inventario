@@ -406,7 +406,7 @@ class DepartamentoController {
 	}
 	
 	def mostrarPuestos(Long id){
-		def departamentoInstance = Departamento.get(id)		
+		def departamentoInstance = Departamento.get(id)			
 		def criterio = Puesto.createCriteria()
 		def puestosList = criterio{
 			departamento{
@@ -414,7 +414,15 @@ class DepartamentoController {
 			}		
 		}
 				
-		def puestoPersonaList = PuestoPersona.findAllByFechaFinIsNull()
+		//def puestoPersonaList = PuestoPersona.findAllByFechaFinIsNull()
+		def criterio2 = PuestoPersona.createCriteria()
+		def puestoPersonaList = criterio2{			
+			isNull("fechaFin")
+			puesto{
+				eq("permitirVarios", false)
+			}
+			
+		}
 		
 		def puestosOcupados = new ArrayList<Puesto>()		
 		puestoPersonaList.each{ puestoPersona ->
@@ -422,7 +430,7 @@ class DepartamentoController {
 		}
 		
 		if(puestosOcupados.size()>0 && puestosList){
-			puestosList.removeAll(puestosOcupados)
+			puestosList.removeAll(puestosOcupados)			
 		}		
 		
 		//Se hace el render del template '_selectMunicipios.gsp' con la lista de estados obtenida.

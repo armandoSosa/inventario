@@ -116,7 +116,12 @@ Departamento
 			<span class="required-indicator">*</span>
 		</label>
 	<g:select id="puesto" name="puesto.id" from="${puestosList}"
-		value="${personaInstance?.puestosPersona?.puesto?.id?.get(0)}" 
+		value="${com.redoaxaca.PuestoPersona.createCriteria().list {
+				persona{
+					eq("id", personaInstance.id)
+				}
+				order "fechaInicio", "desc"
+			}.puesto.id.get(0)}" 
 		optionKey="id" required="" class="many-to-one" data-placeholder="Seleccione un puesto" class="chzn-select" style="width:350px;" tabindex="2"/>
 </g:if>					
 </div>

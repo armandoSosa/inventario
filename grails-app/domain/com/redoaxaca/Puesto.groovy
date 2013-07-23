@@ -2,6 +2,7 @@ package com.redoaxaca
 
 class Puesto {
 	String nombre
+	boolean permitirVarios
 	
 	static belongsTo = [departamento: Departamento, nivel:Nivel]
 	
