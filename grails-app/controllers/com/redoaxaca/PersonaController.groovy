@@ -38,6 +38,9 @@ class PersonaController {
 					fin = listToSort.size()-1
 				}
 			}
+			if(listToSort.size()<9){
+				fin = listToSort.size()-1
+			}
 			personaList = listToSort[inicio..fin]
 		}else{
 			personaList = Persona.findAllByArchivado("false", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
@@ -114,6 +117,9 @@ class PersonaController {
 					fin = listToSort.size()-1
 				}
 			}			
+			if(listToSort.size()<9){
+				fin = listToSort.size()-1
+			}
 			personaList = listToSort[inicio..fin]
 		}else{
 			personaList = Persona.findAllByArchivado("false", [max: params.max, offset: params.offset, sort: params.sort, order: params.order])
@@ -310,9 +316,11 @@ class PersonaController {
 	}
 
 	def editar(Long id) {
-		def personaInstance = Persona.get(id)
-		
-		def departamentoInstance = Departamento.get(personaInstance?.puestosPersona?.puesto?.departamento?.id?.get(personaInstance?.puestosPersona?.size()-1))		
+		def personaInstance = Persona.get(id)		
+
+		def ultimoPuesto = personaInstance?.puestosPersona?.puesto?.last()
+		def departamentoInstance = personaInstance?.puestosPersona?.puesto?.departamento?.last()
+				
 		//Se obtiene la lista de puestos
 		//def puestosList = departamentoInstance?.puestos
 		def criterio = Puesto.createCriteria()
@@ -321,7 +329,7 @@ class PersonaController {
 				eq("id", departamentoInstance.id)
 			}
 		}
-				
+		
 		//def puestoPersonaList = PuestoPersona.findAllByFechaFinIsNull()
 		def criterio2 = PuestoPersona.createCriteria()
 		def puestoPersonaList = criterio2{
@@ -341,7 +349,14 @@ class PersonaController {
 			puestosList.removeAll(puestosOcupados)
 		}
 		
-		def estadoInstance = Estado.get(personaInstance?.direcciones?.municipio?.estado?.id?.get(personaInstance?.direcciones?.size()-1))
+		def direccion = Direccion.createCriteria().list {
+			persona{
+				eq("id", personaInstance.id)
+			}
+			order "fecha", "desc"
+		}.get(0)
+		
+		def estadoInstance = Estado.get(direccion?.municipio?.estado?.id)
 		//Se obtiene la lista de municipio
 		def municipiosList = estadoInstance?.municipios
 		
@@ -353,15 +368,18 @@ class PersonaController {
 			return
 		}
 
-		[personaInstance: personaInstance, puestosList: puestosList, municipiosList:municipiosList]
+		[personaInstance: personaInstance, puestosList: puestosList, municipiosList:municipiosList, direccion: direccion, ultimoPuesto: ultimoPuesto]
 	}
 
 	def actualizar(Long id) {
 		def personaInstance = Persona.get(id)
-		def direccionInstance = Direccion.get(personaInstance.direcciones.id.get(0))
-		
-		//def criterioPuesto = PuestoPersona.createCriteria()
-	
+		def direccionInstanceAnterior = Direccion.createCriteria().list {
+				persona{
+					eq("id", personaInstance.id)
+				}
+				order "fecha", "desc"
+			}.get(0)
+		def direccionInstance = new Direccion(params) 
 		def puestoPersonaInstanceAnterior = PuestoPersona.createCriteria().list {
 				persona{
 					eq("id", personaInstance.id)
@@ -375,13 +393,22 @@ class PersonaController {
 		personaInstance.setNombre(personaInstance.getNombre().toUpperCase())
 		personaInstance.setMaterno(personaInstance.getMaterno().toUpperCase())
 		personaInstance.setPaterno(personaInstance.getPaterno().toUpperCase())
-
-		direccionInstance.properties = params
+		
+		
+		//direccionInstance.properties = params
 		direccionInstance.setCalle(direccionInstance.getCalle().toUpperCase())
 		direccionInstance.setColonia(direccionInstance.getColonia().toUpperCase())
 		direccionInstance.setNoExterior(direccionInstance.getNoExterior().toUpperCase())
 		direccionInstance.setNoInterior(direccionInstance.getNoInterior().toUpperCase())
-
+		
+		if(direccionInstance.calle != direccionInstanceAnterior.calle || 
+			direccionInstance.colonia != direccionInstanceAnterior.colonia ||
+			direccionInstance.noExterior != direccionInstanceAnterior.noExterior ||
+			direccionInstance.noInterior != direccionInstanceAnterior.noInterior ||
+			direccionInstance.municipio != direccionInstanceAnterior.municipio){
+			direccionInstance.fecha = new Date()
+			personaInstance.addToDirecciones(direccionInstance)
+		}
 		
 		
 
@@ -395,9 +422,9 @@ class PersonaController {
 		personaInstance.curp = personaInstance.curp.toString().toUpperCase()
 		personaInstance.rfc = personaInstance.rfc.toString().toUpperCase()
 
-		personaInstance.addToDirecciones(direccionInstance)
+
 		System.out.println(puestoPersonaInstance.puesto.nombre+"."+puestoPersonaInstanceAnterior.puesto.nombre)
-		if(puestoPersonaInstance.puesto.id != puestoPersonaInstanceAnterior.puesto.id){
+		if(puestoPersonaInstance.puesto != puestoPersonaInstanceAnterior.puesto){
 			puestoPersonaInstanceAnterior.fechaFin = new Date()
 			puestoPersonaInstance.fechaInicio = new Date()
 			personaInstance.addToPuestosPersona(puestoPersonaInstance)

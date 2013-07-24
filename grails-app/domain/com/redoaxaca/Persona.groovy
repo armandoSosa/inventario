@@ -12,6 +12,7 @@ class Persona {
 	Date fechaNacimiento
 	String email	
 	List objetosPersona = new ArrayList()
+	List puestosPersona
 	
 	
 	static hasMany = [subordinado: Persona, objetosPersona: ObjetoPersona, puestosPersona: PuestoPersona, direcciones: Direccion, telefonos: Telefono, usuarios: Usuario]	

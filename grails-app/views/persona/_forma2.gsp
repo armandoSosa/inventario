@@ -96,17 +96,17 @@
 <label for="puesto">
 Departamento
 <span class="required-indicator">*</span>
-</label>
+</label>	
 	<g:select id="departamento" name="departamento.id" from="${com.redoaxaca.Departamento.list() }" optionKey="id" required=""
 		noSelection="['': 'Seleccione un departamento']"								 
 		data-placeholder="Seleccione un departamento" class="chzn-select" 
-		value="${personaInstance?.puestosPersona?.puesto?.departamento?.id?.get(0)}"
+		value="${personaInstance?.puestosPersona?.puesto?.departamento?.id?.last()}"
 		style="width:350px;" tabindex="2"		
 		onChange="${ remoteFunction (
 			controller:'departamento', 
 			action:'mostrarPuestos', 
 			params: '\'id=\' + this.value',
-			update:'puestosDiv')}"/>
+			update:'puestosDiv')}"/>	
 </div>
 
 <div id="puestosDiv" class="fieldcontain ${hasErrors(bean: puestoPersonaInstance, field: 'puesto', 'error')} required">
@@ -116,13 +116,8 @@ Departamento
 			<span class="required-indicator">*</span>
 		</label>
 	<g:select id="puesto" name="puesto.id" from="${puestosList}"
-		value="${com.redoaxaca.PuestoPersona.createCriteria().list {
-				persona{
-					eq("id", personaInstance.id)
-				}
-				order "fechaInicio", "desc"
-			}.puesto.id.get(0)}" 
-		optionKey="id" required="" class="many-to-one" data-placeholder="Seleccione un puesto" class="chzn-select" style="width:350px;" tabindex="2"/>
+		value="${personaInstance?.puestosPersona?.puesto?.id?.last()}" 
+		optionKey="id" required="" class="many-to-one" data-placeholder="Seleccione un puesto" class="chzn-select" style="width:350px;" tabindex="2"/>	
 </g:if>					
 </div>
 
@@ -136,7 +131,13 @@ Departamento
 		<g:message code="direccion.calle.label" default="Calle" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="calle" required="" value="${personaInstance?.direcciones?.calle?.get(index_direccion)}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 4, this.id)" class="tooltip"/>
+	
+	<g:if test="${params.action=='editar'}">
+		<g:textField name="calle" required="" value="${direccion?.calle}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 4, this.id)" class="tooltip"/>
+	</g:if>
+	<g:else>
+		<g:textField name="calle" required="" value="${personaInstance?.direcciones?.calle?.get(index_direccion)}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 4, this.id)" class="tooltip"/>
+	</g:else>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noExterior', 'error')} required">
@@ -144,7 +145,13 @@ Departamento
 		<g:message code="direccion.noExterior.label" default="No Exterior" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="noExterior" required="" value="${personaInstance?.direcciones?.noExterior?.get(index_direccion)}" style="text-transform:uppercase;" class="tooltip"/>
+	<g:if test="${params.action=='editar'}">
+		<g:textField name="noExterior" required="" value="${direccion?.noExterior}" style="text-transform:uppercase;" class="tooltip"/>
+	</g:if>
+	<g:else>
+		<g:textField name="noExterior" required="" value="${personaInstance?.direcciones?.noExterior?.get(index_direccion)}" style="text-transform:uppercase;" class="tooltip"/>
+	</g:else>
+	
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'noInterior', 'error')} ">
@@ -152,7 +159,13 @@ Departamento
 		<g:message code="direccion.noInterior.label" default="No Interior" />
 		
 	</label>
-	<g:textField name="noInterior" value="${personaInstance?.direcciones?.noInterior?.get(index_direccion)}" style="text-transform:uppercase;"/>
+	<g:if test="${params.action=='editar'}">
+		<g:textField name="noInterior" value="${direccion?.noInterior}" style="text-transform:uppercase;"/>
+	</g:if>
+	<g:else>
+		<g:textField name="noInterior" value="${personaInstance?.direcciones?.noInterior?.get(index_direccion)}" style="text-transform:uppercase;"/>
+	</g:else>
+	
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'colonia', 'error')} required">
@@ -160,7 +173,13 @@ Departamento
 		<g:message code="direccion.colonia.label" default="Colonia" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="colonia" required="" value="${personaInstance?.direcciones?.colonia?.get(index_direccion)}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 4, this.id)" class="tooltip"/>
+	<g:if test="${params.action=='editar'}">
+		<g:textField name="colonia" required="" value="${direccion?.colonia}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 4, this.id)" class="tooltip"/>
+	</g:if>
+	<g:else>
+		<g:textField name="colonia" required="" value="${personaInstance?.direcciones?.colonia?.get(index_direccion)}" style="text-transform:uppercase;" onkeypress="return validarTecleo(event, 4, this.id)" class="tooltip"/>
+	</g:else>
+	
 </div>
 
 <div id="procedencia">
@@ -169,25 +188,46 @@ Departamento
 		<g:message code="municipio.estado.label" default="Estado" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="estado" name="estado.id" from="${com.redoaxaca.Estado.list() }" optionKey="id" required=""
-		noSelection="['': 'Seleccione un estado']"								 
-		data-placeholder="Seleccione un estado" class="chzn-select" 
-		value="${personaInstance?.direcciones?.municipio?.estado?.id?.get(index_direccion)}"
-		style="width:350px;" tabindex="2"		
-		onChange="${ remoteFunction (
-			controller:'estado', 
-			action:'mostrarMunicipios', 
-			params: '\'id=\' + this.value',
-			update:'municipioDiv')}"/>	
+	<g:if test="${params.action=='editar'}">
+		<g:select id="estado" name="estado.id" from="${com.redoaxaca.Estado.list() }" optionKey="id" required=""
+			noSelection="['': 'Seleccione un estado']"								 
+			data-placeholder="Seleccione un estado" class="chzn-select" 
+			value="${direccion?.municipio?.estado?.id}"
+			style="width:350px;" tabindex="2"		
+			onChange="${ remoteFunction (
+				controller:'estado', 
+				action:'mostrarMunicipios', 
+				params: '\'id=\' + this.value',
+				update:'municipioDiv')}"/>	
+	</g:if>
+	<g:else>
+		<g:select id="estado" name="estado.id" from="${com.redoaxaca.Estado.list() }" optionKey="id" required=""
+			noSelection="['': 'Seleccione un estado']"								 
+			data-placeholder="Seleccione un estado" class="chzn-select" 
+			value="${personaInstance?.direcciones?.municipio?.estado?.id?.get(index_direccion)}"
+			style="width:350px;" tabindex="2"		
+			onChange="${ remoteFunction (
+				controller:'estado', 
+				action:'mostrarMunicipios', 
+				params: '\'id=\' + this.value',
+				update:'municipioDiv')}"/>	
+	</g:else>
+	
 </div>
 <div id="municipioDiv" class="fieldcontain ${hasErrors(bean: direccionInstance, field: 'municipio', 'error')} required">	
 	<g:if test="${personaInstance?.direcciones?.municipio?.nombre}">
 		<label for="municipio">
 		<g:message code="direccion.municipio.label" default="Municipio" />
 		<span class="required-indicator">*</span>
-	</label>
-		<g:select id="municipio" name="municipio.id" from="${municipiosList}" optionKey="id" required=""
-                  value="${personaInstance?.direcciones?.municipio?.id?.get(index_direccion)}" data-placeholder="Selecciona un municipio" class="chzn-select" style="width:350px;" tabindex="2"/>		
+		</label>
+		<g:if test="${params.action=='editar'}">
+			<g:select id="municipio" name="municipio.id" from="${municipiosList}" optionKey="id" required=""
+	                  value="${direccion?.municipio?.id}" data-placeholder="Selecciona un municipio" class="chzn-select" style="width:350px;" tabindex="2"/>      		
+		</g:if>
+		<g:else>
+			<g:select id="municipio" name="municipio.id" from="${municipiosList}" optionKey="id" required=""
+	                  value="${personaInstance?.direcciones?.municipio?.id?.get(index_direccion)}" data-placeholder="Selecciona un municipio" class="chzn-select" style="width:350px;" tabindex="2"/>
+		</g:else>
 	</g:if>
 </div>
 </div>
