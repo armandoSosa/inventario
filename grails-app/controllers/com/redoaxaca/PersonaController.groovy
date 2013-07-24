@@ -430,7 +430,11 @@ class PersonaController {
 			personaInstance.addToPuestosPersona(puestoPersonaInstance)
 		}
 		
-		personaInstance.setFoto(fotoInstance)
+		System.out.println("params:"+params)
+		if(params.idfoto){
+			personaInstance.setFoto(fotoInstance)
+		}
+		
 
 		
 		 				 
