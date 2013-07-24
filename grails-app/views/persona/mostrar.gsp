@@ -151,18 +151,25 @@
 				  		<h2>Contacto</h2>
 				  		<br>
 				  		<g:if test="${personaInstance?.direcciones}">
-							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Dirección:</font></h3> 
-								<g:each in="${personaInstance.direcciones}" var="d">
-									<h3 class="empleado">Estado: ${d?.municipio?.estado?.nombre}</h3>
-									<h3 class="empleado">Municipio: ${d?.municipio?.nombre}</h3>
-									<h3 class="empleado">Calle: ${d?.calle}</h3>
-									<h3 class="empleado">Colonia: ${d?.colonia }</h3>
-									<h3 class="empleado">Número Exterior: ${d?.noExterior }</h3>
-									<g:if test="${d?.noInterior}">
-										<h3 class="empleado">Número Interior: ${d?.noInterior }</h3>
-									</g:if>
-								</g:each>
-									
+							<h3 class="empleado"><font class="atributoEmpleado fg-color-orangeDark">Dirección:</font></h3>
+								<table>
+									<tbody>
+									<tr><td>Estado</td><td>Municipio</td><td>Calle</td><td>Colonia</td><td>No. Exterior</td><td>No. Interior</td></tr>
+									<g:each in="${personaInstance.direcciones}" var="d">
+									<tr>
+										<td>${d?.municipio?.estado?.nombre}</td>
+										<td>${d?.municipio?.nombre}</td>
+										<td>${d?.calle}</td>
+										<td>${d?.colonia }</td>
+										<td>${d?.noExterior }</td>
+										<td>
+										<g:if test="${d?.noInterior}">${d?.noInterior }</g:if>
+										<g:else>-</g:else>
+										</td>
+									</tr>
+									</g:each>
+									</tbody>
+								</table> 								
 						</g:if>
 				    	<br>
 						<g:if test="${personaInstance?.email}">
