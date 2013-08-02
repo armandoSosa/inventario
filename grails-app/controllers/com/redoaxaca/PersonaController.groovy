@@ -2,9 +2,9 @@ package com.redoaxaca
 
 import java.awt.print.Printable;
 
+import net.sf.jasperreports.engine.util.SimpleFileResolver
 import oracle.sql.OffsetDST;
 
-import org.apache.jasper.compiler.Node.ParamsAction;
 import org.springframework.dao.DataIntegrityViolationException
 
 import com.sun.jmx.remote.util.OrderClassLoaders;
@@ -13,6 +13,48 @@ class PersonaController {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	def scaffold = true
+	
+	def reporte = {
+		
+	}
+	
+	def genenarReporte={	
+		def reportDir = grailsApplication.mainContext.servletContext.getRealPath("reports")
+		def resolver = new SimpleFileResolver(new File(reportDir))
+		def logoURI = resolver.resolveFile("coffee.jpg").getPath()
+		params.put("LOGO", logoURI)
+		
+		chain(controller: "jasper", action: "index", params: params)
+	}
+	
+	def reporteObjetosPersona={
+		def reportDir = grailsApplication.mainContext.servletContext.getRealPath("reports")
+		def resolver = new SimpleFileResolver(new File(reportDir))
+		def logoURI = resolver.resolveFile("coffee.jpg").getPath()
+		params.put("LOGO", logoURI)
+		
+		chain(controller: "jasper", action: "index", params: params)
+	}
+	
+	def reporteEmpledo={
+		def reportDir = grailsApplication.mainContext.servletContext.getRealPath("reports")
+		def resolver = new SimpleFileResolver(new File(reportDir))
+		def logoURI = resolver.resolveFile("coffee.jpg").getPath()
+		params.put("LOGO", logoURI)
+		params.put("IDPERSONA", 1)
+		
+		chain(controller: "jasper", action: "index", params: params)
+	}
+	
+	def reporteObjetosEmpledo={
+		def reportDir = grailsApplication.mainContext.servletContext.getRealPath("reports")
+		def resolver = new SimpleFileResolver(new File(reportDir))
+		def logoURI = resolver.resolveFile("coffee.jpg").getPath()
+		params.put("LOGO", logoURI)
+		params.put("IDPERSONA", 1)
+		
+		chain(controller: "jasper", action: "index", params: params)
+	}
 
 	def inicio (Integer max) {
 		params.max = Math.min(max ?: 10, 100)	

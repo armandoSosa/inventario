@@ -14,7 +14,7 @@ environments {
     development {
         dataSource {
             dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:h2:file:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            url = "jdbc:h2:file:devDb;AUTO_SERVER=TRUE;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
     }
     test {

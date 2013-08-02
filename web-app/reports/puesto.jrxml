@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="puesto" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="06330b63-dc1f-46df-9813-77b610fb2253">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="IDPERSONA" class="java.lang.String">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     DEPARTAMENTO."NOMBRE" AS DEPARTAMENTO_NOMBRE,
+     PUESTO."NOMBRE" AS PUESTO_NOMBRE
+FROM
+     "PUBLIC"."PERSONA" PERSONA INNER JOIN "PUBLIC"."PUESTO_PERSONA" PUESTO_PERSONA ON PERSONA."ID" = PUESTO_PERSONA."PERSONA_ID"
+     INNER JOIN "PUBLIC"."PUESTO" PUESTO ON PUESTO_PERSONA."PUESTO_ID" = PUESTO."ID"
+     INNER JOIN "PUBLIC"."DEPARTAMENTO" DEPARTAMENTO ON PUESTO."DEPARTAMENTO_ID" = DEPARTAMENTO."ID"
+WHERE
+     PERSONA.ID = $P{IDPERSONA}
+ AND PUESTO_PERSONA.FECHA_FIN IS NULL]]>
+	</queryString>
+	<field name="DEPARTAMENTO_NOMBRE" class="java.lang.String"/>
+	<field name="PUESTO_NOMBRE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5b4b24d8-0c2e-417b-8b5b-09b5dcae5ddc" x="0" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[DEPARTAMENTO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="72dd0f52-bc1c-47b7-9541-63a0bd94eb89" x="0" y="20" width="100" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[PUESTO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="e9148e3b-299b-4979-8f98-e368f1d86399" x="113" y="20" width="212" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{PUESTO_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="96857794-20b3-4b14-ad64-3a7d15079678" x="113" y="0" width="212" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{DEPARTAMENTO_NOMBRE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

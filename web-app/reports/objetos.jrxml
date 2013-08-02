@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="objetos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="61ba6de1-7986-40fc-bed1-8c5bd6f743e3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#8FAFCC">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#CFDBE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F3F6F8"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#8FAFCC">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#CFDBE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F3F6F8"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="objetos" uuid="328f0c41-0722-4f14-869c-fee6f1eea4c1">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+     OBJETO_PERSONA."FECHA_FIN" AS OBJETO_PERSONA_FECHA_FIN,
+     OBJETO_PERSONA."FECHA_INICIO" AS OBJETO_PERSONA_FECHA_INICIO,
+     OBJETO."NO_INVENTARIO" AS OBJETO_NO_INVENTARIO,
+     TIPO."DESCRIPCION" AS TIPO_DESCRIPCION,
+     TIPO_PROPIEDAD."NOMBRE" AS TIPO_PROPIEDAD_NOMBRE
+FROM
+     "PUBLIC"."PERSONA" PERSONA INNER JOIN "PUBLIC"."OBJETO_PERSONA" OBJETO_PERSONA ON PERSONA."ID" = OBJETO_PERSONA."PERSONA_ID"
+     INNER JOIN "PUBLIC"."OBJETO" OBJETO ON OBJETO_PERSONA."OBJETO_ID" = OBJETO."ID"
+     INNER JOIN "PUBLIC"."TIPO" TIPO ON OBJETO."TIPO_ID" = TIPO."ID"
+     INNER JOIN "PUBLIC"."TIPO_PROPIEDAD" TIPO_PROPIEDAD ON OBJETO."TIPO_PROPIEDAD_ID" = TIPO_PROPIEDAD."ID"
+]]>
+		</queryString>
+		<field name="OBJETO_NO_INVENTARIO" class="java.lang.String"/>
+		<field name="TIPO_DESCRIPCION" class="java.lang.String"/>
+		<field name="TIPO_PROPIEDAD_NOMBRE" class="java.lang.String"/>
+		<field name="OBJETO_PERSONA_FECHA_INICIO" class="java.sql.Timestamp"/>
+		<field name="OBJETO_PERSONA_FECHA_FIN" class="java.sql.Timestamp"/>
+	</subDataset>
+	<parameter name="IDPERSONA" class="java.lang.String">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     OBJETO_PERSONA."FECHA_FIN" AS OBJETO_PERSONA_FECHA_FIN,
+     OBJETO_PERSONA."FECHA_INICIO" AS OBJETO_PERSONA_FECHA_INICIO,
+     OBJETO."NO_INVENTARIO" AS OBJETO_NO_INVENTARIO,
+     TIPO."DESCRIPCION" AS TIPO_DESCRIPCION,
+     TIPO_PROPIEDAD."NOMBRE" AS TIPO_PROPIEDAD_NOMBRE
+FROM
+     "PUBLIC"."PERSONA" PERSONA INNER JOIN "PUBLIC"."OBJETO_PERSONA" OBJETO_PERSONA ON PERSONA."ID" = OBJETO_PERSONA."PERSONA_ID"
+     INNER JOIN "PUBLIC"."OBJETO" OBJETO ON OBJETO_PERSONA."OBJETO_ID" = OBJETO."ID"
+     INNER JOIN "PUBLIC"."TIPO" TIPO ON OBJETO."TIPO_ID" = TIPO."ID"
+     INNER JOIN "PUBLIC"."TIPO_PROPIEDAD" TIPO_PROPIEDAD ON OBJETO."TIPO_PROPIEDAD_ID" = TIPO_PROPIEDAD."ID"
+WHERE PERSONA.ID = $P{IDPERSONA}]]>
+	</queryString>
+	<field name="OBJETO_PERSONA_FECHA_FIN" class="java.sql.Timestamp"/>
+	<field name="OBJETO_PERSONA_FECHA_INICIO" class="java.sql.Timestamp"/>
+	<field name="OBJETO_NO_INVENTARIO" class="java.lang.String"/>
+	<field name="TIPO_DESCRIPCION" class="java.lang.String"/>
+	<field name="TIPO_PROPIEDAD_NOMBRE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50" splitType="Stretch">
+			<componentElement>
+				<reportElement uuid="722fa240-801d-49ab-9227-7e6d98d3aae0" key="table 4" style="table 4" x="0" y="0" width="555" height="50"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="objetos" uuid="8efbea7d-8965-466a-9bb5-afb5d7c8e7f9">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="1906d94d-3a11-4d81-bcc5-f9d64e3f98f5">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="d3aa8fa7-a320-41f2-bf78-b64e85fff39f" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[NO INVENTARIO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="1262c58c-6b25-417c-a48a-5b96150d65d0" x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{OBJETO_NO_INVENTARIO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="2f7f5df5-a77b-4a07-9048-d27c6e92e861">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="1baf2f11-b465-458b-a5a1-8363e634ec57" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[DESCRIPCION]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="b322fc42-8cbf-4476-9bb3-a52cd7178197" x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{TIPO_DESCRIPCION}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="112" uuid="b3aa2af9-8a31-4373-adba-4bd3db56486e">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="1dca5024-e559-4d62-be9e-b7908d293ad6" x="0" y="0" width="112" height="30"/>
+								<textElement/>
+								<text><![CDATA[TIPO PROPIEDAD]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="1830f34c-4f3c-4179-83bd-b3de9aa53d83" x="0" y="0" width="112" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{TIPO_PROPIEDAD_NOMBRE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="111" uuid="b17adcad-bed2-4687-8ff9-9af760c2a796">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="aba56d43-fa6d-4bda-9b48-9783d71717ac" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[FECHA INICIO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="2ac54286-f668-42d3-a23e-93013976cd75" x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{OBJETO_PERSONA_FECHA_INICIO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="196a0c2d-2bb2-4c7d-8c11-e99d730ae94a">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="70b55951-30e3-42f5-8c86-bfd8990d4a87" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[FECHA FIN]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="67f0d6e2-5d4a-4d3c-b3b5-75d910f925fc" x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{OBJETO_PERSONA_FECHA_FIN}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
