@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="arrendatariosObjeto" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="040da633-c4f3-4e9d-979c-8e4f08b87ec2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="228"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="IDOBJETO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\lol\\git\\inventario\\web-app\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     OBJETO."NO_INVENTARIO" AS OBJETO_NO_INVENTARIO,
+     TIPO_PROPIEDAD."NOMBRE" AS TIPO_PROPIEDAD_NOMBRE,
+     TIPO."DESCRIPCION" AS TIPO_DESCRIPCION
+FROM
+     "PUBLIC"."OBJETO" OBJETO INNER JOIN "PUBLIC"."TIPO" TIPO ON OBJETO."TIPO_ID" = TIPO."ID"
+     INNER JOIN "PUBLIC"."TIPO_PROPIEDAD" TIPO_PROPIEDAD ON OBJETO."TIPO_PROPIEDAD_ID" = TIPO_PROPIEDAD."ID"
+WHERE
+     OBJETO.ID = 4]]>
+	</queryString>
+	<field name="OBJETO_NO_INVENTARIO" class="java.lang.String"/>
+	<field name="TIPO_PROPIEDAD_NOMBRE" class="java.lang.String"/>
+	<field name="TIPO_DESCRIPCION" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/15)]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<frame>
+					<reportElement uuid="ef20a67e-211d-4c0d-96e9-ed22ebbfa12d" mode="Opaque" x="-21" y="7" width="597" height="24" forecolor="#B89F7D" backcolor="#F2EBDF"/>
+					<rectangle>
+						<reportElement uuid="12a2c4bd-8001-492a-a4d2-e61bb20641e3" mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#736343"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement uuid="f928e348-63ee-41f3-b796-773f5635fc12" style="SubTitle" x="68" y="0" width="413" height="24" forecolor="#736343"/>
+						<textElement>
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["GroupField"]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/5)]]></groupExpression>
+		<groupHeader>
+			<band height="76">
+				<textField>
+					<reportElement uuid="b67b3ce9-4c49-4b8f-8cb2-38e7165e2295" style="SubTitle" x="0" y="4" width="460" height="20"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{OBJETO_NO_INVENTARIO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="06d5c151-ebf7-4bd3-b56f-9b3453678448" x="182" y="36" width="233" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{TIPO_PROPIEDAD_NOMBRE}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="7aeb5f47-21e2-4736-abc7-34d022bb1232" x="182" y="56" width="233" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{TIPO_DESCRIPCION}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="9543fb40-e628-43a1-99fc-9bea2ee2f43b" x="47" y="36" width="123" height="20"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[TIPO DE PROPIEDAD:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="5ec2b17b-465e-4952-9721-2331fc4b7f20" x="47" y="56" width="123" height="20"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[DESCRIPCION:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<image>
+				<reportElement uuid="7edf3dd1-dcec-44bd-a54d-c1fd3bde39d6" x="0" y="0" width="164" height="126"/>
+				<imageExpression><![CDATA["coffee.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="80c7aea3-e72a-4542-99d1-3e4721e3c87e" style="Title" x="170" y="0" width="263" height="62"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Coffee Title]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bc51cf32-3c23-4ac7-80d0-2bfef893cbbc" style="SubTitle" x="219" y="62" width="196" height="22"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Coffee SubTitle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bd916190-e5ab-4117-bf66-82cb97bae451" x="172" y="94" width="383" height="42"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor purus gravida arcu aliquam mattis. Donec et nulla libero, ut varius massa. Nulla sed turpis elit. Etiam aliquet mauris a ligula hendrerit in auctor leo lobortis.]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="8263f905-c23c-4eef-b7b7-15c3e19ab2e8" x="433" y="-115" width="267" height="209"/>
+				<imageExpression><![CDATA["coffee_stain.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="af5db56f-8839-4f29-a6cd-1fd6f1f11ab2" style="Column header" x="0" y="0" width="100" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[Label]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="05c4e7ee-ed32-4c16-9f80-a4514f54cb81" positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="76" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="c9bb8e9a-58f9-435b-b465-10f82b774014" x="72" y="0" width="440" height="76"/>
+				<subreportParameter name="IDOBJETO">
+					<subreportParameterExpression><![CDATA[$P{IDOBJETO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Users\\lol\\git\\inventario\\web-app\\reports\\caracteristicas.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="113"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement uuid="ad3edcc9-58cf-43ff-9b10-8110811ad2b0" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="eb608b94-4b6e-407c-8cfe-21a476832fe1" mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="e167aa07-73d4-4be1-b8bf-b660bbbb59d1" style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="7160e3e6-b0cd-419b-8835-5ab24691b8ed" style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="814baa63-4ea7-4e8c-ac53-a00ebad7973e" style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

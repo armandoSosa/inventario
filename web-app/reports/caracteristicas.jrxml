@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="caracteristicas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2991bb78-1bd1-4ceb-bef9-b89ebf6f9c3c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="caracteristicas" uuid="0719e7ef-47f5-4053-b743-883732c561ba">
+		<parameter name="IDOBJETO" class="java.lang.String">
+			<defaultValueExpression><![CDATA[4]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT
+     CARACTERISTICA."CARACTERISTICA" AS CARACTERISTICA_CARACTERISTICA,
+     VALOR."VALOR" AS VALOR_VALOR,
+     UNIDAD."UNIDAD" AS UNIDAD_UNIDAD
+FROM
+     "PUBLIC"."OBJETO" OBJETO INNER JOIN "PUBLIC"."TIPO" TIPO ON OBJETO."TIPO_ID" = TIPO."ID"
+     INNER JOIN "PUBLIC"."TIPO_PROPIEDAD" TIPO_PROPIEDAD ON OBJETO."TIPO_PROPIEDAD_ID" = TIPO_PROPIEDAD."ID"
+     INNER JOIN "PUBLIC"."VALOR" VALOR ON OBJETO."ID" = VALOR."OBJETOS_ID"
+     INNER JOIN "PUBLIC"."PLANTILLA" PLANTILLA ON VALOR."PLANTILLA_ID" = PLANTILLA."ID"
+     AND TIPO."ID" = PLANTILLA."TIPO_ID"
+     INNER JOIN "PUBLIC"."CARACTERISTICA_UNIDAD" CARACTERISTICA_UNIDAD ON PLANTILLA."CARACTERISTICA_UNIDAD_ID" = CARACTERISTICA_UNIDAD."ID"
+     INNER JOIN "PUBLIC"."CARACTERISTICA" CARACTERISTICA ON CARACTERISTICA_UNIDAD."CARACTERISTICA_ID" = CARACTERISTICA."ID"
+     INNER JOIN "PUBLIC"."UNIDAD" UNIDAD ON CARACTERISTICA_UNIDAD."UNIDAD_ID" = UNIDAD."ID"
+WHERE
+     OBJETO.ID = $P{IDOBJETO}]]>
+		</queryString>
+		<field name="CARACTERISTICA_CARACTERISTICA" class="java.lang.String"/>
+		<field name="VALOR_VALOR" class="java.lang.String"/>
+		<field name="UNIDAD_UNIDAD" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="IDOBJETO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[4]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     OBJETO."NO_INVENTARIO" AS OBJETO_NO_INVENTARIO,
+     TIPO_PROPIEDAD."NOMBRE" AS TIPO_PROPIEDAD_NOMBRE,
+     TIPO."DESCRIPCION" AS TIPO_DESCRIPCION,
+     CARACTERISTICA."CARACTERISTICA" AS CARACTERISTICA_CARACTERISTICA,
+     VALOR."VALOR" AS VALOR_VALOR,
+     PLANTILLA."ORDEN" AS PLANTILLA_ORDEN
+FROM
+     "PUBLIC"."OBJETO" OBJETO INNER JOIN "PUBLIC"."TIPO" TIPO ON OBJETO."TIPO_ID" = TIPO."ID"
+     INNER JOIN "PUBLIC"."TIPO_PROPIEDAD" TIPO_PROPIEDAD ON OBJETO."TIPO_PROPIEDAD_ID" = TIPO_PROPIEDAD."ID"
+     INNER JOIN "PUBLIC"."VALOR" VALOR ON OBJETO."ID" = VALOR."OBJETOS_ID"
+     INNER JOIN "PUBLIC"."PLANTILLA" PLANTILLA ON VALOR."PLANTILLA_ID" = PLANTILLA."ID"
+     AND TIPO."ID" = PLANTILLA."TIPO_ID"
+     INNER JOIN "PUBLIC"."CARACTERISTICA_UNIDAD" CARACTERISTICA_UNIDAD ON PLANTILLA."CARACTERISTICA_UNIDAD_ID" = CARACTERISTICA_UNIDAD."ID"
+     INNER JOIN "PUBLIC"."CARACTERISTICA" CARACTERISTICA ON CARACTERISTICA_UNIDAD."CARACTERISTICA_ID" = CARACTERISTICA."ID"
+WHERE
+     OBJETO.ID = $P{IDOBJETO}]]>
+	</queryString>
+	<field name="OBJETO_NO_INVENTARIO" class="java.lang.String"/>
+	<field name="TIPO_PROPIEDAD_NOMBRE" class="java.lang.String"/>
+	<field name="TIPO_DESCRIPCION" class="java.lang.String"/>
+	<field name="CARACTERISTICA_CARACTERISTICA" class="java.lang.String"/>
+	<field name="VALOR_VALOR" class="java.lang.String"/>
+	<field name="PLANTILLA_ORDEN" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50" splitType="Stretch">
+			<componentElement>
+				<reportElement uuid="939c11c2-779e-48f6-9efb-14967984a268" key="table 1" style="table 1" x="0" y="0" width="360" height="50"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="caracteristicas" uuid="bf8ce428-929a-454d-85e4-1dfd2cf4c6e7">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="132" uuid="ad7c47b1-e9d6-4adc-877a-2ccae50d2a1b">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="d982d1b6-0e49-4e43-a02c-6f9c4a983dac" x="0" y="0" width="132" height="30"/>
+								<textElement/>
+								<text><![CDATA[CARACTERISTICA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="51a15d71-0732-4047-82f7-68e9073cb50d" x="0" y="0" width="132" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{CARACTERISTICA_CARACTERISTICA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="030981a4-cd79-46a9-b9a2-cc7d3aa0d4ef">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="7bf28948-eeee-458d-88fa-d06156ed8354" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[VALOR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="f567a89b-2dbd-4301-80cb-7098cce05d44" x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{VALOR_VALOR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="81626aad-4bfd-47b8-aed2-71cf0d260b8f">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="9278dca4-5a7d-4996-a417-73f9e1366d84" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[UNIDAD]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="657ff73d-d35e-48cb-9746-74caff7ba22c" x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{UNIDAD_UNIDAD}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

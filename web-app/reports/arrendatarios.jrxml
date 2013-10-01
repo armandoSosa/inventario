@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="arrendatarios" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="578bc909-ba9d-4e99-b8a9-199999d3fc07">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="IDOBJETO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[4]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     PERSONA."MATERNO" AS PERSONA_MATERNO,
+     PERSONA."NOMBRE" AS PERSONA_NOMBRE,
+     PERSONA."NUMERO_EMPLEADO" AS PERSONA_NUMERO_EMPLEADO,
+     PERSONA."PATERNO" AS PERSONA_PATERNO,
+     PERSONA."RFC" AS PERSONA_RFC,
+     OBJETO_PERSONA."FECHA_FIN" AS OBJETO_PERSONA_FECHA_FIN,
+     OBJETO_PERSONA."FECHA_INICIO" AS OBJETO_PERSONA_FECHA_INICIO,
+     PERSONA."CURP" AS PERSONA_CURP
+FROM
+     "PUBLIC"."PERSONA" PERSONA INNER JOIN "PUBLIC"."OBJETO_PERSONA" OBJETO_PERSONA ON PERSONA."ID" = OBJETO_PERSONA."PERSONA_ID"
+     INNER JOIN "PUBLIC"."OBJETO" OBJETO ON OBJETO_PERSONA."OBJETO_ID" = OBJETO."ID"
+WHERE OBJETO.ID = $P{IDOBJETO}]]>
+	</queryString>
+	<field name="PERSONA_MATERNO" class="java.lang.String"/>
+	<field name="PERSONA_NOMBRE" class="java.lang.String"/>
+	<field name="PERSONA_NUMERO_EMPLEADO" class="java.lang.String"/>
+	<field name="PERSONA_PATERNO" class="java.lang.String"/>
+	<field name="PERSONA_RFC" class="java.lang.String"/>
+	<field name="OBJETO_PERSONA_FECHA_FIN" class="java.sql.Timestamp"/>
+	<field name="OBJETO_PERSONA_FECHA_INICIO" class="java.sql.Timestamp"/>
+	<field name="PERSONA_CURP" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
